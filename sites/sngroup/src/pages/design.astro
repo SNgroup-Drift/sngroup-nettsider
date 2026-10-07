@@ -1,0 +1,232 @@
+---
+/**
+ * Designpakken på én side: farger med hex og kontrast, skrifter og komponenter.
+ * Eirik godkjenner paletten her. Ikke indeksert.
+ */
+import Side from "../layouts/Side.astro";
+import Section from "@sngroup/design/components/Section.astro";
+import Card from "@sngroup/design/components/Card.astro";
+import CompanyRow from "@sngroup/design/components/CompanyRow.astro";
+import ContactBlock from "@sngroup/design/components/ContactBlock.astro";
+import SiteHeader from "@sngroup/design/components/SiteHeader.astro";
+import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
+import PrivacyPage from "@sngroup/design/components/PrivacyPage.astro";
+
+const lys = [
+  { navn: "kalk", hex: "#F7F5F1", bruk: "Bakgrunn (aldri rent hvitt)" },
+  { navn: "lin", hex: "#EEE8DF", bruk: "Flater" },
+  { navn: "sand", hex: "#D8CCBC", bruk: "Linjer" },
+  { navn: "stein", hex: "#A89A8A", bruk: "Dempet, ikoner" },
+  { navn: "umbra", hex: "#2B2420", bruk: "Tekst og overskrifter" },
+  { navn: "fjord", hex: "#46698F", bruk: "Aksent, sparsomt" },
+  { navn: "dis", hex: "#93A3B6", bruk: "Myk aksent" },
+];
+const mork = [
+  { navn: "bakgrunn", hex: "#1E1916", bruk: "Bakgrunn" },
+  { navn: "flate", hex: "#29221D", bruk: "Flater" },
+  { navn: "tekst", hex: "#F1ECE4", bruk: "Tekst" },
+  { navn: "aksent", hex: "#93A3B6", bruk: "Aksent (dis)" },
+];
+
+// WCAG-kontrast, regnet ut ved bygging
+const lum = (hex: string) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) =>
+    c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4,
+  );
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const kontrast = (a: string, b: string) => {
+  const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+  return ((x + 0.05) / (y + 0.05)).toFixed(1).replace(".", ",");
+};
+const par = [
+  ["umbra på kalk", "#2B2420", "#F7F5F1", "Brødtekst"],
+  ["umbra på lin", "#2B2420", "#EEE8DF", "Brødtekst på flate"],
+  ["fjord på kalk", "#46698F", "#F7F5F1", "Lenker, aksent"],
+  ["stein på kalk", "#A89A8A", "#F7F5F1", "Bare ikoner og pynt, ikke tekst"],
+  ["tekst på mørk bakgrunn", "#F1ECE4", "#1E1916", "Brødtekst, mørk"],
+  ["dis på mørk bakgrunn", "#93A3B6", "#1E1916", "Aksent, mørk"],
+  ["dis på mørk flate", "#93A3B6", "#29221D", "Aksent på flate, mørk"],
+];
+---
+<Side title="Design – SN Group" description="Designpakken til SN Group: farger, skrifter og komponenter." noindex>
+  <main id="innhold">
+    <div class="wrap topp">
+      <div class="label">Designpakke</div>
+      <h1>SN Group <em>design</em></h1>
+      <p class="lede">
+        Farger, skrifter og komponenter i <code>packages/design</code>. Felles for sngroup.no, hengsel.no og byggem.no.
+        Siden følger lys eller mørk modus fra enheten.
+      </p>
+    </div>
+
+    <Section id="farger" label="Farger" flate>
+      <Fragment slot="tittel">Palett</Fragment>
+      <Fragment slot="ingress">CSS-variabler i tokens.css. Ingen rosa, ingen signalfarger, ingen gradienter.</Fragment>
+      <h3 class="under">Lys</h3>
+      <ul class="farger">
+        {lys.map((f) => (
+          <li>
+            <span class="prove" data-hex={f.hex}></span>
+            <b>--{f.navn}</b>
+            <code>{f.hex}</code>
+            <span class="bruk">{f.bruk}</span>
+          </li>
+        ))}
+      </ul>
+      <h3 class="under">Mørk</h3>
+      <ul class="farger">
+        {mork.map((f) => (
+          <li>
+            <span class="prove" data-hex={f.hex}></span>
+            <b>{f.navn}</b>
+            <code>{f.hex}</code>
+            <span class="bruk">{f.bruk}</span>
+          </li>
+        ))}
+      </ul>
+      <h3 class="under">Kontrast (WCAG)</h3>
+      <div class="tabell">
+        <table>
+          <thead><tr><th scope="col">Par</th><th scope="col">Kontrast</th><th scope="col">Bruk</th></tr></thead>
+          <tbody>
+            {par.map(([navn, a, b, bruk]) => (
+              <tr><td>{navn}</td><td>{kontrast(a, b)} : 1</td><td>{bruk}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="merknad">
+        Stein er for lys til tekst (under 4,5 : 1). Dempet tekst bruker derfor umbra med 74 % dekning
+        (<code>--tekst-dempet</code>), og stein brukes til ikoner, prikker og stiplede linjer.
+      </p>
+    </Section>
+
+    <Section id="skrift" label="Skrift">
+      <Fragment slot="tittel">Newsreader og Inter</Fragment>
+      <Fragment slot="ingress">Selvhostet fra npm (@fontsource-variable). Newsreader til overskrifter, Inter til alt annet.</Fragment>
+      <div class="skrifter">
+        <div>
+          <div class="label">Newsreader · overskrifter</div>
+          <p class="nr nr-1">Vi bygger og eier selskaper som lager <em>hjem</em> bedre.</p>
+          <p class="nr nr-2">Hvert rom er en <em>virksomhet</em>.</p>
+          <p class="nr nr-3">Kjøkken og interiør</p>
+          <p class="liten">Aldri små, aldri versaler. Vekt 300 til store titler, 400 ellers. Kursiv for aksentord.</p>
+        </div>
+        <div>
+          <div class="label">Inter · tekst</div>
+          <p class="in-18">Ingress 18 px. SN Group samler selskapene til Eirik Sjøflot.</p>
+          <p class="in-16">Brødtekst 16 px, vekt 400. Studio Sigdal Innlandet selger og monterer kjøkken, bad og garderobe.</p>
+          <p class="in-15"><b>Vekt 500</b> til knapper og etiketter. <b class="v600">Vekt 600</b> sparsomt.</p>
+          <p class="label">Liten versal etikett · 12 px · sperret</p>
+          <p class="liten">Ingen positiv sperring på små bokstaver. Bare små versale etiketter er sperret.</p>
+        </div>
+      </div>
+    </Section>
+
+    <Section id="komponenter" label="Komponenter" flate>
+      <Fragment slot="tittel">Byggeklosser</Fragment>
+      <Fragment slot="ingress">Astro-komponenter i packages/design/src/components.</Fragment>
+
+      <h3 class="under">SiteHeader</h3>
+      <div class="ramme">
+        <SiteHeader ordmerke="Hengsel" lenker={[{ href: "#komponenter", label: "Om" }, { href: "#komponenter", label: "Kontakt", primar: true }]} />
+      </div>
+
+      <h3 class="under">Knapper</h3>
+      <p class="knapper">
+        <a class="pill solid" href="#komponenter">Ta kontakt <span aria-hidden="true">→</span></a>
+        <a class="pill" href="#komponenter">Se virksomhetene</a>
+      </p>
+
+      <h3 class="under">Card</h3>
+      <div class="kortgrid">
+        <Card tittel="Kjøkken og interiør" href="#komponenter">
+          <p>Studio Sigdal Innlandet – kjøkken, bad og garderobe fra Sigdal, med butikker på Hamar, Lillehammer og Gjøvik.</p>
+        </Card>
+        <Card tittel="Eiendom">
+          <p>Kjøp, utvikling og utleie av fast eiendom.</p>
+        </Card>
+      </div>
+
+      <h3 class="under">CompanyRow</h3>
+      <div class="rader">
+        <CompanyRow
+          id="demo-hengsel"
+          navn="Hengsel"
+          undertittel="CRM by Hengsel og montørappen Hengsel"
+          tekst="Egne systemer for kundeoppfølging, bestilling og montering – og montørappen Hengsel."
+          stikkord={["Kundeoppfølging", "Bestilling", "Montering"]}
+          lenker={[{ href: "https://hengsel.no", label: "hengsel.no" }, { href: "mailto:drift@sngroup.no", label: "Be om demo", primar: true }]}
+          apen
+        />
+        <CompanyRow id="demo-plassholder" navn="Plassholder" tekst="Tekst kommer." plassholder />
+      </div>
+
+      <h3 class="under">ContactBlock</h3>
+      <div class="ramme innrykk">
+        <ContactBlock epost="drift@sngroup.no" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim">
+          <div class="label">Kontakt</div>
+        </ContactBlock>
+      </div>
+
+      <h3 class="under">PrivacyPage</h3>
+      <div class="ramme">
+        <PrivacyPage
+          tittel="Personvern i"
+          tittelAksent="eksempel"
+          oppdatert="Felt: tittel, oppdatert, behandlingsansvarlig, kontakt og avsnitt"
+          behandlingsansvarlig="ES-HOLDING AS"
+          kontakt="drift@sngroup.no"
+          avsnitt={[{ overskrift: "Avsnitt", tekst: ["Tekst, punktliste og tekst etter listen."], punkter: ["Punkt én", "Punkt to"] }]}
+        />
+      </div>
+
+      <h3 class="under">SiteFooter</h3>
+      <p class="liten">Slik ser bunnteksten ut på hengsel.no og byggem.no, med «En del av SN Group». På sngroup.no er den linjen skjult.</p>
+      <div class="ramme">
+        <SiteFooter selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" />
+      </div>
+    </Section>
+  </main>
+</Side>
+
+<script>
+  // Fargeprøvene får fargen fra data-hex (CSSOM, så CSP uten 'unsafe-inline' holder)
+  for (const el of document.querySelectorAll<HTMLElement>("[data-hex]")) el.style.background = el.dataset.hex!;
+</script>
+
+<style>
+  .topp { padding-block: clamp(32px, 6vw, 80px) clamp(24px, 4vw, 48px); }
+  .topp h1 { margin-top: 20px; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; }
+  .under { margin: 40px 0 16px; font-size: 26px; }
+  .under:first-of-type { margin-top: 0; }
+  .farger { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+  .farger li { display: grid; gap: 2px; font-size: 14px; }
+  .prove { display: block; height: 88px; border-radius: var(--radius); border: 1px solid var(--linje-svak); margin-bottom: 8px; }
+  .bruk { color: var(--tekst-dempet); }
+  .tabell { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 420px; }
+  th, td { text-align: left; padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak); }
+  th { font-weight: 500; color: var(--tekst-dempet); }
+  .merknad { color: var(--tekst-dempet); max-width: 62ch; margin-top: 16px; }
+  .skrifter { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .skrifter p { margin: 14px 0 0; }
+  .nr { font-family: var(--font-overskrift); line-height: 1.1; letter-spacing: -0.01em; }
+  .nr-1 { font-size: clamp(36px, 5vw, 56px); font-weight: 300; }
+  .nr-2 { font-size: 36px; font-weight: 300; }
+  .nr-3 { font-size: 26px; font-weight: 400; }
+  .in-18 { font-size: 18px; }
+  .in-16 { font-size: 16px; }
+  .in-15 { font-size: 15px; }
+  .in-15 b { font-weight: 500; }
+  .in-15 .v600 { font-weight: 600; }
+  .liten { font-size: 14px; color: var(--tekst-dempet); }
+  .ramme { border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); overflow: hidden; }
+  .innrykk { padding: 24px; }
+  .knapper { display: flex; gap: 12px; flex-wrap: wrap; margin: 0; }
+  .kortgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .rader { border-top: 1px solid var(--linje-svak); }
+  @media (max-width: 860px) { .skrifter { grid-template-columns: 1fr; } }
+</style>

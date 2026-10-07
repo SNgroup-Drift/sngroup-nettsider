@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+/**
+ * Sjekker at alle interne lenker på de bygde sidene svarer 200.
+ *
+ * Starter en liten statisk server per nettsted (sites/*\/dist) som løser stier slik Cloudflare Pages gjør
+ * (/ → index.html, /personvern → personvern.html), finner alle href/src i HTML og CSS, og ber om hver av dem.
+ * Lenker til #id sjekkes også mot id-ene på målsiden. Eksterne lenker, mailto: og tel: hoppes over.
+ *
+ * Kjør etter `npm run build`: npm test
+ */
+import { readdir, stat } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { startServer } from "./statisk-server.mjs";
+
+const rot = resolve(import.meta.dirname, "..");
+async function htmlFiler(dir, pre = "") {
+  const ut = [];
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    if (e.isDirectory()) ut.push(...(await htmlFiler(join(dir, e.name), `${pre}/${e.name}`)));
+    else if (e.name.endsWith(".html") && e.name !== "404.html") {
+      ut.push(e.name === "index.html" ? `${pre}/` : `${pre}/${e.name.replace(/\.html$/, "")}`);
+    }
+  }
+  return ut;
+}
+
+const intern = (u) => !/^(https?:|mailto:|tel:|data:|\/\/)/i.test(u) && u !== "";
+
+let feil = 0;
+let sjekket = 0;
+const nettsteder = (await readdir(join(rot, "sites"))).sort();
+
+for (const navn of nettsteder) {
+  const dist = join(rot, "sites", navn, "dist");
+  try {
+    await stat(dist);
+  } catch {
+    console.error(`✗ ${navn}: fant ikke ${dist}. Kjør npm run build først.`);
+    feil++;
+    continue;
+  }
+  const server = await startServer(dist);
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const sider = await htmlFiler(dist);
+  const ko = [...sider];
+  const sett = new Set(ko);
+  const idCache = new Map();
+  const mangler = [];
+
+  const hentIder = async (side) => {
+    if (!idCache.has(side)) {
+      const r = await fetch(new URL(side, base));
+      const html = r.ok ? await r.text() : "";
+      idCache.set(side, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+    }
+    return idCache.get(side);
+  };
+
+  while (ko.length) {
+    const side = ko.shift();
+    const r = await fetch(new URL(side, base));
+    sjekket++;
+    if (r.status !== 200) {
+      mangler.push(`${side} → ${r.status}`);
+      continue;
+    }
+    const type = r.headers.get("content-type") ?? "";
+    if (!type.includes("html") && !type.includes("css")) continue;
+    const tekst = await r.text();
+    // href/src i HTML, og url(...) i CSS (også inline <style>, der skriftene ligger)
+    const lenker = [
+      ...(type.includes("html") ? [...tekst.matchAll(/\s(?:href|src)="([^"]+)"/g)].map((m) => m[1]) : []),
+      ...[...tekst.matchAll(/url\(([^)]+)\)/g)].map((m) => m[1].replace(/["']/g, "")),
+    ];
+    for (const lenke of lenker) {
+      if (!intern(lenke)) continue;
+      const url = new URL(lenke, new URL(side, base));
+      if (url.hash && url.pathname === new URL(side, base).pathname && lenke.startsWith("#")) {
+        const ider = await hentIder(side);
+        if (!ider.has(url.hash.slice(1))) mangler.push(`${side}: ${lenke} → mangler id`);
+        continue;
+      }
+      if (url.hash) {
+        const ider = await hentIder(url.pathname);
+        if (!ider.has(decodeURIComponent(url.hash.slice(1)))) mangler.push(`${side}: ${lenke} → mangler id`);
+      }
+      if (!sett.has(url.pathname)) {
+        sett.add(url.pathname);
+        ko.push(url.pathname);
+      }
+    }
+  }
+  server.close();
+  if (mangler.length) {
+    feil += mangler.length;
+    console.error(`✗ ${navn}: ${mangler.length} feil`);
+    for (const m of mangler) console.error(`    ${m}`);
+  } else {
+    console.log(`✓ ${navn}: ${sett.size} interne adresser svarer 200 (${sider.join(", ")})`);
+  }
+}
+
+console.log(`\n${sjekket} forespørsler, ${feil} feil.`);
+process.exit(feil ? 1 : 0);

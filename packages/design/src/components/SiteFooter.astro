@@ -1,0 +1,59 @@
+---
+/**
+ * Bunntekst: org.nr., adresse, e-post, personvern og «En del av SN Group».
+ * På sngroup.no skjules «En del av SN Group» med visDelAv={false}.
+ */
+interface Props {
+  selskap: string;
+  orgnr: string;
+  adresse: string;
+  epost: string;
+  personvern?: string;
+  personvernTekst?: string;
+  visDelAv?: boolean;
+}
+const {
+  selskap,
+  orgnr,
+  adresse,
+  epost,
+  personvern = "/personvern",
+  personvernTekst = "Personvern",
+  visDelAv = true,
+} = Astro.props;
+const ar = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="rad">
+      <p class="selskap">
+        <span>© {ar} {selskap}</span>
+        <span>Org.nr. {orgnr}</span>
+        <span>{adresse}</span>
+        <a href={`mailto:${epost}`}>{epost}</a>
+      </p>
+      <p class="lenker">
+        <a href={personvern}>{personvernTekst}</a>
+        {visDelAv && <a href="https://sngroup.no">En del av SN Group</a>}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--fot);
+    color: var(--fot-tekst);
+    font-size: 14px;
+  }
+  .rad {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px 32px;
+    flex-wrap: wrap;
+    padding-block: 28px;
+  }
+  p { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  a { color: inherit; text-underline-offset: 3px; }
+  .lenker a { display: inline-block; padding-block: 2px; }
+</style>

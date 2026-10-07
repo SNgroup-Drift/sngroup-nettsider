@@ -1,0 +1,126 @@
+---
+import Side from "../layouts/Side.astro";
+import Section from "@sngroup/design/components/Section.astro";
+import CompanyRow from "@sngroup/design/components/CompanyRow.astro";
+import ContactBlock from "@sngroup/design/components/ContactBlock.astro";
+import Plantegning from "../components/Plantegning.astro";
+import Telefon from "../components/Telefon.astro";
+import { virksomheter } from "../content/virksomheter";
+import { selskap } from "../content/selskap";
+---
+<Side title="SN Group – ES-HOLDING AS">
+  <main id="innhold">
+    <div class="wrap">
+      <div class="helt">
+        <div>
+          <div class="label">Trondheim · Hamar · Lillehammer · Gjøvik</div>
+          <h1>Vi bygger og eier selskaper som lager <em>hjem</em> bedre.</h1>
+          <p class="lede">
+            SN Group samler selskapene til Eirik Sjøflot: kjøkkenbutikker, eiendom og egne digitale verktøy for
+            salg og montering. Trykk på et rom i tegningen.
+          </p>
+          <div class="cta">
+            <a class="pill solid" href="#kontakt">Ta kontakt <span aria-hidden="true">→</span></a>
+            <a class="pill" href="#virksomheter">Se virksomhetene</a>
+          </div>
+          <div class="chips" aria-label="Velg virksomhet i tegningen">
+            {virksomheter.map((v, i) => (
+              <button type="button" class="chip" data-chip={v.id} aria-pressed={String(i === 0)}>
+                <i aria-hidden="true"></i>{v.navn}
+              </button>
+            ))}
+          </div>
+        </div>
+        <Plantegning />
+      </div>
+    </div>
+
+    <Section id="virksomheter" label="Virksomheter" flate>
+      <Fragment slot="tittel">Hvert rom er en <em>virksomhet</em>.</Fragment>
+      <Fragment slot="ingress">
+        ES-HOLDING AS driver med kjøp, salg og utleie av fast eiendom og eierskap i andre selskaper. Selskapene i
+        gruppen driver blant annet Studio Sigdal Innlandet.
+      </Fragment>
+      <div class="rader">
+        {virksomheter.map((v, i) => (
+          <CompanyRow
+            id={v.id}
+            navn={v.navn}
+            undertittel={v.undertittel}
+            tekst={v.tekst}
+            stikkord={v.stikkord}
+            lenker={v.lenker}
+            apen={i === 0}
+            plassholder={v.plassholder}
+          />
+        ))}
+      </div>
+    </Section>
+
+    <section id="hengsel" class="hengsel">
+      <div class="wrap hg">
+        <div>
+          <div class="label">App for montører</div>
+          <h2>Hengsel</h2>
+          <p class="lede">
+            Montørappen for montører og montasjefirmaer som jobber for Studio Sigdal Innlandet. Prøv den til høyre.
+          </p>
+          <ul class="egenskaper">
+            <li>Dagens jobber, tegninger og varer</li>
+            <li>Kontrollmål, kvalitetssjekk, bilder og avvik</li>
+            <li>Ferdigmelding på telefon og iPad</li>
+            <li>Virker uten dekning, og sender når nettet er tilbake</li>
+            <li>Kun for inviterte brukere</li>
+          </ul>
+          <a href="/personvern" class="pill">Personvern for Hengsel <span aria-hidden="true">→</span></a>
+        </div>
+        <Telefon />
+      </div>
+    </section>
+
+    <Section id="kontakt" flate>
+      <ContactBlock epost={selskap.epost} selskap={selskap.navn} orgnr={selskap.orgnr} adresse={selskap.adresse}>
+        <div class="label">Kontakt</div>
+        <h2 class="kontakt-tittel">Ta <em>kontakt</em>.</h2>
+      </ContactBlock>
+    </Section>
+  </main>
+</Side>
+
+<style>
+  .helt {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding-block: clamp(24px, 6vw, 80px) clamp(48px, 7vw, 96px);
+  }
+  h1 { margin-top: 20px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 36px; }
+  .chip {
+    border: 1px solid var(--linje);
+    background: var(--bakgrunn);
+    border-radius: var(--radius-pille);
+    padding: 8px 14px;
+    min-height: 40px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--ikon); }
+  .chip[aria-pressed="true"] { background: var(--flate); border-color: var(--tekst); }
+  .chip[aria-pressed="true"] i { background: var(--aksent); }
+  .rader { border-top: 1px solid var(--linje-svak); }
+  .hengsel { padding-block: var(--seksjon); }
+  .hg { display: grid; grid-template-columns: 1fr 0.9fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
+  .hg h2 { font-size: clamp(64px, 9vw, 128px); font-style: italic; line-height: 0.95; margin-top: 16px; }
+  .egenskaper { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 10px; }
+  .egenskaper li { display: flex; gap: 12px; align-items: baseline; color: var(--tekst-dempet); }
+  .egenskaper li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--aksent); flex: none; transform: translateY(-2px); }
+  .kontakt-tittel { font-size: clamp(48px, 7vw, 96px); line-height: 1; margin-top: 16px; }
+  @media (max-width: 860px) {
+    .helt, .hg { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,9 @@
+/** Et avsnitt på en personvernside (PrivacyPage). Tekst kan inneholde enkel HTML, f.eks. mailto-lenker. */
+export interface Avsnitt {
+  overskrift: string;
+  /** Avsnitt før listen */
+  tekst?: string[];
+  punkter?: string[];
+  /** Avsnitt etter listen */
+  etter?: string[];
+}

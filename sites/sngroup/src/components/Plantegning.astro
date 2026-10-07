@@ -1,0 +1,180 @@
+---
+/**
+ * Plantegning 1:50 der hvert rom er en virksomhet (fra dagens sngroup.no, forslag D).
+ * Fem rom: kjøkken, entré (Hengsel), verksted (ByggEM), stue (Eiendom) og soverom (Investeringer).
+ * Uten JavaScript vises tegningen og første virksomhet; med JavaScript kan rommene velges.
+ */
+import { virksomheter, type VirksomhetId } from "../content/virksomheter";
+
+const v = Object.fromEntries(virksomheter.map((x) => [x.id, x])) as Record<VirksomhetId, (typeof virksomheter)[number]>;
+const forste = virksomheter[0].id;
+// Tilgjengelig navn starter med teksten som står i rommet (WCAG 2.5.3), så kommer virksomheten
+const etikett = (x: (typeof virksomheter)[number]) =>
+  `${x.rom.navn.charAt(0)}${x.rom.navn.slice(1).toLowerCase()} ${x.rom.merke}: ${x.navn}`;
+---
+<figure class="plan" data-plan data-valgt={forste}>
+  <div class="plan-hode" aria-hidden="true">
+    <span>Plantegning · 1:50</span>
+    <span data-koord>x 0 · y 0 mm</span>
+  </div>
+  <svg viewBox="0 0 600 440" role="group" aria-label="Plantegning av et hus der hvert rom er en virksomhet">
+    <rect class="tomt" x="12" y="12" width="576" height="416" rx="2" />
+    <path class="mal" d="M40 26 H560 M40 21 V31 M560 21 V31" />
+    <text class="malt" x="300" y="22" text-anchor="middle">10 400</text>
+    <path class="mal" d="M574 40 V380 M569 40 H579 M569 380 H579" />
+    <text class="malt" x="586" y="214" text-anchor="middle" transform="rotate(90 586 210)">6 800</text>
+
+    <g class="sone" data-sone="kjokken" tabindex="0" role="button" aria-pressed="true" aria-label={etikett(v.kjokken)}>
+      <rect class="treff" x="43" y="43" width="254" height="174" />
+      <path class="inv" d="M46 46 H294 V70 H70 V214 H46 Z" />
+      <rect class="inv" x="130" y="118" width="110" height="46" rx="2" />
+      <circle class="inv" cx="190" cy="58" r="6" />
+      <circle class="inv" cx="208" cy="58" r="6" />
+      <circle class="inv" cx="190" cy="58" r="2" />
+      <circle class="inv" cx="208" cy="58" r="2" />
+      <rect class="inv" x="96" y="50" width="30" height="16" rx="6" />
+      <text aria-hidden="true" class="rom" x="130" y="190">{v.kjokken.rom.navn}</text>
+      <text aria-hidden="true" class="merke" x="130" y="204">{v.kjokken.rom.merke}</text>
+    </g>
+
+    <g class="sone" data-sone="eiendom" tabindex="0" role="button" aria-pressed="false" aria-label={etikett(v.eiendom)}>
+      <rect class="treff" x="303" y="43" width="254" height="214" />
+      <path class="inv" d="M340 80 H470 V104 H364 V160 H340 Z" />
+      <rect class="inv" x="392" y="130" width="64" height="40" rx="3" />
+      <text aria-hidden="true" class="rom" x="440" y="220">{v.eiendom.rom.navn}</text>
+      <text aria-hidden="true" class="merke" x="440" y="234">{v.eiendom.rom.merke}</text>
+    </g>
+
+    <g class="sone" data-sone="investeringer" tabindex="0" role="button" aria-pressed="false" aria-label={etikett(v.investeringer)}>
+      <rect class="treff" x="43" y="223" width="224" height="154" />
+      <rect class="inv" x="60" y="250" width="110" height="100" rx="3" />
+      <path class="inv" d="M60 272 H170 M70 254 H108 V268 H70 Z M122 254 H160 V268 H122 Z" />
+      <text aria-hidden="true" class="rom" x="184" y="318">{v.investeringer.rom.navn}</text>
+      <text aria-hidden="true" class="merke" x="184" y="332">{v.investeringer.rom.merke}</text>
+    </g>
+
+    <g class="sone" data-sone="byggem" tabindex="0" role="button" aria-pressed="false" aria-label={etikett(v.byggem)}>
+      <rect class="treff" x="273" y="263" width="144" height="114" />
+      <rect class="inv" x="380" y="270" width="32" height="100" rx="1" />
+      <path class="inv" d="M380 295 H412 M380 320 H412 M380 345 H412" />
+      <rect class="inv" x="284" y="350" width="60" height="20" rx="1" />
+      <text aria-hidden="true" class="rom" x="286" y="300">{v.byggem.rom.navn}</text>
+      <text aria-hidden="true" class="merke" x="286" y="314">{v.byggem.rom.merke}</text>
+    </g>
+
+    <g class="sone" data-sone="hengsel" tabindex="0" role="button" aria-pressed="false" aria-label={etikett(v.hengsel)}>
+      <rect class="treff" x="423" y="263" width="134" height="114" />
+      <rect class="inv" x="520" y="280" width="22" height="34" rx="4" />
+      <path class="inv" d="M526 284 H536" />
+      <text aria-hidden="true" class="rom" x="440" y="296">{v.hengsel.rom.navn}</text>
+      <text aria-hidden="true" class="merke" x="440" y="310">{v.hengsel.rom.merke}</text>
+    </g>
+
+    <path class="vegg" d="M40 40 H560 V380 H500 M460 380 H40 Z" />
+    <path class="innervegg" d="M300 40 V120 M300 170 V260 H420 M40 220 H180 M230 220 H420 V300 M420 345 V380 M270 260 V380" />
+    <path class="slag" d="M460 340 A40 40 0 0 1 500 380" />
+    <line class="dor innervegg" x1="460" y1="380" x2="460" y2="340" />
+    <circle class="hengselpunkt" cx="460" cy="380" r="3.5" />
+  </svg>
+  <div class="info">
+    {virksomheter.map((x) => (
+      <div class="info-kort" data-info={x.id} hidden={x.id !== forste}>
+        <h2 class="info-tittel">{x.navn}</h2>
+        <p class:list={{ plassholder: x.plassholder }}>{x.kort}</p>
+        <a href={x.planLenke.href}>{x.planLenke.label}</a>
+      </div>
+    ))}
+  </div>
+</figure>
+
+<style>
+  .plan { background: var(--flate); border: 1px solid var(--linje); border-radius: var(--radius); padding: 18px 18px 0; margin: 0; }
+  .plan-hode { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--tekst-dempet); font-variant-numeric: tabular-nums; }
+  svg { width: 100%; height: auto; display: block; margin-top: 6px; touch-action: manipulation; }
+  .vegg { fill: none; stroke: var(--tekst); stroke-width: 6; stroke-linecap: square; }
+  .innervegg { fill: none; stroke: var(--tekst); stroke-width: 3; }
+  .inv { fill: none; stroke: var(--tekst); stroke-width: 1.2; opacity: 0.75; }
+  .mal { stroke: var(--tekst-dempet); stroke-width: 0.8; fill: none; }
+  .malt { fill: var(--tekst-dempet); font: 500 10px var(--font-tekst); }
+  .rom { fill: var(--tekst); font: 500 10px var(--font-tekst); letter-spacing: 0.12em; }
+  .merke { fill: var(--tekst-dempet); font: 400 10px var(--font-tekst); }
+  .tomt { fill: none; stroke: var(--ikon); stroke-width: 1; stroke-dasharray: 6 5; }
+  .hengselpunkt { fill: var(--aksent); }
+  .sone { cursor: pointer; outline: none; }
+  .sone .treff { fill: transparent; transition: fill 0.25s; }
+  .sone:hover .treff { fill: var(--sone); }
+  .sone:focus-visible .treff { fill: var(--sone); stroke: var(--aksent); stroke-width: 2; }
+  .sone[aria-pressed="true"] .treff { fill: var(--sone-valgt); }
+  .sone[aria-pressed="true"] .rom { fill: var(--aksent); }
+  .plan[data-valgt="eiendom"] .tomt { stroke: var(--aksent); stroke-width: 1.6; }
+  .dor { transform-box: view-box; transform-origin: 460px 380px; transition: transform 0.9s cubic-bezier(0.5, 0, 0.2, 1); }
+  .plan.lukket .dor { transform: rotate(90deg); transition: none; }
+  .slag { fill: none; stroke: var(--tekst); stroke-width: 0.8; stroke-dasharray: 3 3; transition: opacity 0.6s; }
+  .plan.lukket .slag { opacity: 0; transition: none; }
+  .info { border-top: 1px solid var(--linje); margin: 0 -18px; padding: 18px; min-height: 132px; }
+  .info-kort { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 20px; align-items: end; }
+  .info-kort[hidden] { display: none; }
+  .info-tittel { font-size: 26px; font-weight: 400; line-height: 1.2; }
+  .info p { margin: 0; color: var(--tekst-dempet); font-size: 15px; max-width: 52ch; }
+  .info .plassholder { font-style: italic; }
+  .info a { font-size: 15px; font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; white-space: nowrap; grid-row: 1 / span 2; grid-column: 2; padding-top: 8px; }
+  @media (max-width: 860px) {
+    .info-kort { grid-template-columns: 1fr; }
+    .info a { grid-row: auto; grid-column: auto; justify-self: start; }
+  }
+</style>
+
+<script>
+  // Velg rom i tegningen, med chipene i heltedelen eller ved å åpne en rad. Holder alt i takt.
+  const plan = document.querySelector<HTMLElement>("[data-plan]");
+  if (plan) {
+    const svg = plan.querySelector("svg")!;
+    const soner = [...plan.querySelectorAll<SVGGElement>("[data-sone]")];
+    const info = [...plan.querySelectorAll<HTMLElement>("[data-info]")];
+    const chips = [...document.querySelectorAll<HTMLButtonElement>("[data-chip]")];
+    const rader = [...document.querySelectorAll<HTMLDetailsElement>("[data-rad]")];
+    const koord = plan.querySelector("[data-koord]");
+    const fmt = (n: number) => n.toLocaleString("nb-NO");
+    let synker = false;
+
+    const velg = (id: string, apneRad = true) => {
+      plan.dataset.valgt = id;
+      for (const s of soner) s.setAttribute("aria-pressed", String(s.dataset.sone === id));
+      for (const c of chips) c.setAttribute("aria-pressed", String(c.dataset.chip === id));
+      for (const i of info) i.hidden = i.dataset.info !== id;
+      if (apneRad) {
+        synker = true;
+        for (const r of rader) r.open = r.dataset.rad === id;
+        synker = false;
+      }
+      if (id === "hengsel") {
+        plan.classList.add("lukket");
+        setTimeout(() => plan.classList.remove("lukket"), 60);
+      }
+    };
+
+    for (const s of soner) {
+      s.addEventListener("click", () => velg(s.dataset.sone!));
+      s.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          velg(s.dataset.sone!);
+        }
+      });
+    }
+    for (const c of chips) c.addEventListener("click", () => velg(c.dataset.chip!));
+    for (const r of rader) {
+      r.addEventListener("toggle", () => {
+        if (!synker && r.open) velg(r.dataset.rad!, false);
+      });
+    }
+
+    svg.addEventListener("pointermove", (e) => {
+      const ctm = svg.getScreenCTM();
+      if (!ctm || !koord) return;
+      const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+      const klem = (v: number, max: number) => Math.min(max, Math.max(0, Math.round(v / 10) * 10));
+      koord.textContent = `x ${fmt(klem((p.x - 40) * 20, 10400))} · y ${fmt(klem((p.y - 40) * 20, 6800))} mm`;
+    });
+  }
+</script>

@@ -1,0 +1,77 @@
+---
+/** Ordmerke i Newsreader og meny. */
+interface Lenke { href: string; label: string; primar?: boolean }
+interface Props {
+  ordmerke: string;
+  /** Liten tekst ved siden av ordmerket, f.eks. selskapsnavnet */
+  undertekst?: string;
+  lenker?: Lenke[];
+  hjem?: string;
+}
+const { ordmerke, undertekst, lenker = [], hjem = "/" } = Astro.props;
+---
+<header class="site-header">
+  <div class="wrap">
+    <nav aria-label="Hovedmeny">
+      <a href={hjem} class="ordmerke">
+        {ordmerke}{undertekst && <small>{undertekst}</small>}
+      </a>
+      {lenker.length > 0 && (
+        <ul class="lenker">
+          {lenker.map((l) => (
+            <li><a href={l.href} class:list={[{ pill: l.primar, sekundar: !l.primar }]}>{l.label}</a></li>
+          ))}
+        </ul>
+      )}
+    </nav>
+  </div>
+</header>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-block: 20px;
+    flex-wrap: wrap;
+  }
+  .ordmerke {
+    font-family: var(--font-overskrift);
+    font-size: 26px;
+    line-height: 1.2;
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .ordmerke small {
+    font-family: var(--font-tekst);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tekst-dempet);
+  }
+  .lenker {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 8px 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .sekundar {
+    text-decoration: none;
+    font-size: 15px;
+    color: var(--tekst-dempet);
+    display: inline-block;
+    padding-block: 10px;
+  }
+  .sekundar:hover { color: var(--tekst); }
+  @media (max-width: 640px) {
+    li:has(.sekundar) { display: none; }
+  }
+</style>

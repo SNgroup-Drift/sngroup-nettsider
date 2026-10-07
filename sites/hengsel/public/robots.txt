@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hengsel.no/sitemap.txt

@@ -1,0 +1,99 @@
+/*
+  SN Group – designtokens.
+  Palett (lys): kalk, lin, sand, stein, umbra, fjord, dis. Mørk versjon under.
+  Ingen rosa/magenta, ingen signalfarger, ingen gradienter.
+
+  Rå farger (--kalk …) brukes bare her. Komponentene bruker de semantiske navnene (--bakgrunn, --tekst …),
+  så mørk modus bare bytter de semantiske.
+*/
+:root {
+  /* Palett */
+  --kalk: #f7f5f1;   /* bakgrunn, aldri rent hvitt */
+  --lin: #eee8df;    /* flater */
+  --sand: #d8ccbc;   /* linjer */
+  --stein: #a89a8a;  /* ikoner, pynt (for lys til brødtekst: 2,6:1 mot kalk) */
+  --umbra: #2b2420;  /* tekst og overskrifter */
+  --fjord: #46698f;  /* aksent, brukes sparsomt */
+  --dis: #93a3b6;    /* myk aksent */
+
+  /* Mørk palett */
+  --natt: #1e1916;       /* bakgrunn */
+  --natt-flate: #29221d; /* flater */
+  --natt-tekst: #f1ece4; /* tekst */
+
+  /* Semantisk (lys) */
+  --bakgrunn: var(--kalk);
+  --flate: var(--lin);
+  --linje: var(--sand);
+  --linje-svak: rgb(43 36 32 / 0.14);
+  --ikon: var(--stein);
+  --tekst: var(--umbra);
+  --tekst-dempet: rgb(43 36 32 / 0.74); /* umbra på kalk, 7:1 */
+  --aksent: var(--fjord);
+  --aksent-myk: var(--dis);
+  --pa-aksent: var(--kalk);
+  --sone: rgb(70 105 143 / 0.1);
+  --sone-valgt: rgb(70 105 143 / 0.2);
+  --enhet: var(--umbra);         /* telefonen i Hengsel-delen */
+  --enhet-tekst: var(--kalk);
+  --enhet-kort: #3d332c;
+  --enhet-fremhevet: var(--sand);
+  --enhet-fremhevet-tekst: var(--umbra);
+  --fot: var(--umbra);           /* bunntekst: mørk i begge moduser */
+  --fot-tekst: var(--kalk);
+
+  /* Skrift */
+  --font-overskrift: "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-tekst: "Inter Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* Mål */
+  --bredde: 1200px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --radius: 6px;
+  --radius-pille: 999px;
+  --seksjon: clamp(64px, 9vw, 120px);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bakgrunn: var(--natt);
+    --flate: var(--natt-flate);
+    --linje: rgb(241 236 228 / 0.2);
+    --linje-svak: rgb(241 236 228 / 0.14);
+    --ikon: #8f8274;
+    --tekst: var(--natt-tekst);
+    --tekst-dempet: rgb(241 236 228 / 0.74);
+    --aksent: var(--dis);
+    --aksent-myk: var(--fjord);
+    --pa-aksent: var(--natt);
+    --sone: rgb(147 163 182 / 0.12);
+    --sone-valgt: rgb(147 163 182 / 0.24);
+    --enhet: #141110;
+    --enhet-kort: #2e2621;
+    --fot: #141110;
+    --fot-tekst: var(--natt-tekst);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bakgrunn: var(--natt);
+  --flate: var(--natt-flate);
+  --linje: rgb(241 236 228 / 0.2);
+  --linje-svak: rgb(241 236 228 / 0.14);
+  --ikon: #8f8274;
+  --tekst: var(--natt-tekst);
+  --tekst-dempet: rgb(241 236 228 / 0.74);
+  --aksent: var(--dis);
+  --aksent-myk: var(--fjord);
+  --pa-aksent: var(--natt);
+  --sone: rgb(147 163 182 / 0.12);
+  --sone-valgt: rgb(147 163 182 / 0.24);
+  --enhet: #141110;
+  --enhet-kort: #2e2621;
+  --fot: #141110;
+  --fot-tekst: var(--natt-tekst);
+  color-scheme: dark;
+}

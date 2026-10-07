@@ -1,0 +1,41 @@
+---
+/** Seksjon med etikett, overskrift (slot "tittel") og valgfri ingress (slot "ingress"). */
+interface Props {
+  id?: string;
+  label?: string;
+  /** Flate-bakgrunn (lin) */
+  flate?: boolean;
+  class?: string;
+}
+const { id, label, flate = false, class: klasse } = Astro.props;
+const harHode = label || Astro.slots.has("tittel") || Astro.slots.has("ingress");
+---
+<section id={id} class:list={["seksjon", klasse, { flate }]}>
+  <div class="wrap">
+    {harHode && (
+      <div class="hode">
+        <div>
+          {label && <div class="label">{label}</div>}
+          {Astro.slots.has("tittel") && <h2><slot name="tittel" /></h2>}
+        </div>
+        {Astro.slots.has("ingress") && <p class="ingress"><slot name="ingress" /></p>}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .seksjon { padding-block: var(--seksjon); }
+  .flate { background: var(--flate); }
+  .hode {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 64px;
+    align-items: end;
+    margin-bottom: 48px;
+  }
+  h2 { margin-top: 16px; }
+  .ingress { color: var(--tekst-dempet); margin: 0; max-width: 48ch; }
+  @media (max-width: 860px) { .hode { grid-template-columns: 1fr; } }
+</style>

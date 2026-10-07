@@ -1,0 +1,65 @@
+---
+/** E-post med kopier-knapp og selskapsopplysninger. */
+interface Props {
+  epost: string;
+  selskap: string;
+  orgnr: string;
+  adresse: string;
+}
+const { epost, selskap, orgnr, adresse } = Astro.props;
+---
+<div class="kontakt">
+  <div>
+    <slot />
+    <div class="epost">
+      <a href={`mailto:${epost}`} class="adresse">{epost}</a>
+      <button type="button" class="pill" data-kopier={epost}>
+        <span data-kopier-tekst>Kopier</span>
+      </button>
+      <span class="visually-hidden" role="status" data-kopier-status></span>
+    </div>
+  </div>
+  <dl>
+    <dt>Selskap</dt><dd>{selskap}</dd>
+    <dt>Org.nr.</dt><dd>{orgnr}</dd>
+    <dt>Adresse</dt><dd>{adresse}</dd>
+    <dt>E-post</dt><dd><a href={`mailto:${epost}`}>{epost}</a></dd>
+  </dl>
+</div>
+
+<script>
+  for (const knapp of document.querySelectorAll<HTMLButtonElement>("[data-kopier]")) {
+    const tekst = knapp.querySelector("[data-kopier-tekst]");
+    const status = knapp.parentElement?.querySelector("[data-kopier-status]");
+    knapp.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(knapp.dataset.kopier ?? "");
+        if (tekst) tekst.textContent = "Kopiert";
+        if (status) status.textContent = "E-postadressen er kopiert";
+        setTimeout(() => {
+          if (tekst) tekst.textContent = "Kopier";
+          if (status) status.textContent = "";
+        }, 1800);
+      } catch {
+        if (tekst) tekst.textContent = "Marker og kopier";
+      }
+    });
+  }
+</script>
+
+<style>
+  .kontakt { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 80px; }
+  .epost { display: flex; align-items: center; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+  .adresse {
+    font: 300 clamp(26px, 3.2vw, 40px) / 1.2 var(--font-overskrift);
+    text-decoration: none;
+    border-bottom: 1px solid var(--tekst);
+    overflow-wrap: anywhere;
+  }
+  dl { margin: 0; display: grid; grid-template-columns: auto 1fr; border-top: 1px solid var(--linje-svak); }
+  dt, dd { margin: 0; padding: 16px 0; border-bottom: 1px solid var(--linje-svak); }
+  dt { color: var(--tekst-dempet); font-size: 14px; padding-right: 32px; }
+  dd { overflow-wrap: anywhere; }
+  dd a { text-underline-offset: 3px; }
+  @media (max-width: 860px) { .kontakt { grid-template-columns: 1fr; } }
+</style>

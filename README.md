@@ -1,0 +1,71 @@
+# SN Group nettsider
+
+Nettstedene til SN Group (ES-HOLDING AS, org.nr. 927 363 585), samlet i ett repo:
+
+| Nettsted | Mappe | Innhold |
+|---|---|---|
+| sngroup.no | `sites/sngroup` | Forsiden med plantegningen, virksomhetene, Hengsel, kontakt, `/personvern` (montørappen Hengsel) og `/design` |
+| hengsel.no | `sites/hengsel` | Skjelett: «Kommer snart» og personvern (del 2 fyller inn) |
+| byggem.no | `sites/byggem` | Skjelett: «Kommer snart» og personvern (del 2 fyller inn) |
+
+Alt er statisk Astro: ingen server, ingen database, ingen sporing og ingen informasjonskapsler.
+
+## Oppsett
+
+```
+packages/design/        Felles designpakke
+  src/styles/tokens.css   Fargene (lys og mørk), skrift og mål som CSS-variabler
+  src/styles/base.css     Grunnstil
+  src/styles/fonts.css    Newsreader og Inter, selvhostet fra npm (@fontsource-variable)
+  src/components/         BaseLayout, SiteHeader, SiteFooter, Section, Card, ContactBlock,
+                          CompanyRow, PrivacyPage, ComingSoon
+sites/<navn>/           Ett Astro-prosjekt per nettsted
+  src/content/            Tekst og selskapsopplysninger (TODO der tekst mangler)
+  src/pages/              Sidene
+  public/_headers         Sikkerhetshoder (Cloudflare Pages)
+  public/_redirects       Stibaserte omdirigeringer (www → apex gjøres i Cloudflare, se docs/hosting.md)
+scripts/
+  sjekk-lenker.mjs        npm test: alle interne lenker på de bygde sidene svarer 200
+  skjermbilder.mjs        Skjermbilder og nettlesersjekker (360 px, konsoll, CSP)
+  csp-hasher.mjs          Legger hashen for inline-CSS inn i CSP-en i dist/_headers
+  statisk-server.mjs      Liten server som løser stier som Cloudflare Pages
+```
+
+## Kommandoer
+
+Krever Node 22.12 eller nyere (`.nvmrc`).
+
+```sh
+npm install
+npm run build          # bygger alle nettstedene til sites/*/dist
+npm test               # sjekker interne lenker (etter build)
+npm run skjermbilder   # skjermbilder til docs/skjermbilder + nettlesersjekker (krever Chromium)
+npm run dev:sngroup    # utviklingsserver (også dev:hengsel og dev:byggem)
+```
+
+## Legge til et nytt nettsted
+
+1. Kopier skjelettet: `cp -r sites/byggem sites/<navn>` og slett `sites/<navn>/dist` og `node_modules` hvis de finnes.
+2. I `sites/<navn>/package.json`: sett `"name": "@sngroup/site-<navn>"`.
+3. I `sites/<navn>/astro.config.mjs`: sett `site` til riktig domene.
+4. Fyll inn `src/content/selskap.ts` og `src/content/personvern.ts`. Bruk bare tekst som er bekreftet, og skriv `TODO` der noe mangler.
+5. Bytt domenet i `public/_redirects`-kommentaren og i `public/sitemap.txt`.
+6. Kjør `npm install`, `npm run build` og `npm test` fra rotmappen.
+7. Opprett et Cloudflare Pages-prosjekt med innstillingene i [docs/hosting.md](docs/hosting.md), og legg nettstedet til i tabellen der.
+
+`npm run build` bygger alle mappene under `sites/` automatisk (npm workspaces), og `npm test` sjekker dem alle.
+
+## Bygging og publisering
+
+Hvert nettsted er sitt eget Cloudflare Pages-prosjekt koblet til dette repoet med Git-integrasjon. En push til `main`
+bygger og publiserer. Andre grener gir forhåndsvisninger. Innstillingene per nettsted står i [docs/hosting.md](docs/hosting.md).
+
+Ingen API-nøkler eller wrangler-innlogging ligger i repoet. Cloudflare kobles til GitHub i Cloudflare-dashbordet.
+
+## Designregler (kort)
+
+- Farger bare fra `tokens.css`. Komponentene bruker de semantiske navnene (`--bakgrunn`, `--tekst`, `--aksent` …), så lys og mørk modus følger med automatisk.
+- Ingen rosa/magenta, ingen signalfarger, ingen gradienter, ingen Sigdal-farger, -logo eller -bilder.
+- Newsreader til overskrifter (aldri små, aldri versaler), Inter til alt annet. Ingen sperring på små bokstaver, bortsett fra små versale etiketter (`.label`).
+- Ingen inline-skript (CSP `script-src 'self'`). Bruk `<script>` i Astro-komponenter; Astro legger dem i egne filer.
+- Bevegelse slås av med `prefers-reduced-motion`.

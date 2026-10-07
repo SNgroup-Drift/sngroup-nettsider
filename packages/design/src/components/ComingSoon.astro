@@ -1,0 +1,18 @@
+---
+/** «Kommer snart»-side for nye nettsteder. */
+interface Props { navn: string; tekst?: string }
+const { navn, tekst } = Astro.props;
+---
+<main id="innhold" class="snart">
+  <div class="wrap">
+    <div class="label">Kommer snart</div>
+    <h1>{navn}</h1>
+    {tekst && <p class="lede">{tekst}</p>}
+    <slot />
+  </div>
+</main>
+
+<style>
+  .snart { padding-block: clamp(64px, 14vw, 180px); min-height: 60vh; }
+  h1 { margin-top: 20px; }
+</style>

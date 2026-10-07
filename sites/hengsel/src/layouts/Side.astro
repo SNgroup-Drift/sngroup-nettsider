@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
+import SiteHeader from "@sngroup/design/components/SiteHeader.astro";
+import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
+import { selskap } from "../content/selskap";
+
+interface Props { title: string; description: string; noindex?: boolean }
+const { title, description, noindex } = Astro.props;
+---
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <SiteHeader ordmerke={selskap.merkenavn} />
+  <slot />
+  <SiteFooter selskap={selskap.navn} orgnr={selskap.orgnr} adresse={selskap.adresse} epost={selskap.epost} />
+</BaseLayout>
