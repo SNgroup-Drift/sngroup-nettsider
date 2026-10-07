@@ -1,12 +1,13 @@
 ---
 /**
  * Bunntekst: org.nr., adresse, e-post, personvern og «En del av SN Group».
+ * Adressen er valgfri: mangler den (eller er tom), vises verken adressen eller skilletegnet foran den.
  * På sngroup.no skjules «En del av SN Group» med visDelAv={false}.
  */
 interface Props {
   selskap: string;
   orgnr: string;
-  adresse: string;
+  adresse?: string;
   epost: string;
   personvern?: string;
   personvernTekst?: string;
@@ -27,7 +28,7 @@ const ar = new Date().getFullYear();
   <div class="wrap">
     <div class="rad">
       <p class="selskap">
-        © {ar} {selskap}<span class="skille" aria-hidden="true"> · </span>org.nr. {orgnr}<span class="skille" aria-hidden="true"> · </span>{adresse}<span class="skille" aria-hidden="true"> · </span><a href={`mailto:${epost}`}>{epost}</a>
+        © {ar} {selskap}<span class="skille" aria-hidden="true"> · </span>org.nr. {orgnr}{adresse?.trim() && (<><span class="skille" aria-hidden="true"> · </span>{adresse.trim()}</>)}<span class="skille" aria-hidden="true"> · </span><a href={`mailto:${epost}`}>{epost}</a>
       </p>
       <p class="lenker">
         <a href={personvern}>{personvernTekst}</a>

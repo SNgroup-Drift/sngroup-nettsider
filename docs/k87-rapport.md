@@ -143,10 +143,10 @@ Alle bildene ligger i `docs/skjermbilder/`. Desktop er 1440 px, mobil er 390 px 
 ## Plassholdere som venter på tekst
 
 Tekstene til ByggEM og Investeringer og org.nr. for ByggEM AS er fylt inn. Se «Oppfølging 07.10» nederst.
+ByggEM skal ikke ha adresse på nettsidene, så den plassholderen er fjernet. Se «Tillegg 07.10».
 
 | Fil | Felt | Hva mangler |
 |---|---|---|
-| `sites/byggem/src/content/selskap.ts` | `adresse` | Adressen til ByggEM AS. Vises som «[adresse mangler]» i bunnteksten på byggem.no |
 | `sites/byggem/src/content/personvern.ts` | avsnitt | Full personvernerklæring for ByggEM AS (del 2) |
 | `sites/hengsel/src/content/personvern.ts` | avsnitt | Personvern for CRM by Hengsel (del 2). Siden sier nå at nettstedet ikke har cookies eller sporing, og lenker til sngroup.no/personvern for montørappen |
 
@@ -154,20 +154,22 @@ Søk etter `TODO` i repoet for å finne alle.
 
 ## Hosting (Eirik gjør)
 
-Innstillingene står i `docs/hosting.md`. Kort fortalt:
+Innstillingene står i `docs/hosting.md`. Fra 07.10 er hostingen Cloudflare Workers med statiske filer, ikke Pages
+(se «Tillegg 07.10»). Kort fortalt:
 
-- Tre Pages-prosjekter (`sngroup`, `hengsel`, `byggem`), alle med rotmappen som root directory.
-- Byggekommando `npm run build -w sites/<navn>`, output `sites/<navn>/dist`, og `NODE_VERSION` = 22.
+- Tre Workers (`sngroup`, `hengsel`, `byggem`) med Workers Builds, alle med rotmappen (`/`) som Path.
+- Byggekommando `npm run build -w sites/<navn>`, deploy med `npx wrangler deploy -c sites/<navn>/wrangler.jsonc`,
+  og `NODE_VERSION` = 22.
 - Domenene er apex og www for hvert nettsted.
 
-**Avvik fra bestillingen:** Cloudflare Pages støtter ikke domenebaserte regler i `_redirects`. www → apex må derfor
+**Avvik fra bestillingen:** `_redirects` støtter ikke domenebaserte regler. www → apex må derfor
 gjøres med en Redirect Rule i hver sone, med malen «Redirect from WWW to root». Stegene står i hosting.md.
 `_redirects` finnes for hvert nettsted, med en forklaring og plass til stibaserte regler.
 
 ## Ikke gjort / til del 2
 
 - Innhold på hengsel.no og byggem.no.
-- Lighthouse mot de publiserte domenene. Kjør det når Pages-prosjektene er koblet til. Tallene over er fra lokal kjøring.
+- Lighthouse mot de publiserte domenene. Kjør det når Workerne har fått domenene. Tallene over er fra lokal kjøring.
 
 ## Oppfølging 07.10: tekst til ByggEM og Investeringer
 
@@ -210,3 +212,59 @@ Endringene ligger i commit `a62a552`. Denne rapportoppdateringen kommer i en ege
 Det er ikke gjort noe med Cloudflare, DNS eller domener.
 
 K-87 TEKST INNE
+
+## Tillegg 07.10: ByggEM uten adresse, 404-side og Cloudflare Workers
+
+Beslutningene er tatt av Eirik 07.10.2026.
+
+**1. ByggEM uten postadresse**
+
+- `SiteFooter` har fått valgfri `adresse`. Mangler den eller er den tom, vises verken adressen eller « · » foran den.
+- `adresse` og TODO-en er fjernet fra `sites/byggem/src/content/selskap.ts`, og `Side.astro` sender ikke lenger adresse.
+  Plassholderen «[adresse mangler]» finnes ikke lenger i koden, og raden er fjernet fra plassholderlista over.
+  Linjen om «[adresse mangler]» under «Oppfølging 07.10» står igjen som historikk.
+- Bunnteksten på byggem.no, målt i bygget side på 360 px og 1440 px:
+  **«© 2026 ByggEM AS · org.nr. 932 104 148 · drift@sngroup.no»**. Ett skilletegn mellom hvert felt, ingen horisontal
+  rulling.
+- sngroup.no og hengsel.no beholder «Enromvegen 173, 7026 Trondheim».
+
+**2. Cloudflare Workers i stedet for Pages**
+
+- Ny `sites/<navn>/wrangler.jsonc` for sngroup, hengsel og byggem: `name`, `compatibility_date` `2026-10-01` og
+  `assets` med `directory` `./dist`, `not_found_handling` `404-page` og `html_handling` `auto-trailing-slash`.
+  Ingen `main`, ingen kontoinfo, ingen nøkler.
+- `wrangler` (4.148.0) er lagt til som `devDependency` i roten, så `npx wrangler` bruker en låst versjon.
+- Den lokale testserveren (`scripts/statisk-server.mjs`) gir nå `404.html` med status 404 for ukjente stier, som
+  Workers. `npm test` sjekker i tillegg at `dist/404.html` finnes og at en ukjent side svarer 404 med den.
+- Kommentarer i `_headers`, `_redirects` og `astro.config.mjs` sier Workers i stedet for Pages. Innholdet i hodene er
+  uendret.
+
+**3. Dokumentasjon**
+
+- `docs/hosting.md` er skrevet om til Workers: tabell per Worker (navn, build, deploy, preview, Path `/`,
+  `NODE_VERSION`, eget API-token, watch paths, testadresse, egne domener), og avsnittene om rotmappe, www til apex,
+  sikkerhetshoder og ting å la være av. Det som bare gjaldt Pages er fjernet.
+- `README.md` sier Workers der den sa Pages, og har med `wrangler.jsonc` og dry-run i oppskriften for nye nettsteder.
+
+**Sjekker**
+
+| Sjekk | Resultat |
+|---|---|
+| `npm run build` | Grønt for alle tre. `csp-hasher.mjs` la inn 1 stilhash i `dist/_headers` for hvert nettsted |
+| `npm test` | 56 forespørsler, 0 feil. Alle tre svarer 404 med `404.html` for ukjente sider |
+| `dist/404.html` | Finnes for sngroup, hengsel og byggem |
+| `npx wrangler deploy --dry-run -c sites/sngroup/wrangler.jsonc` | OK: leste 27 filer fra `sites/sngroup/dist`, ingen bindinger |
+| `npx wrangler deploy --dry-run -c sites/hengsel/wrangler.jsonc` | OK: leste 22 filer fra `sites/hengsel/dist`, ingen bindinger |
+| `npx wrangler deploy --dry-run -c sites/byggem/wrangler.jsonc` | OK: leste 22 filer fra `sites/byggem/dist`, ingen bindinger |
+| `wrangler dev` lokalt (byggem) | `/` 200 med CSP inkludert stilhashen, HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy, COOP og nosniff. `/personvern` 200. `/personvern.html` sender videre til `/personvern`. `/finnes-ikke` 404 med 404-siden. `/_headers` 404 (filen serveres ikke) |
+
+Det er ikke logget inn i wrangler, og det er ikke kjørt ekte deploy.
+
+**Eirik må gjøre i Cloudflare (Worker «sngroup» → Settings → Build):**
+
+- Deploy command: bytt til `npx wrangler deploy -c sites/sngroup/wrangler.jsonc`
+- Non-production branch deploy command (preview): bytt til `npx wrangler versions upload -c sites/sngroup/wrangler.jsonc`
+
+Til det er gjort, finner deploy-steget ikke `wrangler.jsonc`. Da er 404-siden fortsatt ikke slått på, og bygget kan
+feile. Etterpå skal `https://sngroup.drift-697.workers.dev/finnes-ikke` gi 404 med 404-siden.
+

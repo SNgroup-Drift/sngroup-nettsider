@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 
-// Statisk side for Cloudflare Pages. Ingen server og ingen inline-skript. CSS-en ligger inline, og
+// Statisk side for Cloudflare Workers (statiske filer, se wrangler.jsonc). Ingen server og ingen inline-skript. CSS-en ligger inline, og
 // scripts/csp-hasher.mjs legger hashene inn i CSP-en i dist/_headers etter bygging.
 export default defineConfig({
   site: "https://hengsel.no",

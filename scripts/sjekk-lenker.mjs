@@ -2,9 +2,10 @@
 /**
  * Sjekker at alle interne lenker på de bygde sidene svarer 200.
  *
- * Starter en liten statisk server per nettsted (sites/*\/dist) som løser stier slik Cloudflare Pages gjør
+ * Starter en liten statisk server per nettsted (sites/*\/dist) som løser stier slik Cloudflare Workers gjør med html_handling «auto-trailing-slash»
  * (/ → index.html, /personvern → personvern.html), finner alle href/src i HTML og CSS, og ber om hver av dem.
  * Lenker til #id sjekkes også mot id-ene på målsiden. Eksterne lenker, mailto: og tel: hoppes over.
+ * Til slutt sjekkes at dist/404.html finnes, og at en ukjent side svarer 404 med den siden.
  *
  * Kjør etter `npm run build`: npm test
  */
@@ -90,13 +91,23 @@ for (const navn of nettsteder) {
       }
     }
   }
+  // 404-siden: Workers serverer dist/404.html med status 404 for ukjente stier (not_found_handling)
+  try {
+    await stat(join(dist, "404.html"));
+    const r = await fetch(new URL("/finnes-ikke-k87", base));
+    sjekket++;
+    const html = await r.text();
+    if (r.status !== 404 || !html.includes("<html")) mangler.push(`/finnes-ikke-k87 → ${r.status}, forventet 404 med 404.html`);
+  } catch {
+    mangler.push("dist/404.html mangler");
+  }
   server.close();
   if (mangler.length) {
     feil += mangler.length;
     console.error(`✗ ${navn}: ${mangler.length} feil`);
     for (const m of mangler) console.error(`    ${m}`);
   } else {
-    console.log(`✓ ${navn}: ${sett.size} interne adresser svarer 200 (${sider.join(", ")})`);
+    console.log(`✓ ${navn}: ${sett.size} interne adresser svarer 200 (${sider.join(", ")}), og ukjente sider får 404.html`);
   }
 }
 

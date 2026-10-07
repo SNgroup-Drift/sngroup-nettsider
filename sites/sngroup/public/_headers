@@ -1,4 +1,4 @@
-# Sikkerhetshoder for Cloudflare Pages. Ingen inline-skript og ingen eksterne kilder.
+# Sikkerhetshoder for Cloudflare Workers (statiske filer). Ingen inline-skript og ingen eksterne kilder.
 # CSS-en ligger inline; scripts/csp-hasher.mjs legger sha256-hashene til style-src i dist/_headers ved bygging.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests

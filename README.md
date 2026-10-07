@@ -22,13 +22,14 @@ packages/design/        Felles designpakke
 sites/<navn>/           Ett Astro-prosjekt per nettsted
   src/content/            Tekst og selskapsopplysninger (TODO der tekst mangler)
   src/pages/              Sidene
-  public/_headers         Sikkerhetshoder (Cloudflare Pages)
+  public/_headers         Sikkerhetshoder (Cloudflare Workers, statiske filer)
   public/_redirects       Stibaserte omdirigeringer (www → apex gjøres i Cloudflare, se docs/hosting.md)
+  wrangler.jsonc          Worker-oppsett: navn, dist som statiske filer, 404-side (ingen kode, ingen nøkler)
 scripts/
   sjekk-lenker.mjs        npm test: alle interne lenker på de bygde sidene svarer 200
   skjermbilder.mjs        Skjermbilder og nettlesersjekker (360 px, konsoll, CSP)
   csp-hasher.mjs          Legger hashen for inline-CSS inn i CSP-en i dist/_headers
-  statisk-server.mjs      Liten server som løser stier som Cloudflare Pages
+  statisk-server.mjs      Liten server som løser stier og 404 som Cloudflare Workers
 ```
 
 ## Kommandoer
@@ -49,18 +50,21 @@ npm run dev:sngroup    # utviklingsserver (også dev:hengsel og dev:byggem)
 2. I `sites/<navn>/package.json`: sett `"name": "@sngroup/site-<navn>"`.
 3. I `sites/<navn>/astro.config.mjs`: sett `site` til riktig domene.
 4. Fyll inn `src/content/selskap.ts` og `src/content/personvern.ts`. Bruk bare tekst som er bekreftet, og skriv `TODO` der noe mangler.
-5. Bytt domenet i `public/_redirects`-kommentaren og i `public/sitemap.txt`.
+5. Bytt domenet i `public/_redirects`-kommentaren og i `public/sitemap.txt`, og sett `"name"` i `wrangler.jsonc` til `<navn>`.
 6. Kjør `npm install`, `npm run build` og `npm test` fra rotmappen.
-7. Opprett et Cloudflare Pages-prosjekt med innstillingene i [docs/hosting.md](docs/hosting.md), og legg nettstedet til i tabellen der.
+7. Sjekk Worker-oppsettet uten å logge inn: `npx wrangler deploy --dry-run -c sites/<navn>/wrangler.jsonc`.
+8. Opprett en Worker med Git-integrasjon etter [docs/hosting.md](docs/hosting.md), og legg nettstedet til i tabellen der.
 
 `npm run build` bygger alle mappene under `sites/` automatisk (npm workspaces), og `npm test` sjekker dem alle.
 
 ## Bygging og publisering
 
-Hvert nettsted er sitt eget Cloudflare Pages-prosjekt koblet til dette repoet med Git-integrasjon. En push til `main`
-bygger og publiserer. Andre grener gir forhåndsvisninger. Innstillingene per nettsted står i [docs/hosting.md](docs/hosting.md).
+Hvert nettsted er sin egen Cloudflare Worker med statiske filer (Workers Builds med Git-integrasjon), koblet til dette
+repoet. En push til `main` bygger og publiserer. Andre grener lastes opp som forhåndsversjoner. Oppsettet for hver Worker
+ligger i `sites/<navn>/wrangler.jsonc`, og innstillingene i Cloudflare står i [docs/hosting.md](docs/hosting.md).
 
-Ingen API-nøkler eller wrangler-innlogging ligger i repoet. Cloudflare kobles til GitHub i Cloudflare-dashbordet.
+Ingen API-nøkler, kontoinformasjon eller wrangler-innlogging ligger i repoet. Cloudflare kobles til GitHub i
+Cloudflare-dashbordet.
 
 ## Designregler (kort)
 

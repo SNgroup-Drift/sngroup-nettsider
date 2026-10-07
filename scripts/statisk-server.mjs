@@ -1,6 +1,7 @@
 /**
- * Liten statisk server for bygde nettsteder. Løser stier slik Cloudflare Pages gjør:
- * / → index.html, /personvern → personvern.html. Brukes av sjekk-lenker.mjs og skjermbilder.mjs.
+ * Liten statisk server for bygde nettsteder. Løser stier slik Cloudflare Workers gjør med html_handling «auto-trailing-slash»:
+ * / → index.html, /personvern → personvern.html. Ukjente stier får 404.html med status 404, som
+ * not_found_handling «404-page» i wrangler.jsonc. Brukes av sjekk-lenker.mjs og skjermbilder.mjs.
  */
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
@@ -49,10 +50,16 @@ async function lesHoder(dist) {
 export async function startServer(dist) {
   const hoder = await lesHoder(dist);
   const server = createServer(async (req, res) => {
-    const fil = await finnFil(dist, req.url ?? "/");
+    let fil = await finnFil(dist, req.url ?? "/");
+    let status = 200;
     if (!fil) {
-      res.writeHead(404).end();
-      return;
+      // Som Workers med not_found_handling «404-page»: dist/404.html med status 404
+      fil = await finnFil(dist, "/404.html");
+      status = 404;
+      if (!fil) {
+        res.writeHead(404).end();
+        return;
+      }
     }
     const type = typer[extname(fil)] ?? "application/octet-stream";
     let innhold = await readFile(fil);
@@ -62,7 +69,7 @@ export async function startServer(dist) {
       innhold = gzipSync(innhold);
       ekstra["content-encoding"] = "gzip";
     }
-    res.writeHead(200, { ...hoder, ...ekstra, "content-type": type });
+    res.writeHead(status, { ...hoder, ...ekstra, "content-type": type });
     res.end(innhold);
   });
   return new Promise((ok) => server.listen(0, "127.0.0.1", () => ok(server)));

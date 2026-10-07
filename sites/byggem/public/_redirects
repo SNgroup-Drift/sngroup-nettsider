@@ -1,6 +1,6 @@
-# Omdirigeringer for byggem.no på Cloudflare Pages.
+# Omdirigeringer for byggem.no (Cloudflare Workers, statiske filer).
 #
-# www → apex: _redirects i Cloudflare Pages støtter bare stier, ikke domener, så
+# www → apex: _redirects støtter bare stier, ikke domener, så
 # «https://www.byggem.no/* https://byggem.no/:splat 301» blir ignorert her. www.byggem.no sendes til
 # https://byggem.no med en Redirect Rule i Cloudflare-sonen. Se docs/hosting.md, «www til apex».
 #

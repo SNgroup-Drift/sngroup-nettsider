@@ -1,6 +1,6 @@
-# Omdirigeringer for hengsel.no på Cloudflare Pages.
+# Omdirigeringer for hengsel.no (Cloudflare Workers, statiske filer).
 #
-# www → apex: _redirects i Cloudflare Pages støtter bare stier, ikke domener, så
+# www → apex: _redirects støtter bare stier, ikke domener, så
 # «https://www.hengsel.no/* https://hengsel.no/:splat 301» blir ignorert her. www.hengsel.no sendes til
 # https://hengsel.no med en Redirect Rule i Cloudflare-sonen. Se docs/hosting.md, «www til apex».
 #

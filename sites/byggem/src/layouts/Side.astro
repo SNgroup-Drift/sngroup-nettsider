@@ -10,5 +10,5 @@ const { title, description, noindex } = Astro.props;
 <BaseLayout title={title} description={description} noindex={noindex}>
   <SiteHeader ordmerke={selskap.merkenavn} />
   <slot />
-  <SiteFooter selskap={selskap.navn} orgnr={selskap.orgnr} adresse={selskap.adresse} epost={selskap.epost} />
+  <SiteFooter selskap={selskap.navn} orgnr={selskap.orgnr} epost={selskap.epost} />
 </BaseLayout>

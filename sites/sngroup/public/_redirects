@@ -1,6 +1,6 @@
-# Omdirigeringer for sngroup.no på Cloudflare Pages.
+# Omdirigeringer for sngroup.no (Cloudflare Workers, statiske filer).
 #
-# www → apex: _redirects i Cloudflare Pages støtter bare stier, ikke domener, så
+# www → apex: _redirects støtter bare stier, ikke domener, så
 # «https://www.sngroup.no/* https://sngroup.no/:splat 301» blir ignorert her. www.sngroup.no sendes til
 # https://sngroup.no med en Redirect Rule i Cloudflare-sonen. Se docs/hosting.md, «www til apex».
 #
