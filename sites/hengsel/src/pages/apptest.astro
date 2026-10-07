@@ -1,0 +1,173 @@
+---
+/**
+ * hengsel.no/apptest: slik installerer du testversjonen av montørappen (S-56, K-107).
+ * Fasit: docs/design/hengsel/apptest/Apptest.dc.html. Siden er nøytral (ingen butikknavn).
+ *
+ * Ligger bak passord: Workeren (worker/apptest.ts) slipper bare inn med gyldig informasjonskapsel.
+ * Siden står ikke i menyen, i sitemap.txt eller i lenker fra andre sider, og har noindex, nofollow.
+ * Telefonen gjenkjennes i scripts/apptest.ts. Uten skript vises begge knappene likt.
+ */
+import Side from "../layouts/Side.astro";
+
+// Byttes når Apple har godkjent betagjennomgangen. Står den som plassholder, vises «lenke kommer snart».
+const TESTFLIGHT_LENKE = "{{TESTFLIGHT_LENKE}}";
+const ANDROID_LENKE = "https://play.google.com/apps/internaltest/4701475978909247435";
+
+const iosKlar = !TESTFLIGHT_LENKE.startsWith("{{");
+
+const iphoneSteg = [
+  "Installer appen TestFlight fra App Store. Den er gratis og laget av Apple.",
+  "Åpne lenken du har fått på samme iPhone eller iPad.",
+  "Trykk Godta og deretter Installer i TestFlight.",
+  "Åpne Hengsel og logg inn med brukeren din.",
+  "Tillat kamera og Bluetooth når appen spør. Det trengs for skanning og laser.",
+];
+const androidSteg = [
+  "Gi Eirik e-postadressen til Google-kontoen du bruker på telefonen.",
+  "Når du er lagt til, åpner du lenken på telefonen og trykker Bli tester.",
+  "Trykk Last ned fra Google Play og installer Hengsel.",
+  "Logg inn med brukeren din.",
+  "Tillat kamera, Bluetooth og enheter i nærheten når appen spør.",
+];
+const problemer = [
+  ["Lenken sier at appen ikke er tilgjengelig", "Du er ikke lagt til ennå. Gi beskjed til Eirik."],
+  ["Laseren blir ikke funnet", "Slå på Bluetooth på telefonen, og trykk på Bluetooth-knappen på Bosch-laseren."],
+  ["Du kommer ikke inn", "Bruk samme e-post og passord som i CRM."],
+];
+const kort = [
+  { tittel: "iPhone og iPad", via: "via TestFlight", steg: iphoneSteg,
+    boks: "Nye versjoner kommer i TestFlight. Slå på automatiske oppdateringer der, så slipper du å gjøre noe.",
+    merknad: "En testversjon varer i 90 dager. Når en ny versjon er ute, oppdaterer TestFlight den." },
+  { tittel: "Android", via: "via Play Butikk", steg: androidSteg,
+    boks: "Har du en eldre testversjon (APK) av Hengsel, avinstaller den først. Ellers kan Play-versjonen ikke installeres.",
+    merknad: "Det kan ta opptil 30 minutter fra du er lagt til, til appen dukker opp i Play Butikk." },
+];
+---
+<Side
+  title="Slik installerer du Hengsel · Hengsel"
+  description="Slik installerer du testversjonen av montørappen Hengsel på iPhone, iPad eller Android."
+  robots="noindex, nofollow"
+>
+  <main id="innhold" class="apptest">
+    <section class="hero wrap" aria-labelledby="tittel">
+      <div class="tekst">
+        <span class="h-eyebrow">Montørappen · testversjon 1.3.0</span>
+        <h1 id="tittel">Slik installerer du Hengsel</h1>
+        <p class="h-lede">Appen er i test. Den ligger ikke i App Store eller Play Butikk ennå, så du kan ikke søke den opp der. Du trenger en invitasjon, og så følger du stegene for telefonen din.</p>
+      </div>
+      <div class="ikoncelle">
+        <div class="ikonflis">
+          <picture>
+            <source type="image/webp" media="(prefers-color-scheme: dark)" srcset="/apptest/hengsel-ikon-192-mork.webp 192w, /apptest/hengsel-ikon-384-mork.webp 384w" sizes="(min-width: 860px) 128px, 96px" />
+            <source type="image/png" media="(prefers-color-scheme: dark)" srcset="/apptest/hengsel-ikon-192-mork.png 192w, /apptest/hengsel-ikon-384-mork.png 384w" sizes="(min-width: 860px) 128px, 96px" />
+            <source type="image/webp" srcset="/apptest/hengsel-ikon-192.webp 192w, /apptest/hengsel-ikon-384.webp 384w" sizes="(min-width: 860px) 128px, 96px" />
+            <img class="ikon" src="/apptest/hengsel-ikon-192.png" srcset="/apptest/hengsel-ikon-192.png 192w, /apptest/hengsel-ikon-384.png 384w" sizes="(min-width: 860px) 128px, 96px" width="128" height="128" alt="" />
+          </picture>
+          <span>Hengsel</span>
+        </div>
+      </div>
+      <div class="lastned" data-lastned>
+        {iosKlar
+          ? <a class="h-btn stor" href={TESTFLIGHT_LENKE} data-enhet="iphone">iPhone og iPad – åpne i TestFlight</a>
+          : <button class="h-btn stor" type="button" disabled data-enhet="iphone">iPhone og iPad – lenke kommer snart</button>}
+        <a class="h-btn stor" href={ANDROID_LENKE} data-enhet="android">Android – bli tester og last ned</a>
+        <p class="h-dempet enhetslinje" data-enhetslinje data-ios-klar={iosKlar ? "ja" : "nei"}>Åpne denne siden på telefonen og trykk knappen for din telefon.</p>
+      </div>
+    </section>
+
+    <section class="steg" aria-label="Steg">
+      <div class="wrap kortrad">
+        {kort.map((k) => (
+          <div class="h-kort">
+            <div class="korthode">
+              <h2>{k.tittel}</h2>
+              <span class="h-dempet">{k.via}</span>
+            </div>
+            <ol>
+              {k.steg.map((s, i) => <li><span class="nr" aria-hidden="true">{i + 1}</span><span class="stegtekst">{s}</span></li>)}
+            </ol>
+            <p class="boks">{k.boks}</p>
+            <p class="merknad h-dempet">{k.merknad}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="hjelp" aria-labelledby="hjelp-tittel">
+      <div class="wrap">
+        <h2 id="hjelp-tittel">Hvis noe ikke virker</h2>
+        <dl>
+          {problemer.map(([sp, svar]) => (
+            <div class="rad">
+              <dt>{sp}</dt>
+              <dd class="h-dempet">{svar}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="merknad h-dempet versjon">Hengsel 1.3.0 · iPhone, iPad og Android</p>
+      </div>
+    </section>
+  </main>
+</Side>
+
+<script>
+  import "../scripts/apptest";
+</script>
+
+<style>
+  .apptest { flex: 1; }
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px;
+    padding-block: clamp(32px, 6vw, 80px) clamp(48px, 7vw, 96px);
+  }
+  .tekst { display: grid; gap: 16px; align-content: start; }
+  .tekst h1 { font-size: var(--t-hero); line-height: 1.02; margin: 0; }
+  .ikonflis {
+    background: var(--flate); border-radius: var(--radius-stor); padding: 28px 24px;
+    display: grid; justify-items: center; gap: 8px; font-size: 0.95rem; color: var(--tekst);
+  }
+  .ikon { display: block; width: 96px; height: 96px; border-radius: 22px; }
+  .lastned { display: grid; gap: 12px; max-width: 480px; }
+  .stor { min-height: 56px; padding: 0 28px; font-size: 1.125rem; width: 100%; box-sizing: border-box; white-space: normal; text-align: center; }
+  .stor.valgt { background: var(--tekst); color: var(--bakgrunn); }
+  .stor.valgt:hover { opacity: 0.88; }
+  .stor:disabled { opacity: 0.45; cursor: not-allowed; }
+  .stor:disabled:hover { background: transparent; color: var(--tekst); }
+  .stor.valgt:disabled:hover { background: var(--tekst); color: var(--bakgrunn); opacity: 0.45; }
+  .stor:disabled:active { transform: none; }
+  .enhetslinje { font-size: 1rem; padding-top: 4px; }
+
+  @media (min-width: 860px) {
+    .hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px 64px; align-items: start; }
+    .ikoncelle { grid-column: 2; grid-row: 1 / span 2; }
+    .lastned { grid-column: 1; grid-row: 2; }
+    .ikonflis { padding: 56px 32px; }
+    .ikon { width: 128px; height: 128px; border-radius: 29px; }
+  }
+
+  .steg { background: var(--flate); padding-block: clamp(48px, 7vw, 96px); }
+  .kortrad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px 24px; align-items: start; }
+  @media (min-width: 860px) { .kortrad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .h-kort { padding: 28px 24px; display: grid; gap: 24px; }
+  .korthode { display: grid; gap: 4px; }
+  .korthode h2 { font-size: var(--t-h2); line-height: 1.15; margin: 0; }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .nr {
+    width: 32px; height: 32px; border-radius: var(--radius-pille); background: var(--flate);
+    display: grid; place-items: center; font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums;
+  }
+  .stegtekst { padding-top: 3px; }
+  .boks { background: var(--flate-myk); border-radius: var(--radius-felt); padding: 14px 16px; }
+  .merknad { font-size: 0.92rem; }
+
+  .hjelp { padding-block: clamp(48px, 7vw, 96px); }
+  .hjelp .wrap { display: grid; gap: 24px; }
+  .hjelp h2 { font-size: var(--t-h1); line-height: 1.08; margin: 0; }
+  dl { margin: 0; border-top: 1px solid var(--linje); }
+  .rad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px 64px; padding-block: 20px; border-bottom: 1px solid var(--linje); }
+  @media (min-width: 860px) { .rad { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); } }
+  dt { font-weight: 600; }
+  dd { margin: 0; max-width: 62ch; }
+  .versjon { padding-top: 24px; }
+</style>

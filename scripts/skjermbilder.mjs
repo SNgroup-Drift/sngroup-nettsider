@@ -78,7 +78,7 @@ for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "pe
 
 // 2. 360 px uten vannrett rulling, og ingen konsollfeil, på alle sider
 for (const [navn, { base }] of Object.entries(servere)) {
-  const sider = navn === "sngroup" ? ["/", "/personvern", "/design", "/404"] : ["/", "/personvern", "/404"];
+  const sider = navn === "sngroup" ? ["/", "/personvern", "/design", "/404"] : navn === "hengsel" ? ["/", "/personvern", "/404", "/apptest", "/apptest/passord"] : ["/", "/personvern", "/404"];
   for (const sti of sider) {
     for (const modus of ["light", "dark"]) {
       const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, colorScheme: modus, isMobile: true, hasTouch: true });
