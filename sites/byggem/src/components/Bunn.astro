@@ -1,0 +1,43 @@
+---
+/**
+ * Bunnen på byggem.no: familiebåndet og bunnteksten, Mørkbrun i begge moduser. Fasit: docs/design/byggem/Bunn.dc.html.
+ * Ingen gateadresse. «org.nr.» med liten o.
+ */
+import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
+import Logo from "./Logo.astro";
+import { selskap } from "../content/selskap";
+---
+<div class="bunn">
+  <Familiebaand gjeldende="byggem.no" />
+  <footer>
+    <div class="wrap rad">
+      <div class="venstre">
+        <Logo negativ />
+        <p class="linje"><a href={selskap.telefonHref}>{selskap.telefon}</a> · <a href={`mailto:${selskap.epost}`}>{selskap.epost}</a> · byggem.no</p>
+        <p class="liten">Vi jobber i {selskap.omrade}.</p>
+      </div>
+      <div class="hoyre">
+        <a href="/personvern">Personvern</a>
+        <p>{selskap.navn} · org.nr. {selskap.orgnr}</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<style>
+  .bunn {
+    background: var(--band); color: var(--band-tekst); border-top: 1px solid var(--linje);
+    /* Familiebåndet i båndets farger */
+    --bakgrunn: var(--band); --tekst: var(--band-tekst); --tekst-dempet: var(--band-dempet);
+    --aksent: var(--band-aksent); --linje-svak: transparent;
+  }
+  .bunn :global([data-familiegrep="familiebaand"]) { border-bottom: 1px solid var(--kaffe); }
+  .rad { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 48px; padding-block: 64px; }
+  .venstre { display: flex; flex-direction: column; gap: 12px; }
+  .venstre :global(.logo) { align-self: flex-start; margin-bottom: 20px; }
+  .linje { font-size: 18px; line-height: 26px; }
+  .liten, .hoyre { font-size: 15px; line-height: 22px; }
+  .hoyre { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  a { color: var(--band-tekst); }
+  a:hover { color: var(--band-dempet); }
+</style>

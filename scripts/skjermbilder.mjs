@@ -3,7 +3,7 @@
  * Skjermbilder og nettlesersjekker med Playwright (Chromium).
  *
  *  - Skjermbilder av sngroup.no (/, /personvern, /design og 404) og hengsel.no (/, /personvern og 404) på desktop og mobil, lys og mørk,
- *    til docs/skjermbilder/ (hengsel.no-filene starter med «hengsel-»).
+ *    og byggem.no (/, /prosjekter, /kontakt, /personvern og 404) til docs/skjermbilder/ (filene starter med «hengsel-» og «byggem-»).
  *  - Alle sider på alle nettsteder: ingen vannrett rulling ved 360 px, ingen konsollfeil (CSP fra _headers gjelder).
  *  - Plantegningen: et klikk på et rom bytter tekst og åpner riktig rad.
  *  - hengsel.no: fanene bytter skjermbilde, «Se løsningen» huskes i localStorage («crm-tour»), og ingenting annet lagres.
@@ -54,13 +54,17 @@ for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "pe
   }
 }
 
-// 1b. Skjermbilder av hengsel.no
-for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }]) {
+// 1b. Skjermbilder av hengsel.no og byggem.no (filene starter med «hengsel-» og «byggem-»)
+const andreSider = [
+  ...[{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }].map((s) => ({ ...s, nett: "hengsel" })),
+  ...[{ sti: "/", fil: "forside" }, { sti: "/prosjekter", fil: "prosjekter" }, { sti: "/kontakt", fil: "kontakt" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }].map((s) => ({ ...s, nett: "byggem" })),
+];
+for (const side of andreSider) {
   for (const v of visninger) {
     for (const modus of ["light", "dark"]) {
       const ctx = await browser.newContext({ ...v, colorScheme: modus, reducedMotion: "reduce" });
       const page = await ctx.newPage();
-      await page.goto(servere.hengsel.base + side.sti, { waitUntil: "networkidle" });
+      await page.goto(servere[side.nett].base + side.sti, { waitUntil: "networkidle" });
       // Rull gjennom siden så alle skjermbildene (loading="lazy") er lastet før helsidebildet
       await page.evaluate(async () => {
         for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)); }
@@ -68,7 +72,7 @@ for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "pe
       });
       await page.waitForLoadState("networkidle");
       await page.evaluate(() => document.fonts.ready);
-      const fil = `hengsel-${side.fil}-${v.navn}-${modus === "light" ? "lys" : "mork"}.png`;
+      const fil = `${side.nett}-${side.fil}-${v.navn}-${modus === "light" ? "lys" : "mork"}.png`;
       await page.screenshot({ path: join(ut, fil), fullPage: true });
       console.log(`  bilde: docs/skjermbilder/${fil}`);
       await ctx.close();
@@ -78,7 +82,7 @@ for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "pe
 
 // 2. 360 px uten vannrett rulling, og ingen konsollfeil, på alle sider
 for (const [navn, { base }] of Object.entries(servere)) {
-  const sider = navn === "sngroup" ? ["/", "/personvern", "/design", "/404"] : ["/", "/personvern", "/404"];
+  const sider = navn === "sngroup" ? ["/", "/personvern", "/design", "/404"] : navn === "byggem" ? ["/", "/prosjekter", "/kontakt", "/personvern", "/404"] : ["/", "/personvern", "/404"];
   for (const sti of sider) {
     for (const modus of ["light", "dark"]) {
       const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, colorScheme: modus, isMobile: true, hasTouch: true });

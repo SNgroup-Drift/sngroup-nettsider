@@ -1,0 +1,29 @@
+---
+/**
+ * byggEM-logoen: positiv på lyse flater, negativ på mørke. Filene er nedskalert til 2x av
+ * docs/design/byggem/assets/logo-positiv.png og logo-negativ.png (vises 32 px høy).
+ * negativ = alltid den negative (på det mørke båndet). Ellers følger den lys/mørk modus.
+ */
+interface Props { negativ?: boolean; alt?: string }
+const { negativ = false, alt = "byggEM" } = Astro.props;
+---
+{negativ ? (
+  <img class="logo" src="/logo-negativ.png" alt={alt} width="112" height="32" />
+) : (
+  <span class="logo-par">
+    <img class="logo lys" src="/logo-positiv.png" alt={alt} width="112" height="32" />
+    <img class="logo mork" src="/logo-negativ.png" alt={alt} width="112" height="32" />
+  </span>
+)}
+
+<style>
+  .logo { display: block; height: 32px; width: auto; }
+  .logo-par { display: block; line-height: 0; }
+  .mork { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme="light"])) .lys { display: none; }
+    :global(html:not([data-theme="light"])) .mork { display: block; }
+  }
+  :global(html[data-theme="dark"]) .lys { display: none; }
+  :global(html[data-theme="dark"]) .mork { display: block; }
+</style>

@@ -1,0 +1,28 @@
+---
+/** Kontaktbåndet nederst på forsiden og prosjektsiden: Mørkbrun i begge moduser. Fasit: Forside.dc.html, #kontakt. */
+import { selskap } from "../content/selskap";
+interface Props { id?: string }
+const { id } = Astro.props;
+---
+<section id={id} class="kontaktbaand" aria-labelledby="kontakt-tittel">
+  <div class="wrap rad">
+    <div>
+      <p class="b-eyebrow etikett">Kontakt</p>
+      <h2 id="kontakt-tittel">Har dere en jobb til oss?</h2>
+      <p class="linje"><a href={selskap.telefonHref}>{selskap.telefon}</a> · <a href={`mailto:${selskap.epost}`}>{selskap.epost}</a> · {selskap.omrade}</p>
+    </div>
+    <a class="b-btn primar" href="/kontakt">Be om pris</a>
+  </div>
+</section>
+
+<style>
+  .kontaktbaand {
+    background: var(--band); color: var(--band-tekst); padding-block: var(--seksjon);
+  }
+  .rad { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; }
+  .etikett { color: var(--band-dempet); }
+  h2 { margin-top: 16px; }
+  .linje { margin-top: 16px; }
+  .linje a { color: var(--band-tekst); }
+  .linje a:hover { color: var(--band-dempet); }
+</style>

@@ -1,9 +1,10 @@
 ---
 /**
- * Felles ramme for alle sidene: <head>, skrifter, tokens og grunnstil.
+ * Felles ramme for alle sidene: <head>, tokens og grunnstil.
+ * Skriftene importeres av hvert nettsted (sngroup.no og hengsel.no: @sngroup/design/fonts.css), så byggem.no
+ * kan bruke Poppins og Inter uten å laste Newsreader.
  * Ingen sporing, ingen informasjonskapsler, ingen eksterne ressurser.
  */
-import "../styles/fonts.css";
 import "../styles/tokens.css";
 import "../styles/base.css";
 import newsreader from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
@@ -15,9 +16,32 @@ interface Props {
   /** Sti uten domene, f.eks. "/" eller "/personvern" */
   path?: string;
   noindex?: boolean;
+  /** og:description når den skal være kortere enn description */
+  ogBeskrivelse?: string;
+  /** Delingsbilde som full URL, f.eks. https://byggem.no/delingsbilde.png */
+  delingsbilde?: string;
+  /** Favikon (sti og type). Standard: /favicon.svg */
+  ikon?: { href: string; type: string };
+  /** apple-touch-icon (sti) */
+  appleIkon?: string;
+  /** Fargen i nettleserens adressefelt: [lys, mørk] */
+  temafarge?: [string, string];
+  /** Skriftfiler som skal forhåndslastes. Standard: Newsreader og Inter (sngroup.no og hengsel.no) */
+  forhandslast?: string[];
 }
 
-const { title, description, path = Astro.url.pathname, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  noindex = false,
+  ogBeskrivelse = description,
+  delingsbilde,
+  ikon = { href: "/favicon.svg", type: "image/svg+xml" },
+  appleIkon,
+  temafarge = ["#F7F5F1", "#1E1916"],
+  forhandslast = [newsreader, inter],
+} = Astro.props;
 const canonical = Astro.site ? new URL(path, Astro.site).href : undefined;
 ---
 <!doctype html>
@@ -30,14 +54,15 @@ const canonical = Astro.site ? new URL(path, Astro.site).href : undefined;
     {canonical && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={ogBeskrivelse} />
     <meta property="og:type" content="website" />
     {canonical && <meta property="og:url" content={canonical} />}
-    <meta name="theme-color" content="#F7F5F1" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1E1916" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href={newsreader} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={inter} as="font" type="font/woff2" crossorigin />
+    {delingsbilde && <meta property="og:image" content={delingsbilde} />}
+    <meta name="theme-color" content={temafarge[0]} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content={temafarge[1]} media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href={ikon.href} type={ikon.type} />
+    {appleIkon && <link rel="apple-touch-icon" href={appleIkon} />}
+    {forhandslast.map((f) => <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />)}
   </head>
   <body>
     <a class="skip" href="#innhold">Hopp til innholdet</a>
