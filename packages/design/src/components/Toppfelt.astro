@@ -2,7 +2,7 @@
 /**
  * Familiegrep: toppfeltet. Logo (slot «logo») eller ordmerke til venstre, korte lenker og én kontaktknapp til høyre.
  * Bruker bare semantiske variabler, så hvert nettsted får sine egne farger.
- * Fasit: docs/design/sngroup/Toppfelt.dc.html. hengsel.no bruker fast={true}, strek={true} og kontaktVariant="fylt".
+ * Fasit: docs/design/sngroup/Toppfelt.dc.html. hengsel.no bruker kompakt, fast, strek og kontaktVariant="fylt".
  */
 interface Lenke { href: string; label: string }
 interface Props {
@@ -21,6 +21,8 @@ interface Props {
   strek?: boolean;
   /** Bredden der de sekundære lenkene skjules */
   skjulUnder?: 640 | 900;
+  /** Fast høyde på 64 px (hengsel.no). Uten: 20 px luft over og under (sngroup.no, byggem.no). */
+  kompakt?: boolean;
 }
 const {
   hjem = "/",
@@ -32,10 +34,11 @@ const {
   fast = false,
   strek = false,
   skjulUnder = 640,
+  kompakt = false,
 } = Astro.props;
 const harLogo = Astro.slots.has("logo");
 ---
-<header class:list={["toppfelt", { fast, strek, [`skjul-${skjulUnder}`]: true }]} data-familiegrep="toppfelt">
+<header class:list={["toppfelt", { fast, strek, kompakt, [`skjul-${skjulUnder}`]: true }]} data-familiegrep="toppfelt">
   <div class="wrap">
     <nav class="rad" aria-label="Hovedmeny">
       <a href={hjem} class="ordmerke" aria-label={harLogo ? `${ordmerke} – forside` : undefined}>
@@ -53,7 +56,8 @@ const harLogo = Astro.slots.has("logo");
   .toppfelt { background: var(--bakgrunn); color: var(--tekst); }
   .toppfelt.fast { position: sticky; top: 0; z-index: 40; }
   .toppfelt.strek { border-bottom: 1px solid var(--linje); }
-  .rad { display: flex; justify-content: space-between; align-items: center; gap: 16px 24px; min-height: 64px; padding-block: 10px; }
+  .rad { display: flex; justify-content: space-between; align-items: center; gap: 16px 24px; padding-block: 20px; }
+  .kompakt .rad { min-height: 64px; padding-block: 10px; }
   .ordmerke {
     display: flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--tekst);
     font-family: var(--font-overskrift); font-size: 26px; line-height: 1.2;
@@ -68,7 +72,7 @@ const harLogo = Astro.slots.has("logo");
     border-radius: var(--radius-pille); font-weight: 500; font-size: 15px; text-decoration: none; white-space: nowrap;
     transition: opacity 160ms, background-color 160ms, color 160ms;
   }
-  .kontakt.omriss { border: 1px solid var(--linje-svak); color: var(--tekst); }
+  .kontakt.omriss { border: 1px solid var(--linje-svak); color: var(--tekst); padding-inline: 18px; }
   .kontakt.omriss:hover { border-color: var(--tekst); }
   .kontakt.fylt { background: var(--aksent); color: var(--pa-aksent); border: 1px solid var(--aksent); padding-inline: 22px; font-size: 16px; }
   .kontakt.fylt:hover { opacity: 0.88; }

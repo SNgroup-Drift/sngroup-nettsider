@@ -1,0 +1,23 @@
+---
+/**
+ * SN Group-logoen i toppfeltet, 40 px høy: lys utgave på lys bakgrunn og mørk utgave i mørk modus.
+ * Filene er docs/design/sngroup/assets/sngroup_logo(_mork).svg (bokstavene er konturer).
+ * Lenken rundt (Toppfelt) har tilgjengelig navn «SN Group – forside», så bildene er pynt for skjermlesere.
+ */
+---
+<span class="logo">
+  <img class="lys" src="/logo.svg" alt="" width="65" height="40" />
+  <img class="mork" src="/logo-mork.svg" alt="" width="65" height="40" />
+</span>
+
+<style>
+  .logo { display: inline-flex; }
+  img { height: 40px; width: auto; display: block; }
+  .mork { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme="light"])) .lys { display: none; }
+    :global(html:not([data-theme="light"])) .mork { display: block; }
+  }
+  :global(html[data-theme="dark"]) .lys { display: none; }
+  :global(html[data-theme="dark"]) .mork { display: block; }
+</style>

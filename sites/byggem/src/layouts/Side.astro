@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
 import SiteHeader from "@sngroup/design/components/SiteHeader.astro";
+import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
 import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
 import { selskap } from "../content/selskap";
 
@@ -10,5 +11,7 @@ const { title, description, noindex } = Astro.props;
 <BaseLayout title={title} description={description} noindex={noindex}>
   <SiteHeader ordmerke={selskap.merkenavn} />
   <slot />
-  <SiteFooter selskap={selskap.navn} orgnr={selskap.orgnr} epost={selskap.epost} />
+  <!-- Familiebåndet viser «En del av SN Group», så linjen er skjult i bunnteksten. SN-fargene til del 5. -->
+  <Familiebaand gjeldende="byggem.no" />
+  <SiteFooter selskap={selskap.navn} orgnr={selskap.orgnr} epost={selskap.epost} visDelAv={false} />
 </BaseLayout>

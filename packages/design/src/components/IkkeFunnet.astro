@@ -14,6 +14,8 @@ interface Props {
   oppsett?: "midt" | "side";
   /** tekst = knapp i tekstfargen (sngroup.no), aksent = knapp i aksentfargen (hengsel.no) */
   knapp?: "tekst" | "aksent";
+  /** eksempel = vises inne i en annen side (/design): <div> og tittel uten <h1>, så siden ikke får to hovedområder */
+  som?: "side" | "eksempel";
 }
 const {
   hjem = "/",
@@ -22,13 +24,16 @@ const {
   ingress,
   oppsett = "midt",
   knapp = "tekst",
+  som = "side",
 } = Astro.props;
+const Rot = som === "side" ? "main" : "div";
+const Tittel = som === "side" ? "h1" : "p";
 ---
-<main id="innhold" class:list={["ikke-funnet", oppsett]} data-familiegrep="404">
+<Rot id={som === "side" ? "innhold" : undefined} class:list={["ikke-funnet", oppsett, `som-${som}`]} data-familiegrep="404">
   <div class="wrap rutenett">
     <div class="tekst">
       <div class="etikett">404</div>
-      <h1>{tittel}</h1>
+      <Tittel class="tittel">{tittel}</Tittel>
       {ingress && <p class="ingress">{ingress}</p>}
       <p class="handling"><a href={hjem} class:list={["knapp", knapp]}>{hjemTekst} <span aria-hidden="true">→</span></a></p>
     </div>
@@ -36,13 +41,17 @@ const {
       {Astro.slots.has("tegning") ? <slot name="tegning" /> : <Plantegningsstrek rom="tomt" />}
     </div>
   </div>
-</main>
+</Rot>
 
 <style>
   .ikke-funnet { color: var(--tekst); flex: 1; }
   .rutenett { padding-block: clamp(64px, 10vw, 120px); display: grid; }
   .etikett { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tekst-dempet); }
-  h1 { margin-top: 20px; }
+  .tittel { margin-top: 20px; }
+  .som-eksempel .tittel {
+    margin-bottom: 0; font-family: var(--font-overskrift); font-weight: 300; font-size: clamp(40px, 6.2vw, 84px);
+    line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance;
+  }
   .ingress { margin: 20px 0 0; color: var(--tekst-dempet); font-size: 1.18rem; }
   .handling { margin: 40px 0 0; }
   .knapp {
@@ -50,7 +59,7 @@ const {
     font-weight: 500; text-decoration: none; transition: opacity 160ms;
   }
   .knapp:hover { opacity: 0.88; }
-  .knapp.tekst { background: var(--tekst); color: var(--bakgrunn); }
+  .knapp.tekst { background: var(--tekst); color: var(--bakgrunn); border: 1px solid var(--tekst); padding-inline: 18px; font-size: 15px; }
   .knapp.aksent { background: var(--aksent); color: var(--pa-aksent); }
   /* midt: tegningen over teksten, alt sentrert */
   .midt .rutenett { justify-items: center; text-align: center; }

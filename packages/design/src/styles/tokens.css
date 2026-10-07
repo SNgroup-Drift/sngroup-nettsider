@@ -47,7 +47,7 @@
   --font-tekst: "Inter Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 
   /* Mål */
-  --bredde: 1200px;
+  --bredde: 1180px;
   --gutter: clamp(16px, 4vw, 48px);
   --radius: 6px;
   --radius-pille: 999px;

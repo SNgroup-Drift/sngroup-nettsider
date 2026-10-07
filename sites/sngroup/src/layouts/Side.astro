@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
-import SiteHeader from "@sngroup/design/components/SiteHeader.astro";
+import Toppfelt from "@sngroup/design/components/Toppfelt.astro";
+import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
 import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
+import Logo from "../components/Logo.astro";
 import { selskap } from "../content/selskap";
 
 interface Props { title: string; description?: string; noindex?: boolean }
@@ -13,16 +15,20 @@ const {
 const hjem = Astro.url.pathname === "/" ? "" : "/";
 ---
 <BaseLayout title={title} description={description} noindex={noindex}>
-  <SiteHeader
+  <Toppfelt
+    hjem="/"
     ordmerke={selskap.merkenavn}
-    undertekst={selskap.navn}
     lenker={[
       { href: `${hjem}#virksomheter`, label: "Virksomheter" },
       { href: `${hjem}#hengsel`, label: "Hengsel" },
-      { href: `${hjem}#kontakt`, label: "Kontakt", primar: true },
     ]}
-  />
+    kontaktHref={`${hjem}#kontakt`}
+    kontaktTekst="Kontakt"
+  >
+    <Logo slot="logo" />
+  </Toppfelt>
   <slot />
+  <Familiebaand gjeldende="sngroup.no" />
   <SiteFooter
     selskap={selskap.navn}
     orgnr={selskap.orgnr}

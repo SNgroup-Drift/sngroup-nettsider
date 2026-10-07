@@ -8,7 +8,11 @@ import Section from "@sngroup/design/components/Section.astro";
 import Card from "@sngroup/design/components/Card.astro";
 import CompanyRow from "@sngroup/design/components/CompanyRow.astro";
 import ContactBlock from "@sngroup/design/components/ContactBlock.astro";
-import SiteHeader from "@sngroup/design/components/SiteHeader.astro";
+import Toppfelt from "@sngroup/design/components/Toppfelt.astro";
+import Plantegningsstrek from "@sngroup/design/components/Plantegningsstrek.astro";
+import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
+import IkkeFunnet from "@sngroup/design/components/IkkeFunnet.astro";
+import Logo from "../components/Logo.astro";
 import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
 import PrivacyPage from "@sngroup/design/components/PrivacyPage.astro";
 
@@ -21,6 +25,7 @@ const lys = [
   { navn: "fjord", hex: "#46698F", bruk: "Aksent, sparsomt" },
   { navn: "dis", hex: "#93A3B6", bruk: "Myk aksent" },
 ];
+const lenkerDemo = [{ href: "#familiegrep", label: "Om" }];
 const mork = [
   { navn: "bakgrunn", hex: "#1E1916", bruk: "Bakgrunn" },
   { navn: "flate", hex: "#29221D", bruk: "Flater" },
@@ -86,7 +91,7 @@ const par = [
         ))}
       </ul>
       <h3 class="under">Kontrast (WCAG)</h3>
-      <div class="tabell">
+      <div class="tabell" tabindex="0" role="region" aria-label="Kontrasttabell">
         <table>
           <thead><tr><th scope="col">Par</th><th scope="col">Kontrast</th><th scope="col">Bruk</th></tr></thead>
           <tbody>
@@ -124,14 +129,49 @@ const par = [
       </div>
     </Section>
 
-    <Section id="komponenter" label="Komponenter" flate>
+    <Section id="familiegrep" label="Familiegrep" flate>
+      <Fragment slot="tittel">Ett hus, flere <em>rom</em>.</Fragment>
+      <Fragment slot="ingress">Likt på sngroup.no, hengsel.no og byggem.no. Hver side har egne farger og skrifter. Formen er den samme: toppfelt, plantegningsstrek, familiebånd og 404. Seksjonene kommer i samme rekkefølge: hero · hva vi gjør · slik jobber vi · kontakt. Maks innholdsbredde 1180 px.</Fragment>
+
+      <h3 class="under forst">Toppfelt</h3>
+      <p class="liten">Logo til venstre, kort meny til høyre og én kontaktknapp. Menylenkene skjules under 640 px, kontaktknappen blir stående.</p>
+      <div class="stabel">
+        <div class="label">sngroup.no</div>
+        <div class="ramme"><Toppfelt ordmerke="SN Group" lenker={lenkerDemo} kontaktHref="#familiegrep"><Logo slot="logo" /></Toppfelt></div>
+        <div class="label luft">hengsel.no</div>
+        <div class="ramme tema-hengsel"><Toppfelt ordmerke="Hengsel" lenker={lenkerDemo} kontaktHref="#familiegrep" /></div>
+        <div class="label luft">byggem.no</div>
+        <div class="ramme tema-byggem"><Toppfelt ordmerke="byggEM" lenker={lenkerDemo} kontaktHref="#familiegrep" /></div>
+      </div>
+
+      <h3 class="under">Plantegningsstrek</h3>
+      <p class="liten">Tynn arkitektstrek, 1,5 px uansett størrelse, målestokk 1:50 og mål i mm, i sidens tekstfarge. Hengselpunktet i aksentfargen. sngroup.no viser hele huset, hengsel.no rommet Entré og byggem.no rommet Verksted.</p>
+      <div class="planer">
+        <div class="plankort"><div class="label">sngroup.no · huset</div><Plantegningsstrek rom="hus" /></div>
+        <div class="plankort tema-hengsel"><div class="label">hengsel.no · Entré</div><Plantegningsstrek rom="entre" /></div>
+        <div class="plankort tema-byggem"><div class="label">byggem.no · Verksted</div><Plantegningsstrek rom="verksted" /></div>
+      </div>
+
+      <h3 class="under">Familiebånd</h3>
+      <p class="liten">Nederst, rett over bunnteksten. SN Group-symbolet (rommet sett ovenfra), «En del av SN Group» og lenker til søstersidene. Siden du står på er markert og ikke lenket.</p>
+      <div class="stabel">
+        <div class="ramme"><Familiebaand gjeldende="sngroup.no" /></div>
+        <div class="ramme tema-hengsel"><Familiebaand gjeldende="hengsel.no" /></div>
+        <div class="ramme tema-byggem"><Familiebaand gjeldende="byggem.no" /></div>
+      </div>
+
+      <h3 class="under">404</h3>
+      <p class="liten">Samme side på alle tre: et tomt rom i plantegningsstrek, «Dette rommet finnes ikke.» og lenke hjem. Se <a href="/404">404-siden</a>.</p>
+      <div class="planer">
+        <div class="ramme liten-404"><IkkeFunnet som="eksempel" hjem="#familiegrep" /></div>
+        <div class="ramme liten-404 tema-hengsel"><IkkeFunnet som="eksempel" hjem="#familiegrep" /></div>
+        <div class="ramme liten-404 tema-byggem"><IkkeFunnet som="eksempel" hjem="#familiegrep" /></div>
+      </div>
+    </Section>
+
+    <Section id="komponenter" label="Komponenter">
       <Fragment slot="tittel">Byggeklosser</Fragment>
       <Fragment slot="ingress">Astro-komponenter i packages/design/src/components.</Fragment>
-
-      <h3 class="under">SiteHeader</h3>
-      <div class="ramme">
-        <SiteHeader ordmerke="Hengsel" lenker={[{ href: "#komponenter", label: "Om" }, { href: "#komponenter", label: "Kontakt", primar: true }]} />
-      </div>
 
       <h3 class="under">Knapper</h3>
       <p class="knapper">
@@ -183,9 +223,9 @@ const par = [
       </div>
 
       <h3 class="under">SiteFooter</h3>
-      <p class="liten">Slik ser bunnteksten ut på hengsel.no og byggem.no, med «En del av SN Group». På sngroup.no er den linjen skjult.</p>
+      <p class="liten">Bunnteksten under familiebåndet. «En del av SN Group» står i familiebåndet, så linjen er skjult i bunnteksten på alle tre sidene.</p>
       <div class="ramme">
-        <SiteFooter selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" />
+        <SiteFooter selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" visDelAv={false} />
       </div>
     </Section>
   </main>
@@ -222,7 +262,32 @@ const par = [
   .in-15 { font-size: 15px; }
   .in-15 b { font-weight: 500; }
   .in-15 .v600 { font-weight: 600; }
-  .liten { font-size: 14px; color: var(--tekst-dempet); }
+  .liten { font-size: 14px; color: var(--tekst-dempet); margin: 0 0 16px; max-width: 62ch; }
+  .liten a { color: var(--tekst); text-underline-offset: 3px; }
+
+  /* Familiegrep: eksempler i fargene til hver side (verdier fra docs/design/sngroup/Design.dc.html) */
+  .stabel { display: grid; gap: 12px; }
+  .luft { margin-top: 12px; }
+  #familiegrep .under:not(.forst) { margin-top: 56px; margin-bottom: 8px; }
+  #familiegrep .forst { margin-bottom: 8px; }
+  .planer { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+  .plankort {
+    border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); color: var(--tekst);
+    padding: 18px; display: grid; gap: 12px; align-content: start;
+  }
+  .liten-404 { zoom: 0.62; }
+  .tema-hengsel {
+    --bakgrunn: #fbf9f6; --flate: #f2e9db; --linje: #e4d4c4; --linje-svak: rgb(49 38 29 / 0.14); --ikon: #c3b5a7;
+    --tekst: #31261d; --tekst-dempet: rgb(49 38 29 / 0.74); --aksent: #5074a9; --pa-aksent: #fbf9f6; --radius: 14px;
+    color: var(--tekst);
+  }
+  .tema-byggem {
+    --bakgrunn: #faf8f5; --flate: #efeae4; --linje: #c3b5a7; --linje-svak: rgb(49 38 29 / 0.14); --ikon: #c3b5a7;
+    --tekst: #31261d; --tekst-dempet: #6b5b4a; --aksent: #a25a32; --pa-aksent: #faf8f5; --radius: 4px; --radius-pille: 2px;
+    /* Poppins kommer med byggem.no (del 5). Til da vises reserveskriften. */
+    --font-overskrift: "Poppins", "Helvetica Neue", Arial, sans-serif;
+    color: var(--tekst);
+  }
   .ramme { border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); overflow: hidden; }
   .innrykk { padding: 24px; }
   .knapper { display: flex; gap: 12px; flex-wrap: wrap; margin: 0; }

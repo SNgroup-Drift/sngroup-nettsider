@@ -2,6 +2,7 @@
  * Virksomhetene på sngroup.no, i fast rekkefølge.
  *
  * Tekstene er hentet fra dagens sngroup.no (forslag D). ByggEM og Investeringer er godkjent av Eirik 07.10.2026.
+ * «byggEM» skrives slik (byggEMs egen skrivemåte), og «byggEM AS» i teksten (docs/design/sngroup/Endringer.md, punkt 2).
  * Mangler en tekst, bruk PLASSHOLDER og `plassholder: true` (vises i kursiv), og merk feltet med TODO.
  * Ikke fyll inn tall, selskaper, kunder eller eiendommer som ikke er bekreftet av Eirik.
  */
@@ -59,9 +60,9 @@ export const virksomheter: Virksomhet[] = [
   },
   {
     id: "byggem",
-    navn: "ByggEM AS",
+    navn: "byggEM",
     tekst:
-      "ByggEM AS gjør snekkerarbeid og monterer kjøkken og innredning, dører og vinduer. Selskapet er heleid av SN Group.",
+      "byggEM AS gjør snekkerarbeid og monterer kjøkken og innredning, dører og vinduer. Selskapet er heleid av SN Group.",
     kort: "Snekkerarbeid og montering av kjøkken, innredning, dører og vinduer.",
     stikkord: [],
     lenker: [{ href: "https://byggem.no", label: "byggem.no" }],

@@ -1,15 +1,7 @@
 ---
 import Side from "../layouts/Side.astro";
+import IkkeFunnet from "@sngroup/design/components/IkkeFunnet.astro";
 ---
 <Side title="Siden finnes ikke | SN Group" noindex>
-  <main id="innhold" class="wrap ikke-funnet">
-    <h1>404</h1>
-    <p>Siden finnes ikke.</p>
-    <p><a href="/" class="pill solid">Til forsiden</a></p>
-  </main>
+  <IkkeFunnet />
 </Side>
-
-<style>
-  .ikke-funnet { padding-block: 120px; text-align: center; }
-  p { margin-top: 16px; }
-</style>

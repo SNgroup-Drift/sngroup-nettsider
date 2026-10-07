@@ -2,7 +2,7 @@
 /**
  * Skjermbilder og nettlesersjekker med Playwright (Chromium).
  *
- *  - Skjermbilder av sngroup.no (/ og /design) og hengsel.no (/, /personvern og 404) på desktop og mobil, lys og mørk,
+ *  - Skjermbilder av sngroup.no (/, /personvern, /design og 404) og hengsel.no (/, /personvern og 404) på desktop og mobil, lys og mørk,
  *    til docs/skjermbilder/ (hengsel.no-filene starter med «hengsel-»).
  *  - Alle sider på alle nettsteder: ingen vannrett rulling ved 360 px, ingen konsollfeil (CSP fra _headers gjelder).
  *  - Plantegningen: et klikk på et rom bytter tekst og åpner riktig rad.
@@ -39,7 +39,7 @@ const visninger = [
   { navn: "desktop", viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
   { navn: "mobil", viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
 ];
-for (const side of [{ sti: "/", fil: "forside" }, { sti: "/design", fil: "design" }]) {
+for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "personvern" }, { sti: "/design", fil: "design" }, { sti: "/finnes-ikke", fil: "404" }]) {
   for (const v of visninger) {
     for (const modus of ["light", "dark"]) {
       const ctx = await browser.newContext({ ...v, colorScheme: modus, reducedMotion: "reduce" });
