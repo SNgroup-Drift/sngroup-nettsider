@@ -142,13 +142,12 @@ Alle bildene ligger i `docs/skjermbilder/`. Desktop er 1440 px, mobil er 390 px 
 
 ## Plassholdere som venter på tekst
 
+Tekstene til ByggEM og Investeringer og org.nr. for ByggEM AS er fylt inn. Se «Oppfølging 07.10» nederst.
+
 | Fil | Felt | Hva mangler |
 |---|---|---|
-| `sites/sngroup/src/content/virksomheter.ts` | ByggEM AS: `tekst`, `kort`, `stikkord` | Kort tekst om ByggEM. Dagens side har ingen. Vises nå som «Tekst kommer.» i kursiv |
-| `sites/sngroup/src/content/virksomheter.ts` | Investeringer: `tekst`, `kort` | Kort tekst om investeringene. Dagens side sier bare «eierskap i andre selskaper» (i ingressen). Vises som «Tekst kommer.» |
-| `sites/byggem/src/content/selskap.ts` | `orgnr`, `adresse` | Org.nr. og adresse for ByggEM AS. Vises nå som «[org.nr. mangler]» og «[adresse mangler]» i bunnteksten på byggem.no |
-| `sites/byggem/src/content/selskap.ts` | `epost` | Egen e-post for ByggEM? Bruker drift@sngroup.no inntil videre |
-| `sites/byggem/src/content/personvern.ts` | `behandlingsansvarlig`, avsnitt | Org.nr. og full personvernerklæring (del 2) |
+| `sites/byggem/src/content/selskap.ts` | `adresse` | Adressen til ByggEM AS. Vises som «[adresse mangler]» i bunnteksten på byggem.no |
+| `sites/byggem/src/content/personvern.ts` | avsnitt | Full personvernerklæring for ByggEM AS (del 2) |
 | `sites/hengsel/src/content/personvern.ts` | avsnitt | Personvern for CRM by Hengsel (del 2). Siden sier nå at nettstedet ikke har cookies eller sporing, og lenker til sngroup.no/personvern for montørappen |
 
 Søk etter `TODO` i repoet for å finne alle.
@@ -169,3 +168,45 @@ gjøres med en Redirect Rule i hver sone, med malen «Redirect from WWW to root�
 
 - Innhold på hengsel.no og byggem.no.
 - Lighthouse mot de publiserte domenene. Kjør det når Pages-prosjektene er koblet til. Tallene over er fra lokal kjøring.
+
+## Oppfølging 07.10: tekst til ByggEM og Investeringer
+
+Tekstene er godkjent av Eirik 07.10.2026. Arbeidet ble gjort på grenen `claude/k87-tekst` og flettet til `main`.
+
+Endringene ligger i commit `a62a552`. Denne rapportoppdateringen kommer i en egen commit rett etter.
+
+**Gjort**
+
+- **`sites/sngroup/src/content/virksomheter.ts`:**
+  - ByggEM og Investeringer har fått kortteksten og den lange teksten ordrett.
+  - Plassholderne og TODO-ene for disse tekstene er fjernet.
+- **icgroup.no-lenken** i Investeringer åpnes i ny fane med `target="_blank" rel="noopener"`.
+  - Lenken har en skjult tekst for skjermlesere: «(åpnes i ny fane)».
+  - `CompanyRow` har fått feltet `tekstHtml`, så en rad kan ha lenker i teksten.
+- **byggem.no:**
+  - Bunnteksten er nå «© 2026 ByggEM AS · org.nr. 932 104 148 · [adresse mangler] · drift@sngroup.no».
+  - Org.nr. står også som behandlingsansvarlig på `/personvern`.
+  - TODO-en for adresse står igjen.
+  - TODO-en for e-post er fjernet: drift@sngroup.no er bestemt.
+
+**Sjekker**
+
+| Sjekk | Resultat |
+|---|---|
+| `npm run build` | Grønt for alle tre nettstedene |
+| `npm test` | 53 forespørsler, 0 feil |
+| `npm run skjermbilder` | 0 feil: 360 px, lys og mørk, konsoll og CSP, og plantegningen 5 av 5. Skjermbildene i `docs/skjermbilder/` er tatt på nytt |
+| Lighthouse, forsiden mobil | Ytelse 99, tilgjengelighet 100, beste praksis 100, SEO 100. Desktop: 100 på alle |
+
+**Avvik**
+
+1. **Formatet i bunnteksten gjelder alle nettstedene.** Bestillingen gjaldt bunnteksten på byggem.no, men den kommer fra
+   den felles komponenten `SiteFooter`. Feltene skilles nå med « · » og skrives «org.nr.» med liten forbokstav på alle
+   tre nettstedene. På sngroup.no står det derfor «© 2026 ES-HOLDING AS · org.nr. 927 363 585 · …».
+2. **«© 2026» står foran selskapsnavnet**, som før. Linjen i bestillingen startet med «ByggEM AS».
+3. **ByggEM-raden har ingen stikkord.** Ingen stikkord var godkjent.
+4. **Raden «Plassholder»** på `/design` er et eksempel på komponenten, ikke innhold, og står der fortsatt.
+
+Det er ikke gjort noe med Cloudflare, DNS eller domener.
+
+K-87 TEKST INNE
