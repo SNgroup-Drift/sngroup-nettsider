@@ -9,13 +9,15 @@ interface Props {
   navn: string;
   undertittel?: string;
   tekst: string;
+  /** Teksten med lenker (HTML fra sidens egen content-fil, aldri fra brukere). Brukes i stedet for tekst. */
+  tekstHtml?: string;
   stikkord?: string[];
   lenker?: Lenke[];
   apen?: boolean;
   /** Teksten mangler og er en plassholder */
   plassholder?: boolean;
 }
-const { id, navn, undertittel, tekst, stikkord = [], lenker = [], apen = false, plassholder = false } = Astro.props;
+const { id, navn, undertittel, tekst, tekstHtml, stikkord = [], lenker = [], apen = false, plassholder = false } = Astro.props;
 const ekstern = (href: string) => /^https?:/.test(href);
 ---
 <details class="rad" id={`rad-${id}`} data-rad={id} open={apen}>
@@ -27,7 +29,11 @@ const ekstern = (href: string) => /^https?:/.test(href);
     <span class="pluss" aria-hidden="true">+</span>
   </summary>
   <div class="innhold">
-    <p class:list={{ plassholder }} data-plassholder={plassholder ? "" : undefined}>{tekst}</p>
+    {tekstHtml ? (
+      <p set:html={tekstHtml} />
+    ) : (
+      <p class:list={{ plassholder }} data-plassholder={plassholder ? "" : undefined}>{tekst}</p>
+    )}
     <div class="side">
       {stikkord.length > 0 && (
         <ul class="stikkord" aria-label="Stikkord">
@@ -82,6 +88,7 @@ const ekstern = (href: string) => /^https?:/.test(href);
   }
   .innhold > p { margin: 0; color: var(--tekst-dempet); max-width: 56ch; }
   .plassholder { font-style: italic; }
+  .innhold > p :global(a) { color: var(--tekst); text-underline-offset: 3px; }
   .side { display: grid; gap: 16px; align-content: start; }
   .stikkord { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; flex-wrap: wrap; }
   .stikkord li {

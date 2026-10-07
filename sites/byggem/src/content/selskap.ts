@@ -2,8 +2,8 @@
 export const selskap = {
   navn: "ByggEM AS",
   merkenavn: "ByggEM",
-  // TODO(Eirik): org.nr., adresse og e-post for ByggEM AS. Ikke gjett.
-  orgnr: "[org.nr. mangler]",
+  orgnr: "932 104 148",
+  // TODO(Eirik): adressen til ByggEM AS. Ikke gjett.
   adresse: "[adresse mangler]",
-  epost: "drift@sngroup.no", // TODO(Eirik): egen e-post for ByggEM? Midlertidig drift@sngroup.no.
+  epost: "drift@sngroup.no",
 } as const;

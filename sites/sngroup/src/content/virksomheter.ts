@@ -1,9 +1,9 @@
 /**
  * Virksomhetene på sngroup.no, i fast rekkefølge.
  *
- * Tekstene er hentet fra dagens sngroup.no (forslag D). Der dagens side ikke har tekst, står det en plassholder
- * merket TODO, og `plassholder: true` gjør at teksten vises i kursiv. Ikke fyll inn tall, selskaper, kunder eller
- * eiendommer som ikke er bekreftet av Eirik.
+ * Tekstene er hentet fra dagens sngroup.no (forslag D). ByggEM og Investeringer er godkjent av Eirik 07.10.2026.
+ * Mangler en tekst, bruk PLASSHOLDER og `plassholder: true` (vises i kursiv), og merk feltet med TODO.
+ * Ikke fyll inn tall, selskaper, kunder eller eiendommer som ikke er bekreftet av Eirik.
  */
 
 export type VirksomhetId = "kjokken" | "hengsel" | "byggem" | "eiendom" | "investeringer";
@@ -15,6 +15,8 @@ export interface Virksomhet {
   undertittel?: string;
   /** Lengre tekst i raden under «Virksomheter» */
   tekst: string;
+  /** Samme tekst med lenker (HTML), når teksten har lenker. Brukes i raden i stedet for `tekst`. */
+  tekstHtml?: string;
   /** Kort tekst i plantegningen */
   kort: string;
   stikkord: string[];
@@ -58,16 +60,13 @@ export const virksomheter: Virksomhet[] = [
   {
     id: "byggem",
     navn: "ByggEM AS",
-    // TODO(Eirik): kort tekst om ByggEM AS. Dagens sngroup.no har ingen tekst om ByggEM.
-    tekst: PLASSHOLDER,
-    // TODO(Eirik): én setning til plantegningen.
-    kort: PLASSHOLDER,
-    // TODO(Eirik): stikkord, hvis ønsket.
+    tekst:
+      "ByggEM AS gjør snekkerarbeid og monterer kjøkken og innredning, dører og vinduer. Selskapet er heleid av SN Group.",
+    kort: "Snekkerarbeid og montering av kjøkken, innredning, dører og vinduer.",
     stikkord: [],
     lenker: [{ href: "https://byggem.no", label: "byggem.no" }],
     planLenke: { href: "#rad-byggem", label: "Les mer" },
     rom: { navn: "VERKSTED", merke: "7,2 m²" },
-    plassholder: true,
   },
   {
     id: "eiendom",
@@ -82,15 +81,14 @@ export const virksomheter: Virksomhet[] = [
   {
     id: "investeringer",
     navn: "Investeringer",
-    // TODO(Eirik): kort tekst om investeringene. Dagens side sier bare at ES-HOLDING AS har «eierskap i andre
-    // selskaper» (står i ingressen over radene). Ikke nevn selskaper eller beløp før det er bekreftet.
-    tekst: PLASSHOLDER,
-    // TODO(Eirik): én setning til plantegningen.
-    kort: PLASSHOLDER,
+    tekst:
+      "Vi utvikler og leier ut boliger, blant annet fire boliger i rekke i Trymsvei 8 gjennom Vass Boligutvikling AS. I tillegg er vi en av flere eiere i regnskapsselskapet Iconomy (icgroup.no).",
+    tekstHtml:
+      'Vi utvikler og leier ut boliger, blant annet fire boliger i rekke i Trymsvei 8 gjennom Vass Boligutvikling AS. I tillegg er vi en av flere eiere i regnskapsselskapet Iconomy (<a href="https://icgroup.no" target="_blank" rel="noopener">icgroup.no<span class="visually-hidden"> (åpnes i ny fane)</span></a>).',
+    kort: "Eiendom og eierskap i andre selskaper.",
     stikkord: [],
     lenker: [],
     planLenke: { href: "#rad-investeringer", label: "Les mer" },
     rom: { navn: "SOVEROM", merke: "14,7 m²" },
-    plassholder: true,
   },
 ];

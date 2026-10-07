@@ -27,10 +27,7 @@ const ar = new Date().getFullYear();
   <div class="wrap">
     <div class="rad">
       <p class="selskap">
-        <span>© {ar} {selskap}</span>
-        <span>Org.nr. {orgnr}</span>
-        <span>{adresse}</span>
-        <a href={`mailto:${epost}`}>{epost}</a>
+        © {ar} {selskap}<span class="skille" aria-hidden="true"> · </span>org.nr. {orgnr}<span class="skille" aria-hidden="true"> · </span>{adresse}<span class="skille" aria-hidden="true"> · </span><a href={`mailto:${epost}`}>{epost}</a>
       </p>
       <p class="lenker">
         <a href={personvern}>{personvernTekst}</a>
@@ -53,7 +50,8 @@ const ar = new Date().getFullYear();
     flex-wrap: wrap;
     padding-block: 28px;
   }
-  p { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  p { margin: 0; }
+  .lenker { display: flex; flex-wrap: wrap; gap: 4px 20px; }
   a { color: inherit; text-underline-offset: 3px; }
   .lenker a { display: inline-block; padding-block: 2px; }
 </style>

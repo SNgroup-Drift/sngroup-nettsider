@@ -4,7 +4,7 @@ import type { Avsnitt } from "@sngroup/design/types";
 export const personvern = {
   tittel: "Personvern på",
   tittelAksent: "byggem.no",
-  behandlingsansvarlig: "ByggEM AS", // TODO(Eirik): org.nr.
+  behandlingsansvarlig: "ByggEM AS (org.nr. 932 104 148)",
   kontakt: "drift@sngroup.no",
   avsnitt: [
     {
