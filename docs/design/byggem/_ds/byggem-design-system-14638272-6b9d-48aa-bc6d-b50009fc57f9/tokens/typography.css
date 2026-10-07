@@ -1,0 +1,33 @@
+/* byggEM – typografi. Poppins til titler, Inter til all løpende tekst. */
+:root{
+--font-display:"Poppins","Helvetica Neue",Arial,sans-serif;
+--font-body:"Inter","Helvetica Neue",Arial,sans-serif;
+--type-display-size:64px;--type-display-lh:1;--type-display-weight:300;--type-display-tracking:-0.02em;
+--type-h1-size:44px;--type-h1-lh:1.05;--type-h1-weight:300;--type-h1-tracking:-0.02em;
+--type-h2-size:32px;--type-h2-lh:1.1;--type-h2-weight:400;--type-h2-tracking:-0.01em;
+--type-h3-size:22px;--type-h3-lh:1.2;--type-h3-weight:500;
+--type-ingress-size:26px;--type-ingress-lh:34px;
+--type-mellomtittel-size:18px;--type-mellomtittel-lh:24px;--type-mellomtittel-weight:600;
+--type-body-size:18px;--type-body-lh:26px;
+--type-body-sm-size:15px;--type-body-sm-lh:22px;
+--type-button-size:17px;--type-button-lh:20px;--type-button-weight:500;
+--type-label-size:14px;--type-label-lh:18px;--type-label-weight:500;
+--type-caption-size:13px;--type-caption-lh:18px;
+--type-stat-size:56px;
+}
+.t-display{font-family:var(--font-display);font-size:64px;line-height:1;font-weight:300;letter-spacing:-0.02em;}
+.t-h1{font-family:var(--font-display);font-size:44px;line-height:1.05;font-weight:300;letter-spacing:-0.02em;}
+.t-h2{font-family:var(--font-display);font-size:32px;line-height:1.1;font-weight:400;letter-spacing:-0.01em;}
+.t-h3-display{font-family:var(--font-display);font-size:22px;line-height:1.2;font-weight:500;}
+.t-ingress{font-family:var(--font-body);font-size:26px;line-height:34px;font-weight:400;}
+.t-mellomtittel{font-family:var(--font-body);font-size:18px;line-height:24px;font-weight:600;}
+.t-body{font-family:var(--font-body);font-size:18px;line-height:26px;font-weight:400;}
+.t-body-sm{font-family:var(--font-body);font-size:15px;line-height:22px;font-weight:400;}
+.t-button{font-family:var(--font-body);font-size:17px;line-height:20px;font-weight:500;}
+.t-label{font-family:var(--font-body);font-size:14px;line-height:18px;font-weight:500;}
+.t-caption{font-family:var(--font-body);font-size:13px;line-height:18px;font-weight:400;}
+@media (max-width:767px){
+.t-display{font-size:40px;}
+.t-h1{font-size:32px;}
+.t-ingress{font-size:20px;line-height:28px;}
+}

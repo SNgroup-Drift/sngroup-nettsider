@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Siden finnes ikke | byggEM</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/base.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/components/components.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/styles.css">
+  <script src="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: var(--surface); color: var(--ink); }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+  </style>
+</helmet>
+<div ref="{{ root }}" data-theme="{{ theme }}" style="background: var(--surface); color: var(--ink); font-family: var(--font-body); min-height: 100vh; display: flex; flex-direction: column">
+  <dc-import name="Sidehode" hjem="Forside.dc.html" mork="{{ mork }}" style="position: sticky; top: 0; z-index: 40" hint-size="100%,81px"></dc-import>
+  <main id="innhold" data-familiegrep="404" data-screen-label="404" style="flex: 1">
+    <div style="max-width: 1180px; margin: 0 auto; padding: clamp(64px, 10vw, 120px) clamp(16px, 4vw, 40px); display: grid; justify-items: center; text-align: center">
+      <div style="width: min(280px, 100%)">
+        <dc-import name="Plantegning Verksted" mangler="{{ true }}" hint-size="100%,210px"></dc-import>
+      </div>
+      <p style="margin: 40px 0 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">404</p>
+      <h1 class="t-h1" style="margin: 20px 0 0">Dette rommet finnes ikke.</h1>
+      <div style="margin-top: 40px">
+        <x-import component-from-global-scope="ByggEMDesignSystem_146382.Button" variant="primary" href="Forside.dc.html" hint-size="160px,48px">Til forsiden <span aria-hidden="true">→</span></x-import>
+      </div>
+    </div>
+  </main>
+  <dc-import name="Bunn" hint-size="100%,300px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;system&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;system&quot;,&quot;tsType&quot;:&quot;'system' | 'lys' | 'mørk'&quot;}}">
+class Component extends DCLogic {
+  state = { sysDark: false };
+  componentDidMount() {
+    this.mq = matchMedia('(prefers-color-scheme: dark)');
+    this.mqh = () => this.setState({ sysDark: this.mq.matches });
+    this.mq.addEventListener('change', this.mqh); this.mqh();
+  }
+  componentDidUpdate() { document.documentElement.setAttribute('data-theme', this.isDark() ? 'dark' : 'light'); }
+  componentWillUnmount() { this.mq && this.mq.removeEventListener('change', this.mqh); }
+  isDark() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q === 'mork' || q === 'mørk' ? 'mørk' : q === 'lys' ? 'lys' : (this.props.tema ?? 'system');
+    return t === 'mørk' ? true : t === 'lys' ? false : this.state.sysDark;
+  }
+  renderVals() {
+    const mork = this.isDark();
+    return { root: React.createRef(), theme: mork ? 'dark' : 'light', mork };
+  }
+}
+</script>
+</body>
+</html>

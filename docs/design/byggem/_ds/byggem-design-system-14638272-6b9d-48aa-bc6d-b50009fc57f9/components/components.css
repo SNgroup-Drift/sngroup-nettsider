@@ -1,0 +1,59 @@
+/* byggEM – komponentstiler (fra byggem_designsystem/components/bundle.css). Alle farger via tokens. Prefiks: bem- */
+.bem,.bem *{box-sizing:border-box;}
+.bem-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-family:var(--font-body);font-size:17px;line-height:20px;font-weight:500;padding:var(--space-3) var(--space-5);border-radius:var(--radius-1);border:2px solid transparent;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background-color .15s,color .15s,border-color .15s;}
+.bem-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+.bem-btn-primary{background:var(--accent);color:var(--on-accent);}
+.bem-btn-primary:hover{background:var(--accent-hover);color:var(--on-accent);}
+.bem-btn-secondary{background:transparent;color:var(--ink);border-color:var(--line-strong);}
+.bem-btn-secondary:hover{background:var(--surface-raised);color:var(--ink);}
+.bem-btn-inverse{background:var(--ink-inverse);color:var(--surface-inverse);}
+.bem-btn-inverse:hover{color:var(--surface-inverse);}
+.bem-btn-link{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+.bem-btn-link:hover{color:var(--accent-hover);}
+.bem-btn-sm{font-size:15px;padding:var(--space-2) var(--space-4);}
+.bem-btn[disabled]{opacity:.5;cursor:not-allowed;}
+.bem-tag{display:inline-flex;align-items:center;font-family:var(--font-body);font-size:14px;line-height:18px;font-weight:500;padding:var(--space-1) var(--space-3);border-radius:var(--radius-1);background:var(--surface-raised);color:var(--ink);border:1px solid var(--line);}
+.bem-tag-dark{background:var(--surface-inverse);color:var(--ink-inverse);border-color:var(--surface-inverse);}
+.bem-field{display:flex;flex-direction:column;gap:var(--space-2);font-family:var(--font-body);}
+.bem-field label{font-size:14px;line-height:18px;font-weight:500;color:var(--ink);}
+.bem-field input,.bem-field textarea,.bem-field select{font:inherit;font-size:17px;line-height:24px;color:var(--ink);background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-1);padding:var(--space-3) var(--space-4);width:100%;}
+.bem-field textarea{min-height:120px;resize:vertical;}
+.bem-field input:focus,.bem-field textarea:focus,.bem-field select:focus{outline:2px solid var(--focus);outline-offset:1px;}
+.bem-field-hint{font-size:14px;line-height:20px;color:var(--ink-muted);font-weight:400;}
+.bem-field-error{font-size:14px;line-height:20px;color:var(--danger);font-weight:500;}
+.bem-field-invalid input,.bem-field-invalid textarea{border-color:var(--danger);border-width:2px;}
+.bem-card{background:var(--surface-raised);border-radius:var(--radius-2);padding:var(--space-5);display:flex;flex-direction:column;gap:var(--space-3);font-family:var(--font-body);color:var(--ink);min-width:0;}
+.bem-card h3{font-family:var(--font-display);font-weight:500;font-size:22px;line-height:1.2;margin:0;}
+.bem-card p{font-size:16px;line-height:24px;margin:0;color:var(--ink);}
+.bem-card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--space-1);font-size:15px;line-height:22px;color:var(--ink-muted);}
+.bem-card li::before{content:"–";margin-right:var(--space-2);color:var(--accent);}
+.bem-card-eyebrow{font-size:14px;line-height:18px;font-weight:500;color:var(--ink-muted);}
+.bem-stat{display:flex;flex-direction:column;gap:var(--space-1);font-family:var(--font-body);}
+.bem-stat-value{font-family:var(--font-display);font-weight:300;font-size:56px;line-height:1;letter-spacing:-0.02em;color:var(--accent);font-variant-numeric:tabular-nums;}
+.bem-stat-label{font-size:15px;line-height:22px;color:var(--ink-muted);max-width:24ch;}
+.bem-reflist{width:100%;border-collapse:collapse;font-family:var(--font-body);font-size:15px;line-height:22px;color:var(--ink);}
+.bem-reflist th{text-align:left;font-size:14px;font-weight:500;color:var(--ink-muted);padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--line-strong);}
+.bem-reflist td{padding:var(--space-3);border-bottom:1px solid var(--line);vertical-align:top;}
+.bem-reflist td.num,.bem-reflist th.num{text-align:right;font-variant-numeric:tabular-nums;}
+.bem-reflist tbody tr:nth-child(even) td{background:var(--surface-quiet);}
+.bem-reflist-wrap{overflow-x:auto;}
+.bem-reflist strong{font-weight:600;}
+.bem-contact{display:flex;flex-direction:column;gap:var(--space-2);font-family:var(--font-body);color:var(--ink);}
+.bem-contact-row{display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);font-size:18px;line-height:26px;font-weight:500;}
+.bem-contact a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line-strong);}
+.bem-contact a:hover{color:var(--accent);border-color:var(--accent);}
+.bem-contact-area{font-size:15px;line-height:22px;color:var(--ink-muted);}
+.bem-contact-inverse{color:var(--ink-inverse);}
+.bem-contact-inverse .bem-contact-area{color:var(--ink-inverse);opacity:.8;}
+.bem-contact-inverse a{border-color:var(--ink-inverse);}
+.bem-contact-inverse a:hover{color:var(--ink-inverse);border-color:var(--ink-inverse);}
+.bem-header{display:flex;align-items:center;justify-content:space-between;gap:var(--space-5);flex-wrap:wrap;padding:var(--space-4) var(--space-5);background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--font-body);}
+.bem-header-logo{display:block;height:32px;width:auto;}
+.bem-header-logo-text{font-family:var(--font-display);font-weight:600;font-size:26px;color:var(--ink);letter-spacing:-0.01em;}
+.bem-header nav{display:flex;gap:var(--space-5);flex-wrap:wrap;align-items:center;}
+.bem-header nav a:not(.bem-btn){color:var(--ink);text-decoration:none;font-size:16px;font-weight:500;}
+.bem-header nav a:not(.bem-btn):hover,.bem-header nav a[aria-current="page"]:not(.bem-btn){color:var(--accent);}
+.bem-footer{background:var(--surface-inverse);color:var(--ink-inverse);padding:var(--space-7) var(--space-5);font-family:var(--font-body);display:flex;flex-direction:column;gap:var(--space-6);}
+.bem-footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--space-6);align-items:flex-end;}
+.bem-footer-logo{height:36px;width:auto;display:block;}
+.bem-footer-legal{font-size:13px;line-height:18px;opacity:.8;border-top:1px solid currentColor;padding-top:var(--space-4);}

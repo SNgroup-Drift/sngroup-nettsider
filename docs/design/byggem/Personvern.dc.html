@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Personvern | byggEM</title>
+  <meta name="description" content="Informasjon om behandling og lagring av kontaktskjemaopplysninger.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/base.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/components/components.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/styles.css">
+  <script src="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: var(--surface); color: var(--ink); }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+  </style>
+</helmet>
+<div ref="{{ root }}" data-theme="{{ theme }}" style="background: var(--surface); color: var(--ink); font-family: var(--font-body); min-height: 100vh">
+  <dc-import name="Sidehode" hjem="Forside.dc.html" mork="{{ mork }}" style="position: sticky; top: 0; z-index: 40" hint-size="100%,81px"></dc-import>
+  <main id="innhold">
+    <section data-screen-label="Personvern topp" style="padding-block: {{ pyTopp }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">byggem.no</p>
+        <h1 class="t-h1" style="margin: 20px 0 0; max-width: 20ch">Personvern</h1>
+        <p class="t-ingress" style="margin: 32px 0 0; max-width: 65ch">Slik behandler vi opplysninger du sender gjennom kontaktskjemaet.</p>
+        <p style="margin: 24px 0 0; font-size: 15px; line-height: 22px; color: var(--ink-muted)">Behandlingsansvarlig: byggEM AS · Kontakt: <a href="mailto:post@byggem.no" style="color: var(--ink)">post@byggem.no</a></p>
+      </div>
+    </section>
+
+    <section data-screen-label="Personvern innhold" style="padding-bottom: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); border-top: 1px solid var(--line)">
+        <div style="display: grid; grid-template-columns: {{ rad }}; gap: 16px 64px; padding-block: 32px; border-bottom: 1px solid var(--line)">
+          <h2 class="t-h3-display" style="margin: 0">Hva vi samler inn</h2>
+          <p style="margin: 0; max-width: 65ch">Skjemaet samler inn navn, firma hvis oppgitt, telefon, e-post, hva henvendelsen gjelder, sted hvis oppgitt og beskrivelsen du skriver.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: {{ rad }}; gap: 16px 64px; padding-block: 32px; border-bottom: 1px solid var(--line)">
+          <h2 class="t-h3-display" style="margin: 0">Hva opplysningene brukes til</h2>
+          <p style="margin: 0; max-width: 65ch">Opplysningene brukes kun til å svare på henvendelsen og følge opp den aktuelle jobben.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: {{ rad }}; gap: 16px 64px; padding-block: 32px; border-bottom: 1px solid var(--line)">
+          <h2 class="t-h3-display" style="margin: 0">Lagringstid</h2>
+          <p style="margin: 0; max-width: 65ch">Opplysningene lagres i maksimalt 12 måneder og slettes når de ikke lenger er nødvendige for oppfølgingen.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: {{ rad }}; gap: 16px 64px; padding-block: 32px; border-bottom: 1px solid var(--line)">
+          <h2 class="t-h3-display" style="margin: 0">Behandlingsansvarlig</h2>
+          <p style="margin: 0; max-width: 65ch">byggEM AS, org.nr. 932 104 148, er behandlingsansvarlig. Spørsmål kan sendes til <a href="mailto:post@byggem.no">post@byggem.no</a>.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: {{ rad }}; gap: 16px 64px; padding-block: 32px; border-bottom: 1px solid var(--line)">
+          <h2 class="t-h3-display" style="margin: 0">Informasjonskapsler</h2>
+          <p style="margin: 0; max-width: 65ch">byggem.no bruker ingen analyseverktøy eller sporingscookies.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <dc-import name="Bunn" hint-size="100%,300px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;system&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;system&quot;,&quot;tsType&quot;:&quot;'system' | 'lys' | 'mørk'&quot;}}">
+class Component extends DCLogic {
+  state = { w: 1440, sysDark: false };
+  root = React.createRef();
+  componentDidMount() {
+    const el = this.root.current;
+    if (el) { const m = () => { const w = el.clientWidth; if (w && w !== this.state.w) this.setState({ w }); }; this.ro = new ResizeObserver(m); this.ro.observe(el); m(); }
+    this.mq = matchMedia('(prefers-color-scheme: dark)');
+    this.mqh = () => this.setState({ sysDark: this.mq.matches });
+    this.mq.addEventListener('change', this.mqh); this.mqh();
+  }
+  componentDidUpdate() { document.documentElement.setAttribute('data-theme', this.isDark() ? 'dark' : 'light'); }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); this.mq && this.mq.removeEventListener('change', this.mqh); }
+  isDark() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q === 'mork' || q === 'mørk' ? 'mørk' : q === 'lys' ? 'lys' : (this.props.tema ?? 'system');
+    return t === 'mørk' ? true : t === 'lys' ? false : this.state.sysDark;
+  }
+  renderVals() {
+    const mob = this.state.w < 860;
+    const mork = this.isDark();
+    return {
+      root: this.root, theme: mork ? 'dark' : 'light', mork,
+      py: mob ? '64px' : '96px',
+      pyTopp: mob ? '48px' : '80px',
+      rad: mob ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1.6fr)',
+    };
+  }
+}
+</script>
+</body>
+</html>

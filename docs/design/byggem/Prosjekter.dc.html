@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Referanseprosjekter | byggEM</title>
+  <meta name="description" content="Se byggEMs dokumenterte montasjeprosjekter i Trondheimsområdet, med prosjekt, byggetrinn, merke, antall enheter og år.">
+  <meta property="og:title" content="Referanseprosjekter | byggEM">
+  <meta property="og:description" content="Dokumenterte montasjeprosjekter i Trondheim og omegn.">
+  <meta property="og:image" content="assets/delingsbilde.png">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/base.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/components/components.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/styles.css">
+  <script src="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: var(--surface); color: var(--ink); }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+  </style>
+</helmet>
+<div ref="{{ root }}" data-theme="{{ theme }}" style="background: var(--surface); color: var(--ink); font-family: var(--font-body); min-height: 100vh">
+  <dc-import name="Sidehode" hjem="Forside.dc.html" aktiv="prosjekter" mork="{{ mork }}" style="position: sticky; top: 0; z-index: 40" hint-size="100%,81px"></dc-import>
+  <main id="innhold">
+    <section data-screen-label="Prosjekter topp" style="border-bottom: 1px solid var(--line); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">Referanser</p>
+        <h1 class="t-h1" style="margin: 20px 0 0; max-width: 20ch">Referanseprosjekter</h1>
+        <p class="t-ingress" style="margin: 32px 0 0; max-width: 65ch; text-wrap: pretty">Oversikten viser dokumenterte leveranser av kjøkken og innredning i Trondheimsområdet.</p>
+        <p style="margin: 24px 0 0; font-size: 15px; line-height: 22px; color: var(--ink-muted)">6 prosjekter · 2022–2026 · Trondheim og omegn</p>
+      </div>
+    </section>
+
+    <section data-screen-label="Tabell" style="padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <div tabindex="0" aria-label="Referanseprosjekter, tabellen kan rulles sideveis" style="overflow-x: auto; border: 1px solid var(--line)">
+          <table style="width: 100%; min-width: 720px; border-collapse: collapse; text-align: left; font-size: 15px; line-height: 22px">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--line-strong); font-size: 14px; font-weight: 500; color: var(--ink-muted)">
+                <th style="padding: 16px; font-weight: 500">Prosjekt</th>
+                <th style="padding: 16px; font-weight: 500">Byggetrinn</th>
+                <th style="padding: 16px; font-weight: 500">Merke</th>
+                <th style="padding: 16px; font-weight: 500; text-align: right">Enheter</th>
+                <th style="padding: 16px; font-weight: 500">Sted</th>
+                <th style="padding: 16px; font-weight: 500">År</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ prosjekter }}" as="p" hint-placeholder-count="6">
+                <tr style="border-bottom: 1px solid var(--line); background: {{ p.bg }}">
+                  <th scope="row" style="padding: 16px; font-weight: 500">{{ p.name }}</th>
+                  <td style="padding: 16px">{{ p.phase }}</td>
+                  <td style="padding: 16px">{{ p.brand }}</td>
+                  <td style="padding: 16px; text-align: right; font-variant-numeric: tabular-nums">{{ p.units }}</td>
+                  <td style="padding: 16px">{{ p.place }}</td>
+                  <td style="padding: 16px; font-variant-numeric: tabular-nums">{{ p.year }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="Prosjektkort" style="background: var(--surface-raised); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); display: grid; grid-template-columns: {{ kol3 }}; gap: 32px">
+        <sc-for list="{{ prosjekter }}" as="p" hint-placeholder-count="6">
+          <article style="border: 1px solid var(--line); background: var(--surface); min-width: 0">
+            <div style="aspect-ratio: 3 / 2; background: var(--surface-quiet); display: grid; place-items: center; padding: 24px; text-align: center">
+              <div style="display: grid; gap: 8px; justify-items: center">
+                <span style="font-family: var(--font-display); font-size: 22px; line-height: 1.2; font-weight: 500; color: var(--ink)">{{ p.name }}</span>
+                <span style="font-size: 13px; line-height: 18px; color: var(--ink)">Bilde kommer</span>
+              </div>
+            </div>
+            <div style="padding: 24px">
+              <h2 class="t-h3-display" style="margin: 0">{{ p.name }}</h2>
+              <dl style="margin: 20px 0 0; display: grid; grid-template-columns: auto minmax(0,1fr); gap: 8px 16px; font-size: 15px; line-height: 22px">
+                <dt style="color: var(--ink-muted)">Byggetrinn</dt><dd style="margin: 0">{{ p.phase }}</dd>
+                <dt style="color: var(--ink-muted)">Merke</dt><dd style="margin: 0">{{ p.brand }}</dd>
+                <dt style="color: var(--ink-muted)">Enheter</dt><dd style="margin: 0; font-variant-numeric: tabular-nums">{{ p.units }}</dd>
+                <dt style="color: var(--ink-muted)">Sted</dt><dd style="margin: 0">{{ p.place }}</dd>
+                <dt style="color: var(--ink-muted)">År</dt><dd style="margin: 0; font-variant-numeric: tabular-nums">{{ p.year }}</dd>
+              </dl>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-screen-label="Kontakt" style="background: var(--brand-morkbrun); color: var(--brand-offwhite); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px">
+        <div>
+          <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-beige)">Kontakt</p>
+          <h2 class="t-h2" style="margin: 16px 0 0">Har dere en jobb til oss?</h2>
+          <p style="margin: 16px 0 0"><a href="tel:+4797606500" style="color: var(--brand-offwhite)" style-hover="color: var(--brand-beige)">976 06 500</a> · <a href="mailto:post@byggem.no" style="color: var(--brand-offwhite)" style-hover="color: var(--brand-beige)">post@byggem.no</a> · Trondheim og omegn</p>
+        </div>
+        <x-import component-from-global-scope="ByggEMDesignSystem_146382.Button" variant="primary" href="Kontakt.dc.html" hint-size="128px,48px">Be om pris</x-import>
+      </div>
+    </section>
+  </main>
+  <dc-import name="Bunn" hint-size="100%,300px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;system&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;system&quot;,&quot;tsType&quot;:&quot;'system' | 'lys' | 'mørk'&quot;}}">
+const PROSJEKTER = [
+  { name: 'Basseløkka', phase: '–', brand: 'Sigdal', units: 174, place: 'Buran', year: '2023–2025' },
+  { name: 'Saupstad Torg', phase: 'trinn 1', brand: 'Sigdal', units: 119, place: 'Saupstad', year: '2024–2025' },
+  { name: 'Leangen', phase: 'Tunet', brand: 'Sigdal', units: 116, place: 'Leangen', year: '2023–2026' },
+  { name: 'Gildheim', phase: 'trinn 1', brand: 'HTH', units: 87, place: 'Leangen', year: '2025–2026' },
+  { name: 'Lysangen', phase: '–', brand: 'Sigdal', units: 54, place: 'Leangen', year: '2024–2025' },
+  { name: 'Leangenbukta', phase: 'Byvilla 3', brand: 'Sigdal', units: 14, place: 'Lade', year: '2022' },
+];
+class Component extends DCLogic {
+  state = { w: 1440, sysDark: false };
+  root = React.createRef();
+  componentDidMount() {
+    const el = this.root.current;
+    if (el) { const m = () => { const w = el.clientWidth; if (w && w !== this.state.w) this.setState({ w }); }; this.ro = new ResizeObserver(m); this.ro.observe(el); m(); }
+    this.mq = matchMedia('(prefers-color-scheme: dark)');
+    this.mqh = () => this.setState({ sysDark: this.mq.matches });
+    this.mq.addEventListener('change', this.mqh); this.mqh();
+  }
+  componentDidUpdate() { document.documentElement.setAttribute('data-theme', this.isDark() ? 'dark' : 'light'); }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); this.mq && this.mq.removeEventListener('change', this.mqh); }
+  isDark() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q === 'mork' || q === 'mørk' ? 'mørk' : q === 'lys' ? 'lys' : (this.props.tema ?? 'system');
+    return t === 'mørk' ? true : t === 'lys' ? false : this.state.sysDark;
+  }
+  renderVals() {
+    const w = this.state.w;
+    const mob = w < 860;
+    const mork = this.isDark();
+    return {
+      root: this.root, theme: mork ? 'dark' : 'light', mork,
+      py: mob ? '64px' : '96px',
+      kol3: mob ? 'minmax(0,1fr)' : w < 1100 ? 'repeat(2, minmax(0,1fr))' : 'repeat(3, minmax(0,1fr))',
+      prosjekter: PROSJEKTER.map((p, i) => ({ ...p, bg: i % 2 ? 'var(--surface-quiet)' : 'var(--surface)' })),
+    };
+  }
+}
+</script>
+</body>
+</html>

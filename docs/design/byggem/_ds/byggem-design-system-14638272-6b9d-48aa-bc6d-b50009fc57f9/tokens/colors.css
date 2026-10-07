@@ -1,0 +1,18 @@
+/* byggEM – farger. Generert fra tokens.json (fasit). Palett fra logoen. */
+:root{
+--brand-morkbrun:#31261d;--brand-kaffe:#6b5b4a;--brand-beige:#c3b5a7;--brand-sand:#ddd4cb;--brand-kalk:#efeae4;--brand-offwhite:#faf8f5;--brand-tegl:#a25a32;
+--surface:var(--brand-offwhite);--surface-raised:var(--brand-kalk);--surface-quiet:var(--brand-sand);--surface-inverse:var(--brand-morkbrun);--surface-photo:var(--brand-kaffe);
+--ink:var(--brand-morkbrun);--ink-muted:var(--brand-kaffe);--ink-inverse:var(--brand-offwhite);
+--line:var(--brand-beige);--line-strong:var(--brand-kaffe);
+--accent:var(--brand-tegl);--accent-hover:#8a4a27;--on-accent:var(--brand-offwhite);
+--focus:var(--brand-morkbrun);--danger:#9b2c1f;--success:#3e6b3a;
+color-scheme:light;
+}
+[data-theme="dark"]{
+--surface:var(--brand-morkbrun);--surface-raised:#3d3127;--surface-quiet:#271e17;--surface-inverse:var(--brand-offwhite);
+--ink:var(--brand-offwhite);--ink-muted:var(--brand-beige);--ink-inverse:var(--brand-morkbrun);
+--line:#5a4a3c;--line-strong:var(--brand-beige);
+--accent:#d4916a;--accent-hover:#e0a582;--on-accent:var(--brand-morkbrun);
+--focus:var(--brand-offwhite);--danger:#f0a08c;--success:#a6c79a;
+color-scheme:dark;
+}

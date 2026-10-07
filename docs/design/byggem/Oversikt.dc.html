@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/colors.css">
+  <style>
+    body { margin: 0; background: var(--brand-sand); color: var(--brand-morkbrun); }
+    a { color: var(--brand-tegl); }
+    a:hover { color: #8a4a27; }
+  </style>
+</helmet>
+<div style="padding: 48px; font-family: var(--font-body); display: flex; flex-direction: column; gap: 64px">
+  <div>
+    <h1 style="margin: 0; font-family: var(--font-display); font-weight: 300; font-size: 44px; letter-spacing: -0.02em">byggem.no – alle sider</h1>
+    <p style="margin: 12px 0 0; font-size: 15px">PC 1440 og mobil 390, lys og mørk. Åpne en side: <a href="Forside.dc.html">Forside</a> · <a href="Prosjekter.dc.html">Prosjekter</a> · <a href="Kontakt.dc.html">Kontakt</a> · <a href="Personvern.dc.html">Personvern</a> · <a href="404.dc.html">404</a></p>
+  </div>
+  <sc-for list="{{ sider }}" as="s" hint-placeholder-count="5">
+    <section style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 32px">{{ s.navn }}</h2>
+      <div style="display: flex; gap: 32px; align-items: flex-start">
+        <sc-for list="{{ s.visninger }}" as="v" hint-placeholder-count="4">
+          <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px">
+            <figcaption style="font-size: 14px; font-weight: 500">{{ v.etikett }}</figcaption>
+            <div style="width: {{ v.boksB }}; height: {{ v.boksH }}; overflow: hidden; background: var(--brand-offwhite); border: 1px solid var(--brand-beige)">
+              <iframe src="{{ v.src }}" loading="lazy" title="{{ v.etikett }}" style="width: {{ v.b }}; height: {{ v.h }}; border: 0; transform: scale({{ v.skala }}); transform-origin: 0 0; display: block"></iframe>
+            </div>
+          </figure>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const sider = [['Forside', 'Forside.dc.html'], ['Prosjekter', 'Prosjekter.dc.html'], ['Kontakt', 'Kontakt.dc.html'], ['Personvern', 'Personvern.dc.html'], ['404', '404.dc.html']];
+    const v = (fil, b, h, skala, tema, etikett) => ({
+      src: fil + '?tema=' + tema, b: b + 'px', h: h + 'px', skala,
+      boksB: Math.round(b * skala) + 'px', boksH: Math.round(h * skala) + 'px', etikett,
+    });
+    return {
+      sider: sider.map(([navn, fil]) => ({
+        navn,
+        visninger: [
+          v(fil, 1440, 2400, 0.4, 'lys', 'PC 1440 · lys'),
+          v(fil, 1440, 2400, 0.4, 'mork', 'PC 1440 · mørk'),
+          v(fil, 390, 2400, 0.4, 'lys', 'Mobil 390 · lys'),
+          v(fil, 390, 2400, 0.4, 'mork', 'Mobil 390 · mørk'),
+        ],
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

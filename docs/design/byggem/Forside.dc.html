@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Montasje og snekkerarbeid i Trondheim | byggEM</title>
+  <meta name="description" content="byggEM monterer kjøkken, bad og innredning for forhandlere og entreprenører, og tar mindre snekkeroppdrag i Trondheim og omegn.">
+  <meta property="og:title" content="Montasje og snekkerarbeid i Trondheim | byggEM">
+  <meta property="og:description" content="Montasje for forhandlere og entreprenører, og mindre snekkeroppdrag i Trondheim og omegn.">
+  <meta property="og:image" content="assets/delingsbilde.png">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/tokens/base.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/components/components.css">
+  <link rel="stylesheet" href="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/styles.css">
+  <script src="_ds/byggem-design-system-14638272-6b9d-48aa-bc6d-b50009fc57f9/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: var(--surface); color: var(--ink); }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+  </style>
+</helmet>
+<div ref="{{ root }}" data-theme="{{ theme }}" style="background: var(--surface); color: var(--ink); font-family: var(--font-body); min-height: 100vh">
+  <dc-import name="Sidehode" hjem="Forside.dc.html" mork="{{ mork }}" style="position: sticky; top: 0; z-index: 40" hint-size="100%,81px"></dc-import>
+  <main id="innhold">
+
+    <section data-screen-label="Hero" style="padding-block: {{ pyHero }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); display: grid; grid-template-columns: {{ heroKol }}; gap: clamp(40px, 6vw, 88px); align-items: center">
+        <div style="min-width: 0">
+          <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">Montasje · Snekkerarbeid</p>
+          <h1 class="t-display" style="margin: 20px 0 0; max-width: 20ch; text-wrap: balance">Montasje og snekkerarbeid i Trondheim og omegn</h1>
+          <p class="t-ingress" style="margin: 32px 0 0; max-width: 65ch; text-wrap: pretty">Vi monterer kjøkken, bad og innredning for forhandlere og entreprenører – og tar mindre snekkeroppdrag for deg som trenger en håndverker.</p>
+          <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px">
+            <x-import component-from-global-scope="ByggEMDesignSystem_146382.Button" variant="primary" href="Kontakt.dc.html" hint-size="128px,48px">Be om pris</x-import>
+            <x-import component-from-global-scope="ByggEMDesignSystem_146382.Button" variant="secondary" href="tel:+4797606500" hint-size="180px,48px">Ring 976 06 500</x-import>
+          </div>
+          <p style="margin: 32px 0 0; font-size: 15px; line-height: 22px; color: var(--ink-muted)">byggEM AS · Etablert 2023 · Trondheim og omegn</p>
+        </div>
+        <div style="min-width: 0; width: 100%; max-width: 460px; justify-self: {{ planJustify }}">
+          <dc-import name="Plantegning Verksted" hint-size="100%,400px"></dc-import>
+        </div>
+      </div>
+    </section>
+
+    <section id="hva-vi-gjor" data-screen-label="Hva vi gjør" style="background: var(--surface-raised); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">Hva vi gjør</p>
+        <div style="margin-top: 32px; display: grid; grid-template-columns: {{ kol2 }}; gap: 1px; background: var(--line)">
+          <article style="background: var(--surface-raised); padding: {{ artPad }}">
+            <h2 class="t-h2" style="margin: 0">For forhandlere og entreprenører</h2>
+            <p style="margin: 24px 0 0; max-width: 65ch">Vi monterer på vegne av butikken og tar hele byggetrinn i nyproduksjon. Dere kan også leie inn montører eller bruke oss som underentreprenør.</p>
+            <p style="margin: 24px 0 0"><a href="Forside.dc.html#tjenester" style="font-size: 17px; font-weight: 500">Se montasjetjenester</a></p>
+          </article>
+          <article style="background: var(--surface-raised); padding: {{ artPad }}">
+            <h2 class="t-h2" style="margin: 0">For deg som trenger en snekker</h2>
+            <p style="margin: 24px 0 0; max-width: 65ch">Vi tar mindre, avgrensede snekkerjobber i Trondheimsområdet. Vi avtaler omfang og pris før vi starter.</p>
+            <p style="margin: 24px 0 0"><a href="Forside.dc.html#tjenester" style="font-size: 17px; font-weight: 500">Se snekkeroppdrag</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tjenester" data-screen-label="Tjenester" style="background: var(--surface-quiet); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <h2 class="t-h2" style="margin: 0">Tjenester</h2>
+        <div style="margin-top: 48px; display: grid; grid-template-columns: {{ kol3 }}; gap: 24px">
+          <sc-for list="{{ tjenester }}" as="t" hint-placeholder-count="5">
+            <x-import component-from-global-scope="ByggEMDesignSystem_146382.ServiceCard" title="{{ t.title }}" items="{{ t.items }}" hint-size="100%,220px">{{ t.text }}</x-import>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section id="slik-jobber-vi" data-screen-label="Slik jobber vi" style="padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">Fra befaring til overlevering</p>
+        <h2 class="t-h2" style="margin: 16px 0 0">Slik jobber vi</h2>
+        <ol style="list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: {{ kol4 }}; gap: 32px">
+          <sc-for list="{{ steg }}" as="s" hint-placeholder-count="4">
+            <li style="border-top: 1px solid var(--line); padding-top: 24px; min-width: 0">
+              <span style="font-family: var(--font-display); font-size: 32px; line-height: 1; font-weight: 300; color: var(--accent); font-variant-numeric: tabular-nums">{{ s.nr }}</span>
+              <h3 class="t-h3-display" style="margin: 16px 0 0">{{ s.tittel }}</h3>
+              <p style="margin: 12px 0 0; max-width: 65ch">{{ s.tekst }}</p>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </section>
+
+    <section id="referanser" data-screen-label="Referanser" style="background: var(--surface-raised); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px)">
+        <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted)">Referanser</p>
+        <div style="margin-top: 16px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px">
+          <h2 class="t-h2" style="margin: 0">Referanseprosjekter</h2>
+          <a href="Prosjekter.dc.html" style="font-size: 17px; font-weight: 500">Se alle prosjekter</a>
+        </div>
+        <div aria-label="Nøkkeltall" style="margin-top: 48px; display: grid; grid-template-columns: {{ kol3 }}; gap: 48px">
+          <sc-for list="{{ tall }}" as="n" hint-placeholder-count="3">
+            <x-import component-from-global-scope="ByggEMDesignSystem_146382.Stat" value="{{ n.v }}" label="{{ n.l }}" hint-size="100%,100px"></x-import>
+          </sc-for>
+        </div>
+        <div style="margin-top: 48px; border-top: 1px solid var(--line)">
+          <sc-for list="{{ referanser }}" as="r" hint-placeholder-count="3">
+            <div style="display: grid; grid-template-columns: {{ refKol }}; gap: 4px 16px; padding-block: 20px; border-bottom: 1px solid var(--line)">
+              <strong style="font-weight: 500">{{ r.name }}</strong>
+              <span>{{ r.place }}</span>
+              <span>{{ r.brand }}</span>
+              <span style="font-variant-numeric: tabular-nums">{{ r.enheter }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt" data-screen-label="Kontakt" style="background: var(--brand-morkbrun); color: var(--brand-offwhite); padding-block: {{ py }}">
+      <div style="max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px">
+        <div>
+          <p style="margin: 0; font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-beige)">Kontakt</p>
+          <h2 class="t-h2" style="margin: 16px 0 0">Har dere en jobb til oss?</h2>
+          <p style="margin: 16px 0 0"><a href="tel:+4797606500" style="color: var(--brand-offwhite)" style-hover="color: var(--brand-beige)">976 06 500</a> · <a href="mailto:post@byggem.no" style="color: var(--brand-offwhite)" style-hover="color: var(--brand-beige)">post@byggem.no</a> · Trondheim og omegn</p>
+        </div>
+        <x-import component-from-global-scope="ByggEMDesignSystem_146382.Button" variant="primary" href="Kontakt.dc.html" hint-size="128px,48px">Be om pris</x-import>
+      </div>
+    </section>
+  </main>
+  <dc-import name="Bunn" hint-size="100%,300px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;system&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;system&quot;,&quot;tsType&quot;:&quot;'system' | 'lys' | 'mørk'&quot;}}">
+const TJENESTER = [
+  { title: 'Kjøkkenmontering', text: 'Vi monterer kjøkken fra alle store leverandører. Oppdraget kan være én bolig eller et helt byggetrinn.', items: ['Skrog, fronter og innredning', 'Foringer, sokler og dekksider', 'Tilpasning på stedet'] },
+  { title: 'Bad og garderobe', text: 'Vi monterer baderomsinnredning og garderobeløsninger etter tegning. Avvik avklares før de blir forsinkelser.', items: ['Baderomsmøbler', 'Skyvedørsgarderober', 'Fast innredning'] },
+  { title: 'Innredning og kontor', text: 'Vi monterer fast og løs innredning for næringslokaler. Jobben planlegges rundt øvrige fag og drift.', items: ['Kontorinnredning', 'Resepsjon og oppbevaring', 'Tilpasning og ferdigstilling'] },
+  { title: 'Leie av montører', text: 'Vi går inn som montører eller underentreprenør når kapasiteten må opp. Avtalen kan gjelde en periode eller en definert leveranse.', items: ['Eget verktøy', 'Faste avtaler', 'Hele byggetrinn'] },
+  { title: 'Mindre snekkeroppdrag', text: 'Vi tar avgrensede jobber for privatpersoner og bedrifter. Dere får avtalt omfang og pris før oppstart.', items: ['Listing og gerikter', 'Innerdører og garderober', 'Små utbedringer'] },
+];
+const STEG = [
+  ['Befaring eller tegning', 'Vi ser på jobben eller får tegningene fra dere.'],
+  ['Skriftlig pris', 'Fastpris eller timepris, avtalt før vi starter.'],
+  ['Montering', 'Eget verktøy, ryddig arbeidsplass, beskjed med en gang noe avviker.'],
+  ['Overlevering', 'Vi går gjennom jobben med dere og rydder etter oss.'],
+];
+const REF = [
+  { name: 'Basseløkka', place: 'Buran', brand: 'Sigdal', units: 174 },
+  { name: 'Saupstad Torg', place: 'Saupstad', brand: 'Sigdal', units: 119 },
+  { name: 'Leangen', place: 'Leangen', brand: 'Sigdal', units: 116 },
+];
+class Component extends DCLogic {
+  state = { w: 1440, sysDark: false };
+  root = React.createRef();
+  componentDidMount() {
+    const el = this.root.current;
+    if (el) { const m = () => { const w = el.clientWidth; if (w && w !== this.state.w) this.setState({ w }); }; this.ro = new ResizeObserver(m); this.ro.observe(el); m(); }
+    this.mq = matchMedia('(prefers-color-scheme: dark)');
+    this.mqh = () => this.setState({ sysDark: this.mq.matches });
+    this.mq.addEventListener('change', this.mqh); this.mqh();
+  }
+  componentDidUpdate() { document.documentElement.setAttribute('data-theme', this.isDark() ? 'dark' : 'light'); }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); this.mq && this.mq.removeEventListener('change', this.mqh); }
+  isDark() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q === 'mork' || q === 'mørk' ? 'mørk' : q === 'lys' ? 'lys' : (this.props.tema ?? 'system');
+    return t === 'mørk' ? true : t === 'lys' ? false : this.state.sysDark;
+  }
+  renderVals() {
+    const w = this.state.w;
+    const mob = w < 860;
+    const mork = this.isDark();
+    return {
+      root: this.root, theme: mork ? 'dark' : 'light', mork,
+      py: mob ? '64px' : '96px',
+      pyHero: mob ? '48px 64px' : '96px',
+      heroKol: mob ? 'minmax(0,1fr)' : 'minmax(0,1.25fr) minmax(0,1fr)',
+      planJustify: mob ? 'start' : 'end',
+      kol2: mob ? 'minmax(0,1fr)' : 'repeat(2, minmax(0,1fr))',
+      kol3: mob ? 'minmax(0,1fr)' : w < 1100 ? 'repeat(2, minmax(0,1fr))' : 'repeat(3, minmax(0,1fr))',
+      kol4: mob ? 'minmax(0,1fr)' : w < 1100 ? 'repeat(2, minmax(0,1fr))' : 'repeat(4, minmax(0,1fr))',
+      artPad: mob ? '24px 0' : '48px',
+      refKol: mob ? 'minmax(0,1fr)' : '1.5fr 1fr 1fr auto',
+      tjenester: TJENESTER,
+      steg: STEG.map(([tittel, tekst], i) => ({ nr: i + 1, tittel, tekst })),
+      tall: [{ v: '600+', l: 'boenheter i dokumenterte referanseprosjekter' }, { v: '174', l: 'leiligheter på Basseløkka, levert 2025' }, { v: '2023', l: 'etablert i Trondheim' }],
+      referanser: REF.map((r) => ({ ...r, enheter: r.units + ' enheter' })),
+    };
+  }
+}
+</script>
+</body>
+</html>
