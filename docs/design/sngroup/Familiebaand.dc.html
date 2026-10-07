@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+</helmet>
+<aside data-familiegrep="familiebaand" aria-label="SN Group" style="background: var(--bakgrunn); color: var(--tekst); border-top: 1px solid var(--linje-svak)">
+  <div class="wrap" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px 32px; padding-block: 24px">
+    <a href="https://sngroup.no" style="display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--tekst)">
+      <svg width="32" height="32" viewBox="0 0 44 44" aria-hidden="true" style="flex: none; display: block">
+        <g transform="translate(5,5)">
+          <rect x="0" y="0" width="34" height="34" style="fill: none; stroke: currentColor; stroke-width: 2.4"></rect>
+          <line x1="17" y1="0" x2="17" y2="21" style="stroke: currentColor; stroke-width: 2.4"></line>
+          <line x1="0" y1="21" x2="34" y2="21" style="stroke: currentColor; stroke-width: 2.4"></line>
+          <path d="M17 21 A9 9 0 0 1 26 30" style="fill: none; stroke: var(--aksent); stroke-width: 1.8"></path>
+        </g>
+      </svg>
+      <span style="font-size: 15px; font-weight: 500">En del av SN Group</span>
+    </a>
+    <ul aria-label="Søstersidene" style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; font-size: 15px">
+      <sc-for list="{{ sider }}" as="s" hint-placeholder-count="3">
+        <li style="display: flex; align-items: center">
+          <sc-if value="{{ s.skille }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="color: var(--tekst-dempet); padding-inline: 10px">·</span></sc-if>
+          <sc-if value="{{ s.her }}" hint-placeholder-val="{{ false }}"><span aria-current="page" style="color: var(--tekst); padding-block: 10px">{{ s.navn }}</span></sc-if>
+          <sc-if value="{{ s.ikkeHer }}" hint-placeholder-val="{{ true }}"><a href="{{ s.href }}" style="color: var(--tekst-dempet); text-underline-offset: 3px; padding-block: 10px; display: inline-block" style-hover="color: var(--tekst)">{{ s.navn }}</a></sc-if>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</aside>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1180px&quot;,&quot;height&quot;:&quot;90px&quot;},&quot;gjeldende&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sngroup.no&quot;,&quot;hengsel.no&quot;,&quot;byggem.no&quot;],&quot;default&quot;:&quot;sngroup.no&quot;,&quot;tsType&quot;:&quot;'sngroup.no' | 'hengsel.no' | 'byggem.no'&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const her = this.props.gjeldende ?? 'sngroup.no';
+    const sider = ['sngroup.no', 'hengsel.no', 'byggem.no'].map((navn, i) => ({
+      navn, href: 'https://' + navn, skille: i > 0, her: navn === her, ikkeHer: navn !== her,
+    }));
+    return { sider };
+  }
+}
+</script>
+</body>
+</html>

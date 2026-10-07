@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Personvern – Hengsel | SN Group</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/base.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/components/components.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+  <style>
+    :root { --bredde: 1180px; }
+    body { margin: 0; background: var(--bakgrunn); color: var(--tekst); }
+    a { color: inherit; }
+    a:hover { color: inherit; }
+  </style>
+</helmet>
+<a class="skip" href="#innhold">Hopp til innholdet</a>
+<dc-import name="Toppfelt" lenker="{{ lenker }}" kontakt-href="Forside.dc.html#kontakt" hint-size="100%,88px"></dc-import>
+<main id="innhold" data-screen-label="Personvern">
+  <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.PrivacyPage" dc-props="{{ personvern }}" hint-size="100%,1600px"></x-import>
+</main>
+<dc-import name="Familiebaand" gjeldende="sngroup.no" hint-size="100%,80px"></dc-import>
+<x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.SiteFooter" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" personvern="Personvern.dc.html" personvern-tekst="Personvern · Hengsel" vis-del-av="{{ false }}" hint-size="100%,80px"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto' | 'lys' | 'mørk'&quot;}}">
+const EPOST = '<a href="mailto:drift@sngroup.no">drift@sngroup.no</a>';
+const PERSONVERN = {
+  tittel: 'Personvern i',
+  tittelAksent: 'Hengsel',
+  oppdatert: 'Sist oppdatert 30. september 2026',
+  behandlingsansvarlig: 'ES-HOLDING AS',
+  kontakt: 'drift@sngroup.no',
+  avsnitt: [
+    { overskrift: 'Hvem er ansvarlig', tekst: ['ES-HOLDING AS (org.nr. 927 363 585) utgir Hengsel. Spørsmål om personvern sendes til ' + EPOST + '.'] },
+    { overskrift: 'Hvilke opplysninger vi behandler',
+      punkter: [
+        'Brukeropplysninger: navn, e-post, telefon, firma, språkvalg og rolle.',
+        'Jobbopplysninger: kundens navn og monteringsadresse, tegninger, varelister og plan for jobbene du er tildelt.',
+        'Det du registrerer: kontrollmål, kvalitetssjekk, bilder, avvik, merknader, timer og ferdigmelding.',
+        'Teknisk: varslingstoken og plattform (iOS/Android) for push-varsler.',
+      ],
+      etter: ['Appen samler ikke inn posisjon i bakgrunnen og brukes ikke til reklame eller sporing.'] },
+    { overskrift: 'Hvorfor', tekst: ['For å planlegge og gjennomføre monteringsjobber, dokumentere kvaliteten og følge opp avvik overfor kunden.'] },
+    { overskrift: 'Hvor opplysningene lagres',
+      punkter: [
+        'Database og filer: Supabase, datasenter i EU (Stockholm).',
+        'Push-varsler: Expo, Google Firebase Cloud Messaging og Apple Push Notification service.',
+        'Oversettelse av fritekst mellom språk, når funksjonen er slått på: Anthropic.',
+      ] },
+    { overskrift: 'Hvor lenge', tekst: ['Jobbdokumentasjon lagres så lenge det trengs for reklamasjon og garanti på leveransen. Brukerkontoen slettes når tilgangen avsluttes.'] },
+    { overskrift: 'Dine rettigheter', tekst: ['Du kan be om innsyn, retting og sletting, og du kan klage til Datatilsynet. Kontakt oss på ' + EPOST + '.'] },
+    { overskrift: 'In English', tekst: ['ES-HOLDING AS publishes Hengsel. The app processes user details, assigned job details, the photos, measurements and reports you enter, and a push token. Data is stored with Supabase in the EU and used only to carry out and document installation jobs – never for advertising or tracking. Contact ' + EPOST + ' to access or delete your data.'] },
+  ],
+};
+
+class Component extends DCLogic {
+  componentDidMount() { this.tema(); }
+  componentDidUpdate() { this.tema(); }
+  tema() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q || this.props.tema || 'auto';
+    const el = document.documentElement;
+    if (t === 'mork' || t === 'mørk') el.dataset.theme = 'dark';
+    else if (t === 'lys') el.dataset.theme = 'light';
+    else delete el.dataset.theme;
+  }
+  renderVals() {
+    return {
+      personvern: PERSONVERN,
+      lenker: [{ href: 'Forside.dc.html#virksomheter', label: 'Virksomheter' }, { href: 'Forside.dc.html#hengsel', label: 'Hengsel' }],
+    };
+  }
+}
+</script>
+</body>
+</html>

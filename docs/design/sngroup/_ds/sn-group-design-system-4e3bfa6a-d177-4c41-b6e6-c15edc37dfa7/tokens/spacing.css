@@ -1,0 +1,22 @@
+/* Mål fra repoets tokens.css. Ingen skygger på flater (unntak: telefonen i Hengsel-delen). */
+:root {
+  --bredde: 1200px;
+  --gutter: clamp(16px, 4vw, 48px); /* @kind spacing */
+  --radius: 6px;
+  --radius-pille: 999px;
+  --seksjon: clamp(64px, 9vw, 120px); /* @kind spacing */
+
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+  --control-min: 44px;
+
+  /* Alias */
+  --content-max: var(--bredde);
+  --r-field: var(--radius); --r-card: var(--radius); --r-pill: var(--radius-pille);
+  --border-width: 1px;
+  --shadow: none;
+
+  --ease-dor: cubic-bezier(0.5, 0, 0.2, 1); /* @kind other */
+  --dur-fast: 200ms; /* @kind other */
+  --dur-base: 250ms; /* @kind other */
+}

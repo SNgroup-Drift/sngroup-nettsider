@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>SN Group – ES-HOLDING AS</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/base.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/components/components.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <link rel="stylesheet" href="assets/kit.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+  <style>
+    :root { --bredde: 1180px; }
+    body { margin: 0; background: var(--bakgrunn); color: var(--tekst); }
+    a { color: inherit; }
+    a:hover { color: inherit; }
+  </style>
+</helmet>
+<a class="skip" href="#innhold">Hopp til innholdet</a>
+<dc-import name="Toppfelt" hint-size="100%,88px"></dc-import>
+<main id="innhold">
+  <div class="wrap" data-screen-label="Hero">
+    <div class="helt">
+      <div>
+        <div class="label">Trondheim · Hamar · Lillehammer · Gjøvik</div>
+        <h1>Vi bygger og eier selskaper som lager <em>hjem</em> bedre.</h1>
+        <p class="lede">SN Group samler selskapene til Eirik Sjøflot: kjøkkenbutikker, eiendom og egne digitale verktøy for salg og montering. Trykk på et rom i tegningen.</p>
+        <div class="cta">
+          <a class="pill solid" href="#kontakt">Ta kontakt <span aria-hidden="true">→</span></a>
+          <a class="pill" href="#virksomheter">Se virksomhetene</a>
+        </div>
+        <div class="chips" aria-label="Velg virksomhet i tegningen">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="5">
+            <button type="button" class="chip" aria-pressed="{{ c.trykket }}" onClick="{{ c.velg }}"><i aria-hidden="true"></i>{{ c.navn }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <figure class="{{ planKlasse }}" data-valgt="{{ valgt }}">
+        <div class="plan-hode" aria-hidden="true"><span>Plantegning · 1:50</span><span>{{ koord }}</span></div>
+        <svg viewBox="0 0 600 440" role="group" aria-label="Plantegning av et hus der hvert rom er en virksomhet" ref="{{ svgRef }}" onPointerMove="{{ flytt }}">
+          <rect class="tomt" x="12" y="12" width="576" height="416" rx="2"></rect>
+          <path class="mal" d="M40 26 H560 M40 21 V31 M560 21 V31"></path>
+          <text class="malt" x="300" y="22" style="text-anchor: middle">10 400</text>
+          <path class="mal" d="M574 40 V380 M569 40 H579 M569 380 H579"></path>
+          <text class="malt" x="586" y="214" transform="rotate(90 586 210)" style="text-anchor: middle">6 800</text>
+          <g class="sone" tabindex="0" role="button" aria-pressed="{{ s.kjokken.trykket }}" aria-label="Kjøkken 17,7 m²: Kjøkken og interiør" onClick="{{ s.kjokken.velg }}" onKeyDown="{{ s.kjokken.tast }}">
+            <rect class="treff" x="43" y="43" width="254" height="174"></rect>
+            <path class="inv" d="M46 46 H294 V70 H70 V214 H46 Z"></path>
+            <rect class="inv" x="130" y="118" width="110" height="46" rx="2"></rect>
+            <circle class="inv" cx="190" cy="58" r="6"></circle>
+            <circle class="inv" cx="208" cy="58" r="6"></circle>
+            <circle class="inv" cx="190" cy="58" r="2"></circle>
+            <circle class="inv" cx="208" cy="58" r="2"></circle>
+            <rect class="inv" x="96" y="50" width="30" height="16" rx="6"></rect>
+            <text aria-hidden="true" class="rom" x="130" y="190">KJØKKEN</text>
+            <text aria-hidden="true" class="merke" x="130" y="204">17,7 m²</text>
+          </g>
+          <g class="sone" tabindex="0" role="button" aria-pressed="{{ s.eiendom.trykket }}" aria-label="Stue 26,5 m²: Eiendom" onClick="{{ s.eiendom.velg }}" onKeyDown="{{ s.eiendom.tast }}">
+            <rect class="treff" x="303" y="43" width="254" height="214"></rect>
+            <path class="inv" d="M340 80 H470 V104 H364 V160 H340 Z"></path>
+            <rect class="inv" x="392" y="130" width="64" height="40" rx="3"></rect>
+            <text aria-hidden="true" class="rom" x="440" y="220">STUE</text>
+            <text aria-hidden="true" class="merke" x="440" y="234">26,5 m²</text>
+          </g>
+          <g class="sone" tabindex="0" role="button" aria-pressed="{{ s.investeringer.trykket }}" aria-label="Soverom 14,7 m²: Investeringer" onClick="{{ s.investeringer.velg }}" onKeyDown="{{ s.investeringer.tast }}">
+            <rect class="treff" x="43" y="223" width="224" height="154"></rect>
+            <rect class="inv" x="60" y="250" width="110" height="100" rx="3"></rect>
+            <path class="inv" d="M60 272 H170 M70 254 H108 V268 H70 Z M122 254 H160 V268 H122 Z"></path>
+            <text aria-hidden="true" class="rom" x="184" y="318">SOVEROM</text>
+            <text aria-hidden="true" class="merke" x="184" y="332">14,7 m²</text>
+          </g>
+          <g class="sone" tabindex="0" role="button" aria-pressed="{{ s.byggem.trykket }}" aria-label="Verksted 7,2 m²: byggEM" onClick="{{ s.byggem.velg }}" onKeyDown="{{ s.byggem.tast }}">
+            <rect class="treff" x="273" y="263" width="144" height="114"></rect>
+            <rect class="inv" x="380" y="270" width="32" height="100" rx="1"></rect>
+            <path class="inv" d="M380 295 H412 M380 320 H412 M380 345 H412"></path>
+            <rect class="inv" x="284" y="350" width="60" height="20" rx="1"></rect>
+            <text aria-hidden="true" class="rom" x="286" y="300">VERKSTED</text>
+            <text aria-hidden="true" class="merke" x="286" y="314">7,2 m²</text>
+          </g>
+          <g class="sone" tabindex="0" role="button" aria-pressed="{{ s.hengsel.trykket }}" aria-label="Entré Hengsel: Hengsel" onClick="{{ s.hengsel.velg }}" onKeyDown="{{ s.hengsel.tast }}">
+            <rect class="treff" x="423" y="263" width="134" height="114"></rect>
+            <rect class="inv" x="520" y="280" width="22" height="34" rx="4"></rect>
+            <path class="inv" d="M526 284 H536"></path>
+            <text aria-hidden="true" class="rom" x="440" y="296">ENTRÉ</text>
+            <text aria-hidden="true" class="merke" x="440" y="310">Hengsel</text>
+          </g>
+          <path class="vegg" d="M40 40 H560 V380 H500 M460 380 H40 Z"></path>
+          <path class="innervegg" d="M300 40 V120 M300 170 V260 H420 M40 220 H180 M230 220 H420 V300 M420 345 V380 M270 260 V380"></path>
+          <path class="slag" d="M460 340 A40 40 0 0 1 500 380"></path>
+          <line class="dor innervegg" x1="460" y1="380" x2="460" y2="340"></line>
+          <circle class="hengselpunkt" cx="460" cy="380" r="3.5"></circle>
+        </svg>
+        <div class="info">
+          <div class="info-kort">
+            <h2 class="info-tittel">{{ info.navn }}</h2>
+            <p>{{ info.kort }}</p>
+            <a href="{{ info.href }}">{{ info.lenke }}</a>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <section id="virksomheter" class="sn-seksjon sn-seksjon--flate" data-screen-label="Hva vi gjør">
+    <div class="wrap">
+      <div class="sn-seksjon__hode">
+        <div>
+          <div class="label">Virksomheter</div>
+          <h2>Hvert rom er en <em>virksomhet</em>.</h2>
+        </div>
+        <p class="sn-seksjon__ingress">ES-HOLDING AS driver med kjøp, salg og utleie av fast eiendom og eierskap i andre selskaper. Selskapene i gruppen driver blant annet Studio Sigdal Innlandet.</p>
+      </div>
+      <div class="rader">
+        <sc-for list="{{ rader }}" as="r" hint-placeholder-count="5">
+          <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.CompanyRow" dc-props="{{ r }}" hint-size="100%,93px"></x-import>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="hengsel" class="hengsel" data-screen-label="Slik jobber vi">
+    <div class="wrap hg">
+      <div>
+        <div class="label">App for montører</div>
+        <h2>Hengsel</h2>
+        <p class="lede">Montørappen for montører og montasjefirmaer som jobber for Studio Sigdal Innlandet. Prøv den til høyre.</p>
+        <ul class="egenskaper">
+          <li>Dagens jobber, tegninger og varer</li>
+          <li>Kontrollmål, kvalitetssjekk, bilder og avvik</li>
+          <li>Ferdigmelding på telefon og iPad</li>
+          <li>Virker uten dekning, og sender når nettet er tilbake</li>
+          <li>Kun for inviterte brukere</li>
+        </ul>
+        <a href="Personvern.dc.html" class="pill">Personvern for Hengsel <span aria-hidden="true">→</span></a>
+      </div>
+      <x-import component-from-global-scope="Telefon" from="./Telefon.jsx" hint-size="320px,700px"></x-import>
+    </div>
+  </section>
+
+  <section id="kontakt" class="sn-seksjon sn-seksjon--flate" data-screen-label="Kontakt">
+    <div class="wrap">
+      <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.ContactBlock" epost="drift@sngroup.no" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" hint-size="100%,260px">
+        <div class="label">Kontakt</div>
+        <h2 class="kontakt-tittel">Ta <em>kontakt</em>.</h2>
+      </x-import>
+    </div>
+  </section>
+</main>
+<dc-import name="Familiebaand" gjeldende="sngroup.no" hint-size="100%,80px"></dc-import>
+<x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.SiteFooter" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" personvern="Personvern.dc.html" personvern-tekst="Personvern · Hengsel" vis-del-av="{{ false }}" hint-size="100%,80px"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto' | 'lys' | 'mørk'&quot;}}">
+const V = [
+  { id: 'kjokken', navn: 'Kjøkken og interiør',
+    tekst: 'Studio Sigdal Innlandet selger og monterer kjøkken, bad og garderobe fra Sigdal. Vi tegner sammen med kunden i butikk og følger jobben helt til siste skapdør er justert.',
+    kort: 'Studio Sigdal Innlandet – kjøkken, bad og garderobe fra Sigdal, med butikker på Hamar, Lillehammer og Gjøvik.',
+    stikkord: ['Hamar', 'Lillehammer', 'Gjøvik', 'Kjøkken', 'Bad', 'Garderobe'], lenker: [], plan: ['#rad-kjokken', 'Les mer'] },
+  { id: 'hengsel', navn: 'Hengsel', undertittel: 'CRM by Hengsel og montørappen Hengsel',
+    tekst: 'Egne systemer for kundeoppfølging, bestilling og montering – og montørappen Hengsel. Bygd for måten en kjøkkenbutikk faktisk jobber på.',
+    kort: 'Egne systemer for salg, bestilling og montering. Døra i entréen henger på et hengsel – og det gjør montørappen også.',
+    stikkord: ['Kundeoppfølging', 'Bestilling', 'Montering', 'Hengsel'],
+    lenker: [{ href: 'https://hengsel.no', label: 'hengsel.no' }, { href: 'mailto:drift@sngroup.no?subject=Be%20om%20demo%20%E2%80%93%20CRM%20by%20Hengsel', label: 'Be om demo', primar: true }],
+    plan: ['#hengsel', 'Se Hengsel'] },
+  { id: 'byggem', navn: 'byggEM',
+    tekst: 'byggEM AS gjør snekkerarbeid og monterer kjøkken og innredning, dører og vinduer. Selskapet er heleid av SN Group.',
+    kort: 'Snekkerarbeid og montering av kjøkken, innredning, dører og vinduer.',
+    stikkord: [], lenker: [{ href: 'https://byggem.no', label: 'byggem.no' }], plan: ['#rad-byggem', 'Les mer'] },
+  { id: 'eiendom', navn: 'Eiendom', tekst: 'Kjøp, utvikling og utleie av fast eiendom.',
+    kort: 'Kjøp, utvikling og utleie av fast eiendom. Tomta og huset er rammen rundt alt det andre.',
+    stikkord: ['Kjøp', 'Utvikling', 'Utleie'], lenker: [], plan: ['#rad-eiendom', 'Les mer'] },
+  { id: 'investeringer', navn: 'Investeringer',
+    tekst: 'Vi utvikler og leier ut boliger, blant annet fire boliger i rekke i Trymsvei 8 gjennom Vass Boligutvikling AS. I tillegg er vi en av flere eiere i regnskapsselskapet Iconomy (icgroup.no).',
+    tekstHtml: 'Vi utvikler og leier ut boliger, blant annet fire boliger i rekke i Trymsvei 8 gjennom Vass Boligutvikling AS. I tillegg er vi en av flere eiere i regnskapsselskapet Iconomy (<a href="https://icgroup.no" target="_blank" rel="noopener">icgroup.no<span class="visually-hidden"> (åpnes i ny fane)</span></a>).',
+    kort: 'Eiendom og eierskap i andre selskaper.', stikkord: [], lenker: [], plan: ['#rad-investeringer', 'Les mer'] },
+];
+
+class Component extends DCLogic {
+  state = { valgt: 'kjokken', apne: ['kjokken'], lukket: false, koord: 'x 0 · y 0 mm' };
+  svgRef = React.createRef();
+  componentDidMount() { this.tema(); }
+  componentDidUpdate() { this.tema(); }
+  tema() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q || this.props.tema || 'auto';
+    const el = document.documentElement;
+    if (t === 'mork' || t === 'mørk') el.dataset.theme = 'dark';
+    else if (t === 'lys') el.dataset.theme = 'light';
+    else delete el.dataset.theme;
+  }
+  velg = (id, apneRad = true) => {
+    this.setState((s) => ({ valgt: id, apne: apneRad ? [id] : s.apne }));
+    if (id === 'hengsel') {
+      this.setState({ lukket: true });
+      setTimeout(() => this.setState({ lukket: false }), 60);
+    }
+  };
+  flytt = (e) => {
+    const svg = this.svgRef.current; const ctm = svg && svg.getScreenCTM(); if (!ctm) return;
+    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+    const klem = (n, max) => Math.min(max, Math.max(0, Math.round(n / 10) * 10));
+    const fmt = (n) => n.toLocaleString('nb-NO');
+    this.setState({ koord: 'x ' + fmt(klem((p.x - 40) * 20, 10400)) + ' · y ' + fmt(klem((p.y - 40) * 20, 6800)) + ' mm' });
+  };
+  renderVals() {
+    const { valgt, apne, lukket, koord } = this.state;
+    const s = {};
+    V.forEach((v) => {
+      s[v.id] = {
+        trykket: String(valgt === v.id),
+        velg: () => this.velg(v.id),
+        tast: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.velg(v.id); } },
+      };
+    });
+    const x = V.find((v) => v.id === valgt);
+    return {
+      valgt, koord, s, svgRef: this.svgRef, flytt: this.flytt,
+      planKlasse: 'plan' + (lukket ? ' lukket' : ''),
+      chips: V.map((v) => ({ navn: v.navn, trykket: String(valgt === v.id), velg: () => this.velg(v.id) })),
+      info: { navn: x.navn, kort: x.kort, href: x.plan[0], lenke: x.plan[1] },
+      rader: V.map((v) => ({
+        id: v.id, navn: v.navn, undertittel: v.undertittel, tekst: v.tekst, tekstHtml: v.tekstHtml,
+        stikkord: v.stikkord, lenker: v.lenker, apen: apne.includes(v.id),
+        onToggle: (o) => {
+          if (o) this.setState((st) => ({ valgt: v.id, apne: [...st.apne, v.id] }));
+          else this.setState((st) => ({ apne: st.apne.filter((a) => a !== v.id) }));
+        },
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

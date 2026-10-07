@@ -1,0 +1,80 @@
+/* SN Group – farger. Kilde: packages/design/src/styles/tokens.css i SNgroup-Drift/sngroup-nettsider.
+   Rå farger (--kalk …) brukes bare her. Komponentene bruker de semantiske navnene (--bakgrunn, --tekst …).
+   Ingen rosa/magenta, ingen signalfarger, ingen gradienter. */
+:root {
+  /* Palett */
+  --kalk: #f7f5f1;   /* bakgrunn, aldri rent hvitt */
+  --lin: #eee8df;    /* flater */
+  --sand: #d8ccbc;   /* linjer */
+  --stein: #a89a8a;  /* ikoner, pynt (2,6:1 mot kalk – ikke tekst) */
+  --torv: #6b5e53;   /* fra briefen; repoet bruker --tekst-dempet */
+  --umbra: #2b2420;  /* tekst og overskrifter */
+  --fjord: #46698f;  /* aksent, sparsomt */
+  --dis: #93a3b6;    /* myk aksent */
+
+  /* Mørk palett */
+  --natt: #1e1916;
+  --natt-flate: #29221d;
+  --natt-tekst: #f1ece4;
+
+  /* Semantisk (lys) */
+  --bakgrunn: var(--kalk);
+  --flate: var(--lin);
+  --linje: var(--sand);
+  --linje-svak: rgb(43 36 32 / 0.14);
+  --ikon: var(--stein);
+  --tekst: var(--umbra);
+  --tekst-dempet: rgb(43 36 32 / 0.74);
+  --aksent: var(--fjord);
+  --aksent-myk: var(--dis);
+  --pa-aksent: var(--kalk);
+  --sone: rgb(70 105 143 / 0.1);
+  --sone-valgt: rgb(70 105 143 / 0.2);
+  --enhet: var(--umbra);
+  --enhet-tekst: var(--kalk);
+  --enhet-kort: #3d332c;
+  --enhet-fremhevet: var(--sand);
+  --enhet-fremhevet-tekst: var(--umbra);
+  --fot: var(--umbra);
+  --fot-tekst: var(--kalk);
+
+  /* Engelske alias (eldre kort i dette prosjektet) */
+  --bg: var(--bakgrunn); --surface: var(--flate); --card: var(--bakgrunn);
+  --line: var(--linje); --text: var(--tekst); --muted: var(--tekst-dempet);
+  --accent: var(--aksent); --accent-soft: var(--aksent-myk); --on-accent: var(--pa-aksent); --icon: var(--ikon);
+  --surface-page: var(--bakgrunn); --surface-raised: var(--flate); --surface-card: var(--bakgrunn);
+  --border-default: var(--linje); --text-heading: var(--tekst); --text-body: var(--tekst);
+  --text-muted: var(--tekst-dempet); --text-link: var(--tekst); --focus-ring: var(--aksent);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bakgrunn: var(--natt); --flate: var(--natt-flate);
+    --linje: rgb(241 236 228 / 0.2); --linje-svak: rgb(241 236 228 / 0.14);
+    --ikon: #8f8274; --tekst: var(--natt-tekst); --tekst-dempet: rgb(241 236 228 / 0.74);
+    --aksent: var(--dis); --aksent-myk: var(--fjord); --pa-aksent: var(--natt);
+    --sone: rgb(147 163 182 / 0.12); --sone-valgt: rgb(147 163 182 / 0.24);
+    --enhet: #141110; --enhet-kort: #2e2621; --fot: #141110; --fot-tekst: var(--natt-tekst);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bakgrunn: var(--natt); --flate: var(--natt-flate);
+  --linje: rgb(241 236 228 / 0.2); --linje-svak: rgb(241 236 228 / 0.14);
+  --ikon: #8f8274; --tekst: var(--natt-tekst); --tekst-dempet: rgb(241 236 228 / 0.74);
+  --aksent: var(--dis); --aksent-myk: var(--fjord); --pa-aksent: var(--natt);
+  --sone: rgb(147 163 182 / 0.12); --sone-valgt: rgb(147 163 182 / 0.24);
+  --enhet: #141110; --enhet-kort: #2e2621; --fot: #141110; --fot-tekst: var(--natt-tekst);
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bakgrunn: var(--kalk); --flate: var(--lin);
+  --linje: var(--sand); --linje-svak: rgb(43 36 32 / 0.14);
+  --ikon: var(--stein); --tekst: var(--umbra); --tekst-dempet: rgb(43 36 32 / 0.74);
+  --aksent: var(--fjord); --aksent-myk: var(--dis); --pa-aksent: var(--kalk);
+  --sone: rgb(70 105 143 / 0.1); --sone-valgt: rgb(70 105 143 / 0.2);
+  --enhet: var(--umbra); --enhet-kort: #3d332c; --fot: var(--umbra); --fot-tekst: var(--kalk);
+  color-scheme: light;
+}

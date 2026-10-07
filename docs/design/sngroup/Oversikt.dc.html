@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <title>Oversikt – sngroup.no</title>
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <style>
+    body { margin: 0; background: #E9E4DC; color: #2B2420; }
+    a { color: inherit; }
+    a:hover { color: #46698F; }
+  </style>
+</helmet>
+<sc-for list="{{ sider }}" as="side" hint-placeholder-count="4">
+  <section id="{{ side.id }}" style="padding: 48px; display: grid; gap: 20px">
+    <div style="display: flex; align-items: baseline; gap: 16px">
+      <h2 style="font-size: 40px; margin: 0">{{ side.navn }}</h2>
+      <a href="{{ side.fil }}" style="font-size: 15px">Åpne {{ side.fil }} ↗</a>
+    </div>
+    <div style="display: flex; gap: 40px; align-items: flex-start">
+      <sc-for list="{{ side.visninger }}" as="v" hint-placeholder-count="4">
+        <div style="display: grid; gap: 10px">
+          <div class="label" style="color: #2B2420">{{ v.etikett }}</div>
+          <iframe src="{{ v.src }}" title="{{ v.etikett }}" loading="lazy" style="width: {{ v.b }}px; height: {{ v.h }}px; border: 1px solid #D8CCBC; border-radius: 6px; background: #F7F5F1; display: block"></iframe>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</sc-for>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const sider = [['forside', 'Forside', 'Forside.dc.html'], ['personvern', '/personvern', 'Personvern.dc.html'], ['design', '/design', 'Design.dc.html'], ['ikke-funnet', '404', '404.dc.html']];
+    const v = [['PC 1440 · lys', 1440, 'lys'], ['Mobil 390 · lys', 390, 'lys'], ['PC 1440 · mørk', 1440, 'mork'], ['Mobil 390 · mørk', 390, 'mork']];
+    return {
+      sider: sider.map(([id, navn, fil]) => ({
+        id, navn, fil,
+        visninger: v.map(([etikett, b, t]) => ({ etikett, b, h: b === 390 ? 844 : 900, src: fil + '?tema=' + t })),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

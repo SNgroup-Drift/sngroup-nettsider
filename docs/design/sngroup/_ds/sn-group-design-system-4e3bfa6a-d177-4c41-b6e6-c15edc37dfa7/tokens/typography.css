@@ -1,0 +1,24 @@
+/* Newsreader til overskrifter (aldri små, aldri versaler), Inter til alt annet.
+   Vekt 300 til store titler, 400 ellers. Kursiv aksentord (<em>) i --aksent.
+   Positiv sperring bare på små versale etiketter (.label). */
+:root {
+  --font-overskrift: "Newsreader Variable", "Newsreader", Georgia, "Times New Roman", serif;
+  --font-tekst: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  --fs-h1: clamp(40px, 6.2vw, 84px); /* @kind font */ --lh-h1: 1.04; /* @kind font */
+  --fs-h2: clamp(34px, 5vw, 64px);   /* @kind font */ --lh-h2: 1.06; /* @kind font */
+  --fs-h3: clamp(22px, 2.4vw, 28px); /* @kind font */ --lh-h3: 1.2; /* @kind font */
+  --fs-lede: 18px; /* @kind font */
+  --fs-body: 16px; --lh-body: 1.6; /* @kind font */
+  --fs-ui: 15px; /* @kind font */
+  --fs-small: 14px; /* @kind font */
+  --fs-label: 12px; /* @kind font */
+  --tracking-title: -0.01em; /* @kind font */
+  --tracking-label: 0.12em; /* @kind font */
+
+  /* Alias */
+  --font-serif: var(--font-overskrift);
+  --font-sans: var(--font-tekst);
+  --font-title: var(--font-overskrift);
+  --font-body: var(--font-tekst);
+}

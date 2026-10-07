@@ -1,0 +1,329 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/card/**",
+              "components/company/**",
+              "components/contact/**",
+              "components/core/**",
+              "components/footer/**",
+              "components/header/**",
+              "components/layout/**",
+              "components/privacy/**",
+              "ui_kits/sngroup/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Newsreader Variable|Inter Variable))/i]",
+        "message": "Font not provided by the design system. Available: Newsreader Variable, Inter Variable."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|href|pil|children|onClick|disabled|type|className|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, href, pil, children, onClick, disabled, type, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:solid|outline)$/]",
+        "message": "<Button> variant must be one of 'solid' | 'outline'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='type'] > Literal[value!=/^(?:button|submit|reset)$/]",
+        "message": "<Button> type must be one of 'button' | 'submit' | 'reset'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Card'] > JSXAttribute > JSXIdentifier[name!=/^(?:tittel|href|lenketekst|children|key|ref|className|style|children)$/]",
+        "message": "<Card> doesn't accept that prop. Declared props: tittel, href, lenketekst, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ComingSoon'] > JSXAttribute > JSXIdentifier[name!=/^(?:navn|tekst|children|key|ref|className|style|children)$/]",
+        "message": "<ComingSoon> doesn't accept that prop. Declared props: navn, tekst, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='CompanyRowLenke'] > JSXAttribute > JSXIdentifier[name!=/^(?:href|label|primar|key|ref|className|style|children)$/]",
+        "message": "<CompanyRowLenke> doesn't accept that prop. Declared props: href, label, primar."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ContactBlock'] > JSXAttribute > JSXIdentifier[name!=/^(?:epost|selskap|orgnr|adresse|children|key|ref|className|style|children)$/]",
+        "message": "<ContactBlock> doesn't accept that prop. Declared props: epost, selskap, orgnr, adresse, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Avsnitt'] > JSXAttribute > JSXIdentifier[name!=/^(?:overskrift|tekst|punkter|etter|key|ref|className|style|children)$/]",
+        "message": "<Avsnitt> doesn't accept that prop. Declared props: overskrift, tekst, punkter, etter."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Section'] > JSXAttribute > JSXIdentifier[name!=/^(?:id|label|tittel|ingress|flate|className|children|key|ref|className|style|children)$/]",
+        "message": "<Section> doesn't accept that prop. Declared props: id, label, tittel, ingress, flate, className, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SiteFooter'] > JSXAttribute > JSXIdentifier[name!=/^(?:selskap|orgnr|adresse|epost|personvern|personvernTekst|visDelAv|onPersonvern|key|ref|className|style|children)$/]",
+        "message": "<SiteFooter> doesn't accept that prop. Declared props: selskap, orgnr, adresse, epost, personvern, personvernTekst, visDelAv, onPersonvern."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SiteHeaderLenke'] > JSXAttribute > JSXIdentifier[name!=/^(?:href|label|primar|onClick|key|ref|className|style|children)$/]",
+        "message": "<SiteHeaderLenke> doesn't accept that prop. Declared props: href, label, primar, onClick."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Button": {
+        "replaces": []
+      },
+      "Card": {
+        "replaces": []
+      },
+      "ComingSoon": {
+        "replaces": []
+      },
+      "CompanyRowLenke": {
+        "replaces": []
+      },
+      "ContactBlock": {
+        "replaces": []
+      },
+      "Avsnitt": {
+        "replaces": []
+      },
+      "Section": {
+        "replaces": []
+      },
+      "SiteFooter": {
+        "replaces": []
+      },
+      "SiteHeaderLenke": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--accent",
+      "--accent-soft",
+      "--aksent",
+      "--aksent-myk",
+      "--bakgrunn",
+      "--bg",
+      "--border-default",
+      "--border-width",
+      "--bredde",
+      "--card",
+      "--content-max",
+      "--control-min",
+      "--dis",
+      "--dur-base",
+      "--dur-fast",
+      "--ease-dor",
+      "--enhet",
+      "--enhet-fremhevet",
+      "--enhet-fremhevet-tekst",
+      "--enhet-kort",
+      "--enhet-tekst",
+      "--fjord",
+      "--flate",
+      "--focus-ring",
+      "--font-body",
+      "--font-overskrift",
+      "--font-sans",
+      "--font-serif",
+      "--font-tekst",
+      "--font-title",
+      "--fot",
+      "--fot-tekst",
+      "--fs-body",
+      "--fs-h1",
+      "--fs-h2",
+      "--fs-h3",
+      "--fs-label",
+      "--fs-lede",
+      "--fs-small",
+      "--fs-ui",
+      "--gutter",
+      "--icon",
+      "--ikon",
+      "--kalk",
+      "--lh-body",
+      "--lh-h1",
+      "--lh-h2",
+      "--lh-h3",
+      "--lin",
+      "--line",
+      "--linje",
+      "--linje-svak",
+      "--muted",
+      "--natt",
+      "--natt-flate",
+      "--natt-tekst",
+      "--on-accent",
+      "--pa-aksent",
+      "--r-card",
+      "--r-field",
+      "--r-pill",
+      "--radius",
+      "--radius-pille",
+      "--s-1",
+      "--s-2",
+      "--s-3",
+      "--s-4",
+      "--s-5",
+      "--s-6",
+      "--s-7",
+      "--s-8",
+      "--s-9",
+      "--sand",
+      "--seksjon",
+      "--shadow",
+      "--sone",
+      "--sone-valgt",
+      "--stein",
+      "--surface",
+      "--surface-card",
+      "--surface-page",
+      "--surface-raised",
+      "--tekst",
+      "--tekst-dempet",
+      "--text",
+      "--text-body",
+      "--text-heading",
+      "--text-link",
+      "--text-muted",
+      "--torv",
+      "--tracking-label",
+      "--tracking-title",
+      "--umbra"
+    ],
+    "tokenKinds": {
+      "--kalk": "color",
+      "--lin": "color",
+      "--sand": "color",
+      "--stein": "color",
+      "--torv": "color",
+      "--umbra": "color",
+      "--fjord": "color",
+      "--dis": "color",
+      "--natt": "color",
+      "--natt-flate": "color",
+      "--natt-tekst": "color",
+      "--bakgrunn": "color",
+      "--flate": "color",
+      "--linje": "color",
+      "--linje-svak": "color",
+      "--ikon": "color",
+      "--tekst": "color",
+      "--tekst-dempet": "color",
+      "--aksent": "color",
+      "--aksent-myk": "color",
+      "--pa-aksent": "color",
+      "--sone": "color",
+      "--sone-valgt": "color",
+      "--enhet": "color",
+      "--enhet-tekst": "color",
+      "--enhet-kort": "color",
+      "--enhet-fremhevet": "color",
+      "--enhet-fremhevet-tekst": "color",
+      "--fot": "color",
+      "--fot-tekst": "color",
+      "--bg": "color",
+      "--surface": "color",
+      "--card": "color",
+      "--line": "color",
+      "--text": "font",
+      "--muted": "color",
+      "--accent": "color",
+      "--accent-soft": "color",
+      "--on-accent": "color",
+      "--icon": "color",
+      "--surface-page": "color",
+      "--surface-raised": "color",
+      "--surface-card": "color",
+      "--border-default": "color",
+      "--text-heading": "font",
+      "--text-body": "font",
+      "--text-muted": "font",
+      "--text-link": "font",
+      "--focus-ring": "color",
+      "--font-overskrift": "font",
+      "--font-tekst": "font",
+      "--fs-h1": "font",
+      "--lh-h1": "font",
+      "--fs-h2": "font",
+      "--lh-h2": "font",
+      "--fs-h3": "font",
+      "--lh-h3": "font",
+      "--fs-lede": "font",
+      "--fs-body": "spacing",
+      "--lh-body": "font",
+      "--fs-ui": "font",
+      "--fs-small": "font",
+      "--fs-label": "font",
+      "--tracking-title": "font",
+      "--tracking-label": "font",
+      "--font-serif": "font",
+      "--font-sans": "font",
+      "--font-title": "font",
+      "--font-body": "font",
+      "--bredde": "spacing",
+      "--gutter": "spacing",
+      "--radius": "radius",
+      "--radius-pille": "radius",
+      "--seksjon": "spacing",
+      "--s-1": "spacing",
+      "--s-2": "spacing",
+      "--s-3": "spacing",
+      "--s-4": "spacing",
+      "--s-5": "spacing",
+      "--s-6": "spacing",
+      "--s-7": "spacing",
+      "--s-8": "spacing",
+      "--s-9": "spacing",
+      "--control-min": "spacing",
+      "--content-max": "color",
+      "--r-field": "color",
+      "--r-card": "color",
+      "--r-pill": "color",
+      "--border-width": "spacing",
+      "--shadow": "shadow",
+      "--ease-dor": "other",
+      "--dur-fast": "other",
+      "--dur-base": "other"
+    },
+    "fontFamilies": [
+      "Inter Variable",
+      "Newsreader Variable"
+    ]
+  }
+}

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Design – SN Group</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/base.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/components/components.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5.0.8/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5.0.8/400.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+  <style>
+    :root { --bredde: 1180px; }
+    body { margin: 0; background: var(--bakgrunn); color: var(--tekst); }
+    a { color: inherit; }
+    a:hover { color: inherit; }
+  </style>
+</helmet>
+<a class="skip" href="#innhold">Hopp til innholdet</a>
+<dc-import name="Toppfelt" lenker="{{ lenker }}" kontakt-href="Forside.dc.html#kontakt" hint-size="100%,88px"></dc-import>
+<main id="innhold">
+  <div class="wrap" style="padding-block: clamp(32px, 6vw, 80px) clamp(24px, 4vw, 48px)" data-screen-label="Design topp">
+    <div class="label">Designpakke</div>
+    <h1 style="margin-top: 20px">SN Group <em>design</em></h1>
+    <p class="lede">Farger, skrifter og komponenter i <code style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9em">packages/design</code>. Felles for sngroup.no, hengsel.no og byggem.no. Siden følger lys eller mørk modus fra enheten.</p>
+  </div>
+
+  <section id="farger" class="sn-seksjon sn-seksjon--flate" data-screen-label="Farger">
+    <div class="wrap">
+      <div class="sn-seksjon__hode">
+        <div><div class="label">Farger</div><h2>Palett</h2></div>
+        <p class="sn-seksjon__ingress">CSS-variabler i tokens.css. Ingen rosa, ingen signalfarger, ingen gradienter.</p>
+      </div>
+      <h3 style="margin: 0 0 16px; font-size: 26px">Lys</h3>
+      <ul style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px">
+        <sc-for list="{{ lys }}" as="f" hint-placeholder-count="7">
+          <li style="display: grid; gap: 2px; font-size: 14px">
+            <span style="display: block; height: 88px; border-radius: var(--radius); border: 1px solid var(--linje-svak); margin-bottom: 8px; background: {{ f.hex }}"></span>
+            <b>--{{ f.navn }}</b>
+            <code style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9em">{{ f.hex }}</code>
+            <span style="color: var(--tekst-dempet)">{{ f.bruk }}</span>
+          </li>
+        </sc-for>
+      </ul>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">Mørk</h3>
+      <ul style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px">
+        <sc-for list="{{ mork }}" as="f" hint-placeholder-count="4">
+          <li style="display: grid; gap: 2px; font-size: 14px">
+            <span style="display: block; height: 88px; border-radius: var(--radius); border: 1px solid var(--linje-svak); margin-bottom: 8px; background: {{ f.hex }}"></span>
+            <b>{{ f.navn }}</b>
+            <code style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9em">{{ f.hex }}</code>
+            <span style="color: var(--tekst-dempet)">{{ f.bruk }}</span>
+          </li>
+        </sc-for>
+      </ul>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">Kontrast (WCAG)</h3>
+      <div style="overflow-x: auto">
+        <table style="border-collapse: collapse; width: 100%; font-size: 15px; min-width: 420px">
+          <thead>
+            <tr>
+              <th scope="col" style="text-align: left; padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak); font-weight: 500; color: var(--tekst-dempet)">Par</th>
+              <th scope="col" style="text-align: left; padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak); font-weight: 500; color: var(--tekst-dempet)">Kontrast</th>
+              <th scope="col" style="text-align: left; padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak); font-weight: 500; color: var(--tekst-dempet)">Bruk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ par }}" as="p" hint-placeholder-count="7">
+              <tr>
+                <td style="padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak)">{{ p.navn }}</td>
+                <td style="padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak)">{{ p.k }} : 1</td>
+                <td style="padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linje-svak)">{{ p.bruk }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <p style="color: var(--tekst-dempet); max-width: 62ch; margin: 16px 0 0">Stein er for lys til tekst (under 4,5 : 1). Dempet tekst bruker derfor umbra med 74 % dekning (<code style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9em">--tekst-dempet</code>), og stein brukes til ikoner, prikker og stiplede linjer.</p>
+    </div>
+  </section>
+
+  <section id="skrift" class="sn-seksjon" data-screen-label="Skrift">
+    <div class="wrap">
+      <div class="sn-seksjon__hode">
+        <div><div class="label">Skrift</div><h2>Newsreader og Inter</h2></div>
+        <p class="sn-seksjon__ingress">Selvhostet fra npm (@fontsource-variable). Newsreader til overskrifter, Inter til alt annet.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px">
+        <div>
+          <div class="label">Newsreader · overskrifter</div>
+          <p style="margin: 14px 0 0; font-family: var(--font-overskrift); line-height: 1.1; letter-spacing: -0.01em; font-size: clamp(36px, 5vw, 56px); font-weight: 300">Vi bygger og eier selskaper som lager <em>hjem</em> bedre.</p>
+          <p style="margin: 14px 0 0; font-family: var(--font-overskrift); line-height: 1.1; letter-spacing: -0.01em; font-size: 36px; font-weight: 300">Hvert rom er en <em>virksomhet</em>.</p>
+          <p style="margin: 14px 0 0; font-family: var(--font-overskrift); line-height: 1.1; letter-spacing: -0.01em; font-size: 26px; font-weight: 400">Kjøkken og interiør</p>
+          <p style="margin: 14px 0 0; font-size: 14px; color: var(--tekst-dempet)">Aldri små, aldri versaler. Vekt 300 til store titler, 400 ellers. Kursiv for aksentord.</p>
+        </div>
+        <div>
+          <div class="label">Inter · tekst</div>
+          <p style="margin: 14px 0 0; font-size: 18px">Ingress 18 px. SN Group samler selskapene til Eirik Sjøflot.</p>
+          <p style="margin: 14px 0 0; font-size: 16px">Brødtekst 16 px, vekt 400. Studio Sigdal Innlandet selger og monterer kjøkken, bad og garderobe.</p>
+          <p style="margin: 14px 0 0; font-size: 15px"><b style="font-weight: 500">Vekt 500</b> til knapper og etiketter. <b style="font-weight: 600">Vekt 600</b> sparsomt.</p>
+          <p class="label" style="margin: 14px 0 0">Liten versal etikett · 12 px · sperret</p>
+          <p style="margin: 14px 0 0; font-size: 14px; color: var(--tekst-dempet)">Ingen positiv sperring på små bokstaver. Bare små versale etiketter er sperret.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="familiegrep" class="sn-seksjon sn-seksjon--flate" data-screen-label="Familiegrep">
+    <div class="wrap">
+      <div class="sn-seksjon__hode">
+        <div><div class="label">Familiegrep</div><h2>Ett hus, flere <em>rom</em>.</h2></div>
+        <p class="sn-seksjon__ingress">Likt på sngroup.no, hengsel.no og byggem.no. Hver side har egne farger og skrifter. Formen er den samme: toppfelt, plantegningsstrek, familiebånd og 404. Seksjonene kommer i samme rekkefølge: hero · hva vi gjør · slik jobber vi · kontakt. Maks innholdsbredde 1180 px.</p>
+      </div>
+
+      <h3 style="margin: 0 0 8px; font-size: 26px">Toppfelt</h3>
+      <p style="margin: 0 0 16px; font-size: 14px; color: var(--tekst-dempet); max-width: 62ch">Logo til venstre, kort meny til høyre og én kontaktknapp. Menylenkene skjules under 640 px, kontaktknappen blir stående.</p>
+      <div style="display: grid; gap: 12px">
+        <div class="label">sngroup.no</div>
+        <div style="border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden; background: var(--bakgrunn)">
+          <dc-import name="Toppfelt" lenker="{{ lenkerDemo }}" kontakt-href="#familiegrep" hint-size="100%,88px"></dc-import>
+        </div>
+        <div class="label" style="margin-top: 12px">hengsel.no</div>
+        <div style="--bakgrunn: #FBF9F6; --flate: #F2E9DB; --linje: #E4D4C4; --linje-svak: rgb(49 38 29 / 0.14); --ikon: #C3B5A7; --tekst: #31261D; --tekst-dempet: rgb(49 38 29 / 0.74); --aksent: #5074A9; --radius: 14px; border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden; background: var(--bakgrunn); color: var(--tekst)">
+          <dc-import name="Toppfelt" ordmerke="Hengsel" logo="" lenker="{{ lenkerDemo }}" kontakt-href="#familiegrep" hint-size="100%,88px"></dc-import>
+        </div>
+        <div class="label" style="margin-top: 12px">byggem.no</div>
+        <div style="--bakgrunn: #FAF8F5; --flate: #EFEAE4; --linje: #C3B5A7; --linje-svak: rgb(49 38 29 / 0.14); --ikon: #C3B5A7; --tekst: #31261D; --tekst-dempet: #6B5B4A; --aksent: #A25A32; --radius: 4px; --radius-pille: 2px; --font-overskrift: 'Poppins', 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden; background: var(--bakgrunn); color: var(--tekst)">
+          <dc-import name="Toppfelt" ordmerke="byggEM" logo="" lenker="{{ lenkerDemo }}" kontakt-href="#familiegrep" hint-size="100%,88px"></dc-import>
+        </div>
+      </div>
+
+      <h3 style="margin: 56px 0 8px; font-size: 26px">Plantegningsstrek</h3>
+      <p style="margin: 0 0 16px; font-size: 14px; color: var(--tekst-dempet); max-width: 62ch">Tynn arkitektstrek, 1,5 px uansett størrelse, målestokk 1:50 og mål i mm, i sidens tekstfarge. Hengselpunktet i aksentfargen. sngroup.no viser hele huset, hengsel.no rommet Entré og byggem.no rommet Verksted.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px">
+        <div style="border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); padding: 18px; display: grid; gap: 12px; align-content: start">
+          <div class="label">sngroup.no · huset</div>
+          <dc-import name="Plantegningsstrek" rom="hus" hint-size="100%,260px"></dc-import>
+        </div>
+        <div style="--bakgrunn: #FBF9F6; --linje: #E4D4C4; --ikon: #C3B5A7; --tekst: #31261D; --tekst-dempet: rgb(49 38 29 / 0.74); --aksent: #5074A9; --radius: 14px; border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); color: var(--tekst); padding: 18px; display: grid; gap: 12px; align-content: start">
+          <div class="label">hengsel.no · Entré</div>
+          <dc-import name="Plantegningsstrek" rom="entre" hint-size="100%,260px"></dc-import>
+        </div>
+        <div style="--bakgrunn: #FAF8F5; --linje: #C3B5A7; --ikon: #C3B5A7; --tekst: #31261D; --tekst-dempet: #6B5B4A; --aksent: #A25A32; --radius: 4px; border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); color: var(--tekst); padding: 18px; display: grid; gap: 12px; align-content: start">
+          <div class="label">byggem.no · Verksted</div>
+          <dc-import name="Plantegningsstrek" rom="verksted" hint-size="100%,260px"></dc-import>
+        </div>
+      </div>
+
+      <h3 style="margin: 56px 0 8px; font-size: 26px">Familiebånd</h3>
+      <p style="margin: 0 0 16px; font-size: 14px; color: var(--tekst-dempet); max-width: 62ch">Nederst, rett over bunnteksten. SN Group-symbolet (rommet sett ovenfra), «En del av SN Group» og lenker til søstersidene. Siden du står på er markert og ikke lenket.</p>
+      <div style="display: grid; gap: 12px">
+        <div style="border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden">
+          <dc-import name="Familiebaand" gjeldende="sngroup.no" hint-size="100%,80px"></dc-import>
+        </div>
+        <div style="--bakgrunn: #FBF9F6; --linje: #E4D4C4; --linje-svak: rgb(49 38 29 / 0.14); --tekst: #31261D; --tekst-dempet: rgb(49 38 29 / 0.74); --aksent: #5074A9; --radius: 14px; border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden">
+          <dc-import name="Familiebaand" gjeldende="hengsel.no" hint-size="100%,80px"></dc-import>
+        </div>
+        <div style="--bakgrunn: #FAF8F5; --linje: #C3B5A7; --linje-svak: rgb(49 38 29 / 0.14); --tekst: #31261D; --tekst-dempet: #6B5B4A; --aksent: #A25A32; --radius: 4px; border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden">
+          <dc-import name="Familiebaand" gjeldende="byggem.no" hint-size="100%,80px"></dc-import>
+        </div>
+      </div>
+
+      <h3 style="margin: 56px 0 8px; font-size: 26px">404</h3>
+      <p style="margin: 0 0 16px; font-size: 14px; color: var(--tekst-dempet); max-width: 62ch">Samme side på alle tre: et tomt rom i plantegningsstrek, «Dette rommet finnes ikke.» og lenke hjem. Se <a href="404.dc.html" style="color: var(--tekst); text-underline-offset: 3px">404-siden</a>.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px">
+        <div style="border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); overflow: hidden; zoom: 0.62">
+          <dc-import name="IkkeFunnet" hjem="#familiegrep" hint-size="100%,560px"></dc-import>
+        </div>
+        <div style="--bakgrunn: #FBF9F6; --linje: #E4D4C4; --ikon: #C3B5A7; --tekst: #31261D; --tekst-dempet: rgb(49 38 29 / 0.74); --aksent: #5074A9; --radius: 14px; border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); overflow: hidden; zoom: 0.62">
+          <dc-import name="IkkeFunnet" hjem="#familiegrep" hint-size="100%,560px"></dc-import>
+        </div>
+        <div style="--bakgrunn: #FAF8F5; --linje: #C3B5A7; --ikon: #C3B5A7; --tekst: #31261D; --tekst-dempet: #6B5B4A; --aksent: #A25A32; --radius: 4px; --radius-pille: 2px; --font-overskrift: 'Poppins', 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); overflow: hidden; zoom: 0.62">
+          <dc-import name="IkkeFunnet" hjem="#familiegrep" hint-size="100%,560px"></dc-import>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="komponenter" class="sn-seksjon" data-screen-label="Komponenter">
+    <div class="wrap">
+      <div class="sn-seksjon__hode">
+        <div><div class="label">Komponenter</div><h2>Byggeklosser</h2></div>
+        <p class="sn-seksjon__ingress">Astro-komponenter i packages/design/src/components.</p>
+      </div>
+      <h3 style="margin: 0 0 16px; font-size: 26px">Knapper</h3>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap">
+        <a class="pill solid" href="#komponenter">Ta kontakt <span aria-hidden="true">→</span></a>
+        <a class="pill" href="#komponenter">Se virksomhetene</a>
+      </div>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">Card</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.Card" tittel="Kjøkken og interiør" href="#komponenter" hint-size="100%,160px"><p>Studio Sigdal Innlandet – kjøkken, bad og garderobe fra Sigdal, med butikker på Hamar, Lillehammer og Gjøvik.</p></x-import>
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.Card" tittel="Eiendom" hint-size="100%,160px"><p>Kjøp, utvikling og utleie av fast eiendom.</p></x-import>
+      </div>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">CompanyRow</h3>
+      <div style="border-top: 1px solid var(--linje-svak)">
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.CompanyRow" dc-props="{{ radDemo }}" hint-size="100%,220px"></x-import>
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.CompanyRow" id="demo-plassholder" navn="Plassholder" tekst="Tekst kommer." plassholder="{{ true }}" hint-size="100%,93px"></x-import>
+      </div>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">ContactBlock</h3>
+      <div style="border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); padding: 24px">
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.ContactBlock" epost="drift@sngroup.no" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" hint-size="100%,240px"><div class="label">Kontakt</div></x-import>
+      </div>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">PrivacyPage</h3>
+      <div style="border: 1px solid var(--linje); border-radius: var(--radius); background: var(--bakgrunn); overflow: hidden">
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.PrivacyPage" dc-props="{{ pvDemo }}" hint-size="100%,420px"></x-import>
+      </div>
+      <h3 style="margin: 40px 0 16px; font-size: 26px">SiteFooter</h3>
+      <p style="margin: 0 0 16px; font-size: 14px; color: var(--tekst-dempet)">Bunnteksten under familiebåndet. «En del av SN Group» står i familiebåndet, så linjen er skjult i bunnteksten på alle tre sidene.</p>
+      <div style="border: 1px solid var(--linje); border-radius: var(--radius); overflow: hidden">
+        <x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.SiteFooter" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" personvern="Personvern.dc.html" vis-del-av="{{ false }}" hint-size="100%,80px"></x-import>
+      </div>
+    </div>
+  </section>
+</main>
+<dc-import name="Familiebaand" gjeldende="sngroup.no" hint-size="100%,80px"></dc-import>
+<x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.SiteFooter" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" personvern="Personvern.dc.html" personvern-tekst="Personvern · Hengsel" vis-del-av="{{ false }}" hint-size="100%,80px"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto' | 'lys' | 'mørk'&quot;}}">
+const LYS = [
+  { navn: 'kalk', hex: '#F7F5F1', bruk: 'Bakgrunn (aldri rent hvitt)' },
+  { navn: 'lin', hex: '#EEE8DF', bruk: 'Flater' },
+  { navn: 'sand', hex: '#D8CCBC', bruk: 'Linjer' },
+  { navn: 'stein', hex: '#A89A8A', bruk: 'Dempet, ikoner' },
+  { navn: 'umbra', hex: '#2B2420', bruk: 'Tekst og overskrifter' },
+  { navn: 'fjord', hex: '#46698F', bruk: 'Aksent, sparsomt' },
+  { navn: 'dis', hex: '#93A3B6', bruk: 'Myk aksent' },
+];
+const MORK = [
+  { navn: 'bakgrunn', hex: '#1E1916', bruk: 'Bakgrunn' },
+  { navn: 'flate', hex: '#29221D', bruk: 'Flater' },
+  { navn: 'tekst', hex: '#F1ECE4', bruk: 'Tekst' },
+  { navn: 'aksent', hex: '#93A3B6', bruk: 'Aksent (dis)' },
+];
+const PAR = [
+  ['umbra på kalk', '#2B2420', '#F7F5F1', 'Brødtekst'],
+  ['umbra på lin', '#2B2420', '#EEE8DF', 'Brødtekst på flate'],
+  ['fjord på kalk', '#46698F', '#F7F5F1', 'Lenker, aksent'],
+  ['stein på kalk', '#A89A8A', '#F7F5F1', 'Bare ikoner og pynt, ikke tekst'],
+  ['tekst på mørk bakgrunn', '#F1ECE4', '#1E1916', 'Brødtekst, mørk'],
+  ['dis på mørk bakgrunn', '#93A3B6', '#1E1916', 'Aksent, mørk'],
+  ['dis på mørk flate', '#93A3B6', '#29221D', 'Aksent på flate, mørk'],
+];
+const lum = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const kontrast = (a, b) => {
+  const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+  return ((x + 0.05) / (y + 0.05)).toFixed(1).replace('.', ',');
+};
+
+class Component extends DCLogic {
+  componentDidMount() { this.tema(); }
+  componentDidUpdate() { this.tema(); }
+  tema() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q || this.props.tema || 'auto';
+    const el = document.documentElement;
+    if (t === 'mork' || t === 'mørk') el.dataset.theme = 'dark';
+    else if (t === 'lys') el.dataset.theme = 'light';
+    else delete el.dataset.theme;
+  }
+  renderVals() {
+    return {
+      lys: LYS, mork: MORK,
+      par: PAR.map(([navn, a, b, bruk]) => ({ navn, k: kontrast(a, b), bruk })),
+      lenker: [{ href: 'Forside.dc.html#virksomheter', label: 'Virksomheter' }, { href: 'Forside.dc.html#hengsel', label: 'Hengsel' }],
+      lenkerDemo: [{ href: '#familiegrep', label: 'Om' }],
+      radDemo: {
+        id: 'demo-hengsel', navn: 'Hengsel', undertittel: 'CRM by Hengsel og montørappen Hengsel',
+        tekst: 'Egne systemer for kundeoppfølging, bestilling og montering – og montørappen Hengsel.',
+        stikkord: ['Kundeoppfølging', 'Bestilling', 'Montering'],
+        lenker: [{ href: 'https://hengsel.no', label: 'hengsel.no' }, { href: 'mailto:drift@sngroup.no', label: 'Be om demo', primar: true }],
+        apen: true,
+      },
+      pvDemo: {
+        tittel: 'Personvern i', tittelAksent: 'eksempel',
+        oppdatert: 'Felt: tittel, oppdatert, behandlingsansvarlig, kontakt og avsnitt',
+        behandlingsansvarlig: 'ES-HOLDING AS', kontakt: 'drift@sngroup.no',
+        avsnitt: [{ overskrift: 'Avsnitt', tekst: ['Tekst, punktliste og tekst etter listen.'], punkter: ['Punkt én', 'Punkt to'] }],
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

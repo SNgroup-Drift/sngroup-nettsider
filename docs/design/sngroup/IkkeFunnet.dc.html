@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+</helmet>
+<main id="innhold" data-familiegrep="404" style="color: var(--tekst)">
+  <div class="wrap" style="padding-block: clamp(64px, 10vw, 120px); display: grid; justify-items: center; text-align: center">
+    <div style="width: min(280px, 100%)">
+      <dc-import name="Plantegningsstrek" rom="tomt" hint-size="100%,210px"></dc-import>
+    </div>
+    <div class="label" style="margin-top: 40px">404</div>
+    <h1 style="margin-top: 20px">Dette rommet finnes ikke.</h1>
+    <p style="margin: 40px 0 0"><a href="{{ hjem }}" class="pill solid">{{ hjemTekst }} <span aria-hidden="true">→</span></a></p>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1180px&quot;,&quot;height&quot;:&quot;620px&quot;},&quot;hjem&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Forside.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hjemTekst&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Til forsiden&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return { hjem: this.props.hjem ?? 'Forside.dc.html', hjemTekst: this.props.hjemTekst ?? 'Til forsiden' };
+  }
+}
+</script>
+</body>
+</html>

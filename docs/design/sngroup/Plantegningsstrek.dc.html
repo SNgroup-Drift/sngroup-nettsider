@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+</helmet>
+<figure data-familiegrep="plantegningsstrek" style="margin: 0; color: var(--tekst); width: 100%">
+  <sc-if value="{{ erHus }}" hint-placeholder-val="{{ true }}">
+    <div aria-hidden="true" style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--tekst-dempet); font-variant-numeric: tabular-nums"><span>Plantegning · 1:50</span><span>10 400 × 6 800 mm</span></div>
+    <svg viewBox="0 0 600 440" role="img" aria-label="Plantegning av huset, 10 400 × 6 800 mm" style="width: 100%; height: auto; display: block; margin-top: 6px">
+      <rect x="12" y="12" width="576" height="416" rx="2" style="fill: none; stroke: var(--ikon); stroke-width: 1px; stroke-dasharray: 6 5; vector-effect: non-scaling-stroke"></rect>
+      <path d="M40 26 H560 M40 21 V31 M560 21 V31 M574 40 V380 M569 40 H579 M569 380 H579" style="fill: none; stroke: var(--tekst-dempet); stroke-width: 0.8px; vector-effect: non-scaling-stroke"></path>
+      <text x="300" y="22" style="fill: var(--tekst-dempet); font: 500 10px var(--font-tekst); text-anchor: middle">10 400</text>
+      <text x="586" y="214" transform="rotate(90 586 210)" style="fill: var(--tekst-dempet); font: 500 10px var(--font-tekst); text-anchor: middle">6 800</text>
+      <path d="M46 46 H294 V70 H70 V214 H46 Z M340 80 H470 V104 H364 V160 H340 Z M60 272 H170 M70 254 H108 V268 H70 Z M122 254 H160 V268 H122 Z M380 295 H412 M380 320 H412 M380 345 H412 M526 284 H536" style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; opacity: 0.6; vector-effect: non-scaling-stroke"></path>
+      <g style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; opacity: 0.6">
+        <rect x="130" y="118" width="110" height="46" rx="2" style="vector-effect: non-scaling-stroke"></rect>
+        <circle cx="190" cy="58" r="6" style="vector-effect: non-scaling-stroke"></circle>
+        <circle cx="208" cy="58" r="6" style="vector-effect: non-scaling-stroke"></circle>
+        <rect x="96" y="50" width="30" height="16" rx="6" style="vector-effect: non-scaling-stroke"></rect>
+        <rect x="392" y="130" width="64" height="40" rx="3" style="vector-effect: non-scaling-stroke"></rect>
+        <rect x="60" y="250" width="110" height="100" rx="3" style="vector-effect: non-scaling-stroke"></rect>
+        <rect x="380" y="270" width="32" height="100" rx="1" style="vector-effect: non-scaling-stroke"></rect>
+        <rect x="284" y="350" width="60" height="20" rx="1" style="vector-effect: non-scaling-stroke"></rect>
+        <rect x="520" y="280" width="22" height="34" rx="4" style="vector-effect: non-scaling-stroke"></rect>
+      </g>
+      <g style="font: 500 10px var(--font-tekst); letter-spacing: 0.12em; fill: var(--tekst)">
+        <text x="130" y="190">KJØKKEN</text><text x="440" y="220">STUE</text><text x="184" y="318">SOVEROM</text><text x="286" y="300">VERKSTED</text><text x="440" y="296">ENTRÉ</text>
+      </g>
+      <path d="M40 40 H560 V380 H500 M460 380 H40 Z M300 40 V120 M300 170 V260 H420 M40 220 H180 M230 220 H420 V300 M420 345 V380 M270 260 V380 M460 380 V340" style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; vector-effect: non-scaling-stroke"></path>
+      <path d="M460 340 A40 40 0 0 1 500 380" style="fill: none; stroke: var(--tekst); stroke-width: 0.8px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke"></path>
+      <circle cx="460" cy="380" r="3.5" style="fill: var(--aksent)"></circle>
+    </svg>
+  </sc-if>
+  <sc-if value="{{ erEntre }}" hint-placeholder-val="{{ false }}">
+    <div aria-hidden="true" style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--tekst-dempet); font-variant-numeric: tabular-nums"><span>Entré · 1:50</span><span>2 800 × 2 400 mm</span></div>
+    <svg viewBox="396 248 200 166" role="img" aria-label="Plantegning av entréen, 2 800 × 2 400 mm" style="width: 100%; height: auto; display: block; margin-top: 6px">
+      <path d="M420 260 H560" style="fill: none; stroke: var(--ikon); stroke-width: 1px; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke"></path>
+      <path d="M420 396 H560 M420 392 V400 M560 392 V400 M576 260 V380 M572 260 H580 M572 380 H580" style="fill: none; stroke: var(--tekst-dempet); stroke-width: 0.8px; vector-effect: non-scaling-stroke"></path>
+      <text x="490" y="407" style="fill: var(--tekst-dempet); font: 500 4.2px var(--font-tekst); text-anchor: middle">2 800</text>
+      <text x="586" y="321" transform="rotate(90 586 320)" style="fill: var(--tekst-dempet); font: 500 4.2px var(--font-tekst); text-anchor: middle">2 400</text>
+      <rect x="520" y="280" width="22" height="34" rx="4" style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; opacity: 0.6; vector-effect: non-scaling-stroke"></rect>
+      <path d="M526 284 H536" style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; opacity: 0.6; vector-effect: non-scaling-stroke"></path>
+      <text x="440" y="296" style="fill: var(--tekst); font: 500 4.2px var(--font-tekst); letter-spacing: 0.12em">ENTRÉ</text>
+      <path d="M560 232 V380 H500 M460 380 H396 M420 232 V300 M420 345 V380 M460 380 V340" style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; vector-effect: non-scaling-stroke"></path>
+      <path d="M460 340 A40 40 0 0 1 500 380" style="fill: none; stroke: var(--tekst); stroke-width: 0.8px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke"></path>
+      <circle cx="460" cy="380" r="1.8" style="fill: var(--aksent)"></circle>
+    </svg>
+  </sc-if>
+  <sc-if value="{{ erVerksted }}" hint-placeholder-val="{{ false }}">
+    <div aria-hidden="true" style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--tekst-dempet); font-variant-numeric: tabular-nums"><span>Verksted · 1:50</span><span>3 000 × 2 400 mm</span></div>
+    <svg viewBox="246 248 200 166" role="img" aria-label="Plantegning av verkstedet, 3 000 × 2 400 mm" style="width: 100%; height: auto; display: block; margin-top: 6px">
+      <path d="M270 396 H420 M270 392 V400 M420 392 V400 M434 260 V380 M430 260 H438 M430 380 H438" style="fill: none; stroke: var(--tekst-dempet); stroke-width: 0.8px; vector-effect: non-scaling-stroke"></path>
+      <text x="345" y="407" style="fill: var(--tekst-dempet); font: 500 4.2px var(--font-tekst); text-anchor: middle">3 000</text>
+      <text x="442" y="321" transform="rotate(90 442 320)" style="fill: var(--tekst-dempet); font: 500 4.2px var(--font-tekst); text-anchor: middle">2 400</text>
+      <g style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; opacity: 0.6">
+        <rect x="380" y="270" width="32" height="100" rx="1" style="vector-effect: non-scaling-stroke"></rect>
+        <path d="M380 295 H412 M380 320 H412 M380 345 H412" style="vector-effect: non-scaling-stroke"></path>
+        <rect x="284" y="350" width="60" height="20" rx="1" style="vector-effect: non-scaling-stroke"></rect>
+      </g>
+      <text x="286" y="300" style="fill: var(--tekst); font: 500 4.2px var(--font-tekst); letter-spacing: 0.12em">VERKSTED</text>
+      <path d="M300 232 V260 H420 M420 232 V300 M420 345 V380 M270 260 V380 M246 380 H446" style="fill: none; stroke: var(--tekst); stroke-width: 1.5px; vector-effect: non-scaling-stroke"></path>
+    </svg>
+  </sc-if>
+  <sc-if value="{{ erTomt }}" hint-placeholder-val="{{ false }}">
+    <div aria-hidden="true" style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--tekst-dempet); font-variant-numeric: tabular-nums"><span>Plantegning · 1:50</span><span>0 × 0 mm</span></div>
+    <svg viewBox="0 0 200 140" role="img" aria-label="Et tomt rom som ikke finnes i tegningen" style="width: 100%; height: auto; display: block; margin-top: 6px">
+      <rect x="30" y="24" width="140" height="92" style="fill: none; stroke: var(--ikon); stroke-width: 1.5px; stroke-dasharray: 6 5; vector-effect: non-scaling-stroke"></rect>
+      <path d="M30 12 H170 M30 8 V16 M170 8 V16" style="fill: none; stroke: var(--tekst-dempet); stroke-width: 0.8px; vector-effect: non-scaling-stroke"></path>
+      <text x="100" y="74" style="fill: var(--tekst); font: 500 7px var(--font-tekst); letter-spacing: 0.12em; text-anchor: middle">404</text>
+      <circle cx="30" cy="116" r="2" style="fill: var(--aksent)"></circle>
+    </svg>
+  </sc-if>
+</figure>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;560px&quot;,&quot;height&quot;:&quot;460px&quot;},&quot;rom&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;hus&quot;,&quot;entre&quot;,&quot;verksted&quot;,&quot;tomt&quot;],&quot;default&quot;:&quot;hus&quot;,&quot;tsType&quot;:&quot;'hus' | 'entre' | 'verksted' | 'tomt'&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const rom = this.props.rom ?? 'hus';
+    return { erHus: rom === 'hus', erEntre: rom === 'entre', erVerksted: rom === 'verksted', erTomt: rom === 'tomt' };
+  }
+}
+</script>
+</body>
+</html>

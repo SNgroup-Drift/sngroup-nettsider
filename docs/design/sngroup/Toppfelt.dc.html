@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/components/components.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+</helmet>
+<header data-familiegrep="toppfelt" style="background: var(--bakgrunn); color: var(--tekst)">
+  <div class="wrap">
+    <nav class="sn-header__nav" aria-label="Hovedmeny">
+      <a href="{{ hjem }}" class="sn-header__ordmerke" aria-label="{{ hjemEtikett }}">
+        <sc-if value="{{ harLogo }}" hint-placeholder-val="{{ true }}">
+          <img class="sn-header__logo sn-logo-light" src="{{ logo }}" alt="{{ ordmerke }}">
+          <img class="sn-header__logo sn-logo-dark" src="{{ logoMork }}" alt="">
+        </sc-if>
+        <sc-if value="{{ utenLogo }}" hint-placeholder-val="{{ false }}">
+          <span>{{ ordmerke }}</span>
+        </sc-if>
+      </a>
+      <ul class="sn-header__lenker">
+        <sc-for list="{{ lenker }}" as="l" hint-placeholder-count="2">
+          <li><a href="{{ l.href }}" class="sn-header__sekundar">{{ l.label }}</a></li>
+        </sc-for>
+        <li><a href="{{ kontaktHref }}" class="pill">{{ kontaktTekst }}</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1180px&quot;,&quot;height&quot;:&quot;90px&quot;},&quot;ordmerke&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;SN Group&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;logo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;assets/sngroup_logo.svg&quot;,&quot;tsType&quot;:&quot;string | null&quot;},&quot;logoMork&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;assets/sngroup_logo_mork.svg&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hjem&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Forside.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lenker&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{href:string,label:string}[]&quot;},&quot;kontaktHref&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#kontakt&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;kontaktTekst&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Kontakt&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const ordmerke = p.ordmerke ?? 'SN Group';
+    const logo = p.logo === undefined ? 'assets/sngroup_logo.svg' : p.logo;
+    return {
+      ordmerke,
+      logo,
+      logoMork: p.logoMork ?? 'assets/sngroup_logo_mork.svg',
+      harLogo: !!logo,
+      utenLogo: !logo,
+      hjem: p.hjem ?? 'Forside.dc.html',
+      hjemEtikett: logo ? ordmerke + ' – forside' : undefined,
+      lenker: p.lenker ?? [{ href: '#virksomheter', label: 'Virksomheter' }, { href: '#hengsel', label: 'Hengsel' }],
+      kontaktHref: p.kontaktHref ?? '#kontakt',
+      kontaktTekst: p.kontaktTekst ?? 'Kontakt',
+    };
+  }
+}
+</script>
+</body>
+</html>

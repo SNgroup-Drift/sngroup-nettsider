@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Siden finnes ikke | SN Group</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/tokens/base.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/components/components.css">
+  <link rel="stylesheet" href="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/styles.css">
+  <script src="_ds/sn-group-design-system-4e3bfa6a-d177-4c41-b6e6-c15edc37dfa7/_ds_bundle.js"></script>
+  <style>
+    :root { --bredde: 1180px; }
+    body { margin: 0; background: var(--bakgrunn); color: var(--tekst); }
+    a { color: inherit; }
+    a:hover { color: inherit; }
+  </style>
+</helmet>
+<a class="skip" href="#innhold">Hopp til innholdet</a>
+<dc-import name="Toppfelt" lenker="{{ lenker }}" kontakt-href="Forside.dc.html#kontakt" hint-size="100%,88px"></dc-import>
+<div data-screen-label="404">
+  <dc-import name="IkkeFunnet" hjem="Forside.dc.html" hint-size="100%,560px"></dc-import>
+</div>
+<dc-import name="Familiebaand" gjeldende="sngroup.no" hint-size="100%,80px"></dc-import>
+<x-import component-from-global-scope="SNGroupDesignSystem_4e3bfa.SiteFooter" selskap="ES-HOLDING AS" orgnr="927 363 585" adresse="Enromvegen 173, 7026 Trondheim" epost="drift@sngroup.no" personvern="Personvern.dc.html" personvern-tekst="Personvern · Hengsel" vis-del-av="{{ false }}" hint-size="100%,80px"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto' | 'lys' | 'mørk'&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() { this.tema(); }
+  componentDidUpdate() { this.tema(); }
+  tema() {
+    const q = new URLSearchParams(location.search).get('tema');
+    const t = q || this.props.tema || 'auto';
+    const el = document.documentElement;
+    if (t === 'mork' || t === 'mørk') el.dataset.theme = 'dark';
+    else if (t === 'lys') el.dataset.theme = 'light';
+    else delete el.dataset.theme;
+  }
+  renderVals() {
+    return { lenker: [{ href: 'Forside.dc.html#virksomheter', label: 'Virksomheter' }, { href: 'Forside.dc.html#hengsel', label: 'Hengsel' }] };
+  }
+}
+</script>
+</body>
+</html>
