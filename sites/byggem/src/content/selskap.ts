@@ -1,8 +1,10 @@
-// byggem.no – skjelett (K-87 del 1). Innholdet kommer i del 2.
-// Ingen postadresse på nettsidene (Eirik 07.10.2026): bunnteksten viser bare org.nr. og e-post.
+// byggem.no. Ingen gateadresse på nettsidene (Eirik 07.10.2026): bare org.nr., telefon, e-post og virkeområde.
 export const selskap = {
-  navn: "ByggEM AS",
-  merkenavn: "ByggEM",
+  navn: "byggEM AS",
+  merkenavn: "byggEM",
   orgnr: "932 104 148",
-  epost: "drift@sngroup.no",
+  telefon: "976 06 500",
+  telefonHref: "tel:+4797606500",
+  epost: "post@byggem.no",
+  omrade: "Trondheim og omegn",
 } as const;

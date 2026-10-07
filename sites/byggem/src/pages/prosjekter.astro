@@ -1,0 +1,91 @@
+---
+/** byggem.no – referanseprosjekter. Fasit: docs/design/byggem/Prosjekter.dc.html. */
+import Side from "../layouts/Side.astro";
+import Kontaktbaand from "../components/Kontaktbaand.astro";
+import { PROSJEKTER } from "../content/innhold";
+---
+<Side
+  title="Referanseprosjekter | byggEM"
+  description="Se byggEMs dokumenterte montasjeprosjekter i Trondheimsområdet, med prosjekt, byggetrinn, merke, antall enheter og år."
+  ogBeskrivelse="Dokumenterte montasjeprosjekter i Trondheim og omegn."
+  aktiv="prosjekter"
+>
+  <main id="innhold">
+    <section class="b-seksjon topp">
+      <div class="wrap">
+        <p class="b-eyebrow">Referanser</p>
+        <h1 class="tittel">Referanseprosjekter</h1>
+        <p class="b-ingress ingress">Oversikten viser dokumenterte leveranser av kjøkken og innredning i Trondheimsområdet.</p>
+        <p class="b-meta meta">6 prosjekter · 2022–2026 · Trondheim og omegn</p>
+      </div>
+    </section>
+
+    <section class="b-seksjon">
+      <div class="wrap">
+        <div class="tabell" tabindex="0" role="region" aria-label="Referanseprosjekter, tabellen kan rulles sideveis">
+          <table>
+            <thead>
+              <tr><th scope="col">Prosjekt</th><th scope="col">Byggetrinn</th><th scope="col">Merke</th><th scope="col" class="tall">Enheter</th><th scope="col">Sted</th><th scope="col">År</th></tr>
+            </thead>
+            <tbody>
+              {PROSJEKTER.map((p) => (
+                <tr>
+                  <th scope="row">{p.name}</th><td>{p.phase}</td><td>{p.brand}</td><td class="tall">{p.units}</td><td>{p.place}</td><td class="tall-v">{p.year}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="b-seksjon flate">
+      <div class="wrap kort">
+        {PROSJEKTER.map((p) => (
+          <article>
+            <div class="bilde" aria-hidden="true"><span class="navn">{p.name}</span><span class="kommer">Bilde kommer</span></div>
+            <div class="innhold">
+              <h2 class="b-h3">{p.name}</h2>
+              <dl>
+                <dt>Byggetrinn</dt><dd>{p.phase}</dd>
+                <dt>Merke</dt><dd>{p.brand}</dd>
+                <dt>Enheter</dt><dd class="tall-v">{p.units}</dd>
+                <dt>Sted</dt><dd>{p.place}</dd>
+                <dt>År</dt><dd class="tall-v">{p.year}</dd>
+              </dl>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <Kontaktbaand />
+  </main>
+</Side>
+
+<style>
+  .topp { border-bottom: 1px solid var(--linje); }
+  .tittel { margin-top: 20px; max-width: 20ch; }
+  .ingress { margin-top: 32px; }
+  .meta { margin-top: 24px; }
+  .tabell { overflow-x: auto; border: 1px solid var(--linje); }
+  table { width: 100%; min-width: 720px; border-collapse: collapse; text-align: left; font-size: 15px; line-height: 22px; }
+  thead tr { border-bottom: 1px solid var(--linje-sterk); font-size: 14px; color: var(--tekst-dempet); }
+  th, td { padding: 16px; }
+  th { font-weight: 500; }
+  tbody tr { border-bottom: 1px solid var(--linje); }
+  tbody tr:nth-child(even) { background: var(--flate-stille); }
+  .tall { text-align: right; font-variant-numeric: tabular-nums; }
+  .tall-v { font-variant-numeric: tabular-nums; }
+  .kort { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  article { border: 1px solid var(--linje); background: var(--bakgrunn); min-width: 0; }
+  .bilde { aspect-ratio: 3 / 2; background: var(--flate-stille); display: grid; place-content: center; justify-items: center; gap: 8px; padding: 24px; text-align: center; }
+  .navn { font-family: var(--font-overskrift); font-size: 22px; line-height: 1.2; font-weight: 500; }
+  .kommer { font-size: 13px; line-height: 18px; }
+  .innhold { padding: 24px; }
+  dl { margin: 20px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 16px; font-size: 15px; line-height: 22px; }
+  dt { color: var(--tekst-dempet); }
+  dd { margin: 0; }
+  @media (max-width: 1099px) { .kort { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 859px) { .kort { grid-template-columns: minmax(0, 1fr); } }
+</style>

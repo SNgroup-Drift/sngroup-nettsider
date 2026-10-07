@@ -5,8 +5,8 @@ Nettstedene til SN Group (ES-HOLDING AS, org.nr. 927 363 585), samlet i ett repo
 | Nettsted | Mappe | Innhold |
 |---|---|---|
 | sngroup.no | `sites/sngroup` | Forsiden med plantegningen, virksomhetene, Hengsel, kontakt, `/personvern` (montørappen Hengsel) og `/design` |
-| hengsel.no | `sites/hengsel` | Skjelett: «Kommer snart» og personvern (del 2 fyller inn) |
-| byggem.no | `sites/byggem` | Skjelett: «Kommer snart» og personvern (del 2 fyller inn) |
+| hengsel.no | `sites/hengsel` | Forside, personvern og 404 (K-87 del 4) |
+| byggem.no | `sites/byggem` | Forside, prosjekter, kontakt, personvern og 404 (K-87 del 5) |
 
 Alt er statisk Astro: ingen server, ingen database, ingen sporing og ingen informasjonskapsler. Eneste unntak er
 hengsel.no/apptest, som ligger bak et felles passord med et lite Worker-skript og én informasjonskapsel (se docs/hosting.md).
@@ -17,7 +17,8 @@ hengsel.no/apptest, som ligger bak et felles passord med et lite Worker-skript o
 packages/design/        Felles designpakke
   src/styles/tokens.css   Fargene (lys og mørk), skrift og mål som CSS-variabler
   src/styles/base.css     Grunnstil
-  src/styles/fonts.css    Newsreader og Inter, selvhostet fra npm (@fontsource-variable)
+  src/styles/fonts.css    Newsreader og Inter, selvhostet fra npm (@fontsource-variable). Importeres av
+                          sngroup.no og hengsel.no; byggem.no bruker Poppins og Inter (se sites/byggem/src/layouts/Side.astro)
   src/components/         BaseLayout, SiteHeader, SiteFooter, Section, Card, ContactBlock,
                           CompanyRow, PrivacyPage, ComingSoon
                           Familiegrep: Toppfelt, Plantegningsstrek, Familiebaand, IkkeFunnet
@@ -51,7 +52,7 @@ npm run dev:sngroup    # utviklingsserver (også dev:hengsel og dev:byggem)
 
 ## Legge til et nytt nettsted
 
-1. Kopier skjelettet: `cp -r sites/byggem sites/<navn>` og slett `sites/<navn>/dist` og `node_modules` hvis de finnes.
+1. Kopier et nettsted som utgangspunkt: `cp -r sites/byggem sites/<navn>` og slett `sites/<navn>/dist` og `node_modules` hvis de finnes.
 2. I `sites/<navn>/package.json`: sett `"name": "@sngroup/site-<navn>"`.
 3. I `sites/<navn>/astro.config.mjs`: sett `site` til riktig domene.
 4. Fyll inn `src/content/selskap.ts` og `src/content/personvern.ts`. Bruk bare tekst som er bekreftet, og skriv `TODO` der noe mangler.

@@ -1,0 +1,52 @@
+/*
+  byggem.no – grunnstil og byggEM-designsystemets komponenter (docs/design/byggem/_ds/…/components/components.css),
+  skrevet om til familiens semantiske variabler. Klassene har prefikset b- så de ikke kolliderer med SN Groups base.css.
+*/
+html { scroll-padding-top: 88px; }
+[hidden] { display: none !important; }
+body { font-size: 18px; line-height: 26px; }
+a { color: var(--aksent); text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color 150ms; }
+a:hover { color: var(--aksent-hover); }
+:focus-visible { outline: 2px solid var(--fokus); outline-offset: 2px; }
+p { margin: 0; }
+.wrap { max-width: var(--bredde); }
+
+/* Titler: Poppins, setningsform. Ingen sperring utover designsystemets -0.02em */
+h1, h2, h3 { font-family: var(--font-overskrift); text-wrap: balance; }
+h1, .b-h1 { font-size: 44px; line-height: 1.05; font-weight: 300; letter-spacing: -0.02em; }
+h2, .b-h2 { font-size: 32px; line-height: 1.1; font-weight: 400; letter-spacing: -0.01em; }
+h3, .b-h3 { font-size: 22px; line-height: 1.2; font-weight: 500; letter-spacing: 0; }
+.b-display { font-size: 64px; line-height: 1; font-weight: 300; letter-spacing: -0.02em; }
+.b-ingress { font-family: var(--font-tekst); font-size: 26px; line-height: 34px; font-weight: 400; max-width: 65ch; }
+@media (max-width: 767px) {
+  .b-display { font-size: 40px; }
+  h1, .b-h1 { font-size: 32px; }
+  .b-ingress { font-size: 20px; line-height: 28px; }
+}
+
+/* Eyebrow: versaler med litt sperring (familiegrep, bare her) */
+.b-eyebrow { font-size: 14px; line-height: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tekst-dempet); }
+.b-meta { font-size: 15px; line-height: 22px; color: var(--tekst-dempet); }
+
+/* Knapper */
+.b-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-tekst);
+  font-size: 17px; line-height: 20px; font-weight: 500; padding: 12px 24px; min-height: 48px; border-radius: var(--radius-pille);
+  border: 2px solid transparent; cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: background-color 150ms, color 150ms, border-color 150ms;
+}
+.b-btn.primar { background: var(--aksent); color: var(--pa-aksent); }
+.b-btn.primar:hover { background: var(--aksent-hover); color: var(--pa-aksent); }
+.b-btn.sekundar { background: transparent; color: var(--tekst); border-color: var(--linje-sterk); }
+.b-btn.sekundar:hover { background: var(--flate); color: var(--tekst); }
+
+/* Seksjoner */
+.b-seksjon { padding-block: var(--seksjon); }
+.b-seksjon.flate { background: var(--flate); }
+.b-seksjon.stille { background: var(--flate-stille); }
+.b-lenke { font-size: 17px; font-weight: 500; }
+.flate .b-lenke, .flate a:not(.b-btn) { color: var(--aksent-tekst); }
+
+@media (prefers-reduced-motion: reduce) {
+  a, .b-btn { transition: none; }
+}

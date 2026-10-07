@@ -1,17 +1,67 @@
 ---
+/**
+ * Ramme for byggem.no: familiens BaseLayout med byggEM-fargene, Poppins og Inter (selvhostet, ingen Newsreader),
+ * toppfeltet (Toppfelt) og bunnen (Familiebaand + bunntekst).
+ */
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
-import SiteHeader from "@sngroup/design/components/SiteHeader.astro";
-import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
-import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
-import { selskap } from "../content/selskap";
+import Toppfelt from "@sngroup/design/components/Toppfelt.astro";
+import Logo from "../components/Logo.astro";
+import Bunn from "../components/Bunn.astro";
+import "@fontsource/poppins/latin-300.css";
+import "@fontsource/poppins/latin-400.css";
+import "@fontsource/poppins/latin-500.css";
+import "@fontsource-variable/inter/wght.css";
+import poppins300 from "@fontsource/poppins/files/poppins-latin-300-normal.woff2?url";
+import inter from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import "../styles/tokens.css";
+import "../styles/byggem.css";
 
-interface Props { title: string; description: string; noindex?: boolean }
-const { title, description, noindex } = Astro.props;
+interface Props {
+  title: string;
+  description: string;
+  ogBeskrivelse?: string;
+  noindex?: boolean;
+  /** Markerer menypunktet for siden du står på */
+  aktiv?: "prosjekter" | "kontakt";
+}
+const { title, description, ogBeskrivelse, noindex, aktiv } = Astro.props;
 ---
-<BaseLayout title={title} description={description} noindex={noindex}>
-  <SiteHeader ordmerke={selskap.merkenavn} />
-  <slot />
-  <!-- Familiebåndet viser «En del av SN Group», så linjen er skjult i bunnteksten. SN-fargene til del 5. -->
-  <Familiebaand gjeldende="byggem.no" />
-  <SiteFooter selskap={selskap.navn} orgnr={selskap.orgnr} epost={selskap.epost} visDelAv={false} />
+<BaseLayout
+  title={title}
+  description={description}
+  ogBeskrivelse={ogBeskrivelse}
+  noindex={noindex}
+  delingsbilde="https://byggem.no/delingsbilde.png"
+  ikon={{ href: "/favicon.png", type: "image/png" }}
+  appleIkon="/apple-touch-icon.png"
+  temafarge={["#FAF8F5", "#31261D"]}
+  forhandslast={[poppins300, inter]}
+>
+  <div class="side">
+    <Toppfelt
+      hjem="/"
+      ordmerke="byggEM"
+      kompakt
+      fast
+      strek
+      skjulUnder={860}
+      kontaktVariant="fylt"
+      kontaktHref="/kontakt"
+      kontaktTekst="Be om pris"
+      kontaktAktiv={aktiv === "kontakt"}
+      lenker={[
+        { label: "Tjenester", href: "/#tjenester" },
+        { label: "Slik jobber vi", href: "/#slik-jobber-vi" },
+        { label: "Prosjekter", href: "/prosjekter", aktiv: aktiv === "prosjekter", mobil: true },
+      ]}
+    >
+      <Logo slot="logo" />
+    </Toppfelt>
+    <slot />
+    <Bunn />
+  </div>
 </BaseLayout>
+
+<style>
+  .side { min-height: 100vh; display: flex; flex-direction: column; }
+</style>

@@ -1,0 +1,108 @@
+/*
+  byggem.no – byggEM-fargene som familiens semantiske variabler.
+  Fasit: docs/design/byggem/_ds/…/tokens/colors.css, typography.css og spacing.css (byggEM-designsystemet).
+  Lastes etter @sngroup/design/tokens.css og overstyrer den (html:root har høyere spesifisitet enn :root).
+
+  Avvik fra designsystemet, for minst 4,5:1 på tekst (WCAG AA):
+  - Lenker på Kalk-flaten (--flate) bruker --aksent-tekst #8A4A27. Tegl #A25A32 gir bare 4,3:1 mot Kalk.
+*/
+html:root {
+  /* Skrift: Poppins til titler, Inter til all løpende tekst (selvhostet, se layouts/Side.astro) */
+  --font-overskrift: "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --font-tekst: "Inter Variable", "Helvetica Neue", Arial, sans-serif;
+
+  /* Palett fra logoen */
+  --morkbrun: #31261d;
+  --kaffe: #6b5b4a;
+  --beige: #c3b5a7;
+  --sand: #ddd4cb;
+  --kalk: #efeae4;
+  --offwhite: #faf8f5;
+  --tegl: #a25a32;
+
+  /* Familiens semantiske navn */
+  --bakgrunn: var(--offwhite);
+  --flate: var(--kalk);             /* bånd og kort */
+  --flate-stille: var(--sand);      /* rolige bånd, annenhver tabellrad */
+  --linje: var(--beige);
+  --linje-svak: var(--beige);
+  --linje-sterk: var(--kaffe);
+  --ikon: var(--beige);
+  --tekst: var(--morkbrun);
+  --tekst-dempet: var(--kaffe);     /* 6,2:1 mot Off-white, 5,5:1 mot Kalk. Ikke på Sand (4,46:1) */
+  --aksent: var(--tegl);            /* 4,9:1 mot Off-white */
+  --aksent-hover: #8a4a27;
+  --aksent-tekst: #8a4a27;          /* lenker på Kalk, 6,4:1 */
+  --pa-aksent: var(--offwhite);
+  --fokus: var(--morkbrun);
+  --feil: #9b2c1f;
+
+  /* Det mørke båndet (kontakt og bunn) er Mørkbrun i begge moduser */
+  --band: var(--morkbrun);
+  --band-tekst: var(--offwhite);
+  --band-dempet: var(--beige);
+  --band-aksent: #d4916a;
+
+  /* Mål */
+  --bredde: 1180px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --radius: 4px;
+  --radius-pille: 2px;
+  --seksjon: 96px;
+
+  /* Toppfeltet (Toppfelt) */
+  --toppfelt-hoyde: 80px;
+  --toppfelt-mellomrom: 32px;
+  --toppfelt-lenke-farge: var(--tekst);
+  --toppfelt-lenke-hover: var(--aksent);
+  --toppfelt-lenke-vekt: 500;
+  --toppfelt-knapp-hoyde: 40px;
+  --toppfelt-knapp-luft: 16px;
+  --toppfelt-knapp-skrift: 15px;
+
+  color-scheme: light;
+}
+
+@media (max-width: 859px) {
+  html:root { --seksjon: 64px; }
+}
+
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) {
+    --bakgrunn: var(--morkbrun);
+    --flate: #3d3127;
+    --flate-stille: #271e17;
+    --linje: #5a4a3c;
+    --linje-svak: #5a4a3c;
+    --linje-sterk: var(--beige);
+    --ikon: #5a4a3c;
+    --tekst: var(--offwhite);
+    --tekst-dempet: var(--beige);
+    --aksent: #d4916a;
+    --aksent-hover: #e0a582;
+    --aksent-tekst: #d4916a;        /* 4,8:1 mot #3D3127 */
+    --pa-aksent: var(--morkbrun);
+    --fokus: var(--offwhite);
+    --feil: #f0a08c;
+    color-scheme: dark;
+  }
+}
+
+html:root[data-theme="dark"] {
+  --bakgrunn: var(--morkbrun);
+  --flate: #3d3127;
+  --flate-stille: #271e17;
+  --linje: #5a4a3c;
+  --linje-svak: #5a4a3c;
+  --linje-sterk: var(--beige);
+  --ikon: #5a4a3c;
+  --tekst: var(--offwhite);
+  --tekst-dempet: var(--beige);
+  --aksent: #d4916a;
+  --aksent-hover: #e0a582;
+  --aksent-tekst: #d4916a;
+  --pa-aksent: var(--morkbrun);
+  --fokus: var(--offwhite);
+  --feil: #f0a08c;
+  color-scheme: dark;
+}

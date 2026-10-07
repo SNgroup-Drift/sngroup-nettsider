@@ -1,9 +1,154 @@
 ---
+/**
+ * byggem.no – forsiden. Fasit: docs/design/byggem/Forside.dc.html (Claude Design, godkjent 07.10.2026).
+ * Rekkefølge (familien): hero → hva vi gjør (målgruppene og tjenestene) → slik jobber vi (stegene og referansene) → kontakt.
+ */
 import Side from "../layouts/Side.astro";
-import ComingSoon from "@sngroup/design/components/ComingSoon.astro";
+import Plantegningsstrek from "@sngroup/design/components/Plantegningsstrek.astro";
+import Kontaktbaand from "../components/Kontaktbaand.astro";
+import { TJENESTER, STEG, REF, TALL } from "../content/innhold";
+import { selskap } from "../content/selskap";
 ---
-<Side title="ByggEM AS – kommer snart" description="ByggEM AS. Nettstedet kommer snart.">
-  <ComingSoon navn="ByggEM AS">
-    <p><a class="pill" href="mailto:drift@sngroup.no">drift@sngroup.no</a></p>
-  </ComingSoon>
+<Side
+  title="Montasje og snekkerarbeid i Trondheim | byggEM"
+  description="byggEM monterer kjøkken, bad og innredning for forhandlere og entreprenører, og tar mindre snekkeroppdrag i Trondheim og omegn."
+  ogBeskrivelse="Montasje for forhandlere og entreprenører, og mindre snekkeroppdrag i Trondheim og omegn."
+>
+  <main id="innhold">
+    <section class="hero">
+      <div class="wrap hero-rutenett">
+        <div>
+          <p class="b-eyebrow">Montasje · Snekkerarbeid</p>
+          <h1 class="b-display tittel">Montasje og snekkerarbeid i Trondheim og omegn</h1>
+          <p class="b-ingress ingress">Vi monterer kjøkken, bad og innredning for forhandlere og entreprenører – og tar mindre snekkeroppdrag for deg som trenger en håndverker.</p>
+          <div class="knapper">
+            <a class="b-btn primar" href="/kontakt">Be om pris</a>
+            <a class="b-btn sekundar" href={selskap.telefonHref}>Ring {selskap.telefon}</a>
+          </div>
+          <p class="b-meta meta">{selskap.navn} · Etablert 2023 · {selskap.omrade}</p>
+        </div>
+        <div class="plan">
+          <Plantegningsstrek rom="verksted" />
+        </div>
+      </div>
+    </section>
+
+    <section id="hva-vi-gjor" class="b-seksjon flate" aria-labelledby="hva-tittel">
+      <div class="wrap">
+        <p class="b-eyebrow" id="hva-tittel">Hva vi gjør</p>
+        <div class="to-kol">
+          <article>
+            <h2>For forhandlere og entreprenører</h2>
+            <p>Vi monterer på vegne av butikken og tar hele byggetrinn i nyproduksjon. Dere kan også leie inn montører eller bruke oss som underentreprenør.</p>
+            <p><a class="b-lenke" href="#tjenester">Se montasjetjenester</a></p>
+          </article>
+          <article>
+            <h2>For deg som trenger en snekker</h2>
+            <p>Vi tar mindre, avgrensede snekkerjobber i Trondheimsområdet. Vi avtaler omfang og pris før vi starter.</p>
+            <p><a class="b-lenke" href="#tjenester">Se snekkeroppdrag</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tjenester" class="b-seksjon stille" aria-labelledby="tjenester-tittel">
+      <div class="wrap">
+        <h2 id="tjenester-tittel">Tjenester</h2>
+        <div class="tjenester">
+          {TJENESTER.map((t) => (
+            <article class="tjeneste">
+              <h3>{t.title}</h3>
+              <p>{t.text}</p>
+              <ul>{t.items.map((i) => <li>{i}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="slik-jobber-vi" class="b-seksjon" aria-labelledby="slik-tittel">
+      <div class="wrap">
+        <p class="b-eyebrow">Fra befaring til overlevering</p>
+        <h2 id="slik-tittel" class="under-eyebrow">Slik jobber vi</h2>
+        <ol class="steg">
+          {STEG.map(([tittel, tekst], i) => (
+            <li>
+              <span class="nr" aria-hidden="true">{i + 1}</span>
+              <h3>{tittel}</h3>
+              <p>{tekst}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section id="referanser" class="b-seksjon flate" aria-labelledby="ref-tittel">
+      <div class="wrap">
+        <p class="b-eyebrow">Referanser</p>
+        <div class="ref-hode">
+          <h2 id="ref-tittel">Referanseprosjekter</h2>
+          <a class="b-lenke" href="/prosjekter">Se alle prosjekter</a>
+        </div>
+        <ul class="tall" aria-label="Nøkkeltall">
+          {TALL.map((n) => (
+            <li><span class="verdi">{n.v}</span><span class="etikett">{n.l}</span></li>
+          ))}
+        </ul>
+        <ul class="referanser">
+          {REF.map((r) => (
+            <li><strong>{r.name}</strong><span>{r.place}</span><span>{r.brand}</span><span class="enheter">{r.units} enheter</span></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <Kontaktbaand id="kontakt" />
+  </main>
 </Side>
+
+<style>
+  .hero { padding-block: 96px; }
+  .hero-rutenett { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 88px); align-items: center; }
+  .tittel { margin-top: 20px; max-width: 20ch; }
+  .ingress { margin-top: 32px; }
+  .knapper { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .meta { margin-top: 32px; }
+  .plan { min-width: 0; width: 100%; max-width: 460px; justify-self: end; }
+
+  .to-kol { margin-top: 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--linje); }
+  .to-kol article { background: var(--flate); padding: 48px; }
+  .to-kol p { margin-top: 24px; max-width: 65ch; }
+
+  .tjenester { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .tjeneste { background: var(--flate); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .tjeneste p { font-size: 16px; line-height: 24px; }
+  .tjeneste ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 22px; color: var(--tekst-dempet); }
+  .tjeneste li::before { content: "–"; margin-right: 8px; color: var(--aksent); }
+
+  .under-eyebrow { margin-top: 16px; }
+  .steg { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .steg li { border-top: 1px solid var(--linje); padding-top: 24px; min-width: 0; }
+  .nr { font-family: var(--font-overskrift); font-size: 32px; line-height: 1; font-weight: 300; color: var(--aksent); font-variant-numeric: tabular-nums; }
+  .steg h3 { margin-top: 16px; }
+  .steg p { margin-top: 12px; max-width: 65ch; }
+
+  .ref-hode { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; }
+  .tall { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+  .tall li { display: flex; flex-direction: column; gap: 4px; }
+  .verdi { font-family: var(--font-overskrift); font-weight: 300; font-size: 56px; line-height: 1; letter-spacing: -0.02em; color: var(--aksent); font-variant-numeric: tabular-nums; }
+  .etikett { font-size: 15px; line-height: 22px; color: var(--tekst-dempet); max-width: 24ch; }
+  .referanser { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--linje); }
+  .referanser li { display: grid; grid-template-columns: 1.5fr 1fr 1fr auto; gap: 4px 16px; padding-block: 20px; border-bottom: 1px solid var(--linje); }
+  .referanser strong { font-weight: 500; }
+  .enheter { font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 1099px) {
+    .tjenester, .tall, .steg { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 859px) {
+    .hero { padding-block: 48px 64px; }
+    .hero-rutenett, .to-kol, .tjenester, .tall, .steg, .referanser li { grid-template-columns: minmax(0, 1fr); }
+    .plan { justify-self: start; }
+    .to-kol article { padding: 24px 0; }
+  }
+</style>
