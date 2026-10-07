@@ -108,7 +108,7 @@
           <h2 style="font-size:var(--t-h1); line-height:1.08">Skjermene, én for én.</h2>
           <p class="lede">Velg et område og en skjerm. Klikk på bildet for å se det i full størrelse. Alle navn og tall er demodata.</p>
         </div>
-        <x-import component-from-global-scope="HengselDesignSystem_5a9d09.SegmentedTabs" variant="chips" items="{{ areas }}" value="{{ area }}" on-change="{{ setArea }}" label="Områder" style="margin-bottom:24px" hint-size="100%,36px"></x-import>
+        <div style="margin-bottom:32px"><x-import component-from-global-scope="HengselDesignSystem_5a9d09.SegmentedTabs" variant="chips" items="{{ areas }}" value="{{ area }}" on-change="{{ setArea }}" label="Områder" hint-size="100%,36px"></x-import></div>
         <div style="{{ tourGrid }}">
           <div role="tablist" aria-label="Skjermer" style="display:grid; gap:8px; align-content:start; min-width:0">
             <sc-for list="{{ tourList }}" as="it" hint-placeholder-count="6">
@@ -159,7 +159,7 @@
           <h2 style="font-size:var(--t-h1); line-height:1.08">Hver rolle ser det den bruker hver dag.</h2>
           <p class="lede">Menyen er kort og bestemt av rollen. Det en rolle ikke bruker daglig, ligger under «Mer». Leder og admin slår moduler av og på per rolle.</p>
         </div>
-        <x-import component-from-global-scope="HengselDesignSystem_5a9d09.SegmentedTabs" variant="chips" items="{{ roleTabs }}" value="{{ roleVal }}" on-change="{{ setRole }}" label="Velg rolle" style="margin-bottom:22px" hint-size="100%,36px"></x-import>
+        <div style="margin-bottom:24px"><x-import component-from-global-scope="HengselDesignSystem_5a9d09.SegmentedTabs" variant="chips" items="{{ roleTabs }}" value="{{ roleVal }}" on-change="{{ setRole }}" label="Velg rolle" hint-size="100%,36px"></x-import></div>
         <div style="{{ roleCard }}">
           <div style="display:grid; gap:14px; align-content:start; min-width:0">
             <span class="eyebrow">{{ role.eyebrow }}</span>
@@ -433,7 +433,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;system&quot;,&quot;lys&quot;,&quot;mørk&quot;],&quot;default&quot;:&quot;system&quot;,&quot;tsType&quot;:&quot;'system'|'lys'|'mørk'&quot;}}">
 const HERO = [
-  { bilde: 'min-dag', type: 'pc', alt: 'Min dag på PC: selgerens arbeidsliste med detaljpanel til høyre', ratio: 0.75 },
+  { bilde: 'min-dag', type: 'pc', alt: 'Min dag på PC: selgerens arbeidsliste med kalender og egne tall', ratio: 0.75 },
   { bilde: 'ipad-min-dag', type: 'ipad', alt: 'Min dag på iPad i liggende format', ratio: 0.75 },
   { bilde: 'telefon-a', type: 'phone', alt: 'Selgeren på telefon: Min dag', ratio: 0.72 },
   { bilde: 'hengsel-i-dag-a', type: 'phone', alt: 'Montørappen Hengsel: dagens jobber', ratio: 0.72 },
@@ -453,14 +453,14 @@ const STEPS = [
   ['Lead','Salgstavla','Henvendelsen blir et kort på salgstavla. Alle muligheter står i seks faser, med sum per fase og hvor lenge hver kunde har stått.','Selgeren','salgstavla'],
   ['Møte og tegning','Kundekortet','Møter, notater og samtaler samles på kundekortet. Neste steg står øverst, og tidslinjen viser alt som har skjedd.','Selgeren','kundekortet'],
   ['Tilbud','Tilbud og kundeportal','Tegningen hentes fra CET. Kunden ser prisgruppene med bilde i kundeportalen, og selgeren ser når tilbudet åpnes.','Selgeren','tilbudet'],
-  ['Signert','Kundeportalen','Kunden velger tilvalg, ser prisen endre seg og signerer. Tilbudet blir ordre av seg selv.','Kunden','kundeportalen'],
+  ['Signert','Kundeportalen','Kunden velger tilvalg, ser prisen endre seg og signerer. Tilbudet blir ordre av seg selv.','Kunden','signert'],
   ['Bestilt','Bestilling','Det som skal sendes, det som venter på bekreftelse og det som har feil står i én liste. En ordre uten kontrollmål eller signert avtale kan ikke sendes.','Bestilling','bestilling'],
-  ['OB kontrollert','Ordren','Ordrebekreftelsen sammenlignes med bestillingen per varelinje. Avvik står øverst på ordren, sammen med det som mangler før montering.','Bestilling og selger','ipad-ordre'],
+  ['OB kontrollert','Ordren','Ordrebekreftelsen sammenlignes med bestillingen per varelinje. Avvik står øverst på ordren, sammen med det som mangler før montering.','Bestilling og selger','ordre-og-montasje'],
   ['Levering','Ordre og montasje','Tittelen på ordren sier når det leveres og monteres. Endringsfristen og hva det koster å endre etter den står synlig.','Montasjeleder','ordre-og-montasje'],
   ['Montering','Hengsel','Montøren ser jobben, varene og tegningen i Hengsel, tar bilde av typeskiltene og krysser av KS-punktene.','Montøren','hengsel-ks'],
   ['Ferdig montert','Hengsel','Montøren melder ferdig montert, fører timer og lar kunden signere på skjermen. Mangler det KS-punkter, får lederen beskjed. Kontoret kan fakturere.','Montøren','hengsel-ferdig'],
   ['Faktura','Ordren','Statusrekka går fra levert til fakturert per leverandør, og resultatene oppdateres mot budsjett.','Kontoret','resultater'],
-  ['Etterkalkyle','Montasje','Kalkulerte timer mot brukte timer per jobb, og restpunkter og reklamasjoner som venter.','Montasjeleder','montasje'],
+  ['Etterkalkyle','Montasje','Kalkulerte timer mot brukte timer per jobb, og restpunkter og reklamasjoner som venter.','Montasjeleder','etterkalkyle'],
 ];
 const TOUR = {
   'Salg': [
@@ -489,7 +489,7 @@ const TOUR = {
     ['Moduler per rolle','Leder og admin bestemmer hva hver rolle ser. Det som er av, forsvinner fra menyen.','moduler',[['Én bryter per modul','Min dag er alltid på.'],['Unntak per bruker','Settes under Brukere.'],['Ta det i takt','Slå på moduler etter hvert som butikken er klar.']]],
   ],
   'Kunden': [
-    ['Kundeportalen','Kunden ser kjøkkenet sitt, velger tilvalg selv og signerer. Etter signering følger kunden reisen til montert kjøkken.','kundeportalen',[['Tilvalg og prisgrupper','Kunden krysser av og ser prisen endre seg.'],['Tegning og dokumenter','Tegningen og bildene fra montasjen når de er godkjent.'],['Selgeren din','Melding rett til selgeren, uten app.']]],
+    ['Kundeportalen','Kunden ser kjøkkenet sitt, velger tilvalg selv og signerer. Etter signering følger kunden reisen til montert kjøkken.','kundeportalen-pc',[['Tilvalg og prisgrupper','Kunden krysser av og ser prisen endre seg.'],['Tegning og dokumenter','Tegningen og bildene fra montasjen når de er godkjent.'],['Selgeren din','Melding rett til selgeren, uten app.']]],
   ],
   'Mobil': [
     ['Selgeren på telefon','Min dag, kunder, ordre og samtaler i bunnmenyen. Resten ligger under «Mer».','telefon',[['Befaring','Sjekklista med ti punkter, mål og bilder, og Lagre som ferdig.'],['Samme handlinger','Godta modellen, ring og svar rett fra telefonen.'],['Samme farger','De samme kortene og statusene som på PC.']]],

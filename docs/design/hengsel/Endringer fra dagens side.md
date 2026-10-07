@@ -15,7 +15,7 @@ Filer: `Forside.dc.html`, `Personvern.dc.html`, `404.dc.html`. Felles deler: `Si
 ## Uttrykk
 - Hengsel-logoen fra designsystemet (H-merket + «engsel» + hake over CRM) erstatter det gamle merket med «Hengsel» i serif.
 - Knapper, faner, piller, kort og felt er designsystemets komponenter. Taggene «I dag» / «Med Hengsel» er piller med statusfarge.
-- Enhetsrammene er designsystemets telefon- og iPad-ramme. PC-skjermbildene vises i et kort med avrundede hjørner i stedet for den tegnede skjermen med fot.
+- Enhetsrammene er designsystemets telefon- og iPad-ramme. PC-skjermbildene vises på en skjerm med tynn sort ramme, aluminiumskant og fot (som en Studio Display, uten merke).
 - Titlene i lista under «Se løsningen» er Inter 600 i stedet for serif (serif aldri under 1,45 rem).
 - FAQ bruker knapp med +/– i stedet for `<details>`.
 - Topplinjen har ikke lenger blur og gjennomsiktighet. Lysboksen har ensfarget bakgrunn.
@@ -26,10 +26,14 @@ Filer: `Forside.dc.html`, `Personvern.dc.html`, `404.dc.html`. Felles deler: `Si
 - Skrift: prototypen laster Newsreader og Inter fra Google Fonts. I Astro skal de selvhostes med @fontsource som på sngroup.no.
 - Fanen under «Se løsningen» huskes i localStorage (`crm-tour`), som i dag.
 
+## Skjermbilder (oppdatert 07.10)
+- Skjermbildene er byttet til bilder av demo-appen fra prosjektet crm_v4 (`uploads/`). Nettleserramme, demo-banner og sigdal-logoen er fjernet, og Hengsel-logoen er lagt inn i sidemenyen. Én utviklerkommentar (Monteringskalkyle) og «Studio Sigdal Innlandet» (Moduler) er dekket over.
+- Byttet: Tilbudet, Ordre og montasje, Monteringskalkyle, Moduler per rolle og Kundeportalen. Nytt: Etterkalkyler (steg 11 i kundereisen).
+Steg 6 (OB kontrollert) viser ordren på PC i stedet for iPad.
+- Alle skjermbilder er nå på plass (Min dag, Samtaler, Salgstavla, Kundekortet, Bestilling, Montasje, Saker, Leder og Resultater lagt inn 07.10).
+- Lagt inn fra opplastingen 07.10: hele montørappen (I dag, jobb og KS, varer og dokumenter, hvitevarer, avvik, ferdig montert, iPad), selgeren på telefon, Min dag på iPad, Produkter hos kunden, Prosjektoppsett, Tilvalg mot standard og Kjøperen godkjenner.
+- I Kundeportalen står fortsatt «Studio Sigdal Hamar» i teksten, og i sidemenyen på Etterkalkyler står «Forskudd til Nobia» og «Unoterte til Sigdal».
+
 ## Må avklares
 - **Personvern blir feil etter flyttingen.** Teksten er ordrett, men to punkter stemmer ikke når siden ligger i Astro: «Skriftene lastes fra Google Fonts …» og «Nettsiden driftes hos Lovable …». Ny tekst trengs før publisering.
 - **11 skjermbilder mangler** i `filer/img/`, men brukes av skriptet: `telefon-b`, `kjoper-godkjenner-a/-b`, `hengsel-jobb-a/-b`, `hengsel-varer-a/-b`, `hengsel-ks-a/-b`, `hengsel-ferdig-a/-b`. De vises nå som «Skjermbilde mangler» i rammen (Montørappen: 4 av 7 faner, Kundereisen: steg 8 og 9, Se løsningen: Kjøperen godkjenner, Selgeren på telefon).
-
-## Tillegg fra Claude 07.10
-- De 11 skjermbildene som manglet (telefon-b, kjoper-godkjenner-a/-b, hengsel-jobb-a/-b, hengsel-varer-a/-b, hengsel-ks-a/-b, hengsel-ferdig-a/-b) er hentet fra hengsel.no og ligger nå i img/ og i docs/kilde/hengsel.no/filer/img/.
-- Skriftfilene (Reckless og TWK Lausanne) er ikke lagt i repoet, fordi weblisensen ikke er bekreftet.
