@@ -49,6 +49,11 @@ aldri i repoet.
 
 **Deploy command må ha `-c`.** Wrangler-filen ligger i `sites/<navn>/`, ikke i rotmappen. Uten
 `-c sites/<navn>/wrangler.jsonc` finner ikke wrangler oppsettet, og 404-siden blir ikke slått på.
+Det gjelder **begge** feltene: Deploy command og Non-production branch deploy command. Er feltet for
+ikke-produksjonsgreiner tomt, kjører Workers Builds standardkommandoen `npx wrangler versions upload` uten `-c`, og
+forhåndsvisningen feiler med `✘ [ERROR] Missing entry-point to Worker script or to assets directory` (byggesteget går
+gjennom). Det er akkurat den feilen wrangler gir når den kjøres fra rotmappen uten `-c`. Med `-c` og feil sti blir
+feilen i stedet `Could not read file: …`. Rettes i Worker → Settings → Build → Non-production branch deploy command.
 
 Node: `.nvmrc` i rotmappen sier 22. `NODE_VERSION` = `22` gjør det samme i byggmiljøet (Astro krever 22.12 eller nyere).
 `wrangler` står som `devDependency` i rotens `package.json`, så `npx wrangler` bruker den låste versjonen.
