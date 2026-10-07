@@ -8,7 +8,9 @@ Gren: `claude/k107-apptest`, laget fra `claude/s56-apptest-design` (ikke fra mai
 | Commit | Innhold |
 |---|---|
 | `a4c1581` | Siden, passordsiden, app-ikonet, Worker-skriptet, wrangler.jsonc, sjekkene og skjermbildeskriptet |
-| (denne) | Skjermbilder, docs/hosting.md, README og denne rapporten |
+| `b34c96d` | Skjermbilder, docs/hosting.md, README og denne rapporten |
+| `e645874` | Fletting av `origin/main` (K-87 del 5, `a7b58c2`) inn i grenen (merge, ikke rebase) |
+| (siste) | Rapporten oppdatert etter flettingen |
 
 ## Endrede filer
 
@@ -275,4 +277,104 @@ iPhone-nettleser, så iPhone-knappen er den mørke.
 5. Når Apple har godkjent betagjennomgangen: bytt `TESTFLIGHT_LENKE` øverst i `sites/hengsel/src/pages/apptest.astro`
    (se docs/hosting.md, «Bytte TestFlight-lenken»).
 
-KLAR FOR MAIN
+## Oppdatert mot main (retting)
+
+GitHub meldte at grenen ikke kunne flettes automatisk. Main hadde fått K-87 del 5 (byggem.no etter Claude Design,
+`46ebba6` og `a7b58c2`) etter at grenen ble laget fra `9f3ea03`. `origin/main` er flettet inn med `git merge`
+(commit `e645874`), så historikken er beholdt.
+
+### Konflikter og hvordan de ble løst
+
+| Fil | Konflikt | Løsning |
+|---|---|---|
+| `packages/design/src/components/BaseLayout.astro` | Main la til `ogBeskrivelse`, `delingsbilde`, `ikon`, `appleIkon`, `temafarge` og `forhandslast`; K-107 la til `robots` på samme sted | Mains versjon beholdt i sin helhet. Bare `robots?: string` og robots-linjen (`{(robots \|\| noindex) && …}`) er lagt til. Uten `robots` er utdataene de samme som på main |
+| `scripts/skjermbilder.mjs` | Samme linje (sidelistene i 360 px-sjekken): main la til byggem-sidene, K-107 la til /apptest | Mains liste for byggem beholdt, og `/apptest` og `/apptest/passord` lagt til for hengsel |
+
+`sites/hengsel/src/layouts/Side.astro` og `README.md` ble flettet automatisk (mains fontimport og K-107s `robots`-prop
+og /apptest-linjer står begge).
+
+### Utelatt
+
+Ingenting. Designfilene i `docs/design/hengsel/apptest/` (fra `claude/s56-apptest-design`) ga ingen konflikter og er
+beholdt som fasit. De brukes ikke i bygget.
+
+### Kontroll etter flettingen
+
+| Sjekk | Resultat |
+|---|---|
+| `npm run build` (alle tre) | OK, CSP-hasher OK |
+| `npm test` | 153 forespørsler, 0 feil (byggem nå med /kontakt og /prosjekter) |
+| `npx wrangler deploy --dry-run -c sites/<navn>/wrangler.jsonc` | sngroup, byggem og hengsel OK (hengsel med `env.ASSETS`) |
+| `git diff origin/main -- sites/sngroup sites/byggem` | Tom: ingen endrede filer under `sites/sngroup` og `sites/byggem` |
+| sngroup og byggem bygd fra `origin/main` og fra grenen, `dist` sammenlignet | Samme filer (28 og 29). Innholdet er likt bortsett fra Astros scoped-CSS-ID-er (`data-astro-cid-…`) og CSP-hashen som følger av dem; de avhenger av mappestien bygget kjøres fra (main ble bygd i en egen worktree). Etter normalisering av dem: ingen forskjell |
+| `npm run skjermbilder` | 0 feil (eksisterende skjermbilder ikke byttet) |
+| `node scripts/skjermbilder-apptest.mjs` mot wrangler dev | 0 feil i begge tilstander for iPhone-knappen |
+| curl mot wrangler dev | Samme resultat som over: 200 passordside, 401 feil passord, 303 riktig, 200 siden, 401 ikon uten kapsel, gammel kapsel ugyldig etter passordbytte, 503 uten hemmeligheter, `/` og `/personvern` 200 |
+
+### `git diff --stat origin/main`
+
+```
+ .gitignore                                         |    2 +
+ README.md                                          |    7 +-
+ .../hengsel/apptest/Apptest oversikt.dc.html       |   65 +
+ docs/design/hengsel/apptest/Apptest.dc.html        |  180 +
+ docs/design/hengsel/apptest/Bunn.dc.html           |   61 +
+ docs/design/hengsel/apptest/LES-MEG.md             |   10 +
+ docs/design/hengsel/apptest/Sidehode.dc.html       |   64 +
+ .../_adherence.oxlintrc.json                       |  413 ++
+ .../_ds_bundle.js                                  | 4054 ++++++++++++++++++++
+ .../_ds_manifest.json                              |    1 +
+ .../readme.md                                      |  105 +
+ .../styles.css                                     |    6 +
+ .../tokens/base.css                                |   52 +
+ .../tokens/colors.css                              |   72 +
+ .../tokens/components.css                          |  116 +
+ .../tokens/fonts.css                               |   11 +
+ .../tokens/spacing.css                             |   14 +
+ .../tokens/typography.css                          |   23 +
+ docs/design/hengsel/apptest/github.md              |   18 +
+ docs/design/hengsel/apptest/image-slot.js          | 1225 ++++++
+ .../hengsel/apptest/img/hengsel_ikon_ios_1024.png  |  Bin 0 -> 6972 bytes
+ .../apptest/img/hengsel_ikon_ios_1024_mork.png     |  Bin 0 -> 6854 bytes
+ docs/design/hengsel/apptest/support.js             | 1911 +++++++++
+ docs/hosting.md                                    |   77 +-
+ docs/k107-rapport.md                               |  278 ++
+ docs/skjermbilder/apptest-desktop-lys-klar.png     |  Bin 0 -> 267690 bytes
+ docs/skjermbilder/apptest-desktop-lys-snart.png    |  Bin 0 -> 266908 bytes
+ docs/skjermbilder/apptest-desktop-mork-klar.png    |  Bin 0 -> 270691 bytes
+ docs/skjermbilder/apptest-desktop-mork-snart.png   |  Bin 0 -> 269921 bytes
+ docs/skjermbilder/apptest-mobil-lys-klar.png       |  Bin 0 -> 563928 bytes
+ docs/skjermbilder/apptest-mobil-lys-snart.png      |  Bin 0 -> 564736 bytes
+ docs/skjermbilder/apptest-mobil-mork-klar.png      |  Bin 0 -> 571845 bytes
+ docs/skjermbilder/apptest-mobil-mork-snart.png     |  Bin 0 -> 572922 bytes
+ docs/skjermbilder/apptest-passord-desktop-lys.png  |  Bin 0 -> 61152 bytes
+ docs/skjermbilder/apptest-passord-desktop-mork.png |  Bin 0 -> 62119 bytes
+ .../apptest-passord-feil-mobil-lys.png             |  Bin 0 -> 108183 bytes
+ .../apptest-passord-feil-mobil-mork.png            |  Bin 0 -> 109763 bytes
+ docs/skjermbilder/apptest-passord-mobil-lys.png    |  Bin 0 -> 97456 bytes
+ docs/skjermbilder/apptest-passord-mobil-mork.png   |  Bin 0 -> 99007 bytes
+ packages/design/src/components/BaseLayout.astro    |    5 +-
+ scripts/sjekk-lenker.mjs                           |   14 +
+ scripts/skjermbilder-apptest.mjs                   |  147 +
+ scripts/skjermbilder.mjs                           |    2 +-
+ .../public/apptest/hengsel-ikon-192-mork.png       |  Bin 0 -> 2277 bytes
+ .../public/apptest/hengsel-ikon-192-mork.webp      |  Bin 0 -> 628 bytes
+ sites/hengsel/public/apptest/hengsel-ikon-192.png  |  Bin 0 -> 2491 bytes
+ sites/hengsel/public/apptest/hengsel-ikon-192.webp |  Bin 0 -> 802 bytes
+ .../public/apptest/hengsel-ikon-384-mork.png       |  Bin 0 -> 4243 bytes
+ .../public/apptest/hengsel-ikon-384-mork.webp      |  Bin 0 -> 1222 bytes
+ sites/hengsel/public/apptest/hengsel-ikon-384.png  |  Bin 0 -> 4712 bytes
+ sites/hengsel/public/apptest/hengsel-ikon-384.webp |  Bin 0 -> 1570 bytes
+ sites/hengsel/src/layouts/Side.astro               |    6 +-
+ sites/hengsel/src/pages/apptest.astro              |  173 +
+ sites/hengsel/src/pages/apptest/passord.astro      |   37 +
+ sites/hengsel/src/scripts/apptest.ts               |   19 +
+ sites/hengsel/worker/apptest.ts                    |  178 +
+ sites/hengsel/wrangler.jsonc                       |   10 +-
+ 57 files changed, 9343 insertions(+), 13 deletions(-)
+```
+
+Bare K-107-filer: siden, passordsiden, skriptet, ikonene, Worker-skriptet, `wrangler.jsonc` for hengsel, `robots`-propen,
+sjekkene, docs, skjermbildene og designfasiten. Ingenting under `sites/sngroup` eller `sites/byggem`.
+
+KLAR FOR MAIN – KAN FLETTES AUTOMATISK
