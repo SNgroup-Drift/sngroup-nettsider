@@ -129,6 +129,20 @@ for (const navn of nettsteder) {
   } catch {
     mangler.push("dist/404.html mangler");
   }
+  // /apptest (hengsel.no, bak passord): ingen andre sider lenker dit, den står ikke i sitemap, og den har noindex, nofollow
+  for (const side of sider) {
+    const html = await (await fetch(new URL(side, base))).text();
+    if (side.startsWith("/apptest")) {
+      if (!html.includes('<meta name="robots" content="noindex, nofollow">')) mangler.push(`${side}: mangler robots noindex, nofollow`);
+    } else if (/\shref="(?:https:\/\/hengsel\.no)?\/apptest/.test(html)) {
+      mangler.push(`${side}: lenker til /apptest`);
+    }
+  }
+  try {
+    const sitemap = await (await fetch(new URL("/sitemap.txt", base))).text();
+    if (sitemap.includes("/apptest")) mangler.push("sitemap.txt: inneholder /apptest");
+  } catch {}
+
   server.close();
   if (mangler.length) {
     feil += mangler.length;

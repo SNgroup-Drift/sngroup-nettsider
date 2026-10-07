@@ -14,14 +14,16 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  /** Overstyrer robots-taggen (/apptest: "noindex, nofollow") */
+  robots?: string;
   /** Forsiden: lenkene i toppfeltet peker til ankre på samme side */
   forside?: boolean;
   demo?: boolean;
 }
-const { title, description, noindex, forside = false, demo = false } = Astro.props;
+const { title, description, noindex, robots, forside = false, demo = false } = Astro.props;
 const h = forside ? "" : "/";
 ---
-<BaseLayout title={title} description={description} noindex={noindex}>
+<BaseLayout title={title} description={description} noindex={noindex} robots={robots}>
   <div class="side" id="hjem">
     <Toppfelt
       hjem={forside ? "#hjem" : "/"}

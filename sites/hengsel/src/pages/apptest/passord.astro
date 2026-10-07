@@ -1,0 +1,37 @@
+---
+/**
+ * Passordsiden for /apptest (K-107). Serveres av Workeren (worker/apptest.ts) i stedet for /apptest når
+ * informasjonskapselen mangler eller er ugyldig. Ved feil passord fjerner Workeren «hidden» på feilmeldingen.
+ * Ligger under /apptest/, så den nås bare gjennom Workeren.
+ */
+import Side from "../../layouts/Side.astro";
+---
+<Side
+  title="Slik installerer du Hengsel · Hengsel"
+  description="Slik installerer du testversjonen av montørappen Hengsel."
+  robots="noindex, nofollow"
+>
+  <main id="innhold" class="passord">
+    <div class="wrap innhold">
+      <h1>Slik installerer du Hengsel</h1>
+      <p class="h-lede">Skriv passordet du fikk sammen med lenken.</p>
+      <form method="post" action="/apptest" class="skjema">
+        <div class="h-felt">
+          <label for="passord">Passord</label>
+          <input class="h-input" id="passord" name="passord" type="password" autocomplete="current-password" required aria-describedby="passord-feil" />
+        </div>
+        <p class="feil" id="passord-feil" role="alert" data-feil hidden>Feil passord. Prøv igjen, eller spør Eirik.</p>
+        <button class="h-btn primar apne" type="submit">Åpne</button>
+      </form>
+    </div>
+  </main>
+</Side>
+
+<style>
+  .passord { flex: 1; }
+  .innhold { display: grid; gap: 16px; align-content: start; padding-block: clamp(32px, 6vw, 80px) clamp(48px, 7vw, 96px); }
+  h1 { font-size: var(--t-hero); line-height: 1.02; margin: 0; }
+  .skjema { display: grid; gap: 16px; max-width: 480px; padding-top: 16px; }
+  .feil { color: var(--feil); background: var(--feil-myk); border-radius: var(--radius-felt); padding: 12px 14px; }
+  .apne { min-height: 56px; font-size: 1.125rem; justify-self: start; padding: 0 28px; }
+</style>

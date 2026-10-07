@@ -8,7 +8,8 @@ Nettstedene til SN Group (ES-HOLDING AS, org.nr. 927 363 585), samlet i ett repo
 | hengsel.no | `sites/hengsel` | Forside, personvern og 404 (K-87 del 4) |
 | byggem.no | `sites/byggem` | Forside, prosjekter, kontakt, personvern og 404 (K-87 del 5) |
 
-Alt er statisk Astro: ingen server, ingen database, ingen sporing og ingen informasjonskapsler.
+Alt er statisk Astro: ingen server, ingen database, ingen sporing og ingen informasjonskapsler. Eneste unntak er
+hengsel.no/apptest, som ligger bak et felles passord med et lite Worker-skript og én informasjonskapsel (se docs/hosting.md).
 
 ## Oppsett
 
@@ -27,10 +28,12 @@ sites/<navn>/           Ett Astro-prosjekt per nettsted
   src/pages/              Sidene
   public/_headers         Sikkerhetshoder (Cloudflare Workers, statiske filer)
   public/_redirects       Stibaserte omdirigeringer (www → apex gjøres i Cloudflare, se docs/hosting.md)
-  wrangler.jsonc          Worker-oppsett: navn, dist som statiske filer, 404-side (ingen kode, ingen nøkler)
+  wrangler.jsonc          Worker-oppsett: navn, dist som statiske filer, 404-side (ingen nøkler; kode bare for hengsel.no/apptest)
+  worker/apptest.ts       (bare hengsel) Passordet for /apptest
 scripts/
   sjekk-lenker.mjs        npm test: alle interne lenker på de bygde sidene svarer 200
   skjermbilder.mjs        Skjermbilder og nettlesersjekker (360 px, konsoll, CSP)
+  skjermbilder-apptest.mjs  Skjermbilder og sjekker av hengsel.no/apptest mot wrangler dev (passordet)
   csp-hasher.mjs          Legger hashen for inline-CSS inn i CSP-en i dist/_headers
   statisk-server.mjs      Liten server som løser stier og 404 som Cloudflare Workers
 ```
