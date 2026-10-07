@@ -10,7 +10,7 @@ export const personvern = {
   etikett: "hengsel.no",
   tittel: "Personvern",
   ingress: "Slik behandler vi opplysningene dine når du besøker hengsel.no eller tar kontakt med oss.",
-  oppdatert: "Sist oppdatert 4. oktober 2026",
+  oppdatert: "Sist oppdatert 7. oktober 2026",
   behandlingsansvarlig: "ES-HOLDING AS",
   kontakt: "drift@sngroup.no",
   avsnitt: [

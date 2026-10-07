@@ -93,7 +93,7 @@ Teksten er ordrett fra `docs/kilde/hengsel.no/personvern.raw.html`, med to endri
 - «Nettsiden driftes hos Lovable …» → «Nettsiden driftes hos Cloudflare, og domenet er registrert hos Domeneshop.
   Cloudflare fører tekniske logger med blant annet IP-adresse og tidspunkt, som brukes til drift og sikkerhet.»
 
-«Sist oppdatert 4. oktober 2026» står uendret, som i designet. Bør den settes til 7. oktober 2026 når siden publiseres?
+«Sist oppdatert» er satt til 7. oktober 2026 (Eirik 07.10), datoen endringene ble godkjent. Designet og dagens side sa 4. oktober 2026.
 
 ## Skrifter som faktisk er brukt
 
@@ -188,5 +188,4 @@ her: prototypen henter React fra unpkg.com, som er stengt i byggemiljøet.
 ## Før hengsel.no flyttes fra Lovable
 
 1. Opprett Worker «hengsel» etter `docs/hosting.md`, og koble domenene `hengsel.no` og `www.hengsel.no`.
-2. Avklar om «Sist oppdatert» på personvernsiden skal stå som 4. oktober eller settes til datoen siden flyttes.
-3. Del 3 (sngroup.no) kan ta i bruk familiekomponentene som nå ligger i designpakken.
+2. Del 3 (sngroup.no) kan ta i bruk familiekomponentene som nå ligger i designpakken.
