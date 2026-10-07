@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/base.css">
+  <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/components.css">
+  <script src="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/_ds_bundle.js"></script>
+</helmet>
+<div ref="{{ outer }}" style="width:100%; display:flex; justify-content:center; min-width:0; container-type:inline-size">
+  <div style="{{ inner }}">
+    <sc-if value="{{ isPc }}" hint-placeholder-val="{{ false }}">
+      <div style="width:856px; border-radius:20px; overflow:hidden; border:1px solid var(--line); background:var(--surface-app); box-shadow:var(--shadow)">
+        <img src="{{ a.src }}" alt="{{ alt }}" onClick="{{ a.zoom }}" style="display:block; width:100%; height:auto; cursor:zoom-in">
+      </div>
+    </sc-if>
+    <sc-if value="{{ isIpad }}" hint-placeholder-val="{{ false }}">
+      <x-import component-from-global-scope="HengselDesignSystem_5a9d09.TabletFrame" style="{{ frameStyle }}" hint-size="1180px,820px">
+        <img src="{{ a.src }}" alt="{{ alt }}" onClick="{{ a.zoom }}" style="display:block; width:100%; height:100%; object-fit:cover; object-position:top; cursor:zoom-in">
+      </x-import>
+    </sc-if>
+    <sc-if value="{{ isPhones }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; gap:36px; align-items:flex-start; justify-content:center">
+        <sc-for list="{{ phones }}" as="p" hint-placeholder-count="1">
+          <div style="{{ p.wrap }}">
+            <x-import component-from-global-scope="HengselDesignSystem_5a9d09.PhoneFrame" time="07.52" body-style="{{ phoneBody }}" style="{{ frameStyle }}" hint-size="390px,844px">
+              <sc-if value="{{ p.has }}" hint-placeholder-val="{{ true }}">
+                <img src="{{ p.src }}" alt="{{ alt }}" onClick="{{ p.zoom }}" style="display:block; width:100%; height:100%; object-fit:cover; object-position:top center; cursor:zoom-in">
+              </sc-if>
+              <sc-if value="{{ p.missing }}" hint-placeholder-val="{{ false }}">
+                <div style="flex:1; display:grid; place-items:center; padding:32px; text-align:center; color:var(--soft); font-size:1.05rem; line-height:1.5">
+                  <span>{{ p.label }}</span>
+                </div>
+              </sc-if>
+            </x-import>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:700,&quot;height&quot;:560},&quot;bilde&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;min-dag&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;type&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pc&quot;,&quot;ipad&quot;,&quot;phone&quot;,&quot;pair&quot;],&quot;default&quot;:null,&quot;tsType&quot;:&quot;'pc'|'ipad'|'phone'|'pair'&quot;},&quot;alt&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;ratio&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:0.75,&quot;tsType&quot;:&quot;number&quot;},&quot;onZoom&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(src:string, alt:string)=&gt;void&quot;}}">
+const PAIRS = new Set(['telefon','kjoper-godkjenner','hengsel-i-dag','hengsel-jobb','hengsel-varer','hengsel-ks','hengsel-ferdig']);
+const SINGLES = new Set(['hengsel-avvik']);
+const IPADS = new Set(['ipad-min-dag','ipad-ordre','hengsel-ipad']);
+const HAS = new Set(['bestilling','hengsel-avvik','hengsel-i-dag-a','hengsel-i-dag-b','hengsel-ipad','ipad-min-dag','ipad-ordre','kundekortet','kundeportalen','leder','min-dag','moduler','montasje','monteringskalkyle','ordre-og-montasje','produkter-hos-kunden','prosjektoppsett','resultater','saker','salgstavla','samtaler','telefon-a','tilbudet','tilvalg-mot-standard']);
+const DIMS = { pc: [856, 592], ipad: [1180, 820], phone: [390, 844], pair: [816, 920] };
+
+class Component extends DCLogic {
+  state = { cw: 600 };
+  outer = React.createRef();
+  componentDidMount() {
+    const el = this.outer.current;
+    if (!el) return;
+    const m = () => { const w = el.clientWidth; if (w && Math.abs(w - this.state.cw) > 1) this.setState({ cw: w }); };
+    this.ro = new ResizeObserver(m); this.ro.observe(el); m();
+  }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); }
+  renderVals() {
+    const k = this.props.bilde || 'min-dag';
+    const t = this.props.type || (PAIRS.has(k) ? 'pair' : SINGLES.has(k) ? 'phone' : IPADS.has(k) ? 'ipad' : 'pc');
+    const [W, H] = DIMS[t];
+    const ratio = this.props.ratio ?? 0.75;
+    const cw = this.state.cw;
+    const z = Math.max(0.2, Math.min(1, cw / W, (cw * ratio) / H));
+    const alt = this.props.alt || '';
+    const mk = (key, i) => {
+      const src = 'img/' + key + '.webp', has = HAS.has(key);
+      return {
+        key, src, has, missing: !has,
+        label: 'Skjermbilde mangler: ' + key + '.webp',
+        wrap: { marginTop: t === 'pair' && i === 1 ? 76 : 0 },
+        zoom: () => { if (has && this.props.onZoom) this.props.onZoom(src, alt); },
+      };
+    };
+    const keys = t === 'pair' ? [k + '-a', k + '-b'] : [k];
+    const phones = keys.map(mk);
+    return {
+      outer: this.outer,
+      inner: { width: W, zoom: z, flex: 'none' },
+      isPc: t === 'pc', isIpad: t === 'ipad', isPhones: t === 'pair' || t === 'phone',
+      a: phones[0], phones, alt,
+      phoneBody: { padding: 0, gap: 0, overflow: 'hidden' },
+      frameStyle: { boxShadow: '0 0 0 1px var(--line), var(--shadow)' },
+    };
+  }
+}
+</script>
+</body>
+</html>
