@@ -1,0 +1,77 @@
+---
+/**
+ * Familiegrep: toppfeltet. Logo (slot «logo») eller ordmerke til venstre, korte lenker og én kontaktknapp til høyre.
+ * Bruker bare semantiske variabler, så hvert nettsted får sine egne farger.
+ * Fasit: docs/design/sngroup/Toppfelt.dc.html. hengsel.no bruker fast={true}, strek={true} og kontaktVariant="fylt".
+ */
+interface Lenke { href: string; label: string }
+interface Props {
+  /** Lenke for logoen */
+  hjem?: string;
+  /** Tekst når det ikke er noen logo, og tilgjengelig navn på lenken */
+  ordmerke: string;
+  lenker?: Lenke[];
+  kontaktHref?: string;
+  kontaktTekst?: string;
+  /** omriss = pilleknapp med strek (sngroup.no), fylt = aksentfarge (hengsel.no) */
+  kontaktVariant?: "omriss" | "fylt";
+  /** Fest toppfeltet øverst når siden rulles */
+  fast?: boolean;
+  /** Linje under toppfeltet */
+  strek?: boolean;
+  /** Bredden der de sekundære lenkene skjules */
+  skjulUnder?: 640 | 900;
+}
+const {
+  hjem = "/",
+  ordmerke,
+  lenker = [],
+  kontaktHref = "#kontakt",
+  kontaktTekst = "Kontakt",
+  kontaktVariant = "omriss",
+  fast = false,
+  strek = false,
+  skjulUnder = 640,
+} = Astro.props;
+const harLogo = Astro.slots.has("logo");
+---
+<header class:list={["toppfelt", { fast, strek, [`skjul-${skjulUnder}`]: true }]} data-familiegrep="toppfelt">
+  <div class="wrap">
+    <nav class="rad" aria-label="Hovedmeny">
+      <a href={hjem} class="ordmerke" aria-label={harLogo ? `${ordmerke} – forside` : undefined}>
+        {harLogo ? <slot name="logo" /> : <span>{ordmerke}</span>}
+      </a>
+      <ul class="lenker">
+        {lenker.map((l) => <li class="sekundar"><a href={l.href}>{l.label}</a></li>)}
+        <li><a href={kontaktHref} class:list={["kontakt", kontaktVariant]}>{kontaktTekst}</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .toppfelt { background: var(--bakgrunn); color: var(--tekst); }
+  .toppfelt.fast { position: sticky; top: 0; z-index: 40; }
+  .toppfelt.strek { border-bottom: 1px solid var(--linje); }
+  .rad { display: flex; justify-content: space-between; align-items: center; gap: 16px 24px; min-height: 64px; padding-block: 10px; }
+  .ordmerke {
+    display: flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--tekst);
+    font-family: var(--font-overskrift); font-size: 26px; line-height: 1.2;
+  }
+  .lenker { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px 24px; align-items: center; }
+  .sekundar a {
+    display: inline-block; padding-block: 10px; font-size: 15px; text-decoration: none; color: var(--tekst-dempet);
+  }
+  .sekundar a:hover { color: var(--tekst); }
+  .kontakt {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px;
+    border-radius: var(--radius-pille); font-weight: 500; font-size: 15px; text-decoration: none; white-space: nowrap;
+    transition: opacity 160ms, background-color 160ms, color 160ms;
+  }
+  .kontakt.omriss { border: 1px solid var(--linje-svak); color: var(--tekst); }
+  .kontakt.omriss:hover { border-color: var(--tekst); }
+  .kontakt.fylt { background: var(--aksent); color: var(--pa-aksent); border: 1px solid var(--aksent); padding-inline: 22px; font-size: 16px; }
+  .kontakt.fylt:hover { opacity: 0.88; }
+  @media (max-width: 640px) { .skjul-640 .sekundar { display: none; } }
+  @media (max-width: 900px) { .skjul-900 .sekundar { display: none; } }
+</style>

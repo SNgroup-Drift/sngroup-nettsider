@@ -1,25 +1,62 @@
 import type { Avsnitt } from "@sngroup/design/types";
 
-// TODO(del 2): personvern for CRM by Hengsel når nettstedet får innhold.
+/**
+ * Personvern for hengsel.no. Dagens tekst fra hengsel.no (docs/kilde/hengsel.no/personvern.raw.html) ordrett,
+ * med to endringer Eirik godkjente 07.10.2026: skriftene ligger på egen server, og driften er hos Cloudflare.
+ */
+const epost = '<a href="mailto:drift@sngroup.no">drift@sngroup.no</a>';
+
 export const personvern = {
-  tittel: "Personvern på",
-  tittelAksent: "hengsel.no",
-  behandlingsansvarlig: "ES-HOLDING AS (org.nr. 927 363 585)",
+  etikett: "hengsel.no",
+  tittel: "Personvern",
+  ingress: "Slik behandler vi opplysningene dine når du besøker hengsel.no eller tar kontakt med oss.",
+  oppdatert: "Sist oppdatert 4. oktober 2026",
+  behandlingsansvarlig: "ES-HOLDING AS",
   kontakt: "drift@sngroup.no",
   avsnitt: [
     {
-      overskrift: "Nettstedet",
-      tekst: ["hengsel.no bruker ikke informasjonskapsler (cookies), og har ingen sporing eller analyse."],
+      overskrift: "Hvem er ansvarlig",
+      tekst: ["ES-HOLDING AS er behandlingsansvarlig for nettsiden hengsel.no."],
+      boks: `ES-HOLDING AS · Org.nr. 927 363 585<br>Enromvegen 173, 7026 Trondheim<br>E-post: ${epost}`,
+    },
+    {
+      overskrift: "Når du besøker siden",
+      punkter: [
+        "Siden har ingen innlogging, ingen analyseverktøy og ingen sporing.",
+        "Vi bruker ingen informasjonskapsler (cookies).",
+        "Nettleseren din husker hvilken fane du sist så på under «Se løsningen». Dette lagres bare lokalt hos deg og sendes ikke til oss.",
+        // Endret 07.10.2026 (var: «Skriftene lastes fra Google Fonts. …»)
+        "Skriftene ligger på vår egen server. Nettsiden henter ingenting fra andre nettsteder.",
+        // Endret 07.10.2026 (var: «Nettsiden driftes hos Lovable, …»)
+        "Nettsiden driftes hos Cloudflare, og domenet er registrert hos Domeneshop. Cloudflare fører tekniske logger med blant annet IP-adresse og tidspunkt, som brukes til drift og sikkerhet.",
+      ],
+    },
+    {
+      overskrift: "Når du ber om demo eller skriver til oss",
+      tekst: [
+        "Skjemaet på forsiden lagrer ingenting. Det fyller ut en e-post i ditt eget e-postprogram, og ingenting blir sendt før du selv trykker send.",
+        "Når du sender e-posten, mottar vi det du har skrevet: navn, butikk eller firma, e-post, telefon, antall selgere, hva du er interessert i og meldingen din.",
+      ],
+      punkter: [
+        "<b>Formål:</b> å svare deg, avtale en gjennomgang og følge opp henvendelsen.",
+        "<b>Grunnlag:</b> vår berettigede interesse i å svare på henvendelser, og tiltak du ber om før en eventuell avtale (personvernforordningen artikkel 6 nr. 1 bokstav f og b).",
+        "<b>Hvor:</b> e-posten behandles i Microsoft 365.",
+        "<b>Hvor lenge:</b> så lenge det trengs for å følge opp henvendelsen. Blir du kunde, gjelder avtalen og databehandleravtalen vi inngår med butikken.",
+        "Vi selger ikke opplysningene og deler dem ikke med andre.",
+      ],
     },
     {
       overskrift: "Montørappen Hengsel",
       tekst: [
-        'Personvernerklæringen for montørappen står på <a href="https://sngroup.no/personvern">sngroup.no/personvern</a>.',
+        'Personvernerklæringen for montørappen Hengsel ligger på <a href="https://sngroup.no/personvern">sngroup.no/personvern</a>.',
       ],
     },
     {
-      overskrift: "Kontakt",
-      tekst: ['Spørsmål om personvern sendes til <a href="mailto:drift@sngroup.no">drift@sngroup.no</a>.'],
+      overskrift: "Dine rettigheter",
+      tekst: [
+        `Du kan be om innsyn i, retting av eller sletting av opplysninger vi har om deg, og du kan protestere mot behandlingen. Skriv til ${epost}, så svarer vi innen 30 dager.`,
+        'Mener du at vi behandler opplysningene feil, kan du klage til <a href="https://www.datatilsynet.no">Datatilsynet</a>.',
+      ],
     },
   ] satisfies Avsnitt[],
 };

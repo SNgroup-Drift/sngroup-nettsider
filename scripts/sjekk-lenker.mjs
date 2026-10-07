@@ -6,6 +6,8 @@
  * (/ → index.html, /personvern → personvern.html), finner alle href/src i HTML og CSS, og ber om hver av dem.
  * Lenker til #id sjekkes også mot id-ene på målsiden. Eksterne lenker, mailto: og tel: hoppes over.
  * Til slutt sjekkes at dist/404.html finnes, og at en ukjent side svarer 404 med den siden.
+ * Skjermbilder som byttes inn av skript (data-bilde og JSON i siden, f.eks. fanene på hengsel.no) sjekkes også,
+ * og alle filene i dist/img må svare 200.
  *
  * Kjør etter `npm run build`: npm test
  */
@@ -91,6 +93,32 @@ for (const navn of nettsteder) {
       }
     }
   }
+  // Skjermbilder som skriptene bytter inn: data-bilde="navn" og "bilde":"navn" i siden. Et par vises som navn-a og navn-b.
+  const bilder = new Set();
+  for (const side of sider) {
+    const html = await (await fetch(new URL(side, base))).text();
+    for (const m of html.matchAll(/data-bilde="([\w-]+)"|"bilde":"([\w-]+)"/g)) bilder.add(m[1] ?? m[2]);
+  }
+  for (const b of bilder) {
+    const enkel = await fetch(new URL(`/img/${b}.webp`, base));
+    sjekket++;
+    if (enkel.status === 200) continue;
+    for (const del of ["a", "b"]) {
+      const r = await fetch(new URL(`/img/${b}-${del}.webp`, base));
+      sjekket++;
+      if (r.status !== 200) mangler.push(`skjermbilde ${b} (${b}.webp eller ${b}-${del}.webp) → ${r.status}`);
+    }
+  }
+  let antallBilder = 0;
+  try {
+    for (const f of (await readdir(join(dist, "img"))).filter((f) => !f.startsWith("."))) {
+      const r = await fetch(new URL(`/img/${f}`, base));
+      sjekket++;
+      antallBilder++;
+      if (r.status !== 200) mangler.push(`/img/${f} → ${r.status}`);
+    }
+  } catch {}
+
   // 404-siden: Workers serverer dist/404.html med status 404 for ukjente stier (not_found_handling)
   try {
     await stat(join(dist, "404.html"));
@@ -107,7 +135,7 @@ for (const navn of nettsteder) {
     console.error(`✗ ${navn}: ${mangler.length} feil`);
     for (const m of mangler) console.error(`    ${m}`);
   } else {
-    console.log(`✓ ${navn}: ${sett.size} interne adresser svarer 200 (${sider.join(", ")}), og ukjente sider får 404.html`);
+    console.log(`✓ ${navn}: ${sett.size} interne adresser svarer 200 (${sider.join(", ")})${antallBilder ? `, ${antallBilder} bilder i img/ svarer 200 (${bilder.size} skjermbilder brukt av fanene)` : ""}, og ukjente sider får 404.html`);
   }
 }
 

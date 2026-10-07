@@ -6,6 +6,10 @@
 import type { Avsnitt } from "../types";
 
 interface Props {
+  /** Liten etikett over overskriften */
+  etikett?: string;
+  /** Ingress under overskriften */
+  ingress?: string;
   /** Overskrift. Ordet i tittelAksent settes i kursiv aksent. */
   tittel: string;
   tittelAksent?: string;
@@ -14,12 +18,13 @@ interface Props {
   kontakt: string;
   avsnitt: Avsnitt[];
 }
-const { tittel, tittelAksent, oppdatert, behandlingsansvarlig, kontakt, avsnitt } = Astro.props;
+const { etikett = "Personvern", ingress, tittel, tittelAksent, oppdatert, behandlingsansvarlig, kontakt, avsnitt } = Astro.props;
 ---
 <div class="topp">
   <div class="wrap">
-    <div class="label">Personvern</div>
+    <div class="label">{etikett}</div>
     <h1>{tittel}{tittelAksent && <> <em>{tittelAksent}</em></>}</h1>
+    {ingress && <p class="ingress">{ingress}</p>}
     {oppdatert && <p class="oppdatert">{oppdatert}</p>}
     <p class="ansvar">
       <span>Behandlingsansvarlig: {behandlingsansvarlig}</span>
@@ -35,6 +40,7 @@ const { tittel, tittelAksent, oppdatert, behandlingsansvarlig, kontakt, avsnitt 
         <h2>{a.overskrift}</h2>
         <div class="tekst">
           {a.tekst?.map((t) => <p set:html={t} />)}
+          {a.boks && <div class="boks"><p set:html={a.boks} /></div>}
           {a.punkter && <ul>{a.punkter.map((p) => <li set:html={p} />)}</ul>}
           {a.etter?.map((t) => <p set:html={t} />)}
         </div>
@@ -46,6 +52,7 @@ const { tittel, tittelAksent, oppdatert, behandlingsansvarlig, kontakt, avsnitt 
 <style>
   .topp { padding-block: clamp(32px, 6vw, 80px) clamp(32px, 5vw, 56px); }
   h1 { margin: 20px 0 16px; }
+  .ingress { color: var(--tekst-dempet); font-size: 1.18rem; max-width: 62ch; margin: 0 0 16px; }
   .oppdatert { color: var(--tekst-dempet); margin: 0; }
   .ansvar { margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 4px 24px; color: var(--tekst-dempet); font-size: 15px; }
   .ansvar a { color: var(--tekst); }
@@ -66,5 +73,7 @@ const { tittel, tittelAksent, oppdatert, behandlingsansvarlig, kontakt, avsnitt 
   .tekst :global(li) { margin-bottom: 8px; }
   .tekst :global(li::marker) { color: var(--aksent); }
   .tekst :global(a) { color: var(--tekst); text-underline-offset: 3px; }
+  .boks { background: var(--flate); border-radius: var(--radius); padding: 20px 22px; margin-top: 14px; }
+  .boks + :global(ul), .boks + :global(p) { margin-top: 14px; }
   @media (max-width: 860px) { .prad { grid-template-columns: 1fr; } }
 </style>

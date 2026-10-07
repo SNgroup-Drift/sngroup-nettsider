@@ -6,4 +6,6 @@ export interface Avsnitt {
   punkter?: string[];
   /** Avsnitt etter listen */
   etter?: string[];
+  /** Fremhevet boks (HTML) etter første avsnitt, f.eks. adresse og org.nr. */
+  boks?: string;
 }

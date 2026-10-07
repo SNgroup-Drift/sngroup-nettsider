@@ -1,5 +1,4 @@
-// hengsel.no – skjelett (K-87 del 1). Innholdet kommer i del 2.
-// ES-HOLDING AS utgir Hengsel (fra personvernteksten på sngroup.no).
+// hengsel.no. ES-HOLDING AS utgir Hengsel.
 export const selskap = {
   navn: "ES-HOLDING AS",
   merkenavn: "Hengsel",

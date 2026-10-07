@@ -1,0 +1,26 @@
+---
+/**
+ * Bunnen på hengsel.no: familiebåndet og bunnteksten. Fasit: docs/design/hengsel/Bunn.dc.html.
+ * demo = linjen om demodata (bare på forsiden, der skjermbildene vises).
+ */
+import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
+import { selskap } from "../content/selskap";
+
+interface Props { demo?: boolean; forside?: boolean }
+const { demo = false, forside = false } = Astro.props;
+---
+<Familiebaand gjeldende="hengsel.no" />
+<footer class="bunn">
+  <div class="wrap rad">
+    <span>Hengsel · {selskap.navn} · org.nr. {selskap.orgnr} · <a href={`mailto:${selskap.epost}`}>{selskap.epost}</a></span>
+    {demo && <span>Skjermbildene viser demodata. Navn og tall er ikke ekte.</span>}
+    <span class="lenker"><a href="/personvern">Personvern</a><span aria-hidden="true">·</span>{forside ? <a href="#hjem">Til toppen</a> : <a href="/">Til forsiden</a>}</span>
+  </div>
+</footer>
+
+<style>
+  .bunn { border-top: 1px solid var(--linje); font-size: 0.9rem; color: var(--tekst-dempet); background: var(--bakgrunn); }
+  .rad { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; padding-block: 32px 40px; }
+  a { color: inherit; text-underline-offset: 3px; display: inline-block; padding-block: 4px; }
+  .lenker { display: flex; gap: 8px; align-items: center; }
+</style>

@@ -1,0 +1,50 @@
+---
+/**
+ * Familiegrep: båndet over bunnteksten. SN Group-symbolet (rommet sett ovenfra), «En del av SN Group» og
+ * søstersidene. Siden du står på er markert og ikke lenket. Fasit: docs/design/sngroup/Familiebaand.dc.html.
+ */
+type Side = "sngroup.no" | "hengsel.no" | "byggem.no";
+interface Props { gjeldende: Side }
+const { gjeldende } = Astro.props;
+const sider: Side[] = ["sngroup.no", "hengsel.no", "byggem.no"];
+---
+<aside class="baand" aria-label="SN Group" data-familiegrep="familiebaand">
+  <div class="wrap rad">
+    <a href="https://sngroup.no" class="avsender">
+      <svg width="32" height="32" viewBox="0 0 44 44" aria-hidden="true">
+        <g transform="translate(5,5)">
+          <rect class="strek" x="0" y="0" width="34" height="34" />
+          <line class="strek" x1="17" y1="0" x2="17" y2="21" />
+          <line class="strek" x1="0" y1="21" x2="34" y2="21" />
+          <path class="bue" d="M17 21 A9 9 0 0 1 26 30" />
+        </g>
+      </svg>
+      <span>En del av SN Group</span>
+    </a>
+    <ul aria-label="Søstersidene">
+      {sider.map((navn, i) => (
+        <li>
+          {i > 0 && <span class="skille" aria-hidden="true">·</span>}
+          {navn === gjeldende
+            ? <span aria-current="page" class="her">{navn}</span>
+            : <a href={`https://${navn}`}>{navn}</a>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</aside>
+
+<style>
+  .baand { background: var(--bakgrunn); color: var(--tekst); border-top: 1px solid var(--linje-svak); }
+  .rad { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px 32px; padding-block: 24px; }
+  .avsender { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--tekst); font-size: 15px; font-weight: 500; min-height: 44px; }
+  svg { flex: none; display: block; }
+  .strek { fill: none; stroke: currentColor; stroke-width: 2.4; }
+  .bue { fill: none; stroke: var(--aksent); stroke-width: 1.8; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; font-size: 15px; }
+  li { display: flex; align-items: center; }
+  .skille { color: var(--tekst-dempet); padding-inline: 10px; }
+  .her { color: var(--tekst); padding-block: 10px; }
+  a:not(.avsender) { color: var(--tekst-dempet); text-underline-offset: 3px; padding-block: 10px; display: inline-block; }
+  a:not(.avsender):hover { color: var(--tekst); }
+</style>

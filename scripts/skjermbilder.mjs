@@ -2,9 +2,11 @@
 /**
  * Skjermbilder og nettlesersjekker med Playwright (Chromium).
  *
- *  - Skjermbilder av sngroup.no (/ og /design) på desktop og mobil, lys og mørk, til docs/skjermbilder/.
+ *  - Skjermbilder av sngroup.no (/ og /design) og hengsel.no (/, /personvern og 404) på desktop og mobil, lys og mørk,
+ *    til docs/skjermbilder/ (hengsel.no-filene starter med «hengsel-»).
  *  - Alle sider på alle nettsteder: ingen vannrett rulling ved 360 px, ingen konsollfeil (CSP fra _headers gjelder).
  *  - Plantegningen: et klikk på et rom bytter tekst og åpner riktig rad.
+ *  - hengsel.no: fanene bytter skjermbilde, «Se løsningen» huskes i localStorage («crm-tour»), og ingenting annet lagres.
  *  - Hvilke skrifter som faktisk lastes.
  *
  * Kjør etter `npm run build`: npm run skjermbilder
@@ -52,6 +54,28 @@ for (const side of [{ sti: "/", fil: "forside" }, { sti: "/design", fil: "design
   }
 }
 
+// 1b. Skjermbilder av hengsel.no
+for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }]) {
+  for (const v of visninger) {
+    for (const modus of ["light", "dark"]) {
+      const ctx = await browser.newContext({ ...v, colorScheme: modus, reducedMotion: "reduce" });
+      const page = await ctx.newPage();
+      await page.goto(servere.hengsel.base + side.sti, { waitUntil: "networkidle" });
+      // Rull gjennom siden så alle skjermbildene (loading="lazy") er lastet før helsidebildet
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)); }
+        window.scrollTo(0, 0);
+      });
+      await page.waitForLoadState("networkidle");
+      await page.evaluate(() => document.fonts.ready);
+      const fil = `hengsel-${side.fil}-${v.navn}-${modus === "light" ? "lys" : "mork"}.png`;
+      await page.screenshot({ path: join(ut, fil), fullPage: true });
+      console.log(`  bilde: docs/skjermbilder/${fil}`);
+      await ctx.close();
+    }
+  }
+}
+
 // 2. 360 px uten vannrett rulling, og ingen konsollfeil, på alle sider
 for (const [navn, { base }] of Object.entries(servere)) {
   const sider = navn === "sngroup" ? ["/", "/personvern", "/design", "/404"] : ["/", "/personvern", "/404"];
@@ -66,8 +90,15 @@ for (const [navn, { base }] of Object.entries(servere)) {
       // body har overflow-x: clip, så vi ser også etter elementer som stikker ut (de ville blitt klippet)
       const { sw, cw, utenfor } = await page.evaluate(() => {
         const cw = document.documentElement.clientWidth;
+        // Elementer inne i en egen rulleboks (overflow-x: auto/scroll, f.eks. stegrekka på hengsel.no) er med vilje bredere
+        const iRulleboks = (el) => {
+          for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+            if (/(auto|scroll)/.test(getComputedStyle(p).overflowX) && p.getBoundingClientRect().right <= cw + 1) return true;
+          }
+          return false;
+        };
         const utenfor = [...document.body.querySelectorAll("*")]
-          .filter((el) => !el.closest(".visually-hidden, .skip, .tabell") && el.getBoundingClientRect().right > cw + 1)
+          .filter((el) => !el.closest(".visually-hidden, .skip, .tabell") && el.getBoundingClientRect().right > cw + 1 && !iRulleboks(el))
           .map((el) => `${el.tagName.toLowerCase()}.${[...el.classList].join(".")}`);
         return { sw: document.documentElement.scrollWidth, cw, utenfor: [...new Set(utenfor)].slice(0, 5) };
       });
@@ -108,6 +139,34 @@ for (const [navn, { base }] of Object.entries(servere)) {
   const eksterne = await page.evaluate(() => performance.getEntriesByType("resource").filter((r) => !r.name.startsWith(location.origin)).map((r) => r.name));
   meld(eksterne.length === 0, `ingen eksterne forespørsler${eksterne.length ? `: ${eksterne.join(", ")}` : ""}`);
   meld((await ctx.cookies()).length === 0, "ingen informasjonskapsler");
+  await ctx.close();
+}
+
+// 5. hengsel.no: fanene og lagringen
+{
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+  const page = await ctx.newPage();
+  await page.goto(servere.hengsel.base + "/", { waitUntil: "networkidle" });
+  const src = (id) => page.$eval(`#${id} img`, (i) => i.getAttribute("src"));
+  await page.click("[data-hero-faner] button:nth-child(2)");
+  meld((await src("hero-enhet")) === "/img/ipad-min-dag.webp", "hengsel: heroen bytter til iPad");
+  await page.click('[data-omrader] button[data-omrade="Leveranse"]');
+  meld((await src("tur-enhet")) === "/img/ordre-og-montasje.webp", "hengsel: «Se løsningen» bytter område");
+  await page.reload({ waitUntil: "networkidle" });
+  meld((await page.getAttribute('[data-omrader] button[data-omrade="Leveranse"]', "aria-selected")) === "true", "hengsel: området huskes (crm-tour)");
+  const lagret = await page.evaluate(() => Object.keys(localStorage));
+  meld(lagret.join() === "crm-tour" && (await ctx.cookies()).length === 0, `hengsel: bare crm-tour i localStorage, ingen informasjonskapsler (${lagret.join(", ")})`);
+  await page.click("[data-steg-neste]");
+  meld((await page.textContent("[data-steg-nr]")).startsWith("Steg 2 av 11"), "hengsel: kundereisen går til steg 2");
+  const skrifter = await page.evaluate(async () => {
+    await document.fonts.ready;
+    return [...document.fonts].filter((f) => f.status === "loaded").map((f) => `${f.family} ${f.style} ${f.weight}`);
+  });
+  console.log(`\nhengsel.no, skrifter lastet på forsiden: ${[...new Set(skrifter)].join("; ")}`);
+  const filer = await page.evaluate(() => performance.getEntriesByType("resource").filter((r) => r.name.endsWith(".woff2")).map((r) => r.name.split("/").pop()));
+  console.log(`hengsel.no, skriftfiler hentet: ${filer.join(", ")}`);
+  const eksterne = await page.evaluate(() => performance.getEntriesByType("resource").filter((r) => !r.name.startsWith(location.origin)).map((r) => r.name));
+  meld(eksterne.length === 0, `hengsel: ingen eksterne forespørsler${eksterne.length ? `: ${eksterne.join(", ")}` : ""}`);
   await ctx.close();
 }
 

@@ -1,14 +1,14 @@
 ---
 import Side from "../layouts/Side.astro";
+import IkkeFunnet from "@sngroup/design/components/IkkeFunnet.astro";
+import Plantegningsstrek from "@sngroup/design/components/Plantegningsstrek.astro";
 ---
-<Side title="Siden finnes ikke" description="Siden finnes ikke." noindex>
-  <main id="innhold" class="wrap ikke-funnet">
-    <h1>404</h1>
-    <p><a href="/" class="pill solid">Til forsiden</a></p>
-  </main>
+<Side title="Siden finnes ikke · Hengsel" description="Siden finnes ikke." noindex>
+  <IkkeFunnet tittel="Dette rommet finnes ikke" ingress="Siden finnes ikke." oppsett="side" knapp="aksent">
+    <div class="kort" slot="tegning"><Plantegningsstrek rom="entre" mangler /></div>
+  </IkkeFunnet>
 </Side>
 
 <style>
-  .ikke-funnet { padding-block: 120px; }
-  p { margin-top: 16px; }
+  .kort { background: var(--kort); border: 1px solid var(--linje); border-radius: var(--radius); padding: 18px; }
 </style>

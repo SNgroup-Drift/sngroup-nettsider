@@ -1,0 +1,65 @@
+---
+/**
+ * Familiegrep: innholdet på 404-sidene. Etiketten «404», tittelen, et tomt rom i plantegningsstrek og knappen til
+ * forsiden. Fasit: docs/design/sngroup/IkkeFunnet.dc.html (oppsett «midt»).
+ * oppsett="side" setter teksten til venstre og tegningen til høyre (hengsel.no). Tegningen kan byttes med slot «tegning».
+ */
+import Plantegningsstrek from "./Plantegningsstrek.astro";
+
+interface Props {
+  hjem?: string;
+  hjemTekst?: string;
+  tittel?: string;
+  ingress?: string;
+  oppsett?: "midt" | "side";
+  /** tekst = knapp i tekstfargen (sngroup.no), aksent = knapp i aksentfargen (hengsel.no) */
+  knapp?: "tekst" | "aksent";
+}
+const {
+  hjem = "/",
+  hjemTekst = "Til forsiden",
+  tittel = "Dette rommet finnes ikke.",
+  ingress,
+  oppsett = "midt",
+  knapp = "tekst",
+} = Astro.props;
+---
+<main id="innhold" class:list={["ikke-funnet", oppsett]} data-familiegrep="404">
+  <div class="wrap rutenett">
+    <div class="tekst">
+      <div class="etikett">404</div>
+      <h1>{tittel}</h1>
+      {ingress && <p class="ingress">{ingress}</p>}
+      <p class="handling"><a href={hjem} class:list={["knapp", knapp]}>{hjemTekst} <span aria-hidden="true">→</span></a></p>
+    </div>
+    <div class="tegning">
+      {Astro.slots.has("tegning") ? <slot name="tegning" /> : <Plantegningsstrek rom="tomt" />}
+    </div>
+  </div>
+</main>
+
+<style>
+  .ikke-funnet { color: var(--tekst); flex: 1; }
+  .rutenett { padding-block: clamp(64px, 10vw, 120px); display: grid; }
+  .etikett { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tekst-dempet); }
+  h1 { margin-top: 20px; }
+  .ingress { margin: 20px 0 0; color: var(--tekst-dempet); font-size: 1.18rem; }
+  .handling { margin: 40px 0 0; }
+  .knapp {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 22px; border-radius: var(--radius-pille);
+    font-weight: 500; text-decoration: none; transition: opacity 160ms;
+  }
+  .knapp:hover { opacity: 0.88; }
+  .knapp.tekst { background: var(--tekst); color: var(--bakgrunn); }
+  .knapp.aksent { background: var(--aksent); color: var(--pa-aksent); }
+  /* midt: tegningen over teksten, alt sentrert */
+  .midt .rutenett { justify-items: center; text-align: center; }
+  .midt .tegning { order: -1; width: min(280px, 100%); margin-bottom: 40px; }
+  /* side: tekst til venstre, tegning til høyre */
+  .side .rutenett { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .side .tegning { width: 100%; max-width: 520px; justify-self: end; }
+  @media (max-width: 860px) {
+    .side .rutenett { grid-template-columns: minmax(0, 1fr); }
+    .side .tegning { justify-self: start; }
+  }
+</style>

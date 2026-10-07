@@ -19,8 +19,10 @@ packages/design/        Felles designpakke
   src/styles/fonts.css    Newsreader og Inter, selvhostet fra npm (@fontsource-variable)
   src/components/         BaseLayout, SiteHeader, SiteFooter, Section, Card, ContactBlock,
                           CompanyRow, PrivacyPage, ComingSoon
+                          Familiegrep: Toppfelt, Plantegningsstrek, Familiebaand, IkkeFunnet
 sites/<navn>/           Ett Astro-prosjekt per nettsted
   src/content/            Tekst og selskapsopplysninger (TODO der tekst mangler)
+  src/styles/tokens.css   Nettstedets farger som familiens semantiske variabler (hengsel.no), og skriften på én linje
   src/pages/              Sidene
   public/_headers         Sikkerhetshoder (Cloudflare Workers, statiske filer)
   public/_redirects       Stibaserte omdirigeringer (www → apex gjøres i Cloudflare, se docs/hosting.md)
