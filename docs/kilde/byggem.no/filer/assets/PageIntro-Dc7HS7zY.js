@@ -1,0 +1,1 @@
+import{d as e}from"./index-D2_AZHNJ.js";var t=e();function n({title:e,children:n}){return(0,t.jsx)(`section`,{className:`border-b border-line py-16 md:py-24`,children:(0,t.jsxs)(`div`,{className:`site-container`,children:[(0,t.jsx)(`h1`,{className:`h1 max-w-[20ch]`,children:e}),(0,t.jsx)(`div`,{className:`ingress mt-8 max-w-[65ch]`,children:n})]})})}export{n as t};
