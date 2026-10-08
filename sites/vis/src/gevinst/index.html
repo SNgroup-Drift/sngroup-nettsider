@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Gevinstkalkulator · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1180px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
+h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
+.sub{color:var(--muted);margin:6px 0 0;max-width:64ch}
+.flag{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:8px 12px;font:500 14px var(--sans)}
+.lay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;align-items:start}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;min-width:0}
+.box h2{font:400 24px/1.2 var(--serif);margin:0}
+.box .note{font-size:13px;color:var(--muted);margin:0}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.f{display:grid;gap:6px}
+.f .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.f label{font:500 14px var(--sans)}
+.f .hint{font-size:12px;color:var(--muted);margin:-2px 0 0}
+.num{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--soft);min-height:40px;padding:0 10px;gap:4px;flex:none}
+.num input{width:76px;border:0;background:transparent;color:var(--fg);font:500 15px var(--sans);text-align:right;font-variant-numeric:tabular-nums;padding:0;min-height:38px}
+.num input:focus{outline:none}
+.num:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.num span{font-size:13px;color:var(--muted);white-space:nowrap}
+input[type=range]{width:100%;margin:0;height:28px;accent-color:var(--accent);cursor:pointer;background:transparent}
+.acc{border-top:1px solid var(--line);padding-top:4px}
+.acc>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:none;border:0;color:var(--fg);font:500 15px var(--sans);padding:10px 0;min-height:44px;cursor:pointer;text-align:left}
+.acc>button i{font-style:normal;color:var(--muted);transition:transform .2s;display:inline-block}
+.acc>button[aria-expanded="true"] i{transform:rotate(90deg)}
+.acc .in{display:grid;gap:14px;padding:4px 0 6px}
+.acc .in[hidden]{display:none}
+.grp{display:grid;gap:12px;background:var(--soft);border-radius:12px;padding:12px}
+.grp h4{margin:0;font:600 13px var(--sans)}
+.grp .num{background:var(--card)}
+.res{display:grid;gap:16px;position:sticky;top:12px}
+.kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:2px;min-width:0}
+.kpi span{font-size:13px;color:var(--muted)}
+.kpi b{font:400 clamp(30px,4.2vw,42px)/1.1 var(--serif);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi em{font-style:normal;font-size:12px;color:var(--muted)}
+.kpi .main{grid-column:1/-1;background:var(--fg);border-color:var(--fg)}
+.kpi .main span,.kpi .main em{color:var(--sand)}
+.kpi .main b{color:var(--bg);font-size:clamp(40px,6vw,58px)}
+.bars{display:grid;gap:4px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;padding:8px 10px;border-radius:10px;cursor:default;outline:none;transition:background .15s}
+.bar:hover,.bar:focus-visible,.bar.on{background:var(--soft)}
+.bar:focus-visible{outline:2px solid var(--accent);outline-offset:0}
+.bar .nm{font-size:14px;display:flex;justify-content:space-between;gap:10px}
+.bar .nm em{font-style:normal;color:var(--muted);font-size:13px;white-space:nowrap}
+.bar .row{display:flex;align-items:center;gap:10px}
+.bar .tr{flex:1;min-width:0}
+.bar .fl{height:14px;border-radius:0 4px 4px 0;background:var(--accent);min-width:2px;transition:width .25s}
+.bar .v{font:500 14px var(--sans);color:var(--fg);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:92px;text-align:right}
+.bar .ex{font-size:13px;color:var(--muted);display:none;margin:2px 0 0}
+.bar:hover .ex,.bar:focus-visible .ex,.bar.on .ex{display:block}
+.how{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.how li{display:grid;gap:2px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.how li:last-child{border-bottom:0}
+.how b{font-weight:600}
+.how code{font:13px/1.5 var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.mini{display:none}
+@media (max-width:900px){.lay{grid-template-columns:1fr}.res{position:static}.mini{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;justify-content:space-between;align-items:center;gap:10px;background:var(--fg);color:var(--bg);padding:10px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;text-decoration:none}.mini b{font:400 22px var(--serif);font-variant-numeric:tabular-nums}body{padding-bottom:64px}}
+@media (max-width:420px){.kpi b{font-size:30px}.kpi .main b{font-size:40px}.num input{width:64px}.bar .v{min-width:80px}}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Regn med egne tall</span></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">For Sigdal og Nobia</div>
+    <h1>Gevinstkalkulator</h1>
+    <p class="sub">Legg inn tallene for din butikk og se hvor mye tid og penger Sigdal CRM, leverandørkoblingene, montørappen Hengsel og kundens Min side sparer i løpet av et år.</p>
+    <div class="flag" role="note">Anslag. Tallene er eksempler og ikke en garanti.</div>
+  </header>
+
+  <div class="lay">
+    <section class="box" aria-labelledby="h-inn">
+      <div class="hd"><h2 id="h-inn">Din butikk</h2><button class="btn" type="button" id="reset">Nullstill til standard</button></div>
+      <div id="inputs" style="display:grid;gap:16px"></div>
+      <div class="acc">
+        <button type="button" id="accBtn" aria-expanded="false" aria-controls="accIn"><span>Antakelser</span><i aria-hidden="true">›</i></button>
+        <div class="in" id="accIn" hidden>
+          <p class="note">Dette er det vi regner med at løsningen sparer per oppgave. Juster dem hvis dere vet bedre.</p>
+          <div id="assume" style="display:grid;gap:12px"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="res" id="res">
+      <div class="kpi" aria-live="polite">
+        <div class="main"><span>Spart per år</span><b id="kKr">0 kr</b><em>tid, fangede avvik og fakturafeil</em></div>
+        <div><span>Timer spart per år</span><b id="kT">0</b><em>sum av alle poster</em></div>
+        <div><span>Timer per selger per uke</span><b id="kU">0</b><em id="kUe">fordelt på 46 arbeidsuker</em></div>
+        <div style="grid-column:1/-1"><span>Tilsvarer</span><b id="kA">0 årsverk</b><em>regnet med 1 650 timer per årsverk</em></div>
+      </div>
+      <section class="box" aria-labelledby="h-post">
+        <h2 id="h-post">Per gevinstpost</h2>
+        <p class="note">Kroner per år, størst først. Pek eller tab til en post for å se hva den dekker.</p>
+        <div class="bars" id="bars"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="box" aria-labelledby="h-how">
+    <h2 id="h-how">Slik regner vi</h2>
+    <p class="note">Tidsposter gjøres om til kroner med timekosten. Tallene i parentes er dine tall akkurat nå.</p>
+    <ul class="how" id="how"></ul>
+  </section>
+
+  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data. Alle tall er eksempler. Skrifter: Newsreader og Inter.</p>
+</div>
+<a class="mini" href="#res"><span>Spart per år</span><b id="mKr">0 kr</b></a>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var nf=function(n,d){return Number(n).toLocaleString('nb-NO',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})};
+var kr=function(n){return nf(Math.round(n/100)*100)+' kr'};
+var UKER=46,AARSVERK=1650;
+// [id, label, standard, min, max, steg, enhet, hint, desimaler]
+var INN=[
+ ['ordre','Kjøkkenordre per år',220,20,1200,10,'stk'],
+ ['best','Leverandørbestillinger per ordre',5,1,15,1,'stk','Sigdal, benkeplate, hvitevarer, armatur og lignende'],
+ ['time','Timekost inkl. sosiale kostnader',650,300,1500,10,'kr'],
+ ['selg','Antall selgere',6,1,40,1,'stk'],
+ ['avv','Ordre med avvik i ordrebekreftelsen i dag',12,0,50,1,'%'],
+ ['avvKr','Snittkostnad per avvik som ikke fanges',4500,0,30000,100,'kr','Ny del, ekstra montørbesøk, frakt, rabatt til kunden'],
+ ['tlf','Kundetelefoner om status per ordre',4,0,15,1,'stk'],
+ ['innk','Innkjøp per ordre',110000,20000,500000,5000,'kr','Sum leverandørfakturaer for en vanlig ordre']
+];
+var ANT=[
+ ['Tilbud fra CET',[['aTilb','Spart per ordre',35,0,120,1,'min']]],
+ ['Ordrebekreftelser',[['aOb','Spart per bestilling på lesing og kontroll',8,0,30,1,'min']]],
+ ['Ordrekontroll',[['aFang','Andel av avvikene som fanges før produksjon',70,0,100,5,'%']]],
+ ['Statusspørsmål',[['aTlfR','Færre samtaler med Min side og SMS',60,0,100,5,'%'],['aTlfM','Minutter per samtale',6,1,20,1,'min']]],
+ ['Montasjeplanlegging',[['aMont','Spart per ordre på plan og beskjed til montør',25,0,90,1,'min']]],
+ ['Fakturakontroll',[['aFakt','Spart per faktura',5,0,20,1,'min'],['aFeil','Andel av innkjøpet som er feilfakturert og fanges',0.2,0,3,0.1,'%','',1]]]
+];
+var DEF={},V={},EL={};
+function field(d,host){
+ var id=d[0],dec=d[8]||0;DEF[id]=d[2];V[id]=d[2];
+ var w=document.createElement('div');w.className='f';
+ w.innerHTML='<div class="top"><label for="n_'+id+'">'+d[1]+'</label><span class="num"><input id="n_'+id+'" type="text" inputmode="'+(dec?'decimal':'numeric')+'" autocomplete="off"><span>'+d[6]+'</span></span></div>'+
+  '<input type="range" id="r_'+id+'" min="'+d[3]+'" max="'+d[4]+'" step="'+d[5]+'" aria-label="'+d[1]+'">'+(d[7]?'<p class="hint">'+d[7]+'</p>':'');
+ host.appendChild(w);
+ var n=w.querySelector('#n_'+id),r=w.querySelector('#r_'+id);EL[id]={n:n,r:r,d:d,dec:dec};
+ r.addEventListener('input',function(){V[id]=+r.value;n.value=nf(V[id],dec);calc()});
+ n.addEventListener('input',function(){var x=parse(n.value);if(!isNaN(x)){V[id]=clamp(x,d);r.value=V[id];calc()}});
+ n.addEventListener('change',function(){n.value=nf(V[id],dec)});
+ n.addEventListener('blur',function(){n.value=nf(V[id],dec)});
+ n.addEventListener('keydown',function(e){if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();var s=+d[5]*(e.key==='ArrowUp'?1:-1);V[id]=clamp(Math.round((V[id]+s)*10)/10,d);r.value=V[id];n.value=nf(V[id],dec);calc()}});
+}
+function parse(s){s=String(s).replace(/[\s  ]/g,'').replace(',','.');return s===''?NaN:parseFloat(s)}
+function clamp(x,d){var hi=d[0]==='aFang'||d[0]==='aTlfR'||d[0]==='avv'?100:1e9;return Math.max(0,Math.min(x,hi))}
+INN.forEach(function(d){field(d,$('inputs'))});
+ANT.forEach(function(g){var b=document.createElement('div');b.className='grp';b.innerHTML='<h4>'+g[0]+'</h4>';$('assume').appendChild(b);g[1].forEach(function(d){field(d,b)})});
+function sync(){Object.keys(EL).forEach(function(id){var e=EL[id];e.n.value=nf(V[id],e.dec);e.r.value=V[id]})}
+
+$('accBtn').addEventListener('click',function(){var o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!o);$('accIn').hidden=o});
+$('reset').addEventListener('click',function(){Object.keys(DEF).forEach(function(k){V[k]=DEF[k]});sync();calc()});
+
+function calc(){
+ var O=V.ordre,B=V.best,T=V.time,best=O*B;
+ var P=[];
+ var hTilb=O*V.aTilb/60;
+ P.push({n:'Tilbud fra CET',h:hTilb,x:0,ex:'Tegningen fra CET blir tilbud og ordre i CRM uten at selgeren taster varelinjer på nytt.',
+  f:'Ordre × minutter spart ÷ 60',v:'('+nf(O)+' × '+nf(V.aTilb)+' min ÷ 60 = '+nf(hTilb)+' t)'});
+ var hOb=best*V.aOb/60;
+ P.push({n:'Ordrebekreftelser',h:hOb,x:0,ex:'Bekreftelsene kommer inn digitalt og sammenlignes linje for linje med bestillingen. Selgeren leser bare avvikene.',
+  f:'Ordre × bestillinger per ordre × minutter spart ÷ 60',v:'('+nf(O)+' × '+nf(B)+' × '+nf(V.aOb)+' min ÷ 60 = '+nf(hOb)+' t)'});
+ var nAvv=O*V.avv/100*V.aFang/100,kAvv=nAvv*V.avvKr;
+ P.push({n:'Avvik fanget i ordrekontrollen',h:0,x:kAvv,ex:'Feil mål, farge eller leveringsuke oppdages før produksjon i stedet for på byggeplassen.',
+  f:'Ordre × andel med avvik × andel fanget × kostnad per avvik',v:'('+nf(O)+' × '+nf(V.avv)+' % × '+nf(V.aFang)+' % × '+nf(V.avvKr)+' kr = '+kr(kAvv)+')'});
+ var nTlf=O*V.tlf*V.aTlfR/100,hTlf=nTlf*V.aTlfM/60;
+ P.push({n:'Færre statusspørsmål',h:hTlf,x:0,ex:'Kunden ser status, leveringsuke og montasjedato på Min side og får SMS når noe endrer seg.',
+  f:'Ordre × samtaler per ordre × andel som bortfaller × minutter per samtale ÷ 60',v:'('+nf(O)+' × '+nf(V.tlf)+' × '+nf(V.aTlfR)+' % × '+nf(V.aTlfM)+' min ÷ 60 = '+nf(hTlf)+' t)'});
+ var hMont=O*V.aMont/60;
+ P.push({n:'Montasjeplanlegging',h:hMont,x:0,ex:'Montøren får jobben, tegninger og leveringer i Hengsel. Ingen egne e-poster, lister eller oppringninger for å sette opp uken.',
+  f:'Ordre × minutter spart ÷ 60',v:'('+nf(O)+' × '+nf(V.aMont)+' min ÷ 60 = '+nf(hMont)+' t)'});
+ var hFakt=best*V.aFakt/60,kFeil=O*V.innk*V.aFeil/100;
+ P.push({n:'Fakturakontroll',h:hFakt,x:kFeil,ex:'Leverandørfakturaen kontrolleres mot ordrebekreftelsen. Pris, frakt og antall som ikke stemmer flagges før betaling.',
+  f:'Tid: ordre × bestillinger × minutter spart ÷ 60. Feil fanget: ordre × innkjøp per ordre × andel feilfakturert',
+  v:'('+nf(O)+' × '+nf(B)+' × '+nf(V.aFakt)+' min ÷ 60 = '+nf(hFakt)+' t, og '+nf(O)+' × '+nf(V.innk)+' kr × '+nf(V.aFeil,1)+' % = '+kr(kFeil)+')'});
+ P.forEach(function(p){p.k=p.h*T+p.x});
+ var H=P.reduce(function(s,p){return s+p.h},0),K=P.reduce(function(s,p){return s+p.k},0);
+ $('kKr').textContent=kr(K);$('mKr').textContent=kr(K);
+ $('kT').textContent=nf(H);
+ var pu=H/Math.max(V.selg,1)/UKER;$('kU').textContent=nf(pu,1)+' t';
+ $('kUe').textContent=nf(V.selg)+' selgere, 46 arbeidsuker';
+ $('kA').textContent=nf(H/AARSVERK,2)+' årsverk';
+ var S=P.slice().sort(function(a,b){return b.k-a.k}),mx=Math.max(S[0].k,1);
+ var on=document.activeElement&&document.activeElement.dataset?document.activeElement.dataset.n:null;
+ $('bars').innerHTML=S.map(function(p){
+  var sub=p.h?nf(p.h)+' t':'direkte besparelse';if(p.h&&p.x)sub=nf(p.h)+' t + '+kr(p.x);
+  return '<div class="bar" tabindex="0" data-n="'+p.n+'" aria-label="'+p.n+': '+kr(p.k)+' per år. '+p.ex+'"><div class="nm"><span>'+p.n+'</span><em>'+sub+'</em></div><div class="row"><div class="tr"><div class="fl" style="width:'+(p.k/mx*100).toFixed(1)+'%"></div></div><span class="v">'+kr(p.k)+'</span></div><p class="ex">'+p.ex+'</p></div>'}).join('');
+ if(on){var e=$('bars').querySelector('[data-n="'+on+'"]');if(e)e.focus()}
+ $('how').innerHTML=P.map(function(p){return '<li><b>'+p.n+'</b><span>'+p.f+'.</span><code>'+p.v+'</code></li>'}).join('')+
+  '<li><b>Sum</b><span>Timer × timekost + avvik fanget + feilfakturering fanget. Timer per selger per uke = timer ÷ selgere ÷ 46 uker. Årsverk = timer ÷ 1 650.</span><code>('+nf(H)+' t × '+nf(T)+' kr = '+kr(H*T)+', totalt '+kr(K)+')</code></li>';
+}
+sync();calc();
+})();
+</script>
+</body>
+</html>

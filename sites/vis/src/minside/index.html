@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Kundens Min side · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1180px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
+h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
+.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.stage{display:grid;grid-template-columns:400px minmax(0,1fr);gap:24px;align-items:start}
+.phone{background:var(--fg);border-radius:44px;padding:12px;max-width:390px;width:100%;justify-self:center}
+.scr{background:var(--bg);border-radius:34px;height:720px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
+.ph{padding:18px 18px 10px;display:flex;justify-content:space-between;align-items:center}
+.ph .lg{font:400 22px var(--serif)}
+.ph span{font-size:12px;color:var(--muted)}
+.body{overflow:auto;padding:4px 16px 16px;display:grid;gap:12px;align-content:start}
+.body h2{font:400 26px/1.15 var(--serif);margin:4px 0 0}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:8px;font-size:14px}
+.c b{font-weight:600}
+.c p{margin:0;color:var(--muted)}
+.tl{display:grid;gap:0}
+.tl>div{display:grid;grid-template-columns:22px 1fr;gap:10px;padding-bottom:12px;position:relative;font-size:14px}
+.tl>div::before{content:"";width:12px;height:12px;border-radius:6px;border:2px solid var(--sand);background:var(--bg);margin-top:4px;z-index:1}
+.tl>div::after{content:"";position:absolute;left:6px;top:16px;bottom:0;width:2px;background:var(--line)}
+.tl>div:last-child::after{display:none}
+.tl>div.d::before{background:var(--ok);border-color:var(--ok)}
+.tl>div.n::before{background:var(--accent);border-color:var(--accent)}
+.tl span{color:var(--muted);font-size:13px;display:block}
+.ln{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.ln:last-child{border-bottom:0}
+.ln span{font-size:13px;color:var(--muted)}
+.ln .p{font-variant-numeric:tabular-nums;white-space:nowrap}
+.sw{position:relative;width:46px;height:28px;border-radius:14px;background:var(--line);border:0;cursor:pointer;transition:background .2s;grid-row:1/span 2;grid-column:2}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:var(--card);transition:transform .2s}
+.sw[aria-checked="true"]{background:var(--accent)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;font-size:15px}
+.tot b{font:400 26px var(--serif);font-variant-numeric:tabular-nums}
+.big{min-height:50px;border-radius:14px;font:500 15px var(--sans);border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;padding:0 16px;width:100%}
+.big.p{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.big:disabled{opacity:.45;cursor:default}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);border-radius:20px;background:var(--card);font:500 14px var(--sans);padding:8px 12px;cursor:pointer;color:var(--fg);min-height:40px}
+.chips button.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:12px;padding:10px;font:14px var(--sans);background:var(--card);color:var(--fg);resize:vertical}
+.photo{height:110px;border-radius:12px;background:repeating-linear-gradient(45deg,var(--soft) 0 10px,var(--line) 10px 20px);display:grid;place-items:center;color:var(--muted);font-size:13px}
+.doc{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.doc:last-child{border-bottom:0}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--card);padding:6px 4px 14px}
+.nav button{border:0;background:none;font:500 11px var(--sans);color:var(--muted);padding:8px 2px;cursor:pointer;display:grid;justify-items:center;gap:3px;min-height:48px;position:relative}
+.nav button.on{color:var(--accent)}
+.nav i{width:20px;height:3px;border-radius:2px;background:currentColor;opacity:.5}
+.nav button.on i{opacity:1}
+.dot{position:absolute;top:4px;right:calc(50% - 18px);width:8px;height:8px;border-radius:4px;background:var(--warn)}
+.side{display:grid;gap:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px}
+.panel h3{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.guide{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.guide li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.guide li span{flex:none;width:22px;height:22px;border-radius:11px;border:1.6px solid var(--sand);display:grid;place-items:center;font:600 12px var(--sans);color:var(--muted)}
+.guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card)}.guide li.d{color:var(--muted)}
+.log{display:grid;gap:8px;max-height:360px;overflow:auto}
+.log div{font-size:14px;padding-bottom:8px;border-bottom:1px solid var(--line);animation:li .4s ease}
+@keyframes li{from{opacity:0}}
+.log b{font-weight:600}
+.log em{font-style:normal;color:var(--muted);font-size:12px;margin-right:6px}
+.ok{color:var(--ok)}
+@media (max-width:900px){.stage{grid-template-columns:1fr}.scr{height:680px}}
+
+.view{display:flex;gap:6px}
+.view button{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:20px;padding:7px 14px;font:500 14px var(--sans);cursor:pointer;min-height:40px}
+.view button.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.pc .stage{grid-template-columns:1fr}
+.pc .phone{max-width:none;border-radius:16px;padding:0;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.pc .phone::before{content:"Min side i nettleseren (demo)";display:block;font:12px var(--sans);color:var(--muted);background:var(--soft);border-bottom:1px solid var(--line);padding:9px 14px}
+.pc .scr{border-radius:0;height:640px;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+.pc .ph{grid-column:1/-1;border-bottom:1px solid var(--line);padding:14px 22px}
+.pc .nav{grid-row:2;grid-column:1;grid-template-columns:1fr;align-content:start;border-top:0;border-right:1px solid var(--line);background:var(--soft);padding:12px 8px;gap:2px}
+.pc .nav button{justify-items:start;font-size:14px;padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:10px}
+.pc .nav button.on{background:var(--line);color:var(--fg)}
+.pc .nav i{display:none}
+.pc .nav .dot{position:static;margin-left:auto}
+.pc .body{grid-row:2;grid-column:2;padding:20px 28px;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+.pc .body>h2{grid-column:1/-1}
+.pc .body{align-items:start}
+.pc .log{align-content:start}
+.pc .body>.c:first-of-type{grid-column:1/-1}
+.pc .side{grid-template-columns:1fr 1fr}
+@media (max-width:900px){.pc .scr{grid-template-columns:1fr;grid-template-rows:auto auto minmax(0,1fr);height:auto;min-height:600px}.pc .nav{grid-row:2;grid-template-columns:repeat(5,1fr);border-right:0;border-bottom:1px solid var(--line)}.pc .nav button{font-size:12px;padding:8px 4px;justify-content:center}.pc .body{grid-row:3;grid-column:1;grid-template-columns:1fr;padding:16px}.pc .side{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · oppdiktet kunde</span></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Det kunden ser</div>
+    <h1>Kundens Min side</h1>
+    <p class="sub">Du er Familien Lund. Bytt mellom mobil og PC øverst. Velg tilvalg, godkjenn tilbudet, bekreft leveringen og meld en feil etter montering. Ved siden av ser du hva som skjer i CRM-et samtidig.</p>
+  </header>
+  <div class="view" id="view" role="group" aria-label="Visning"><button type="button" data-v="mob" class="on">Mobil</button><button type="button" data-v="pc">PC</button></div>
+  <div class="stage">
+    <div class="phone"><div class="scr">
+      <div class="ph"><span class="lg">Studio Sigdal</span><span>Familien Lund</span></div>
+      <div class="body" id="body"></div>
+      <nav class="nav" id="nav"></nav>
+    </div></div>
+    <aside class="side">
+      <section class="panel"><h3>Prøv dette</h3>
+        <ol class="guide" id="guide"><li data-k="tilvalg"><span>1</span>Legg til et tilvalg i tilbudet</li><li data-k="godkjenn"><span>2</span>Godkjenn og signer</li><li data-k="lev"><span>3</span>Bekreft leveringen</li><li data-k="feil"><span>4</span>Meld en feil med bilde</li></ol>
+        <button class="btn" id="reset" type="button">Start på nytt</button>
+      </section>
+      <section class="panel"><h3>Samtidig i Sigdal CRM</h3><div class="log" id="log" aria-live="polite"></div></section>
+    </aside>
+  </div>
+  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data, og ingenting signeres. Skrifter: Newsreader og Inter.</p>
+</div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var fmt=function(n){return n.toLocaleString('nb-NO')};
+var BASE=[['Kjøkken Sigdal Nobel, Eik natur','Skap, fronter, sokkel og håndtak',186400],['Benkeplate kompakt, Mørk grå','Med utsparing for kum og platetopp',24900],['Montering','Fast pris, inkl. innbæring',38500]];
+var OPT=[['tl','Belysning under overskap','LED-lister med dimmer',6900],['sk','Skuffeinnredning i eik','Til 4 skuffer',8400],['hv','Integrert oppvaskmaskin','I stedet for den dere har',11900]];
+var S,TABS=[['hjem','Oversikt'],['tilbud','Tilbud'],['lev','Levering'],['dok','Dokumenter'],['feil','Meld feil']];
+function init(){S={tab:'hjem',opt:{},godkjent:false,signert:false,lev:false,tilgang:null,feil:false,steps:{}};$('log').innerHTML='';log('Tilbud T-1204 sendt til Min side.');render()}
+function log(t){var d=document.createElement('div'),n=new Date();d.innerHTML='<em>'+('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2)+'</em>'+t;$('log').prepend(d)}
+function step(k){S.steps[k]=1;[].forEach.call($('guide').children,function(li){li.classList.toggle('d',!!S.steps[li.dataset.k])})}
+function total(){return BASE.reduce(function(s,x){return s+x[2]},0)+OPT.reduce(function(s,x){return s+(S.opt[x[0]]?x[3]:0)},0)}
+function go(t){S.tab=t;render();$('body').scrollTop=0}
+function render(){
+ $('nav').innerHTML=TABS.map(function(t){var dot=(t[0]==='tilbud'&&!S.signert)||(t[0]==='lev'&&S.signert&&!S.lev);return '<button type="button" data-t="'+t[0]+'" class="'+(S.tab===t[0]?'on':'')+'"'+(S.tab===t[0]?' aria-current="page"':'')+'><i></i>'+t[1]+(dot?'<span class="dot"></span>':'')+'</button>'}).join('');
+ $('nav').querySelectorAll('button').forEach(function(b){b.onclick=function(){go(b.dataset.t)}});
+ var h='';
+ if(S.tab==='hjem'){
+  var st=[['Tilbud mottatt','12. oktober',1],['Godkjent og signert',S.signert?'I dag':'Venter på deg',S.signert],['Bestilt fra fabrikken',S.signert?'Bekreftet uke 47':'',S.signert],['Levering',S.lev?'Uke 47, onsdag 08–10':'Uke 47',S.lev],['Montering','Uke 47–48',0],['Ferdig og FDV','',0]];
+  var next=st.findIndex(function(x){return !x[2]});
+  h='<h2>Hei, Lund!</h2><div class="c"><b>'+(S.signert?(S.lev?'Alt er klart til levering':'Bekreft leveringen'):'Tilbudet venter på deg')+'</b><p>'+(S.signert?(S.lev?'Vi sender SMS dagen før med tidsvindu.':'Fortell oss hvordan sjåføren kommer inn.'):'Se gjennom, velg tilvalg og godkjenn.')+'</p><button class="big p" type="button" id="cta">'+(S.signert?(S.lev?'Se dokumenter':'Til levering'):'Åpne tilbudet')+'</button></div>';
+  h+='<div class="c"><b>Slik går det</b><div class="tl">'+st.map(function(x,i){return '<div class="'+(x[2]?'d':i===next?'n':'')+'"><div>'+x[0]+(x[1]?'<span>'+x[1]+'</span>':'')+'</div></div>'}).join('')+'</div></div>';
+  h+='<div class="c"><b>Selgeren din</b><p>Ingrid, Studio Sigdal Hamar. Svarer på meldinger her innen én arbeidsdag.</p></div>';
+ }
+ if(S.tab==='tilbud'){
+  h='<h2>Tilbud T-1204</h2><div class="c">'+BASE.map(function(x){return '<div class="ln"><b>'+x[0]+'</b><span class="p">'+fmt(x[2])+' kr</span><span>'+x[1]+'</span></div>'}).join('')+'</div>';
+  h+='<div class="c"><b>Tilvalg</b><p>Slå av og på. Prisen oppdateres med en gang.</p>'+OPT.map(function(x){return '<div class="ln"><b>'+x[1]+' · +'+fmt(x[3])+' kr</b><button class="sw" type="button" role="switch" aria-label="'+x[1]+'" aria-checked="'+!!S.opt[x[0]]+'" data-o="'+x[0]+'"'+(S.signert?' disabled':'')+'></button><span>'+x[2]+'</span></div>'}).join('')+'</div>';
+  h+='<div class="c"><div class="tot"><span>Totalt inkl. mva</span><b>'+fmt(total())+' kr</b></div>'+(S.signert?'<p class="ok">Godkjent og signert. Endringer går via selgeren.</p>':S.godkjent?'<p>Kontrakten er klar. Les og signer.</p><button class="big p" type="button" id="sign">Signer kontrakten (demo)</button>':'<button class="big p" type="button" id="ok">Godkjenn tilbudet</button>')+'</div>';
+ }
+ if(S.tab==='lev'){
+  if(!S.signert)h='<h2>Levering</h2><div class="c"><p>Leveringsuka kommer her når tilbudet er signert og bestilt.</p><button class="big" type="button" data-go="tilbud">Til tilbudet</button></div>';
+  else{h='<h2>Levering uke 47</h2><div class="c"><b>Onsdag 19. november, 08–10</b><p>Sigdal leverer til døra. Vi bærer inn når montøren kommer.</p></div>';
+   h+='<div class="c"><b>Hvordan kommer sjåføren inn?</b><div class="chips" id="tg">'+['Noen er hjemme','Nøkkelboks','Ring meg'].map(function(x){return '<button type="button" class="'+(S.tilgang===x?'on':'')+'">'+x+'</button>'}).join('')+'</div>'+(S.lev?'<p class="ok">Bekreftet. Takk!</p>':'<button class="big p" type="button" id="lev"'+(S.tilgang?'':' disabled')+'>Bekreft leveringen</button>')+'</div>';
+   h+='<div class="c"><b>Før vi kommer</b><p>Tøm rommet, og sørg for fri vei fra bilen. Vann og strøm skal være klart for tilkobling.</p></div>'}
+ }
+ if(S.tab==='dok'){
+  var d=[['Tilbud T-1204','PDF',1],['Kontrakt',S.signert?'Signert':'Ikke signert ennå',S.signert],['Tegning og elementliste','PDF',1],['Ordrebekreftelse',S.signert?'Uke 47':'Kommer etter bestilling',S.signert],['FDV-dokumentasjon','Kommer etter montering',0]];
+  h='<h2>Dokumenter</h2><div class="c">'+d.map(function(x){return '<div class="doc"><div><b>'+x[0]+'</b><br><span class="muted" style="font-size:13px">'+x[1]+'</span></div><span class="pill '+(x[2]?'ok':'')+'">'+(x[2]?'Klar':'Venter')+'</span></div>'}).join('')+'</div>';
+ }
+ if(S.tab==='feil'){
+  if(S.feil)h='<h2>Takk for beskjeden</h2><div class="c"><b>Sak R-0412 er opprettet</b><p>Ingrid ser saken nå, og du får svar innen én arbeidsdag. Du finner saken her til den er løst.</p><span class="pill info" style="justify-self:start">Under behandling</span></div>';
+  else h='<h2>Meld en feil</h2><div class="c"><b>Hva gjelder det?</b><div class="chips" id="hva">'+['Skade på front','Dør henger skjevt','Mangler del','Annet'].map(function(x,i){return '<button type="button" class="'+(i===0?'on':'')+'">'+x+'</button>'}).join('')+'</div><textarea id="txt" aria-label="Beskriv feilen">Liten flis i hjørnet på skuffefronten under platetoppen.</textarea><div class="photo">Bilde lagt ved (demo)</div><button class="big p" type="button" id="send">Send til Studio Sigdal</button></div>';
+ }
+ $('body').innerHTML=h;wire()}
+function wire(){var q=function(s){return $('body').querySelector(s)};
+ if(q('#cta'))q('#cta').onclick=function(){go(S.signert?(S.lev?'dok':'lev'):'tilbud')};
+ $('body').querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){go(b.dataset.go)}});
+ $('body').querySelectorAll('.sw').forEach(function(b){b.onclick=function(){var o=b.dataset.o,x=OPT.filter(function(y){return y[0]===o})[0];S.opt[o]=!S.opt[o];step('tilvalg');log((S.opt[o]?'Kunden la til ':'Kunden fjernet ')+'<b>'+x[1]+'</b>. Tilbudet er oppdatert: '+fmt(total())+' kr.');render()}});
+ if(q('#ok'))q('#ok').onclick=function(){S.godkjent=true;log('<b>Tilbud godkjent</b> av kunden. Kontrakt laget med riktige vilkår.');render()};
+ if(q('#sign'))q('#sign').onclick=function(){S.signert=true;step('godkjenn');log('<b>Kontrakt signert.</b> Ordren er Vunnet og står som Klar til bestilling hos Ingrid.');log('Ingrid bestilte, og Sigdal bekreftet levering <b>uke 47</b>. Leveringsuka er lagt ut på Min side.');render()};
+ if(q('#tg'))q('#tg').querySelectorAll('button').forEach(function(b){b.onclick=function(){S.tilgang=b.textContent;render()}});
+ if(q('#lev'))q('#lev').onclick=function(){S.lev=true;step('lev');log('Kunden bekreftet levering: <b>'+S.tilgang+'</b>. Instruksen er lagt på ordren til sjåfør og montør.');render()};
+ if(q('#hva'))q('#hva').querySelectorAll('button').forEach(function(b){b.onclick=function(){q('#hva').querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)})}});
+ if(q('#send'))q('#send').onclick=function(){var hva=q('#hva .on').textContent;S.feil=true;step('feil');log('<b>Reklamasjon R-0412</b> fra kunden: '+hva+', med bilde. Sak til Ingrid med frist i morgen.');render()};
+}
+$('reset').onclick=function(){[].forEach.call($('guide').children,function(li){li.classList.remove('d')});init()};
+document.querySelectorAll('#view button').forEach(function(b){b.onclick=function(){var pc=b.dataset.v==='pc';document.body.classList.toggle('pc',pc);document.querySelectorAll('#view button').forEach(function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)})}});
+if(matchMedia('(min-width:1100px)').matches&&/[?&]pc/.test(location.search))document.querySelector('#view [data-v=pc]').click();
+init();
+})();
+</script>
+</body>
+</html>

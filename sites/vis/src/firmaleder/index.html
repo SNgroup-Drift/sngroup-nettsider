@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Firmaleder i Hengsel · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1240px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
+h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
+.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.ipad{background:var(--fg);border-radius:30px;padding:14px}
+.scr{background:var(--bg);border-radius:18px;min-height:600px;display:grid;grid-template-columns:170px minmax(0,1fr);overflow:hidden}
+.menu{background:var(--soft);border-right:1px solid var(--line);padding:14px 8px;display:grid;align-content:start;gap:2px}
+.menu .b{font:400 20px var(--serif);padding:2px 10px 12px}
+.menu button{border:0;background:none;text-align:left;font:500 14px var(--sans);color:var(--fg);padding:10px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;min-height:44px;align-items:center}
+.menu button.on{background:var(--line)}
+.badge{font:600 11px var(--sans);background:var(--warn);color:var(--card);border-radius:10px;padding:1px 7px}
+.pane{padding:18px;display:grid;gap:12px;align-content:start;min-width:0}
+.pane h2{font:400 28px var(--serif);margin:0}
+.req{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}
+.req.sel{border-color:var(--accent)}
+.req .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.req b{font-weight:600}
+.req p{margin:0;font-size:14px;color:var(--muted)}
+.cd{font:600 13px ui-monospace,Menlo,monospace;color:var(--warn)}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.row span:first-child{color:var(--muted)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.big{min-height:48px;border-radius:12px;font:500 15px var(--sans);border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;padding:0 16px}
+.big.p{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);border-radius:20px;background:var(--card);font:500 14px var(--sans);padding:8px 12px;cursor:pointer;color:var(--fg);min-height:40px}
+.chips button.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.mt{display:grid;gap:8px}
+.m{display:grid;grid-template-columns:1fr auto;gap:2px 10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--card);cursor:pointer;text-align:left;font:14px var(--sans);color:var(--fg)}
+.m:disabled{opacity:.5;cursor:not-allowed}
+.m b{font-weight:600}.m span{font-size:13px;color:var(--muted)}
+.m .pill{grid-row:1/span 2;grid-column:2;align-self:center}
+.week{display:grid;grid-template-columns:110px repeat(5,minmax(0,1fr));gap:4px;font-size:13px}
+.week div{background:var(--soft);border-radius:8px;padding:8px;min-height:50px}
+.week .h{background:none;min-height:0;font:600 12px var(--sans);color:var(--muted)}
+.week .n{background:none;font-weight:600;display:flex;align-items:center}
+.week .j{background:var(--ok-soft);color:var(--ok);font-weight:500}
+.week .j.new{background:var(--accent-soft);color:var(--accent);animation:pop .6s ease}
+.week .j.w{background:var(--warn-soft);color:var(--warn)}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.side{display:grid;gap:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px}
+.panel h3{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.guide{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.guide li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.guide li span{flex:none;width:22px;height:22px;border-radius:11px;border:1.6px solid var(--sand);display:grid;place-items:center;font:600 12px var(--sans);color:var(--muted)}
+.guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card)}.guide li.d{color:var(--muted)}
+.log{display:grid;gap:8px;max-height:340px;overflow:auto}
+.log div{font-size:14px;padding-bottom:8px;border-bottom:1px solid var(--line);animation:li .4s ease}
+@keyframes li{from{opacity:0}}
+.log b{font-weight:600}
+@media (max-width:900px){.stage{grid-template-columns:1fr}.scr{grid-template-columns:1fr}.menu{grid-template-columns:repeat(3,1fr)}.menu .b{display:none}.week{grid-template-columns:80px repeat(5,minmax(56px,1fr));overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · oppdiktet firma</span></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Hengsel for montasjefirmaet</div>
+    <h1>Firmaleder</h1>
+    <p class="sub">Studio Sigdal sender en ny monteringsjobb. Du har 48 timer på å svare. Aksepter, velg montør og se uka for teamet.</p>
+  </header>
+  <div class="stage">
+    <div class="ipad"><div class="scr">
+      <nav class="menu" id="menu"></nav>
+      <div class="pane" id="pane"></div>
+    </div></div>
+    <aside class="side">
+      <section class="panel"><h3>Prøv dette</h3>
+        <ol class="guide" id="guide"><li data-k="se"><span>1</span>Åpne den nye forespørselen</li><li data-k="svar"><span>2</span>Aksepter eller avvis med årsak</li><li data-k="mont"><span>3</span>Velg hvem som tar jobben</li><li data-k="uke"><span>4</span>Se teamets uke</li></ol>
+        <button class="btn" id="reset" type="button">Start på nytt</button>
+      </section>
+      <section class="panel"><h3>Samtidig i Sigdal CRM</h3><div class="log" id="log" aria-live="polite"></div></section>
+    </aside>
+  </div>
+  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+</div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var M=[['Tomas K.','Ledig ons–tor · norsk, polsk',true],['Kari D.','Ledig ons–fre · norsk',true],['Piotr S.','Opptatt hele uka',false]];
+var S;
+function init(){S={v:'nye',sel:null,status:'ny',why:'',mont:null,steps:{},secs:47*3600+12*60};$('log').innerHTML='';[].forEach.call($('guide').children,function(l){l.classList.remove('d')});log('Montasjeleder','sendte jobben LI-10087 til Demo Montasje. Svarfrist 48 timer.');render()}
+function log(w,t){var d=document.createElement('div');d.innerHTML='<b>'+w+'</b> '+t;$('log').prepend(d)}
+function step(k){S.steps[k]=1;[].forEach.call($('guide').children,function(l){l.classList.toggle('d',!!S.steps[l.dataset.k])})}
+function cd(){var s=S.secs,h=Math.floor(s/3600),m=Math.floor(s%3600/60);return h+' t '+(m<10?'0':'')+m+' min'}
+setInterval(function(){if(S&&S.status==='ny'){S.secs-=60;var e=document.querySelector('.cd');if(e)e.textContent='Svar innen '+cd()}},1000);
+function menu(){var n=S.status==='ny'?1:0;$('menu').innerHTML='<div class="b">Hengsel</div>'+[['nye','Nye',n],['uke','Uke'],['team','Team']].map(function(x){return '<button type="button" data-v="'+x[0]+'" class="'+(S.v===x[0]?'on':'')+'">'+x[1]+(x[2]?'<span class="badge">'+x[2]+'</span>':'')+'</button>'}).join('');
+ [].forEach.call($('menu').querySelectorAll('button'),function(b){b.onclick=function(){S.v=b.dataset.v;if(S.v==='uke')step('uke');render()}})}
+function P(h){$('pane').innerHTML=h}
+function on(i,f){var e=$(i);if(e)e.onclick=f}
+var V={
+nye:function(){
+ if(S.status!=='ny'&&!S.sel){P('<h2>Nye</h2><div class="req"><p>Ingen nye forespørsler. Du får varsel når Studio Sigdal sender en jobb.</p></div>');return}
+ var req='<div class="req '+(S.sel?'sel':'')+'" id="rq"><div class="top"><b>Kjøkken · Hanne Liksomlien</b>'+(S.status==='ny'?'<span class="cd">Svar innen '+cd()+'</span>':'<span class="pill '+(S.status==='ok'?'ok':'warn')+'">'+(S.status==='ok'?'Akseptert':'Avvist')+'</span>')+'</div><p>Liksomvegen 4, Lillehammer · uke 46, ons–tor</p></div>';
+ if(!S.sel){P('<h2>Nye</h2>'+req);on('rq',function(){S.sel=1;step('se');render()});return}
+ var d='<div class="req"><div class="row"><span>Jobb</span><span>LI-10087 · kjøkken</span></div><div class="row"><span>Tid</span><span>uke 46, 2 dager</span></div><div class="row"><span>Avtalt sum</span><span>18 400 kr</span></div><div class="row"><span>Med</span><span>KS Kjøkken, tegninger, varer</span></div></div>';
+ if(S.status==='ny')d+='<div class="acts"><button class="big p" id="ja">Aksepter</button><button class="big" id="nei">Avvis</button></div>';
+ if(S.status==='avvis')d+='<div class="req"><b>Hvorfor avviser du?</b><div class="chips" id="why">'+['Ingen ledig kapasitet','For lang kjøring','Pris','Annet'].map(function(x){return '<button type="button" class="'+(S.why===x?'on':'')+'">'+x+'</button>'}).join('')+'</div><div class="acts"><button class="big p" id="send">Send avvisning</button><button class="big" id="angre">Avbryt</button></div></div>';
+ if(S.status==='ok'&&!S.mont)d+='<div class="req"><b>Hvem tar jobben?</b><div class="mt">'+M.map(function(m,i){return '<button type="button" class="m" data-i="'+i+'" '+(m[2]?'':'disabled')+'><b>'+m[0]+'</b><span>'+m[1]+'</span><span class="pill '+(m[2]?'ok':'')+'">'+(m[2]?'Ledig':'Opptatt')+'</span></button>'}).join('')+'</div></div>';
+ if(S.status==='ok'&&S.mont)d+='<div class="req"><b>'+S.mont+' er satt på jobben.</b><p>Montøren har jobben i appen sin med tegninger, varer og beskjed fra selger.</p><button class="big" id="tilUke" style="justify-self:start">Se uka</button></div>';
+ if(S.status==='avvist')d+='<div class="req"><b>Avvist: '+S.why+'</b><p>Montasjelederen finner et annet firma.</p></div>';
+ P('<h2>Forespørsel</h2>'+req+d);
+ on('ja',function(){S.status='ok';S.secs=0;step('svar');log('Hengsel','Demo Montasje <b>aksepterte</b> jobben LI-10087.');log('CRM','Montasjeplanen viser jobben som akseptert. Montør mangler fortsatt.');render()});
+ on('nei',function(){S.status='avvis';render()});on('angre',function(){S.status='ny';render()});
+ var w=$('why');if(w)[].forEach.call(w.children,function(b){b.onclick=function(){S.why=b.textContent;render()}});
+ on('send',function(){if(!S.why){S.why='Ingen ledig kapasitet'}S.status='avvist';step('svar');log('Hengsel','Demo Montasje avviste: '+S.why+'.');log('CRM','Jobben er tilbake til «Ikke tildelt» og rød i planen. Montasjeleder har fått varsel.');render()});
+ [].forEach.call(document.querySelectorAll('.m'),function(b){b.onclick=function(){var m=M[+b.dataset.i];if(!m[2])return;S.mont=m[0];step('mont');log('Hengsel',m[0]+' er satt på jobben og har fått varsel.');log('CRM','Ordre 10087 er nå <b>Klar for montør</b>. Selgeren ser hvem som kommer.');render()}});
+ on('tilUke',function(){S.v='uke';step('uke');render()})},
+uke:function(){var d=['Man','Tir','Ons','Tor','Fre'];var R={'Tomas K.':['Bad · Hamar','Bad · Hamar','','',''],'Kari D.':['','Service · Gjøvik','','',''],'Piotr S.':['Kjøkken · Ringsaker','Kjøkken · Ringsaker','Kjøkken · Ringsaker','Kjøkken · Ringsaker','Garderobe']};
+ if(S.mont){R[S.mont][2]='<span>Liksomlien · dag 1</span>';R[S.mont][3]='<span>Liksomlien · dag 2</span>'}
+ var miss=S.status==='ok'&&!S.mont;
+ P('<h2>Uke 46</h2><div class="week"><div class="h"></div>'+d.map(function(x){return '<div class="h">'+x+'</div>'}).join('')+Object.keys(R).map(function(m){return '<div class="n">'+m+'</div>'+R[m].map(function(c){return c?'<div class="j '+(c.indexOf('Liksomlien')>-1?'new':'')+'">'+c+'</div>':'<div></div>'}).join('')}).join('')+(miss?'<div class="n">Uten montør</div><div></div><div></div><div class="j w">Liksomlien</div><div class="j w">Liksomlien</div><div></div>':'')+'</div>'+(miss?'<div class="req"><p>Liksomlien mangler montør. Velg montør under Nye.</p></div>':''))},
+team:function(){P('<h2>Team</h2><div class="mt">'+M.map(function(m){return '<div class="m" style="cursor:default"><b>'+m[0]+'</b><span>'+m[1]+'</span><span class="pill '+(m[2]?'ok':'')+'">'+(m[2]?'Ledig':'Opptatt')+'</span></div>'}).join('')+'</div><div class="req"><p>Montørene logger inn i den samme appen og ser bare sine egne jobber. Appen finnes på seks språk.</p></div>')}
+};
+function render(){menu();V[S.v]()}
+$('reset').onclick=init;init();
+})();
+</script>
+</body>
+</html>

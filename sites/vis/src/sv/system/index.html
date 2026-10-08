@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Systemkartan · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1240px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:14px}
+h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
+.sub{color:var(--muted);margin:6px 0 0;max-width:66ch}
+.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--muted)}
+.lay{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+.map{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;min-height:600px}
+.map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.map svg path{fill:none;stroke:var(--line);stroke-width:1.6;transition:stroke .3s,stroke-width .3s}
+.map svg path.hot{stroke:var(--accent);stroke-width:2.4}
+.cols{position:relative;display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:28px;align-items:center;min-height:560px}
+.col{display:grid;gap:10px;align-content:center}
+.col h3{font:600 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 2px}
+.n{position:relative;z-index:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;cursor:pointer;display:grid;gap:3px;font:14px var(--sans);color:var(--fg);transition:border-color .2s,transform .2s}
+.n:hover{transform:translateY(-1px);border-color:var(--sand)}
+.n.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.n b{font-weight:600}
+.n span{font-size:12px;color:var(--muted)}
+.n .pill{justify-self:start;margin-top:2px}
+.core{display:grid;gap:10px}
+.core .n{background:var(--soft);border-color:var(--sand);padding:16px}
+.core .n b{font:400 24px var(--serif)}
+.det{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px;position:sticky;top:12px}
+.det h2{font:400 28px var(--serif);margin:0}
+.det h4{font:600 12px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
+.det ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.det p{margin:0;font-size:14px;color:var(--muted)}
+@media (max-width:900px){.lay{grid-template-columns:1fr}.cols{grid-template-columns:1fr;gap:16px}.map svg{display:none}.det{position:static}}
+.lang{display:flex;align-items:center;font:500 13px var(--sans);color:var(--sand)}
+.lang a{color:var(--muted);text-decoration:none;padding:0 8px;min-height:40px;display:inline-flex;align-items:center;border-radius:8px}
+.lang a:hover{color:var(--accent)}
+.lang a[aria-current]{color:var(--fg);font-weight:600}
+.topbar .mid{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="/sv/">‹ Visningsrommet</a><span class="mid"><nav class="lang" aria-label="Språk"><a href="/system/" hreflang="nb" lang="nb">Norsk</a>/<a href="/sv/system/" hreflang="sv" aria-current="page">Svenska</a>/<a href="/en/system/" hreflang="en" lang="en">English</a></nav><span class="demo">Status <span id="dt">2026-10-07</span></span></span></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Hela lösningen</div>
+    <h1>Systemkartan</h1>
+    <p class="sub">CRM är navet. Till vänster ser du det som kommer in och till höger det som går ut. Klicka på en ruta för att se vad som flödar och hur långt varje koppling har kommit.</p>
+  </header>
+  <div class="legend"><span class="pill ok">I drift</span><span class="pill info">Delvis</span><span class="pill warn">Under uppbyggnad</span><span class="pill">Planerad</span></div>
+  <div class="lay">
+    <div class="map" id="map">
+      <svg id="svg" aria-hidden="true"></svg>
+      <div class="cols">
+        <div class="col" id="cL"><h3>In till CRM</h3></div>
+        <div class="col core" id="cC"></div>
+        <div class="col" id="cR"><h3>Ut från CRM</h3></div>
+      </div>
+    </div>
+    <aside class="det" id="det" aria-live="polite"></aside>
+  </div>
+  <p class="muted" style="font-size:12px;margin:0">Statusarna är en översikt, inte en driftrapport. Typsnitt: Newsreader och Inter.</p>
+</div>
+<script>
+(function(){
+var ST={ok:['ok','I drift'],del:['info','Delvis'],opp:['warn','Under uppbyggnad'],plan:['','Planerad']};
+var N=[
+ {id:'crm',side:'C',t:'Sigdal CRM',s:'Kunder, offerter, order, beställningar, ärenden och montage',st:'ok',inn:['Allt från rutorna till vänster'],ut:['Allt till rutorna till höger'],om:'Navet. Varje uppgift kommer in en gång och kopplas till rätt kund och order. Säljaren ser bara det som avviker, i Min dag (säljarens startsida).',vei:'Flyttas till Cloudflare i produktion.'},
+ {id:'m365',side:'C',t:'Microsoft 365',s:'bestilling@, varsel@, inloggning',st:'ok',inn:['Orderbekräftelser, fraktaviseringar och fakturor till bestilling@','Inloggning med jobbkonto'],ut:['Beställningar från bestilling@','Aviseringar från varsel@'],om:'En gemensam ingång för leverantörerna, och samma konto för alla anställda.',vei:'Fler leverantörer över till bestilling@ (leverantörsbrevet).'},
+ {id:'cet',side:'L',t:'CET (Configura)',s:'Ritning och order till Sigdal',st:'del',inn:['Nobia-XML med alla rader','Ritningar och elementlista (PDF)'],ut:['Kund och projektnummer (mål)'],om:'Offerten skapas från Nobia-XML utan manuell inmatning. I dag exporterar säljaren filen själv.',vei:'Automatisk export när ritningen sparas (frågat Configura och Sigdal, ingår i kravlistan till Sigdal).'},
+ {id:'sig',side:'L',t:'Sigdal / Nobia',s:'Orderbekräftelser, felmeddelanden, EHF, orderstock',st:'del',inn:['Orderbekräftelse (PDF, läses av CRM)','Felmeddelanden vid orderläggning','EHF-faktura, norsk e-faktura (Lillehammer), skannad PDF (Hamar)'],ut:['Order via CET'],om:'Orderbekräftelsen läses och kontrolleras mot ritningen. Felmeddelanden blir ärenden.',vei:'Kravlistan till Sigdal: orderbekräftelse som XML, EHF till alla butiker och felmeddelanden till en fast adress.'},
+ {id:'tp',side:'L',t:'Tradeplace',s:'Vitvaror: BSH, Electrolux, Miele, Smeg',st:'opp',inn:['Pris och lagersaldo','Orderbekräftelse och leveransavisering'],ut:['Elektronisk beställning'],om:'En koppling för alla de stora vitvarumärkena.',vei:'Företagskonto beställt 6 oktober, väntar på Tradeplace.'},
+ {id:'lev',side:'L',t:'Andra leverantörer',s:'Tapwell, Røros, Corinor, KA, Intra …',st:'del',inn:['Orderbekräftelse via e-post (PDF, läses med AI)','Produktfiler (Excel)','EDI från Tapwell (mål)'],ut:['Beställning från bestilling@'],om:'Alla ska minst upp på nivå 1: fast referens och e-post till bestilling@.',vei:'Tapwell EDI via Pagero, Excel-mall för Røros, leverantörsbrevet.'},
+ {id:'po',side:'R',t:'PowerOffice Go',s:'Kunder, projekt, fakturor',st:'del',inn:['Leverantörsfakturor (EHF)'],ut:['Kund och projekt per order','Fakturarader enligt kontraktet'],om:'Ett projekt per kategori och år, med rätt säljare och avdelning från start.',vei:'Fakturakontroll mot orderbekräftelsen och slutfaktura från CRM.'},
+ {id:'min',side:'R',t:'Mina sidor',s:'Kundportalen',st:'ok',inn:['Kundens godkännanden och ändringsönskemål'],ut:['Offert, kontrakt, leveransvecka, drift- och skötselanvisningar'],om:'Kunden ser allt på ett ställe och slipper ringa för att få veta status.',vei:'Signering i portalen (Penneo utvärderas).'},
+ {id:'hen',side:'R',t:'Hengsel',s:'Montörsappen för montagefirmor och montörer',st:'ok',inn:['Egenkontroll, bilder, avvikelser, timmar, signatur'],ut:['Jobb, ritningar, varor, meddelanden från säljaren'],om:'Montagefirman svarar inom 48 timmar, och montören har allt i fickan.',vei:'Ritningen som arbetsyta (väntar på DXF).'},
+ {id:'sms',side:'R',t:'Sms',s:'Leveransavisering och påminnelser',st:'opp',inn:['Svar från kunden (mål)'],ut:['Dag och tidsfönster för leverans','Påminnelser'],om:'Kunden får besked utan att säljaren behöver ringa.',vei:'Klargörs med operatören Unifon.'},
+ {id:'bank',side:'R',t:'Signering',s:'BankID / DealBuilder',st:'del',inn:['Signerat kontrakt (PDF)'],ut:['Kontrakt för signering'],om:'Kontraktet kontrolleras mot ordern när det är signerat.',vei:'Signering direkt från CRM (Penneo utvärderas).'}
+];
+var cL=document.getElementById('cL'),cR=document.getElementById('cR'),cC=document.getElementById('cC'),det=document.getElementById('det'),svg=document.getElementById('svg'),map=document.getElementById('map'),cur='crm';
+N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML='<b>'+n.t+'</b><span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
+function c(el){var r=el.getBoundingClientRect(),m=map.getBoundingClientRect();return{l:r.left-m.left,r:r.right-m.left,y:r.top-m.top+r.height/2}}
+function lines(){var W=map.clientWidth,H=map.clientHeight;svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML='';var core=c(document.getElementById('n-crm'));
+ N.forEach(function(n){if(n.side==='C')return;var p=c(document.getElementById('n-'+n.id)),d;
+  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+40)+' '+p.y+' '+(x2-40)+' '+core.y+' '+x2+' '+core.y}
+  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+40)+' '+core.y+' '+(b-40)+' '+p.y+' '+b+' '+p.y}
+  var e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('d',d);e.id='p-'+n.id;if(n.id===cur)e.classList.add('hot');svg.appendChild(e)})}
+function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
+ document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});
+ svg.querySelectorAll('path').forEach(function(p){p.classList.toggle('hot',p.id==='p-'+id||id==='crm')});
+ det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4>In till CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>Ut från CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>Nästa steg</h4><p>'+n.vei+'</p>'}
+try{document.getElementById('dt').textContent=new Date(2026,9,7).toLocaleDateString('sv-SE',{day:'2-digit',month:'2-digit',year:'numeric'})}catch(e){}
+new ResizeObserver(lines).observe(map);lines();show('crm');
+})();
+</script>
+</body>
+</html>

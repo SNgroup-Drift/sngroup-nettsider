@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Kundens reise · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1180px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
+h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
+.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.stage{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:24px;align-items:center}
+.phone{width:100%;max-width:360px;justify-self:center;background:var(--fg);border-radius:40px;padding:12px}
+.screen{background:var(--bg);border-radius:30px;height:640px;display:grid;grid-template-rows:auto auto 1fr;overflow:hidden;position:relative}
+.sb{display:flex;justify-content:space-between;padding:10px 20px 4px;font:600 12px var(--sans)}
+.app{padding:4px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+.app b{font:400 20px var(--serif)}
+.view{padding:6px 14px 16px;display:grid;gap:10px;align-content:start;overflow:auto}
+.notif{position:absolute;left:10px;right:10px;top:34px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:0 10px 24px -14px rgba(49,38,29,.5);display:grid;gap:2px;transform:translateY(-130%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:3}
+.notif.show{transform:none}
+.notif small{font:600 11px var(--sans);color:var(--muted)}
+.notif span{font-size:14px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:5px;animation:ci .45s ease both}
+@keyframes ci{from{opacity:0;transform:translateY(8px)}}
+.c b{font-weight:600}.c p{margin:0;font-size:14px;color:var(--muted)}
+.c .row{display:flex;justify-content:space-between;font-size:14px}
+.big{min-height:50px;border-radius:14px;border:0;background:var(--accent);color:var(--card);font:500 16px var(--sans)}
+.tl{display:flex;gap:4px}.tl i{flex:1;height:5px;border-radius:3px;background:var(--line)}.tl i.d{background:var(--ok)}.tl i.c{background:var(--accent)}
+.hero{border-radius:14px;height:120px;background:linear-gradient(135deg,var(--line),var(--soft));display:grid;place-items:end start;padding:10px;font:400 18px var(--serif)}
+.side{display:grid;gap:14px}
+.k{font:500 13px var(--sans);color:var(--accent)}
+.side h2{font:400 clamp(26px,3.4vw,38px)/1.1 var(--serif);margin:0}
+.side p{margin:0;color:var(--muted);font-size:16px;max-width:52ch}
+.bak{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px}
+.bak h3{font:600 12px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
+.bak ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.steps button{border:0;background:none;padding:6px 2px;display:grid;gap:5px;justify-items:center;font:500 12px var(--sans);color:var(--muted);cursor:pointer;text-align:center}
+.steps button i{display:block;width:100%;height:4px;border-radius:2px;background:var(--line)}
+.steps button.on{color:var(--fg)}.steps button.on i{background:var(--accent)}.steps button.p i{background:var(--dusty)}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+@media (max-width:820px){.stage{grid-template-columns:1fr}.steps span{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Demo · oppdiktet kunde</span></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Sett fra kunden</div>
+    <h1>Kundens reise</h1>
+    <p class="sub">Det Hanne Liksomlien opplever fra tilbud til ferdig kjøkken. Alt hun trenger kommer til henne, og hun slipper å ringe for å spørre om status.</p>
+  </header>
+  <div class="stage">
+    <div class="phone"><div class="screen">
+      <div class="sb"><span id="clock">09:12</span><span>Min side</span></div>
+      <div class="app"><b>Studio Sigdal</b><span class="pill" id="where">Tilbud</span></div>
+      <div class="view" id="v"></div>
+      <div class="notif" id="nt"><small id="ntk">SMS</small><span id="ntt"></span></div>
+    </div></div>
+    <div class="side">
+      <span class="k" id="k"></span>
+      <h2 id="h"></h2>
+      <p id="p"></p>
+      <div class="bak"><h3>Bak kulissene</h3><ul id="bk"></ul></div>
+    </div>
+  </div>
+  <nav class="steps" id="steps" aria-label="Steg"></nav>
+  <div class="ctl"><button class="btn" id="pv" type="button">‹ Forrige</button><button class="btn primary" id="pl" type="button">Spill av</button><button class="btn" id="nx" type="button">Neste ›</button></div>
+  <p class="muted" style="font-size:12px;margin:0">Skrifter: Newsreader og Inter.</p>
+</div>
+<script>
+(function(){
+var tl=function(n){var s='<div class="tl">';for(var i=0;i<7;i++)s+='<i class="'+(i<n?'d':i===n?'c':'')+'"></i>';return s+'</div>'};
+var S=[
+{t:'Tilbudet',w:'Tilbud',clk:'09:12',n:['E-post','Tilbudet ditt fra Studio Sigdal er klart'],h:'Tilbudet kommer i Min side',p:'Hanne får tilbudet med tegninger, design og pris. Hun kan se opsjonene, sammenligne og stille spørsmål der.',bak:['Tilbudet er laget fra CET uten taste-arbeid','Pris og leveringstid kommer fra leverandørene'],
+ v:'<div class="hero">Ditt nye kjøkken</div><div class="c"><b>Tilbud 10087</b><div class="row"><span>Kjøkken og hvitevarer</span><span>312 400 kr</span></div><p>Gyldig til 1. november</p></div><div class="c"><b>Opsjon</b><div class="row"><span>Benkeplate i kompositt</span><span>+ 6 200 kr</span></div></div><button class="big">Se tilbudet</button>'},
+{t:'Signering',w:'Kontrakt',clk:'19:40',n:['Min side','Kontrakten er klar til signering'],h:'Signerer med BankID',p:'Hanne leser kontrakten og signerer på mobilen. Hun får bekreftelse med en gang.',bak:['Kontrakten kontrolleres mot ordren','Montasjen settes til uke 46','Leveringsukene regnes bakover'],
+ v:tl(1)+'<div class="c"><b>Kjøpsavtale</b><p>Forbrukervilkår er lagt ved.</p></div><div class="c"><div class="row"><span>Sum</span><span>318 600 kr</span></div><div class="row"><span>Forskudd</span><span>30 %</span></div><div class="row"><span>Montasje</span><span>uke 46</span></div></div><button class="big">Signer med BankID</button>'},
+{t:'Bekreftet',w:'Status',clk:'10:05',n:['SMS','Alt er bekreftet av leverandørene. Montasje uke 46.'],h:'Alt er bekreftet',p:'Når leverandørene har bekreftet, ser Hanne leveringsuke og montasje i Min side. Et avvik hos én leverandør løser selgeren uten at hun merker det.',bak:['Fem bestillinger gikk ut samtidig','Fire bekreftelser stemte','Ett avvik ble rettet av selgeren'],
+ v:tl(2)+'<div class="c"><b>Bestilt og bekreftet</b><p>Levering uke 45, montasje uke 46</p></div><div class="c"><div class="row"><span>Kjøkken</span><span class="pill ok">Bekreftet</span></div><div class="row"><span>Hvitevarer</span><span class="pill ok">Bekreftet</span></div><div class="row"><span>Benkeplate</span><span class="pill ok">Bekreftet</span></div></div><div class="c"><b>Siste dag for endringer</b><p>Fredag uke 42</p></div>'},
+{t:'Endring',w:'Endring',clk:'21:15',n:['Min side','Endringen din er bekreftet'],h:'Bytter en front',p:'Hanne vil ha tett front i stedet for glass. Hun sender ønsket fra Min side før siste endringsdag og ser ny pris før hun godkjenner.',bak:['Endringsordren går med samme referanse','Endrings-OB kontrolleres automatisk'],
+ v:tl(3)+'<div class="c"><b>Endringsønske</b><p>Høyskap: glassfront → tett front</p><div class="row"><span>Ny pris</span><span>− 1 200 kr</span></div></div><div class="c"><div class="row"><span>Status</span><span class="pill ok">Bekreftet</span></div></div>'},
+{t:'Levering',w:'Levering',clk:'15:30',n:['SMS','Levering tirsdag 08–12. Følg sendingen her.'],h:'Vet når varene kommer',p:'To dager før levering kommer SMS med dag, tidsvindu og sporing. Hanne kan legge til beskjed om innkjøring eller nøkkel.',bak:['Leveringsvarsel fra transportøren','Digitalt leveringsbevis til ordren'],
+ v:tl(4)+'<div class="c"><b>Levering tirsdag</b><p>Kl. 08–12 · 9 kolli</p><div class="row"><span>Status</span><span class="pill info">Underveis</span></div></div><div class="c"><b>Beskjed til sjåføren</b><p>«Bruk inngangen bak huset.»</p></div>'},
+{t:'Montasje',w:'Montasje',clk:'15:20',n:['SMS','Montøren er ferdig. Godkjenn jobben i Min side.'],h:'Ferdig montert',p:'Montøren sier fra når han kommer, og Hanne signerer på iPaden når kjøkkenet er ferdig. Et skadet sidepanel er allerede meldt til leverandøren.',bak:['KS Kjøkken med bilder i Hengsel','Avvik sendt rett til Sigdal med bilde','Erstatning uke 47'],
+ v:tl(5)+'<div class="c"><b>Montasje ferdig</b><p>Demo Montasje · 2 dager</p></div><div class="c"><b>Én ting gjenstår</b><p>Nytt sidepanel kommer uke 47. Du trenger ikke gjøre noe.</p></div><button class="big">Godkjenn jobben</button>'},
+{t:'FDV',w:'Ditt kjøkken',clk:'09:00',n:['E-post','Ditt nye kjøkken: alt om stell og garanti'],h:'Alt om kjøkkenet på ett sted',p:'Hanne får FDV-pakken med produkter, stell, garanti og sluttfaktura. Den ligger i Min side for alltid.',bak:['FDV laget fra produktdataene','Sluttfaktura fra PowerOffice'],
+ v:tl(6)+'<div class="c"><b>Ditt nye kjøkken</b><p>FDV, stell og vedlikehold</p></div><div class="c"><div class="row"><span>Garanti</span><span>5 år</span></div><div class="row"><span>Sluttfaktura</span><span class="pill ok">Betalt</span></div></div><button class="big">Last ned FDV</button>'},
+{t:'Reklamasjon',w:'Hjelp',clk:'11:42',n:['Min side','Vi har mottatt saken din'],h:'Hvis noe skjer',p:'En skuff har slått seg. Hanne melder det med bilde i Min side og ser status hele veien, uten å lete etter telefonnummer.',bak:['Saken kobles til riktig ordre og artikkel','Leverandøren får den med bilde'],
+ v:tl(7)+'<div class="c"><b>Ny sak</b><p>Skuff U4 lukker ikke helt</p><div class="pics" style="height:70px;border-radius:10px;background:linear-gradient(135deg,var(--line),var(--soft))"></div></div><div class="c"><div class="row"><span>Status</span><span class="pill info">Montør kommer torsdag</span></div></div>'}
+];
+var cur=0,T=null,$=function(i){return document.getElementById(i)},stp=$('steps');
+S.forEach(function(s,i){var b=document.createElement('button');b.type='button';b.innerHTML='<i></i><span>'+(i+1)+' · '+s.t+'</span>';b.onclick=function(){stop();go(i)};stp.appendChild(b)});
+function go(i){cur=i;var s=S[i];$('v').innerHTML=s.v;$('where').textContent=s.w;$('clock').textContent=s.clk;$('k').textContent='Steg '+(i+1)+' av '+S.length;$('h').textContent=s.h;$('p').textContent=s.p;$('bk').innerHTML=s.bak.map(function(x){return '<li>'+x+'</li>'}).join('');
+ var n=$('nt');n.classList.remove('show');$('ntk').textContent=s.n[0];$('ntt').textContent=s.n[1];setTimeout(function(){n.classList.add('show')},250);setTimeout(function(){n.classList.remove('show')},3400);
+ [].forEach.call(stp.children,function(b,j){b.classList.toggle('on',j===i);b.classList.toggle('p',j<i)});$('pv').disabled=i===0;$('nx').disabled=i===S.length-1}
+function stop(){clearInterval(T);T=null;$('pl').textContent='Spill av'}
+$('pv').onclick=function(){stop();go(cur-1)};$('nx').onclick=function(){stop();go(cur+1)};
+$('pl').onclick=function(){if(T){stop();return}$('pl').textContent='Pause';if(cur===S.length-1)go(0);T=setInterval(function(){if(cur>=S.length-1){stop();return}go(cur+1)},5200)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'&&cur<S.length-1){stop();go(cur+1)}if(e.key==='ArrowLeft'&&cur>0){stop();go(cur-1)}});
+go(0);
+})();
+</script>
+</body>
+</html>

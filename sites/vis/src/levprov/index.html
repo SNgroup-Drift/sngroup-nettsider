@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Prøv som leverandør · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1240px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
+h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
+.sub{color:var(--muted);margin:6px 0 0;max-width:64ch}
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.steps span{font:500 13px var(--sans);padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.steps span.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.steps span.d{background:var(--ok-soft);border-color:var(--ok-soft);color:var(--ok)}
+.lay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px;min-width:0}
+.box h2{font:400 26px/1.2 var(--serif);margin:0}
+.box h3{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.mail{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mail .hd{background:var(--soft);padding:10px 12px;font-size:13px;display:grid;gap:2px}
+.mail .hd b{font-weight:600}
+.mail .bd{padding:12px;font-size:14px;display:grid;gap:8px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--sans);color:var(--muted)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.sc{display:grid;gap:8px}
+.sc button{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px;font:14px var(--sans);color:var(--fg);cursor:pointer;display:grid;gap:2px;min-height:48px}
+.sc button b{font-weight:600}
+.sc button span{color:var(--muted);font-size:13px}
+.sc button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.read{display:grid;gap:6px}
+.fld{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px;padding:8px 10px;border-radius:10px;background:var(--soft);opacity:.35;transition:opacity .3s}
+.fld.v{opacity:1}
+.fld span:first-child{color:var(--muted)}
+.fld b{font-weight:600;overflow-wrap:anywhere}
+.res{border-radius:12px;padding:14px;display:grid;gap:6px;font-size:14px}
+.res.ok{background:var(--ok-soft)}
+.res.warn{background:var(--warn-soft)}
+.res b{font-weight:600}
+.res p{margin:0}
+.reply{border:1px dashed var(--sand);border-radius:12px;padding:12px;font-size:14px;display:grid;gap:6px;background:var(--bg)}
+.lv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.lv div{background:var(--soft);border-radius:12px;padding:12px;font-size:14px;display:grid;gap:4px;align-content:start}
+.lv b{font:400 20px var(--serif)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.hide{display:none}
+@media (max-width:900px){.lay{grid-template-columns:1fr}.lv{grid-template-columns:1fr}.fld{grid-template-columns:1fr auto}.fld span:first-child{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · oppdiktet leverandør og kunde</span></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">For leverandører</div>
+    <h1>Prøv som leverandør</h1>
+    <p class="sub">Du er Nordstein Benkeplater AS og har fått en bestilling fra Studio Sigdal. Send ordrebekreftelsen slik dere gjør i dag, og se hva som skjer hos oss på sekundet etter.</p>
+  </header>
+  <div class="steps" id="steps"><span class="on">1 · Bestillingen</span><span>2 · Send bekreftelse</span><span>3 · Hos Studio Sigdal</span><span>4 · Svaret dere får</span></div>
+  <div class="lay">
+    <section class="box">
+      <h3>Innboksen hos Nordstein</h3>
+      <div class="mail">
+        <div class="hd"><span><b>Fra:</b> bestilling@studiosigdal-innlandet.no</span><span><b>Emne:</b> Bestilling 24-0815 · Haugen · P-2614</span></div>
+        <div class="bd">
+          <span>Hei! Vi bestiller følgende til kunde Haugen, prosjekt P-2614. Ønsket levering uke 46 til lager Hamar.</span>
+          <table><thead><tr><th>Vare</th><th class="n">Ant.</th><th class="n">Pris</th></tr></thead><tbody>
+            <tr><td>Benkeplate kompakt 12 mm, Mørk grå, 3000×620</td><td class="n">2</td><td class="n">8 450</td></tr>
+            <tr><td>Utsparing for platetopp</td><td class="n">1</td><td class="n">950</td></tr>
+            <tr><td>Utsparing for kum, underlimt</td><td class="n">1</td><td class="n">1 250</td></tr>
+          </tbody></table>
+          <span class="muted" style="font-size:13px">Svar med ordrebekreftelse til denne adressen. Bruk referansen <b>24-0815 · Haugen · P-2614</b>.</span>
+        </div>
+      </div>
+      <h3>Hvordan svarer dere?</h3>
+      <div class="sc" id="sc"></div>
+      <div class="acts"><button class="btn primary" id="send" type="button" disabled>Send til bestilling@</button><button class="btn" id="reset" type="button">Start på nytt</button></div>
+    </section>
+    <section class="box" id="right">
+      <h3>Hos Studio Sigdal</h3>
+      <h2 id="rt">Venter på bekreftelsen</h2>
+      <p class="muted" id="rp" style="margin:0">Velg et svar til venstre og send det. CRM-et leser PDF-en, finner riktig ordre og sjekker den mot bestillingen.</p>
+      <div class="read" id="read"></div>
+      <div id="out"></div>
+    </section>
+  </div>
+  <section class="box">
+    <h3>Tre nivåer, samme mål</h3>
+    <div class="lv">
+      <div><span class="pill ok" style="justify-self:start">Nivå 1 · alle</span><b>PDF på e-post</b><span>Fast referanse og bekreftelse til bestilling@. Vi leser PDF-en selv. Ingen endring hos dere utover adresse og referanse.</span></div>
+      <div><span class="pill info" style="justify-self:start">Nivå 2</span><b>Fast fil</b><span>Bekreftelse og prisliste i en fast Excel- eller CSV-mal. Gir færre tolkningsfeil og raskere svar.</span></div>
+      <div><span class="pill" style="justify-self:start">Nivå 3</span><b>EDI / Tradeplace</b><span>Ordre, bekreftelse, varsel og faktura maskin til maskin. For de største leverandørene.</span></div>
+    </div>
+  </section>
+  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data. Leverandør, kunde og priser er oppdiktet. Skrifter: Newsreader og Inter.</p>
+</div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var S=[
+ {k:'ok',t:'Riktig bekreftelse',s:'Referanse, linjer, pris og uke 46 stemmer.',
+  f:[['Referanse','24-0815 · Haugen · P-2614','ok'],['Ordre funnet','Bestilling 24-0815, kunde Haugen','ok'],['Linjer','3 av 3 stemmer','ok'],['Sum','10 650 kr eks. mva','ok'],['Levering','Uke 46, lager Hamar','ok']],
+  r:['ok','Bekreftet. Ingen trenger å gjøre noe.','Bestillingen får status Bekreftet. Leveringsuka legges inn på ordren, og montasjeplanen er fortsatt grønn. Selgeren får ingen sak.'],
+  rep:'Takk, mottatt og registrert på 24-0815. Ingen avvik.'},
+ {k:'uke',t:'Senere levering',s:'Alt stemmer, men dere kan først levere uke 48.',
+  f:[['Referanse','24-0815 · Haugen · P-2614','ok'],['Ordre funnet','Bestilling 24-0815, kunde Haugen','ok'],['Linjer','3 av 3 stemmer','ok'],['Sum','10 650 kr eks. mva','ok'],['Levering','Uke 48 (bestilt uke 46)','warn']],
+  r:['warn','Avvik: levering to uker senere','Montering er satt til uke 47. CRM-et lager en sak til selgeren med frist i dag: flytt montering eller be om tidligere levering. Montasjefirmaet får beskjed i Hengsel når ny dato er satt.'],
+  rep:'Takk, mottatt. Leveringsuke 48 er senere enn bestilt (46). Vi sjekker montering og svarer innen 1 virkedag.'},
+ {k:'pris',t:'Annen pris',s:'Utsparing for kum står til 1 650 kr, ikke 1 250 kr.',
+  f:[['Referanse','24-0815 · Haugen · P-2614','ok'],['Ordre funnet','Bestilling 24-0815, kunde Haugen','ok'],['Linjer','2 av 3 stemmer','warn'],['Sum','11 050 kr (bestilt 10 650 kr)','warn'],['Levering','Uke 46, lager Hamar','ok']],
+  r:['warn','Avvik: +400 kr på utsparing for kum','CRM-et lager en sak om prisen. Godtar vi den, oppdateres innprisen og marginen på ordren. Fakturaen kontrolleres senere mot det vi godtok.'],
+  rep:'Takk, mottatt. Linje 3 har 1 650 kr mot avtalt 1 250 kr. Kan dere bekrefte avtalt pris eller forklare endringen?'},
+ {k:'ref',t:'Uten vår referanse',s:'Bekreftelsen har bare deres eget ordrenummer.',
+  f:[['Referanse','Mangler (bare NS-55102)','warn'],['Ordre funnet','Foreslått: 24-0815 (kunde og linjer ligner)','warn'],['Linjer','3 av 3 stemmer','ok'],['Sum','10 650 kr eks. mva','ok'],['Levering','Uke 46, lager Hamar','ok']],
+  r:['warn','Koblet med forslag, må bekreftes','CRM-et fant sannsynlig ordre ut fra linjene, men en innkjøper må bekrefte koblingen. Det koster tid hver gang, derfor ber vi alltid om referansen.'],
+  rep:'Takk, mottatt. Bekreftelsen manglet vår referanse. Bruk alltid «24-0815 · Haugen · P-2614» slik at den kobles automatisk.'}
+];
+var cur=null,busy=false,T=[];
+S.forEach(function(x){var b=document.createElement('button');b.type='button';b.innerHTML='<b>'+x.t+'</b><span>'+x.s+'</span>';b.onclick=function(){if(busy)return;cur=x;[].forEach.call($('sc').children,function(c){c.classList.toggle('on',c===b)});$('send').disabled=false;step(1)};$('sc').appendChild(b)});
+function step(n){[].forEach.call($('steps').children,function(s,i){s.className=i<n?'d':i===n?'on':''})}
+function at(ms,f){T.push(setTimeout(f,ms))}
+$('send').onclick=function(){if(!cur||busy)return;busy=true;$('send').disabled=true;step(2);
+ $('rt').textContent='Leser bekreftelsen …';$('rp').textContent='PDF mottatt på bestilling@ kl. 09:14.';$('read').innerHTML='';$('out').innerHTML='';
+ cur.f.forEach(function(f){var d=document.createElement('div');d.className='fld';d.innerHTML='<span>'+f[0]+'</span><b>'+f[1]+'</b><span class="pill '+(f[2]==='ok'?'ok':'warn')+'">'+(f[2]==='ok'?'Stemmer':'Avvik')+'</span>';$('read').appendChild(d)});
+ [].forEach.call($('read').children,function(d,i){at(500+i*550,function(){d.classList.add('v')})});
+ var t=500+cur.f.length*550+300;
+ at(t,function(){var r=cur.r;$('rt').textContent=r[0]==='ok'?'Ferdig på 3 sekunder':'Ferdig, med én sak';$('rp').textContent='Ingen tastet noe.';
+  $('out').innerHTML='<div class="res '+r[0]+'"><b>'+r[1]+'</b><p>'+r[2]+'</p></div>';step(3)});
+ at(t+1200,function(){$('out').insertAdjacentHTML('beforeend','<h3 style="margin-top:12px">Svaret Nordstein får</h3><div class="reply"><span class="muted" style="font-size:13px">Fra bestilling@studiosigdal-innlandet.no · Re: Bestilling 24-0815</span><span>'+cur.rep+'</span></div>');step(4);busy=false});
+};
+$('reset').onclick=function(){T.forEach(clearTimeout);T=[];busy=false;cur=null;[].forEach.call($('sc').children,function(c){c.classList.remove('on')});$('send').disabled=true;step(0);
+ $('rt').textContent='Venter på bekreftelsen';$('rp').textContent='Velg et svar til venstre og send det. CRM-et leser PDF-en, finner riktig ordre og sjekker den mot bestillingen.';$('read').innerHTML='';$('out').innerHTML=''};
+})();
+</script>
+</body>
+</html>

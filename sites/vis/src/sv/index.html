@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Visningsrommet – för Nobia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.lang{display:flex;align-items:center;font:500 13px var(--sans);color:var(--sand)}
+.lang a{color:var(--muted);text-decoration:none;padding:0 8px;min-height:40px;display:inline-flex;align-items:center;border-radius:8px}
+.lang a:hover{color:var(--accent)}
+.lang a[aria-current]{color:var(--fg);font-weight:600}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 48px}
+h1{font:400 clamp(34px,6vw,56px)/1.05 var(--serif);margin:6px 0 12px;text-wrap:balance}
+.lead{color:var(--muted);font-size:17px;max-width:60ch;margin:0}
+h2{font:400 26px/1.2 var(--serif);margin:40px 0 14px}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.part{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:4px;align-content:start}
+.part b{font:600 15px var(--sans)}
+.part p{margin:0;color:var(--muted);font-size:14px}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;counter-reset:k}
+.key{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:8px;align-content:start}
+.key .num{font:400 30px/1 var(--serif);color:var(--accent)}
+.key .t{font:400 22px/1.2 var(--serif)}
+.key p{margin:0;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:8px;align-content:start;text-decoration:none;color:inherit;min-height:180px;transition:border-color .2s,transform .2s}
+a.card:hover{border-color:var(--sand);transform:translateY(-2px)}
+.card .t{font:400 22px/1.2 var(--serif)}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.go{font:500 14px var(--sans);color:var(--accent);margin-top:auto}
+.note{color:var(--muted);font-size:14px;margin:-4px 0 14px;max-width:62ch}
+footer{margin-top:48px;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <nav class="lang" aria-label="Språk"><a href="/" hreflang="nb" lang="nb">Norsk</a>/<a href="/sv/" hreflang="sv" aria-current="page">Svenska</a>/<a href="/en/" hreflang="en" lang="en">English</a></nav>
+  <span class="demo">Endast för inbjudna</span>
+</div>
+<main class="wrap">
+  <div class="eyebrow">Studio Sigdal Innlandet · SN Group</div>
+  <h1>Visningsrommet för Nobia</h1>
+  <p class="lead">Här visar vi hela lösningen bakom en köksorder hos Studio Sigdal Innlandet, från ritning till monterat kök och faktura. Visningsrommet är vårt digitala visningsrum. Alla data är påhittade.</p>
+
+  <h2>Lösningen i korthet</h2>
+  <div class="parts">
+    <div class="part"><b>Sigdal CRM</b><p>Navet. Kunder, offerter, order, beställningar, ärenden och montage på ett ställe. Allt annat kopplas hit.</p></div>
+    <div class="part"><b>Leverantörskopplingar</b><p>Sigdal via CET, vitvaror via Tradeplace och övriga leverantörer via e-post, filer eller EDI. Allt landar i samma modell i CRM.</p></div>
+    <div class="part"><b>Hengsel</b><p>Montörsappen. Montagefirman får jobben, och montören har ritningar, varor och egenkontroll i mobilen.</p></div>
+    <div class="part"><b>Mina sidor</b><p>Kundportalen. Kunden ser offert, kontrakt, leveransvecka och dokumentation, och godkänner direkt där.</p></div>
+  </div>
+
+  <h2>Det viktigaste</h2>
+  <div class="keys">
+    <div class="key"><span class="num">1</span><span class="t">En registrering</span><p>Ordern ritas i CET och kommer in i CRM som Nobia-XML. Ingen skriver av samma uppgift två gånger.</p></div>
+    <div class="key"><span class="num">2</span><span class="t">Avvikelser upptäcks före produktion</span><p>Orderbekräftelsen kontrolleras automatiskt mot ritningen. Säljaren ser bara det som skiljer sig, medan det fortfarande går att rätta.</p></div>
+    <div class="key"><span class="num">3</span><span class="t">Kunden slipper ringa</span><p>Status, leveransvecka och dokument finns på Mina sidor, och leveransen aviseras med sms. Säljaren slipper också ringa runt.</p></div>
+    <div class="key"><span class="num">4</span><span class="t">Leverantörer på tre nivåer</span><p>Nivå 1 för alla: e-post och PDF med fast referens. Nivå 2: filer och EHF. Nivå 3: direkt koppling via EDI, Tradeplace eller API.</p></div>
+  </div>
+
+  <h2>Utforska</h2>
+  <div class="grid">
+    <a class="card" href="/sv/system/"><div class="tags"><span class="pill info">Översikt</span></div><span class="t">Systemkartan</span><p>Hela lösningen på en karta: vad som går in i och ut från CRM, och hur långt varje koppling har kommit.</p><span class="go">Öppna kartan ›</span></a>
+  </div>
+
+  <h2>Fler rum (på norska)</h2>
+  <p class="note">De här rummen finns än så länge bara på norska. Innehållet är detsamma, och demona fungerar likadant.</p>
+  <div class="grid">
+    <a class="card" href="/reise/" hreflang="nb"><div class="tags"><span class="pill info">Simulering</span><span class="pill">På norska</span></div><span class="t">Orderns resa</span><p>En köksorder från ritning i CET till monterat kök och faktura, i åtta scener med fem leverantörer.</p><span class="go">Spela upp (på norska) ›</span></a>
+    <a class="card" href="/leverandor/" hreflang="nb"><div class="tags"><span class="pill info">Presentation</span><span class="pill">På norska</span></div><span class="t">Leverantörslösningen</span><p>De tolv flödena, tre nivåer, krav, tidsfrister och plan. Med kravlistan till Sigdal.</p><span class="go">Se presentationen (på norska) ›</span></a>
+    <a class="card" href="/kontroll/" hreflang="nb"><div class="tags"><span class="pill info">Prova själv</span><span class="pill">På norska</span></div><span class="t">Order- och fakturakontroll</span><p>Ritning mot orderbekräftelse, och orderbekräftelse mot faktura. Bara avvikelserna visas.</p><span class="go">Kör kontrollen (på norska) ›</span></a>
+    <a class="card" href="/leder/" hreflang="nb"><div class="tags"><span class="pill info">Översikt</span><span class="pill">På norska</span></div><span class="t">Verkställande direktör</span><p>Orderstock per vecka, utestående offerter, träffprocent, marginal och det som är i riskzonen, per butik och säljare.</p><span class="go">Öppna översikten (på norska) ›</span></a>
+  </div>
+
+  <footer>Demona är inte kopplade till riktiga data. Alla namn och siffror är påhittade. Typsnitt: Newsreader och Inter.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Ordrens reise · Visningsrommet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<style>
+/* Ordrens reise: 8 scener, delt skjerm (selgeren ser / bak kulissene), tidslinje nederst. Sigdal-profil. */
+:root{
+  --bg:#F2E9DB; --card:#FBF9F6; --soft:#F8F2EC; --fg:#31261D; --muted:#6B5F53; --line:#E4D4C4; --sand:#C3B5A7;
+  --accent:#5074A9; --accent-soft:#E3E9F2; --dusty:#9CA9BD;
+  --ok:#3B6547; --ok-soft:#E0EADB; --warn:#7A5212; --warn-soft:#F5E6C8;
+  --serif:"Newsreader",Georgia,serif; --sans:"Inter","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211A14; --card:#2C241D; --soft:#332A22; --fg:#F2E9DB; --muted:#C3B5A7; --line:#43382E; --sand:#6B5F53;
+  --accent:#9CA9BD; --accent-soft:#2F3845; --dusty:#6E7C92; --ok:#A9C9A0; --ok-soft:#2B3A2A; --warn:#E3C27E; --warn-soft:#3F3320; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#211A14; --card:#2C241D; --soft:#332A22; --fg:#F2E9DB; --muted:#C3B5A7; --line:#43382E; --sand:#6B5F53;
+  --accent:#9CA9BD; --accent-soft:#2F3845; --dusty:#6E7C92; --ok:#A9C9A0; --ok-soft:#2B3A2A; --warn:#E3C27E; --warn-soft:#3F3320; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.45}
+.app{min-height:100%;max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 24px;display:grid;gap:16px;grid-template-rows:auto 1fr auto}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.eyebrow{font:500 13px var(--sans);color:var(--accent)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4.4vw,42px);line-height:1.08;margin:2px 0 0;text-wrap:balance}
+.sub{color:var(--muted);margin:6px 0 0;max-width:62ch;min-height:2.9em}
+.topr{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.back{font:500 13px var(--sans);color:var(--accent);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}.back:hover{text-decoration:underline}
+.demo{font:500 12px var(--sans);color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:4px 10px;white-space:nowrap}
+
+.stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;min-height:0;position:relative}
+.pane{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px;align-content:start;min-width:0;position:relative}
+.pane-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pane-h h2{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.pane-h span{font-size:13px;color:var(--muted)}
+
+.order{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.order-h{background:var(--soft);padding:12px 14px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.order-h b{font-family:var(--serif);font-weight:400;font-size:20px}
+.order-h small{color:var(--muted);font-size:13px}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:10px 14px;border-top:1px solid var(--line);transition:background .4s,opacity .5s}
+.row.hide{display:none}
+.row.enter{animation:rowIn .5s ease both}
+@keyframes rowIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.row .who{font-weight:600}
+.row .what{grid-column:1;color:var(--muted);font-size:13px}
+.row .ref{font:12px ui-monospace,Menlo,monospace;color:var(--muted)}
+.st{grid-row:1 / span 2;grid-column:2;align-self:center;font:500 12px var(--sans);padding:3px 9px;border-radius:20px;white-space:nowrap;background:var(--soft);color:var(--muted);transition:background .4s,color .4s}
+.st.sent{background:var(--accent-soft);color:var(--accent)}
+.st.ok{background:var(--ok-soft);color:var(--ok)}
+.st.warn{background:var(--warn-soft);color:var(--warn)}
+.row.flag{background:var(--warn-soft)}
+.check{grid-column:1 / -1;font-size:12px;color:var(--ok);display:none}
+.row.done .check{display:block}
+.row.flag .check{color:var(--warn)}
+
+.card{border:1px solid var(--sand);border-radius:12px;padding:12px 14px;background:var(--card);display:grid;gap:4px;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
+.card.show{opacity:1;transform:none}
+.card .lbl{font:600 12px var(--sans);color:var(--warn)}
+.card.note{border-color:var(--ok);background:var(--ok-soft)}
+.card.note .lbl{color:var(--ok)}
+.card b{font-weight:600}
+.card p{margin:0;font-size:13px;color:var(--muted)}
+
+.flow{position:relative;min-height:380px;transition:min-height .3s}
+.flow svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.flow svg line{stroke:var(--line);stroke-width:1.5}
+.flow svg line.on{stroke:var(--dusty)}
+.node{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:grid;gap:1px;min-width:0;transition:border-color .4s,background .4s}
+.node b{font-size:14px;font-weight:600}
+.node span{font-size:12px;color:var(--muted)}
+.node.crm{left:0;top:50%;transform:translateY(-50%);width:28%;padding:14px 12px;background:var(--soft);border-color:var(--sand)}
+.node.crm b{font-family:var(--serif);font-weight:400;font-size:20px}
+.node.sup{right:0;width:46%}
+.node.sup.ok{border-color:var(--ok)}
+.node.sup.warn{border-color:var(--warn);background:var(--warn-soft)}
+.chan{font:500 11px var(--sans);color:var(--accent)}
+.packet{position:absolute;left:0;top:0;font:500 11px var(--sans);padding:3px 8px;border-radius:20px;background:var(--accent);color:var(--card);white-space:nowrap;pointer-events:none;will-change:transform;z-index:2}
+.packet.back{background:var(--ok)}
+.packet.back.w{background:var(--warn)}
+.caption{min-height:3.2em;font-size:14px;color:var(--fg);background:var(--soft);border-radius:10px;padding:10px 12px}
+
+.finale{position:absolute;inset:0;background:var(--card);border:1px solid var(--line);border-radius:16px;display:grid;place-content:center;justify-items:center;gap:14px;text-align:center;padding:32px 20px;opacity:0;pointer-events:none;transition:opacity .8s;z-index:5}
+.finale.show{opacity:1;pointer-events:auto}
+.finale .k{font:500 13px var(--sans);color:var(--accent)}
+.finale h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4.6vw,48px);line-height:1.1;margin:0;max-width:18ch;text-wrap:balance}
+.finale p{margin:0;color:var(--muted);font-size:17px;max-width:44ch}
+.nums{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.nums div{background:var(--soft);border-radius:12px;padding:10px 16px;display:grid;min-width:110px}
+.nums b{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1}
+.nums span{font-size:12px;color:var(--muted)}
+
+.bar{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:grid;gap:10px}
+.timeline{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.tl{border:0;background:none;padding:6px 2px;display:grid;gap:5px;justify-items:center;font:500 12px var(--sans);color:var(--muted);cursor:pointer;border-radius:8px;text-align:center}
+.tl i{display:block;width:100%;height:4px;border-radius:2px;background:var(--line)}
+.tl.cur{color:var(--fg)}
+.tl.cur i{background:var(--accent)}
+.tl.past i{background:var(--dusty)}
+.tl:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font:500 14px var(--sans);border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:10px;padding:8px 14px;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.btn:disabled{opacity:.4;cursor:default}
+.auto{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);min-height:40px;cursor:pointer}
+.auto input{accent-color:var(--accent);width:16px;height:16px}
+.hint{margin-left:auto;font-size:12px;color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);margin:0}
+
+@media (max-width:820px){
+  .stage{grid-template-columns:1fr}
+  .node.crm{width:34%}
+  .node.sup{width:52%}
+  .timeline .tl span{display:none}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion: reduce){ .card,.st,.row,.node,.finale{transition:none} .row.enter{animation:none} }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Ordrens reise · scene <span id="sceneNo">1</span> av 8</div>
+      <h1 id="title">Tegningen</h1>
+      <p class="sub" id="lead"></p>
+    </div>
+    <div class="topr"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Demo · oppdiktet kunde · målbildet</span></div>
+  </header>
+
+  <main class="stage" id="stage">
+    <section class="pane" aria-label="Det selgeren ser">
+      <div class="pane-h"><h2>Selgeren ser</h2><span id="where"></span></div>
+      <div class="order">
+        <div class="order-h"><b id="ohT"></b><small id="ohS"></small></div>
+        <div class="rows" id="rows"></div>
+      </div>
+      <div class="card" id="card" aria-live="polite"><span class="lbl" id="cLbl"></span><b id="cT"></b><p id="cP"></p></div>
+    </section>
+
+    <section class="pane" aria-label="Bak kulissene">
+      <div class="pane-h"><h2>Bak kulissene</h2><span id="flowLbl"></span></div>
+      <div class="flow" id="flow">
+        <svg id="lines" aria-hidden="true"></svg>
+        <div class="node crm" id="crm"><b>CRM</b><span>bestilling@ og koblinger</span></div>
+      </div>
+      <div class="caption" id="caption" aria-live="polite">Trykk Spill av.</div>
+    </section>
+
+    <div class="finale" id="finale" aria-live="polite">
+      <span class="k">Fra tegning til montert kjøkken</span>
+      <h2>Én registrering. Resten går av seg selv.</h2>
+      <div class="nums">
+        <div><b>1</b><span>registrering</span></div>
+        <div><b>5</b><span>leverandører</span></div>
+        <div><b>2</b><span>avvik til selgeren</span></div>
+        <div><b>0</b><span>telefoner</span></div>
+      </div>
+      <p>Selgeren selger og følger opp kunden. Systemet sier fra bare når noe avviker.</p>
+      <button class="btn" id="again" type="button">Se reisen på nytt</button>
+    </div>
+  </main>
+
+  <footer class="bar">
+    <nav class="timeline" id="timeline" aria-label="Scener"></nav>
+    <div class="controls">
+      <button class="btn" id="prev" type="button">‹ Forrige</button>
+      <button class="btn primary" id="play" type="button">Spill av</button>
+      <button class="btn" id="next" type="button">Neste ›</button>
+      <button class="btn" id="restart" type="button">Start scenen på nytt</button>
+      <label class="auto"><input type="checkbox" id="auto" checked> Spill videre</label>
+      <button class="btn" id="fs" type="button">Fullskjerm</button>
+      <span class="hint">Piltaster: bla · Mellomrom: spill av/pause</span>
+    </div>
+    <p class="foot">Viser målbildet med oppdiktede data. Skrifter: Newsreader og Inter (erstatter Reckless og TWK Lausanne).</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rowsEl=$('rows'),flow=$('flow'),svg=$('lines'),crm=$('crm');
+  var cur=1,playing=false,timers=[],anims=[],nodes=[],autoT=null;
+
+  var HEAD_LI={t:'Ordre 10087',s:'Hanne Liksomlien · Lillehammer · montasje uke 46'};
+  var FIVE=[
+    {id:'sig',name:'Sigdal',what:'Kjøkken, 54 linjer',ref:'LI-10087-1',out:'CET-ordresetting',back:'OB som XML'},
+    {id:'bsh',name:'BSH',what:'Hvitevarer, 4 linjer',ref:'LI-10087-2',out:'Tradeplace',back:'Tradeplace-melding'},
+    {id:'cor',name:'Corinor',what:'Benkeplate, 2 linjer',ref:'LI-10087-3',out:'E-post · PDF',back:'PDF lest med AI'},
+    {id:'tap',name:'Tapwell',what:'Kjøkkenarmatur, 1 linje',ref:'LI-10087-4',out:'EDI (Pagero)',back:'EDI-bekreftelse',warn:true},
+    {id:'ror',name:'Røros Metall',what:'Ventilator, 1 linje',ref:'LI-10087-5',out:'E-post · PDF',back:'PDF lest med AI'}
+  ];
+  function fiveRows(st,txt){return FIVE.map(function(s){return{id:s.id,who:s.name,what:s.what,ref:s.ref,st:st,txt:txt}})}
+
+  var SCENES=[
+  {t:'Tegningen',where:'CET › Tilbud',flow:'Tegning inn',
+   lead:'Selgeren tegner kjøkkenet i CET og lagrer. Tilbudet fyller seg selv i CRM, linje for linje.',
+   head:{t:'Tilbud 10087',s:'Hanne Liksomlien · Lillehammer · utkast'},
+   rows:[
+    {id:'u',who:'Underskap',what:'18 linjer · fra CET',hidden:1},
+    {id:'o',who:'Overskap og høyskap',what:'12 linjer · fra CET',hidden:1},
+    {id:'f',who:'Fronter og håndtak',what:'16 linjer · fra CET',hidden:1},
+    {id:'s',who:'Sokkel, lister og tilpasning',what:'8 linjer · fra CET',hidden:1},
+    {id:'d',who:'Tegninger',what:'Plan, oppriss og 3D · PDF',hidden:1}],
+   nodes:[{id:'cet',name:'CET',chan:'Selgerens tegning'},{id:'pl',name:'Sigdal prisliste',chan:'Gjeldende priser'}],
+   card:{kind:'note',lbl:'Tilbudet er klart',t:'54 linjer fra CET',p:'Ingen import og ingen skriving. Selgeren har bare tegnet.'},
+   script:function(){
+    at(300,function(){cap('Kunden er opprettet i CRM. Navn og prosjektnummer 10087 går til CET, så ingen skriver det to ganger.');pk('cet','out','Kunde 10087',1500)});
+    at(2600,function(){cap('Selgeren lagrer tegningen. CET sender ordrefilen og to PDF-er automatisk.');pk('cet','in','Nobia-XML',1500)});
+    at(3300,function(){pk('cet','in','Tegninger · PDF',1500)});
+    at(4000,function(){pk('cet','in','Elementliste · PDF',1500)});
+    ['u','o','f','s','d'].forEach(function(r,i){at(4300+i*500,function(){show(r);st(r,'ok','Lest')})});
+    at(7000,function(){cap('Prisene kontrolleres mot gjeldende prisliste, med gyldighet.');pk('pl','in','Priser',1500)});
+    at(8600,function(){nd('pl','ok');nd('cet','ok');card();cap('Tilbudet er i CRM uten import. Prosjektnummeret kobler tegning, kunde og ordre.')});
+    at(10600,done);
+   }},
+  {t:'Tilbudet',where:'Tilbud 10087 › Katalog',flow:'Pris og lager inn',
+   lead:'Selgeren legger til hvitevarer, armatur, ventilator og benkeplate fra katalogen. Pris, lager og leveringstid kommer fra leverandøren.',
+   head:{t:'Tilbud 10087',s:'Hanne Liksomlien · Lillehammer · til kunden'},
+   rows:[
+    {id:'sig',who:'Sigdal',what:'Kjøkken, 54 linjer · fra CET',st:'ok',txt:'Fra CET'},
+    {id:'bsh',who:'BSH',what:'Induksjon, stekeovn, oppvask, kjøl/frys',hidden:1},
+    {id:'tap',who:'Tapwell',what:'Kjøkkenarmatur',hidden:1},
+    {id:'ror',who:'Røros Metall',what:'Ventilator',hidden:1},
+    {id:'cor',who:'Corinor',what:'Benkeplate, mål fra tegningen',hidden:1}],
+   nodes:[{id:'tp',name:'Tradeplace',chan:'BSH: pris og lager i sanntid'},{id:'tf',name:'Tapwell',chan:'Produktfil'},{id:'rf',name:'Røros Metall',chan:'Produktfil'},{id:'cf',name:'Corinor',chan:'Prisliste'},{id:'min',name:'Kunden · Min side',chan:'Tilbud til kunden'}],
+   card:{kind:'note',lbl:'Sendt til kunden',t:'Hanne ser tilbudet i Min side',p:'Fem leverandører i ett tilbud, med leveringstid per vare.'},
+   script:function(){
+    at(300,function(){cap('Ingen gamle regneark: prisene kommer fra leverandørens egne filer, med gyldighet.')});
+    at(1400,function(){cap('BSH via Tradeplace: pris og lagerstatus i sanntid.');pk('tp','in','Pris + lager',1500)});
+    at(2900,function(){show('bsh');st('bsh','ok','På lager · 2 uker');nd('tp','ok')});
+    at(3300,function(){cap('Tapwell og Røros Metall: produktfil med pris og gyldighet.');pk('tf','in','Produktfil',1500)});
+    at(4800,function(){show('tap');st('tap','ok','3 uker');nd('tf','ok')});
+    at(4900,function(){pk('rf','in','Produktfil',1500)});
+    at(6400,function(){show('ror');st('ror','ok','2 uker');nd('rf','ok')});
+    at(6600,function(){cap('Corinor: prisliste. Benkeplaten prises ut fra målene i tegningen.');pk('cf','in','Prisliste',1500)});
+    at(8100,function(){show('cor');st('cor','ok','2 uker');nd('cf','ok')});
+    at(8700,function(){cap('Tilbudet går til kunden i Min side, med alt på ett sted.');pk('min','out','Tilbud',1500)});
+    at(10200,function(){nd('min','ok');card()});
+    at(12000,done);
+   }},
+  {t:'Signering',where:'Ordre 10087 › Leveringsplan',flow:'Signert og planlagt',
+   lead:'Kunden signerer med BankID. Montasjen settes til uke 46, og leveringsukene regnes bakover med ledetiden til hver leverandør.',
+   head:{t:'Ordre 10087',s:'Hanne Liksomlien · Lillehammer · signeres'},
+   rows:[
+    {id:'sig',who:'Sigdal',what:'Ledetid 4 uker',ref:'LI-10087-1',txt:'Venter'},
+    {id:'bsh',who:'BSH',what:'Ledetid 2 uker',ref:'LI-10087-2',txt:'Venter'},
+    {id:'cor',who:'Corinor',what:'Ledetid 2 uker',ref:'LI-10087-3',txt:'Venter'},
+    {id:'tap',who:'Tapwell',what:'Ledetid 3 uker',ref:'LI-10087-4',txt:'Venter'},
+    {id:'ror',who:'Røros Metall',what:'Ledetid 2 uker',ref:'LI-10087-5',txt:'Venter'}],
+   nodes:[{id:'bank',name:'BankID',chan:'Kunden signerer'},{id:'hen',name:'Hengsel · montørplan',chan:'Montasjejobb'},{id:'led',name:'Leverandørdata',chan:'Ledetider'}],
+   card:{kind:'note',lbl:'Klar til bestilling',t:'Alt er på plass uke 45',p:'Én uke før montøren kommer. Bestillingene kan gå ut.'},
+   script:function(){
+    at(300,function(){cap('Kunden signerer kontrakten med BankID på mobilen.');pk('bank','in','Signert',1500)});
+    at(1800,function(){nd('bank','ok');$('ohS').textContent='Hanne Liksomlien · Lillehammer · montasje uke 46';cap('Signert. Ordren er låst, og montasjen er satt til uke 46.')});
+    at(3000,function(){cap('Montøren får jobben i Hengsel med en gang.');pk('hen','out','Uke 46',1500)});
+    at(4500,function(){nd('hen','ok')});
+    at(4900,function(){cap('Leveringsukene regnes bakover fra montasjen, med ledetiden til hver leverandør.');pk('led','in','Ledetider',1500)});
+    at(6400,function(){nd('led','ok')});
+    FIVE.forEach(function(s,i){at(6600+i*450,function(){st(s.id,'ok','Levering uke 45','Ønsket leveringsuke 45 følger med bestillingen')})});
+    at(9200,function(){card();cap('Alt skal være på plass uke 45, én uke før montøren kommer.')});
+    at(11000,done);
+   }},
+  {t:'Bestillingene',where:'Ordre › Bestillinger',flow:'Bestilling ut',
+   lead:'Kunden har signert. Fem bestillinger går ut samtidig, hver i den kanalen leverandøren kan ta imot, men med den samme referansen.',
+   head:HEAD_LI,rows:fiveRows('', 'Klar'),
+   nodes:FIVE.map(function(s){return{id:s.id,name:s.name,chan:s.out}}),
+   script:function(){
+    at(400,function(){cap('Én referanse per bestilling: LI-10087-1 til -5. Den følger varen helt til fakturaen.')});
+    FIVE.forEach(function(s,i){
+      at(1600+i*900,function(){pk(s.id,'out',s.ref,1600);cap(s.name+': '+s.out+'.')});
+      at(3200+i*900,function(){st(s.id,'sent','Sendt')});
+    });
+    at(7600,function(){cap('Tre måter å sende på, men samme referanse og riktig kundenummer per selskap. Selgeren trykket ingenting.')});
+    at(9800,done);
+   }},
+  {t:'Bekreftelsene',where:'Ordre › Bestillinger',flow:'Bekreftelse inn',
+   lead:'Bekreftelsene kommer tilbake på fem forskjellige måter. CRM sjekker alle linje for linje. Selgeren ser bare det som avviker.',
+   head:HEAD_LI,rows:fiveRows('sent','Sendt'),
+   nodes:FIVE.map(function(s){return{id:s.id,name:s.name,chan:s.back}}),
+   card:{kind:'task',lbl:'Min dag · ny oppgave',t:'Avvik på bekreftelse fra Tapwell (LI-10087-4)',p:'Bekreftet 2 stk kjøkkenarmatur, bestilt 1. Kontroller og svar leverandøren.'},
+   script:function(){
+    at(400,function(){cap('Bekreftelsene kommer inn i den formen leverandøren kan sende.')});
+    FIVE.forEach(function(s,i){
+      at(1500+i*1100,function(){pk(s.id,'in',s.back,1500,s.warn);cap(s.name+': '+s.back+'.')});
+      at(3000+i*1100,function(){
+        if(s.warn){nd(s.id,'warn');st(s.id,'warn','Avvik','Antall: bekreftet 2, bestilt 1')}
+        else{nd(s.id,'ok');st(s.id,'ok','Bekreftet','Alle linjer stemmer: artikkel, antall, pris og uke')}
+      });
+    });
+    at(8800,function(){card();cap('Fire bekreftelser stemmer, og selgeren ser ingenting av dem. Tapwell avviker, så selgeren får én oppgave i Min dag.')});
+    at(11500,done);
+   }},
+  {t:'Endring og rest',where:'Ordre › Sigdal',flow:'Endring ut, OB inn',
+   lead:'Kunden bytter en front før siste endringsdag. Endringen og resten kommer merket, så CRM vet hva som er nytt.',
+   head:{t:'Sigdal · LI-10087-1',s:'Siste endringsdag (ENDFØR) fredag uke 42'},
+   rows:[
+    {id:'frt',who:'Front, høyskap',what:'Glassfront byttes til tett front',ref:'LI-10087-1',txt:'Bestilt'},
+    {id:'ob',who:'Endrings-OB',what:'1 linje ny, 1 linje utgår',ref:'LI-10087-1',hidden:1},
+    {id:'rest',who:'Rest: sokkel, 2 stk',what:'Merket med opprinnelig ordre',ref:'LI-10087-1',hidden:1}],
+   nodes:[{id:'kunde',name:'Kunden · Min side',chan:'Endringsønske'},{id:'sig',name:'Sigdal',chan:'CET-ordresetting'},{id:'hen',name:'Hengsel · montør',chan:'Arbeidsordre'}],
+   card:{kind:'note',lbl:'Ingen oppgave til selgeren',t:'Montøren ser at sokkelen kommer uke 47',p:'Endringen er bekreftet og kontrollert. Resten er planlagt inn i montasjen.'},
+   script:function(){
+    at(300,function(){cap('Kunden vil bytte en glassfront til tett front. Det er før siste endringsdag.');pk('kunde','in','Ny front',1500)});
+    at(1800,function(){nd('kunde','ok');st('frt','sent','Endres')});
+    at(2400,function(){cap('Selgeren endrer i CET. Endringsordren går med samme referanse, LI-10087-1.');pk('sig','out','Endringsordre',1500)});
+    at(4300,function(){cap('Endrings-OB kommer merket som endring. CRM ser hva som er nytt og hva som utgår, og sjekker prisen.');pk('sig','in','Endrings-OB',1500)});
+    at(5800,function(){show('ob');st('ob','ok','Kontrollert','Ny pris stemmer med tilbudet');st('frt','ok','Bekreftet');nd('sig','ok')});
+    at(7400,function(){cap('Senere kommer én linje som rest, merket med opprinnelig ordre.');pk('sig','in','Rest-OB',1500,true)});
+    at(8900,function(){show('rest');st('rest','warn','Rest uke 47');nd('sig','warn')});
+    at(9600,function(){cap('Resten går rett til montøren i Hengsel. Selgeren trenger ikke gjøre noe.');pk('hen','out','Rest uke 47',1500)});
+    at(11100,function(){nd('hen','ok');card()});
+    at(13000,done);
+   }},
+  {t:'Levering og montasje',where:'Ordre › Levering',flow:'Varsel, sporing og avvik',
+   lead:'Kunden får beskjed om dag og tidsvindu. Montøren ser hva som er levert, og melder avvik med bilde rett fra appen.',
+   head:{t:'Ordre 10087',s:'Levering uke 45 · montasje uke 46'},
+   rows:fiveRows('', 'Bestilt').concat([{id:'avv',who:'Avvik: skadet sidepanel',what:'Meldt av montør, med bilde',ref:'LI-10087-1',hidden:1}]),
+   nodes:[{id:'tr',name:'Transportør',chan:'Sporing (API)'},{id:'kunde',name:'Kunden',chan:'SMS'},{id:'hen',name:'Hengsel · montør',chan:'Montørappen'},{id:'sig',name:'Sigdal',chan:'Reklamasjon'}],
+   card:{kind:'note',lbl:'Ingen telefon',t:'Erstatningen kommer uke 47',p:'Selgeren ser avviket og svaret, men trenger ikke ringe noen.'},
+   script:function(){
+    at(300,function(){cap('To virkedager før kommer leveringsvarselet med dag og tidsvindu.');pk('tr','in','Leveringsvarsel',1500)});
+    at(1800,function(){FIVE.forEach(function(s){st(s.id,'sent','Varslet')})});
+    at(2200,function(){cap('Kunden får SMS med dag, tidsvindu og sporingslenke.');pk('kunde','out','SMS',1500)});
+    at(3700,function(){nd('kunde','ok')});
+    at(4100,function(){cap('Varene er levert. Leveringsbeviset kommer digitalt.');pk('tr','in','Levert',1500)});
+    FIVE.forEach(function(s,i){at(5600+i*350,function(){st(s.id,'ok','Levert','Digitalt leveringsbevis')})});
+    at(5600,function(){nd('tr','ok')});
+    at(7600,function(){cap('Uke 46: montøren åpner jobben i Hengsel og ser hva som er levert og hva som kommer.');pk('hen','out','Arbeidsordre',1500)});
+    at(9300,function(){cap('Montøren finner et skadet sidepanel og melder avvik med bilde.');pk('hen','in','Avvik + bilde',1500,true)});
+    at(10800,function(){nd('hen','warn');show('avv');st('avv','warn','Reklamert')});
+    at(11300,function(){cap('Reklamasjonen går rett til Sigdal med referanse og bilde.');pk('sig','out','Reklamasjon',1500)});
+    at(13000,function(){cap('Sigdal svarer med erstatning uke 47.');pk('sig','in','Erstatning uke 47',1500)});
+    at(14500,function(){nd('sig','ok');nd('hen','ok');st('avv','ok','Erstatning uke 47');card()});
+    at(16300,done);
+   }},
+  {t:'Faktura',where:'Ordre › Økonomi',flow:'EHF inn, avstemming',
+   lead:'Fakturaene kommer som EHF og avstemmes mot ordrebekreftelsene. Kunden får faktura og FDV-pakke.',
+   head:{t:'Ordre 10087',s:'Fakturaer mot ordrebekreftelser'},
+   rows:fiveRows('', 'Venter'),
+   nodes:[{id:'lev',name:'Leverandørene',chan:'EHF-faktura'},{id:'po',name:'PowerOffice',chan:'Regnskap'},{id:'kunde',name:'Kunden',chan:'Faktura og FDV'}],
+   card:{kind:'task',lbl:'Min dag · ny oppgave',t:'Fakturaavvik Corinor (LI-10087-3)',p:'Frakt 1 450 kr står ikke i ordrebekreftelsen. Godkjenn eller avvis.'},
+   script:function(){
+    at(300,function(){cap('Fakturaene kommer som EHF, med ordrenummer og vår referanse i faste felt.')});
+    FIVE.forEach(function(s,i){
+      at(1200+i*700,function(){pk('lev','in','EHF '+s.ref.slice(-1),1400,s.id==='cor')});
+      at(2600+i*700,function(){
+        if(s.id==='cor'){st(s.id,'warn','Avvik','Frakt 1 450 kr, står ikke i OB')}
+        else{st(s.id,'ok','Avstemt','Stemmer med OB: antall, pris og frakt')}
+      });
+    });
+    at(6200,function(){nd('lev','warn');card();cap('Fire fakturaer går rett igjennom. Corinor har frakt som ikke står i OB, så selgeren får én oppgave.')});
+    at(8000,function(){cap('Godkjente fakturaer bokføres i PowerOffice.');pk('po','out','4 godkjent',1500)});
+    at(9500,function(){nd('po','ok')});
+    at(9900,function(){cap('Kundefakturaen sendes i samme mva-periode, og kunden får FDV-pakken for hele kjøkkenet.');pk('kunde','out','Faktura + FDV',1500)});
+    at(11400,function(){nd('kunde','ok')});
+    at(12600,function(){$('finale').classList.add('show')});
+    at(13000,done);
+   }}
+  ];
+
+  // Tidslinje
+  var tl=$('timeline');
+  SCENES.forEach(function(sc,i){
+    var n=i+1,b=document.createElement('button');b.type='button';b.className='tl';b.id='tl-'+n;
+    b.innerHTML='<i></i><span>'+n+' · '+sc.t+'</span>';
+    b.setAttribute('aria-label','Scene '+n+': '+sc.t);
+    b.addEventListener('click',function(){go(n)});
+    tl.appendChild(b);
+  });
+
+  function build(sc){
+    rowsEl.innerHTML='';
+    sc.rows.forEach(function(r){
+      var e=document.createElement('div');e.className='row'+(r.hidden?' hide':'');e.id='r-'+r.id;
+      e.innerHTML='<span class="who">'+r.who+'</span><span class="st'+(r.st?' '+r.st:'')+'" id="st-'+r.id+'">'+(r.txt||'')+'</span><span class="what">'+r.what+(r.ref?' · <span class="ref">'+r.ref+'</span>':'')+'</span><span class="check" id="ck-'+r.id+'"></span>';
+      if(!r.txt&&!r.st)e.querySelector('.st').style.visibility='hidden';
+      rowsEl.appendChild(e);
+    });
+    flow.querySelectorAll('.node.sup').forEach(function(n){n.remove()});
+    nodes=sc.nodes;
+    nodes.forEach(function(s){
+      var n=document.createElement('div');n.className='node sup';n.id='n-'+s.id;
+      n.innerHTML='<b>'+s.name+'</b><span class="chan">'+s.chan+'</span>';
+      flow.appendChild(n);
+    });
+    flow.style.minHeight=Math.max(340,nodes.length*76)+'px';
+    var c=sc.card,el=$('card');
+    el.className='card'+(c&&c.kind==='note'?' note':'');el.style.display=c?'':'none';
+    if(c){$('cLbl').textContent=c.lbl;$('cT').textContent=c.t;$('cP').textContent=c.p}
+    layout();
+  }
+  function layout(){
+    var H=flow.clientHeight,W=flow.clientWidth,gap=H/Math.max(1,nodes.length);
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML='';
+    var c=center(crm);
+    nodes.forEach(function(s,i){
+      var n=$('n-'+s.id);if(!n)return;n.style.top=(gap*i+gap/2-n.offsetHeight/2)+'px';
+      var p=center(n);
+      var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+      l.setAttribute('x1',c.x2);l.setAttribute('y1',c.y);l.setAttribute('x2',p.x1);l.setAttribute('y2',p.y);l.id='ln-'+s.id;
+      if(n.dataset.on)l.classList.add('on');
+      svg.appendChild(l);
+    });
+  }
+  function center(el){var r=el.getBoundingClientRect(),f=flow.getBoundingClientRect();return{x1:r.left-f.left,x2:r.right-f.left,y:r.top-f.top+r.height/2}}
+
+  function pk(id,dir,label,dur,warn){
+    var n=$('n-'+id),l=$('ln-'+id);if(n)n.dataset.on=1;if(l)l.classList.add('on');
+    if(reduce)return;
+    var back=dir==='in',el=document.createElement('div');
+    el.className='packet'+(back?' back':'')+(back&&warn?' w':'');el.textContent=label;
+    flow.appendChild(el);
+    var c=center(crm),p=center(n),A={x:c.x2,y:c.y},B={x:p.x1,y:p.y},from=back?B:A,to=back?A:B,w=el.offsetWidth,h=el.offsetHeight;
+    var k=[{transform:'translate('+(from.x-w/2)+'px,'+(from.y-h/2)+'px)',opacity:0},{opacity:1,offset:.12},{opacity:1,offset:.88},{transform:'translate('+(to.x-w/2)+'px,'+(to.y-h/2)+'px)',opacity:0}];
+    var a=el.animate(k,{duration:dur||1500,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+    anims.push(a);a.onfinish=function(){el.remove()};
+  }
+  function at(ms,fn){timers.push({fn:fn,left:reduce?0:ms,start:0})}
+  function runTimers(){timers.forEach(function(t){if(t.id||t.done)return;t.start=performance.now();t.id=setTimeout(function(){t.done=true;t.fn()},t.left)})}
+  function pauseTimers(){timers.forEach(function(t){if(t.id&&!t.done){clearTimeout(t.id);t.id=null;t.left=Math.max(0,t.left-(performance.now()-t.start))}});anims.forEach(function(a){if(a.playState==='running')a.pause()})}
+  function resumeAnims(){anims.forEach(function(a){if(a.playState==='paused')a.play()})}
+  function clearAll(){clearTimeout(autoT);timers.forEach(function(t){clearTimeout(t.id)});timers=[];anims.forEach(function(a){try{a.cancel()}catch(e){}});anims=[];flow.querySelectorAll('.packet').forEach(function(p){p.remove()})}
+  function cap(t){$('caption').textContent=t}
+  function show(id){var r=$('r-'+id);r.classList.remove('hide');if(!reduce)r.classList.add('enter')}
+  function st(id,cls,txt,check){
+    var e=$('st-'+id),r=$('r-'+id);e.style.visibility='';e.className='st'+(cls?' '+cls:'');e.textContent=txt;
+    r.classList.toggle('flag',cls==='warn');
+    if(check){$('ck-'+id).textContent=check;r.classList.add('done')}
+  }
+  function nd(id,cls){var n=$('n-'+id);n.classList.remove('ok','warn');if(cls)n.classList.add(cls)}
+  function card(){$('card').classList.add('show')}
+  function done(){
+    playing=false;$('play').textContent='Spill av igjen';$('play').dataset.state='done';
+    if($('auto').checked&&cur<SCENES.length){autoT=setTimeout(function(){go(cur+1);play()},reduce?400:1600)}
+  }
+
+  function go(n){
+    if(n<1||n>SCENES.length)return;
+    clearAll();cur=n;playing=false;
+    var sc=SCENES[n-1];
+    $('sceneNo').textContent=n;$('title').textContent=sc.t;$('lead').textContent=sc.lead;$('flowLbl').textContent=sc.flow;$('where').textContent=sc.where;
+    $('ohT').textContent=sc.head.t;$('ohS').textContent=sc.head.s;
+    $('finale').classList.remove('show');
+    SCENES.forEach(function(s,i){var b=$('tl-'+(i+1));b.classList.toggle('cur',i+1===n);b.classList.toggle('past',i+1<n);if(i+1===n)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+    $('prev').disabled=n===1;$('next').disabled=n===SCENES.length;
+    $('play').textContent='Spill av';$('play').dataset.state='';
+    build(sc);cap('Trykk Spill av.');
+  }
+  function play(){
+    var b=$('play');
+    if(b.dataset.state==='done'){go(cur)}
+    if(playing){pauseTimers();playing=false;b.textContent='Fortsett';return}
+    if(!timers.length){SCENES[cur-1].script()}
+    playing=true;b.textContent='Pause';resumeAnims();runTimers();
+  }
+  $('play').addEventListener('click',play);
+  $('prev').addEventListener('click',function(){go(cur-1)});
+  $('next').addEventListener('click',function(){go(cur+1)});
+  $('restart').addEventListener('click',function(){go(cur)});
+  $('again').addEventListener('click',function(){go(1);play()});
+  var fsEl=document.documentElement;
+  if(!(fsEl.requestFullscreen||fsEl.webkitRequestFullscreen))$('fs').style.display='none';
+  $('fs').addEventListener('click',function(){
+    try{
+      if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document)}
+      else{(fsEl.requestFullscreen||fsEl.webkitRequestFullscreen).call(fsEl)}
+    }catch(e){}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.target&&e.target.tagName==='INPUT')return;
+    if(e.key==='ArrowRight'){go(cur+1)}
+    else if(e.key==='ArrowLeft'){go(cur-1)}
+    else if(e.key===' '){e.preventDefault();play()}
+  });
+  new ResizeObserver(function(){layout()}).observe(flow);
+  go(1);
+})();
+</script>
+</body>
+</html>
