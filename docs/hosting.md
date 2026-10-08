@@ -216,27 +216,33 @@ Workers & Pages → Create → **Pages** → Connect to Git → velg `SNgroup-Dr
 | Root directory (advanced) | tomt, altså rotmappen (workspaces må installeres fra roten, se over) |
 | Environment variables | `NODE_VERSION` = `22` |
 
-Etter at prosjektet finnes: Settings → Build → **Build watch paths**, Include: `sites/vis/*`, `package.json`,
-`package-lock.json`. Da bygger ikke en endring i sngroup, hengsel eller byggem vis på nytt.
+**Rekkefølgen sørger for at ingenting havner åpent på nettet før Access er på plass.** Bestemt 08.10: Pages, og ingen
+forhåndsvisninger for vis.
 
-**Vent med å trykke Save and Deploy til trinn 2 er gjort**, eller slå av forhåndsvisninger først (Settings → Build →
-Branch control → Preview branch: **None**). Første bygg havner på `vis.pages.dev`, og den adressen er åpen for alle til
-den er lagt inn i Access.
+1. Lag prosjektet **før** PR-en for K-110 er flettet til `main`. Veiviseren starter et første bygg fra `main` med en
+   gang, og det **feiler** (`sites/vis` finnes ikke på `main` ennå). Det er meningen: da publiseres ingenting.
+2. Settings → Build → **Branch control** → Automatic deployments for preview branches: **None**. Da bygges ingen
+   andre greiner (heller ikke `claude/*`) til åpne adresser under `*.vis.pages.dev`.
+3. Settings → Build → **Build watch paths**, Include: `sites/vis/*`, `package.json`, `package-lock.json`. Da bygger
+   ikke en endring i sngroup, hengsel eller byggem vis på nytt.
+4. Gjør trinn 2 under (Access).
+5. Flett PR-en. Det første vellykkede bygget havner da på `vis.pages.dev`, som allerede er bak Access.
+
+Har PR-en allerede blitt flettet når prosjektet lages, blir første bygg publisert med en gang på en åpen
+`vis.pages.dev`. Gjør da punkt 2 til 4 umiddelbart.
 
 ### 2. Access før domenet flyttes
 
 Zero Trust → Access → Applications → **Visningsrommet** → Edit → Overview / Public hostnames → Add public hostname:
 
 - `vis.pages.dev`
-- `*.vis.pages.dev` (forhåndsvisninger per gren og per commit, f.eks. `claude-k110-vis.vis.pages.dev`)
+- `*.vis.pages.dev`. Hver produksjonsdeploy får også en egen adresse per commit (`<hash>.vis.pages.dev`), selv med
+  forhåndsvisninger av, så jokertegnet trengs.
 
 Lagre. Behold `vis.sngroup.no` og `vis-sngroup.pages.dev` som de er, og ikke endre policyen «Inviterte».
 
-Alternativ for forhåndsvisningene: i Pages-prosjektet, Settings → General → **Access policy** → Enable. Det lager en
-egen Access-app for `*.vis.pages.dev` med bare kontoens medlemmer; da må inviterte gjester ikke se forhåndsvisninger.
-
-Sjekk (i et privat vindu): `https://vis.pages.dev` og en forhåndsvisning skal begge sende deg til innloggingen hos
-Access, ikke vise forsiden.
+Sjekk etter at PR-en er flettet (i et privat vindu): `https://vis.pages.dev` og adressen til siste deploy (Deployments → kopier lenken) skal
+begge sende deg til innloggingen hos Access, ikke vise forsiden.
 
 ```sh
 curl -sI https://vis.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
@@ -264,5 +270,9 @@ samme commit som `main`). Skriftene skal komme fra `/fonts/`, ikke fra Google (D
 
 - Publisering skjer ved push til `main`. Ingen opplasting for hånd lenger; `vis-sngroup.zip` på Macen er ikke kilden
   lenger, det er `sites/vis/src/`.
-- CSP og andre hoder ligger i `sites/vis/src/_headers` og kopieres uendret til `dist/`.
+- CSP og andre hoder ligger i `sites/vis/src/_headers` og kopieres uendret til `dist/`. CSP-en tillater bare skrifter
+  fra `'self'` (skriftene ligger i `dist/fonts/`, ingen Google Fonts).
+- `sites/vis/src/404.html` gjør at ukjente adresser får status 404 med en egen side. Uten den svarer Pages med forsiden
+  og status 200 på alt (enkeltside-modus).
+- Sjekk etter publisering, innlogget: `https://vis.sngroup.no/finnes-ikke` skal vise «Fant ikke siden».
 - `robots.txt` stenger for søkemotorer, men det er Access som faktisk holder nettstedet privat.

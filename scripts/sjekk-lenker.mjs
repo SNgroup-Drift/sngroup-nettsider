@@ -7,7 +7,7 @@
  * Lenker til #id sjekkes også mot id-ene på målsiden. Eksterne lenker, mailto: og tel: hoppes over.
  * Til slutt sjekkes at dist/404.html finnes, og at en ukjent side svarer 404 med den siden.
  * Skjermbilder som byttes inn av skript (data-bilde og JSON i siden, f.eks. fanene på hengsel.no) sjekkes også,
- * og alle filene i dist/img må svare 200.
+ * og alle filene i dist/img må svare 200. For Visningsrommet (vis) sjekkes også rommene i arrayet C på forsiden.
  *
  * Kjør etter `npm run build`: npm test
  */
@@ -74,7 +74,9 @@ for (const navn of nettsteder) {
     const lenker = [
       ...(type.includes("html") ? [...tekst.matchAll(/\s(?:href|src)="([^"]+)"/g)].map((m) => m[1]) : []),
       ...[...tekst.matchAll(/url\(([^)]+)\)/g)].map((m) => m[1].replace(/["']/g, "")),
-    ];
+      // Rommene i Visningsrommet (vis): kortene lages av skript fra arrayet C, med adressen i u:'/rom/'
+      ...(type.includes("html") ? [...tekst.matchAll(/\bu:'(\/[^']*)'/g)].map((m) => m[1]) : []),
+    ].filter((l) => !l.includes("'+")); // href="'+c.u+'" er en mal i skriptet, ikke en lenke
     for (const lenke of lenker) {
       if (!intern(lenke)) continue;
       const url = new URL(lenke, new URL(side, base));
