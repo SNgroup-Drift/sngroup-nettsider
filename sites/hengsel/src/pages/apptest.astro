@@ -116,7 +116,9 @@ const kort = [
       <div class="wrap demorad">
         <div class="demotekst">
           <h2 id="demo-tittel">Prøv med demobrukerne</h2>
-          <p class="h-dempet">I demoen er alt oppdiktet, og ingenting sendes ut. Velg «Demo» nederst på innloggingen i appen, og logg inn med brukernavnet og demopassordet. Passordet får du av den som inviterte deg.</p>
+          <p class="h-dempet">I demoen er alt oppdiktet, og ingenting sendes ut. Velg «Demo» nederst på innloggingen i appen, og logg inn med brukernavnet og demopassordet. Alle brukerne har samme passord.</p>
+          <p class="passord" data-demopassord hidden>Demopassord: <code data-demopassord-verdi></code></p>
+          <p class="h-dempet" data-uten-demopassord>Passordet får du av den som inviterte deg.</p>
           <p class="boks">Foreløpig skriver du hele adressen: brukernavnet med <b>@demo.invalid</b> bak, for eksempel <b>montor1@demo.invalid</b>. Snart holder det med <b>montor1</b>.</p>
           <a class="h-btn" href="/apptest/Logg_inn_i_demoen.pdf" download>Last ned oversikten (PDF)</a>
         </div>
@@ -217,6 +219,8 @@ const kort = [
   .brukere > div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: 4px 16px; padding-block: 10px; border-top: 1px solid var(--linje); }
   .brukere dt { font-weight: 600; }
   .brukere dd { margin: 0; display: grid; gap: 2px; }
+  .passord { font-size: 1.125rem; margin: 0; }
+  .passord code { font-family: ui-monospace, Menlo, monospace; font-weight: 600; background: var(--flate); padding: 2px 8px; border-radius: 6px; }
   .brukere code { font-family: ui-monospace, Menlo, monospace; font-size: 0.95rem; }
 
   .hjelp { padding-block: clamp(48px, 7vw, 96px); }
