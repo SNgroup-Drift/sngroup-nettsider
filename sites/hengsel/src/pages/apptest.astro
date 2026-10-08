@@ -34,6 +34,24 @@ const problemer = [
   ["Laseren blir ikke funnet", "Slå på Bluetooth på telefonen, og trykk på Bluetooth-knappen på Bosch-laseren."],
   ["Du kommer ikke inn", "Bruk samme e-post og passord som i CRM."],
 ];
+
+// K-114 (08.10): faste demobrukere. Brukernavn = rollen, e-post = brukernavn@demo.invalid, felles passord (deles separat).
+const demoHengsel = [
+  ["montor1", "Montør", "I dag, jobbsiden, mål og skisse, KS, avvik og Ferdig montert."],
+  ["montor2", "Montør, polsk", "Appen på polsk."],
+  ["firmaleder1", "Firmaleder med team", "Forespørsler, svar og fordeling av jobber."],
+  ["firmaleder2", "Firmaleder uten ansatte", "Egne jobber og forespørsler."],
+  ["firmaleder3", "Firmaleder", "Garderobe, skyvedører og bad."],
+  ["utkjorer", "Utkjører", "Ruten, mottak på lager, levering og skade."],
+  ["selger1", "Selger", "Selgermodus i appen."],
+];
+const demoCrm = [
+  ["selger1 – selger6", "Selgere i tre butikker (selger2 og selger6 er prosjektselgere)"],
+  ["leder", "Leder og admin"],
+  ["montasjeleder", "Montasjeleder og bestilling"],
+  ["bestilling", "Bestilling"],
+  ["superadmin", "Superadmin"],
+];
 const kort = [
   { tittel: "iPhone og iPad", via: "via TestFlight", steg: iphoneSteg,
     boks: "Nye versjoner kommer i TestFlight. Slå på automatiske oppdateringer der, så slipper du å gjøre noe.",
@@ -90,6 +108,34 @@ const kort = [
             <p class="merknad h-dempet">{k.merknad}</p>
           </div>
         ))}
+      </div>
+    </section>
+
+
+    <section class="demo" aria-labelledby="demo-tittel">
+      <div class="wrap demorad">
+        <div class="demotekst">
+          <h2 id="demo-tittel">Prøv med demobrukerne</h2>
+          <p class="h-dempet">I demoen er alt oppdiktet, og ingenting sendes ut. Velg «Demo» nederst på innloggingen i appen, og logg inn med brukernavnet og demopassordet. Passordet får du av den som inviterte deg.</p>
+          <p class="boks">Foreløpig skriver du hele adressen: brukernavnet med <b>@demo.invalid</b> bak, for eksempel <b>montor1@demo.invalid</b>. Snart holder det med <b>montor1</b>.</p>
+          <a class="h-btn" href="/apptest/Logg_inn_i_demoen.pdf" download>Last ned oversikten (PDF)</a>
+        </div>
+        <div class="h-kort">
+          <div class="korthode"><h3>I appen</h3><span class="h-dempet">velg «Demo»</span></div>
+          <dl class="brukere">
+            {demoHengsel.map(([b, rolle, hva]) => (
+              <div><dt><code>{b}</code></dt><dd><span>{rolle}</span><span class="h-dempet">{hva}</span></dd></div>
+            ))}
+          </dl>
+        </div>
+        <div class="h-kort">
+          <div class="korthode"><h3>I CRM-et</h3><span class="h-dempet">nettleseren</span></div>
+          <dl class="brukere">
+            {demoCrm.map(([b, rolle]) => (
+              <div><dt><code>{b}</code></dt><dd><span>{rolle}</span></dd></div>
+            ))}
+          </dl>
+        </div>
       </div>
     </section>
 
@@ -160,6 +206,18 @@ const kort = [
   .stegtekst { padding-top: 3px; }
   .boks { background: var(--flate-myk); border-radius: var(--radius-felt); padding: 14px 16px; }
   .merknad { font-size: 0.92rem; }
+
+  .demo { padding-block: clamp(48px, 7vw, 96px); }
+  .demorad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+  @media (min-width: 860px) { .demorad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .demotekst { grid-column: 1 / -1; max-width: 62ch; } }
+  .demotekst { display: grid; gap: 16px; justify-items: start; }
+  .demotekst h2 { font-size: var(--t-h1); line-height: 1.08; margin: 0; }
+  .korthode h3 { font-size: var(--t-h2); line-height: 1.15; margin: 0; }
+  .brukere { margin: 0; display: grid; gap: 0; }
+  .brukere > div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: 4px 16px; padding-block: 10px; border-top: 1px solid var(--linje); }
+  .brukere dt { font-weight: 600; }
+  .brukere dd { margin: 0; display: grid; gap: 2px; }
+  .brukere code { font-family: ui-monospace, Menlo, monospace; font-size: 0.95rem; }
 
   .hjelp { padding-block: clamp(48px, 7vw, 96px); }
   .hjelp .wrap { display: grid; gap: 24px; }
