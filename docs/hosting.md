@@ -191,3 +191,78 @@ npm run build -w sites/hengsel
 npx wrangler dev -c sites/hengsel/wrangler.jsonc          # http://localhost:8787/apptest
 node scripts/skjermbilder-apptest.mjs                       # skjermbilder og sjekker mot wrangler dev
 ```
+
+## vis
+
+Visningsrommet (`vis.sngroup.no`, K-110) er et rent statisk nettsted uten byggesteg utover kopiering (se
+`sites/vis/README.md`). Det ligger bak **Cloudflare Access** (appen «Visningsrommet», policy «Inviterte»), og er derfor
+et **Pages-prosjekt**, ikke en Worker som de andre nettstedene. Pages leser `_headers` fra output-mappen på samme måte.
+
+Fram til K-110 ble det lastet opp for hånd som zip til Pages-prosjektet `vis-sngroup` (Direct Upload). Et Direct
+Upload-prosjekt kan ikke kobles til Git i etterkant, så det lages et nytt prosjekt `vis`, og domenet flyttes over.
+Repoet har ingen nøkler eller konto-ID for dette; alt under gjøres i dashbordet.
+
+### 1. Nytt Pages-prosjekt koblet til repoet
+
+Workers & Pages → Create → **Pages** → Connect to Git → velg `SNgroup-Drift/sngroup-nettsider`.
+
+| Felt | Verdi |
+|---|---|
+| Project name | `vis` (gir `vis.pages.dev`) |
+| Production branch | `main` |
+| Framework preset | None |
+| Build command | `npm run build -w sites/vis` |
+| Build output directory | `sites/vis/dist` |
+| Root directory (advanced) | tomt, altså rotmappen (workspaces må installeres fra roten, se over) |
+| Environment variables | `NODE_VERSION` = `22` |
+
+Etter at prosjektet finnes: Settings → Build → **Build watch paths**, Include: `sites/vis/*`, `package.json`,
+`package-lock.json`. Da bygger ikke en endring i sngroup, hengsel eller byggem vis på nytt.
+
+**Vent med å trykke Save and Deploy til trinn 2 er gjort**, eller slå av forhåndsvisninger først (Settings → Build →
+Branch control → Preview branch: **None**). Første bygg havner på `vis.pages.dev`, og den adressen er åpen for alle til
+den er lagt inn i Access.
+
+### 2. Access før domenet flyttes
+
+Zero Trust → Access → Applications → **Visningsrommet** → Edit → Overview / Public hostnames → Add public hostname:
+
+- `vis.pages.dev`
+- `*.vis.pages.dev` (forhåndsvisninger per gren og per commit, f.eks. `claude-k110-vis.vis.pages.dev`)
+
+Lagre. Behold `vis.sngroup.no` og `vis-sngroup.pages.dev` som de er, og ikke endre policyen «Inviterte».
+
+Alternativ for forhåndsvisningene: i Pages-prosjektet, Settings → General → **Access policy** → Enable. Det lager en
+egen Access-app for `*.vis.pages.dev` med bare kontoens medlemmer; da må inviterte gjester ikke se forhåndsvisninger.
+
+Sjekk (i et privat vindu): `https://vis.pages.dev` og en forhåndsvisning skal begge sende deg til innloggingen hos
+Access, ikke vise forsiden.
+
+```sh
+curl -sI https://vis.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
+```
+
+### 3. Flytt `vis.sngroup.no`
+
+1. Pages-prosjektet `vis-sngroup` → Custom domains → `vis.sngroup.no` → Remove. Domenet er nede til trinn 2 under er
+   ferdig (vanligvis et par minutter).
+2. Pages-prosjektet `vis` → Custom domains → Set up a custom domain → `vis.sngroup.no` → Activate. Cloudflare oppdaterer
+   CNAME-en til `vis.pages.dev` selv, siden sonen ligger i samme konto.
+3. Access-appen trenger ingen endring: `vis.sngroup.no` står der allerede.
+
+Sjekk: `https://vis.sngroup.no` gir innloggingen, og etter innlogging den nye forsiden (Deployments i `vis` viser
+samme commit som `main`). Skriftene skal komme fra `/fonts/`, ikke fra Google (DevTools → Network → Font).
+
+### 4. Rydd etter 14 dager
+
+`vis-sngroup` står urørt i 14 dager som reserve (domenet kan flyttes tilbake med trinn 3 i omvendt rekkefølge). Deretter:
+
+1. Workers & Pages → `vis-sngroup` → Settings → Delete project.
+2. Zero Trust → Access → Applications → Visningsrommet → fjern `vis-sngroup.pages.dev` fra public hostnames.
+
+### Ellers
+
+- Publisering skjer ved push til `main`. Ingen opplasting for hånd lenger; `vis-sngroup.zip` på Macen er ikke kilden
+  lenger, det er `sites/vis/src/`.
+- CSP og andre hoder ligger i `sites/vis/src/_headers` og kopieres uendret til `dist/`.
+- `robots.txt` stenger for søkemotorer, men det er Access som faktisk holder nettstedet privat.
