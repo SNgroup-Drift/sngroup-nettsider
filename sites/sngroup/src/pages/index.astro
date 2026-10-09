@@ -5,6 +5,7 @@ import CompanyRow from "@sngroup/design/components/CompanyRow.astro";
 import ContactBlock from "@sngroup/design/components/ContactBlock.astro";
 import Plantegning from "../components/Plantegning.astro";
 import Telefon from "../components/Telefon.astro";
+import HengselLogo from "@sngroup/design/components/HengselLogo.astro";
 import { virksomheter } from "../content/virksomheter";
 import { selskap } from "../content/selskap";
 ---
@@ -62,7 +63,7 @@ import { selskap } from "../content/selskap";
       <div class="wrap hg">
         <div>
           <div class="label">App for montører</div>
-          <h2>Hengsel</h2>
+          <h2><a href="https://hengsel.no"><HengselLogo produkt={null} size={96} label="Hengsel" /></a></h2>
           <p class="lede">
             Montørappen for montører og montasjefirmaer som jobber for Studio Sigdal Innlandet. Prøv den til høyre.
           </p>
@@ -73,7 +74,10 @@ import { selskap } from "../content/selskap";
             <li>Virker uten dekning, og sender når nettet er tilbake</li>
             <li>Kun for inviterte brukere</li>
           </ul>
-          <a href="/personvern" class="pill">Personvern for Hengsel <span aria-hidden="true">→</span></a>
+          <div class="cta">
+            <a class="pill solid" href="https://hengsel.no">hengsel.no <span aria-hidden="true">→</span></a>
+            <a href="/personvern" class="pill">Personvern for Hengsel</a>
+          </div>
         </div>
         <Telefon />
       </div>
@@ -116,7 +120,10 @@ import { selskap } from "../content/selskap";
   .rader { border-top: 1px solid var(--linje-svak); }
   .hengsel { padding-block: var(--seksjon); }
   .hg { display: grid; grid-template-columns: 1fr 0.9fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
-  .hg h2 { font-size: clamp(64px, 9vw, 128px); font-style: italic; line-height: 0.95; margin-top: 16px; }
+  /* Hengsel-logoen (docs/design/hengsel/logo, uten produktnavn) som overskrift, lenket til hengsel.no */
+  .hg h2 { margin: 20px 0 0; line-height: 0; }
+  .hg h2 a { display: inline-block; }
+  .hg h2 :global(.hengsel-logo) { height: clamp(56px, 8vw, 96px); width: auto; }
   .egenskaper { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 10px; }
   .egenskaper li { display: flex; gap: 12px; align-items: baseline; color: var(--tekst-dempet); }
   .egenskaper li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--aksent); flex: none; transform: translateY(-2px); }

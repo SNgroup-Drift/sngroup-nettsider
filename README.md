@@ -21,8 +21,11 @@ packages/design/        Felles designpakke
   src/styles/fonts.css    Newsreader og Inter, selvhostet fra npm (@fontsource-variable). Importeres av
                           sngroup.no og hengsel.no; byggem.no bruker Poppins og Inter (se sites/byggem/src/layouts/Side.astro)
   src/components/         BaseLayout, SiteHeader, SiteFooter, Section, Card, ContactBlock,
-                          CompanyRow, PrivacyPage, ComingSoon
+                          CompanyRow, PrivacyPage, ComingSoon, HengselLogo
                           Familiegrep: Toppfelt, Plantegningsstrek, Familiebaand, IkkeFunnet
+  src/hengsel-logo.mjs    Hengsel-logoen som inline SVG (hengsel.no, sngroup.no og Visningsrommet). Teksten er
+                          konturer i hengsel-logo-data.mjs, laget av scripts/hengsel-logo-konturer.py fra
+                          logopakken docs/design/hengsel/logo/
 sites/<navn>/           Ett Astro-prosjekt per nettsted
   src/content/            Tekst og selskapsopplysninger (TODO der tekst mangler)
   src/styles/tokens.css   Nettstedets farger som familiens semantiske variabler (hengsel.no), og skriften på én linje
@@ -37,6 +40,8 @@ scripts/
   skjermbilder-apptest.mjs  Skjermbilder og sjekker av hengsel.no/apptest mot wrangler dev (passordet)
   skjermbilder-vis.mjs    Skjermbilder og sjekker av Visningsrommet (390 og 1280 px, lys og mørk, skriftene)
   csp-hasher.mjs          Legger hashen for inline-CSS inn i CSP-en i dist/_headers
+  hengsel-logo-konturer.py  Lager packages/design/src/hengsel-logo-data.mjs fra logopakken (bare når pakken endres;
+                          Python med fonttools, brotli og uharfbuzz, se toppen av fila)
   statisk-server.mjs      Liten server som løser stier og 404 som Cloudflare Workers
 ```
 

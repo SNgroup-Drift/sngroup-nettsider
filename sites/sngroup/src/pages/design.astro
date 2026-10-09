@@ -13,6 +13,7 @@ import Plantegningsstrek from "@sngroup/design/components/Plantegningsstrek.astr
 import Familiebaand from "@sngroup/design/components/Familiebaand.astro";
 import IkkeFunnet from "@sngroup/design/components/IkkeFunnet.astro";
 import Logo from "../components/Logo.astro";
+import HengselLogo from "@sngroup/design/components/HengselLogo.astro";
 import SiteFooter from "@sngroup/design/components/SiteFooter.astro";
 import PrivacyPage from "@sngroup/design/components/PrivacyPage.astro";
 
@@ -139,7 +140,7 @@ const par = [
         <div class="label">sngroup.no</div>
         <div class="ramme"><Toppfelt ordmerke="SN Group" lenker={lenkerDemo} kontaktHref="#familiegrep"><Logo slot="logo" /></Toppfelt></div>
         <div class="label luft">hengsel.no</div>
-        <div class="ramme tema-hengsel"><Toppfelt ordmerke="Hengsel" lenker={lenkerDemo} kontaktHref="#familiegrep" /></div>
+        <div class="ramme tema-hengsel"><Toppfelt ordmerke="Hengsel" lenker={lenkerDemo} kontaktHref="#familiegrep"><HengselLogo slot="logo" /></Toppfelt></div>
         <div class="label luft">byggem.no</div>
         <div class="ramme tema-byggem"><Toppfelt ordmerke="byggEM" lenker={lenkerDemo} kontaktHref="#familiegrep" /></div>
       </div>
