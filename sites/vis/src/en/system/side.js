@@ -1,7 +1,7 @@
 (function(){
 var ST={ok:['ok','Live'],del:['info','Partly live'],opp:['warn','Being set up'],plan:['','Planned']};
 var N=[
- {id:'crm',side:'C',t:'Sigdal CRM',s:'Customers, quotes, orders, purchase orders, cases and fitting',st:'ok',inn:['Everything from the boxes on the left'],ut:['Everything to the boxes on the right'],om:'The hub. Each piece of information comes in once and is linked to the right customer and order. The salesperson only sees what deviates, in Min dag (the salesperson’s start page).',vei:'Moving to Cloudflare in production.'},
+ {id:'crm',side:'C',t:'Hengsel CRM',s:'Customers, quotes, orders, purchase orders, cases and fitting',st:'ok',inn:['Everything from the boxes on the left'],ut:['Everything to the boxes on the right'],om:'The hub. Each piece of information comes in once and is linked to the right customer and order. The salesperson only sees what deviates, in Min dag (the salesperson’s start page).',vei:'Moving to Cloudflare in production.'},
  {id:'m365',side:'C',t:'Microsoft 365',s:'bestilling@, varsel@, sign-in',st:'ok',inn:['Order confirmations, shipping notices and invoices to bestilling@','Sign-in with work account'],ut:['Purchase orders from bestilling@','Notifications from varsel@'],om:'One shared inbox for suppliers, and the same account for all employees.',vei:'More suppliers moving to bestilling@ (the supplier letter).'},
  {id:'cet',side:'L',t:'CET (Configura)',s:'Drawing and order to Sigdal',st:'del',inn:['Nobia XML with all lines','Drawings and element list (PDF)'],ut:['Customer and project number (target)'],om:'The quote is created from the Nobia XML with no retyping. Today the salesperson exports the file manually.',vei:'Automatic export when the drawing is saved (asked Configura and Sigdal, part of the requirements list to Sigdal).'},
  {id:'sig',side:'L',t:'Sigdal / Nobia',s:'Order confirmations, error messages, EHF, order book',st:'del',inn:['Order confirmation (PDF, read by the CRM)','Error messages when placing orders','EHF invoice, the Norwegian e-invoice (Lillehammer), scanned PDF (Hamar)'],ut:['Orders through CET'],om:'The order confirmation is read and checked against the drawing. Error messages become cases.',vei:'The requirements list to Sigdal: order confirmation as XML, EHF to all stores and error messages to one fixed address.'},
@@ -14,12 +14,12 @@ var N=[
  {id:'bank',side:'R',t:'Signing',s:'BankID / DealBuilder',st:'del',inn:['Signed contract (PDF)'],ut:['Contract for signing'],om:'The contract is checked against the order once it is signed.',vei:'Signing directly from the CRM (Penneo under evaluation).'}
 ];
 var cL=document.getElementById('cL'),cR=document.getElementById('cR'),cC=document.getElementById('cC'),det=document.getElementById('det'),svg=document.getElementById('svg'),map=document.getElementById('map'),cur='crm';
-N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML='<b>'+n.t+'</b><span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
+N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML=(n.id==='crm'?document.getElementById('hlogo').innerHTML:'<b>'+n.t+'</b>')+'<span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
 function c(el){var r=el.getBoundingClientRect(),m=map.getBoundingClientRect();return{l:r.left-m.left,r:r.right-m.left,y:r.top-m.top+r.height/2}}
 function lines(){var W=map.clientWidth,H=map.clientHeight;svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML='';var core=c(document.getElementById('n-crm'));
  N.forEach(function(n){if(n.side==='C')return;var p=c(document.getElementById('n-'+n.id)),d;
-  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+40)+' '+p.y+' '+(x2-40)+' '+core.y+' '+x2+' '+core.y}
-  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+40)+' '+core.y+' '+(b-40)+' '+p.y+' '+b+' '+p.y}
+  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+20)+' '+p.y+' '+(x2-20)+' '+core.y+' '+x2+' '+core.y}
+  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+20)+' '+core.y+' '+(b-20)+' '+p.y+' '+b+' '+p.y}
   var e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('d',d);e.id='p-'+n.id;if(n.id===cur)e.classList.add('hot');svg.appendChild(e)})}
 function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});

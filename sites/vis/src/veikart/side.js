@@ -72,11 +72,11 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;
 function cnt(s){return L.filter(function(x){return x.st===s}).length}
 $('kpi').innerHTML=['ok','del','opp','plan'].map(function(s){return '<button type="button" data-k="'+s+'"><b>'+cnt(s)+'</b><span class="pill '+ST[s][0]+'">'+ST[s][1]+'</span></button>'}).join('');
 [].forEach.call($('kpi').children,function(b){b.onclick=function(){setF(cur===b.dataset.k?'alle':b.dataset.k)}});
-$('filt').innerHTML=[['alle','Alle']].concat(['ok','del','opp','plan'].map(function(s){return[s,ST[s][1]]})).map(function(x){return '<button type="button" data-k="'+x[0]+'">'+x[1]+'</button>'}).join('');
+$('filt').innerHTML=[['alle','Alle']].concat(['ok','del','opp','plan'].map(function(s){return[s,ST[s][1]]})).map(function(x){return '<button type="button" class="btn" data-k="'+x[0]+'">'+x[1]+'</button>'}).join('');
 [].forEach.call($('filt').children,function(b){b.onclick=function(){setF(b.dataset.k)}});
 $('q').addEventListener('input',function(){q=this.value.trim().toLowerCase();render()});
 function setF(k){cur=k;
- [].forEach.call($('filt').children,function(b){var on=b.dataset.k===k;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+ [].forEach.call($('filt').children,function(b){var on=b.dataset.k===k;b.classList.toggle('dark',on);b.setAttribute('aria-pressed',on)});
  [].forEach.call($('kpi').children,function(b){var on=b.dataset.k===k;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
  render()}
 function match(x){if(cur!=='alle'&&x.st!==cur)return false;if(!q)return true;
@@ -95,7 +95,7 @@ function render(){
  [].forEach.call($('tl').querySelectorAll('.card>button'),function(b){b.onclick=function(){toggle(b.dataset.id)}})}
 function toggle(id){open=open===id?null:id;
  [].forEach.call($('tl').querySelectorAll('.card'),function(c){var on=c.id==='c-'+open;c.classList.toggle('open',on);c.firstChild.setAttribute('aria-expanded',on)})}
-$('parts').innerHTML=DEP.map(function(p){return '<div class="part"><h3>'+p[0]+'</h3><ul>'+p[1].map(function(d){
+$('parts').innerHTML=DEP.map(function(p){return '<div class="part tile"><h3>'+p[0]+'</h3><ul>'+p[1].map(function(d){
   return '<li><b>'+esc(d[0])+'</b><span>'+esc(d[1])+'</span><a href="#c-'+d[2][0]+'" data-go="'+d[2][0]+'">Se '+esc(L.filter(function(x){return x.id===d[2][0]})[0].t)+'</a></li>'}).join('')+'</ul></div>'}).join('');
 [].forEach.call($('parts').querySelectorAll('a[data-go]'),function(a){a.onclick=function(e){e.preventDefault();var id=a.dataset.go;
  q='';$('q').value='';setF('alle');open=null;toggle(id);var el=$('c-'+id);el.scrollIntoView({behavior:'smooth',block:'center'});el.firstChild.focus({preventScroll:true})}});

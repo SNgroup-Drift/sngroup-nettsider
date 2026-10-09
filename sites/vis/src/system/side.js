@@ -1,7 +1,7 @@
 (function(){
 var ST={ok:['ok','I drift'],del:['info','Delvis'],opp:['warn','Under oppsett'],plan:['','Planlagt']};
 var N=[
- {id:'crm',side:'C',t:'Sigdal CRM',s:'Kunder, tilbud, ordre, bestillinger, saker og montasje',st:'ok',inn:['Alt fra boksene til venstre'],ut:['Alt til boksene til høyre'],om:'Navet. Hver opplysning kommer inn én gang og kobles til riktig kunde og ordre. Selgeren ser bare det som avviker, i Min dag.',vei:'Flyttes til Cloudflare i prod (K-100).'},
+ {id:'crm',side:'C',t:'Hengsel CRM',s:'Kunder, tilbud, ordre, bestillinger, saker og montasje',st:'ok',inn:['Alt fra boksene til venstre'],ut:['Alt til boksene til høyre'],om:'Navet. Hver opplysning kommer inn én gang og kobles til riktig kunde og ordre. Selgeren ser bare det som avviker, i Min dag.',vei:'Flyttes til Cloudflare i prod (K-100).'},
  {id:'m365',side:'C',t:'Microsoft 365',s:'bestilling@, varsel@, innlogging',st:'ok',inn:['Ordrebekreftelser, fraktvarsler og faktura til bestilling@','Innlogging med jobbkonto'],ut:['Bestillinger fra bestilling@','Varsler fra varsel@'],om:'Én felles inngang for leverandørene, og samme konto for alle ansatte.',vei:'Flere leverandører over på bestilling@ (leverandørbrevet).'},
  {id:'cet',side:'L',t:'CET (Configura)',s:'Tegning og ordre til Sigdal',st:'del',inn:['Nobia-XML med alle linjer','Tegninger og elementliste (PDF)'],ut:['Kunde og prosjektnummer (mål)'],om:'Tilbudet lages fra Nobia-XML uten taste-arbeid. I dag eksporterer selgeren fila selv.',vei:'Automatisk eksport ved lagring (spurt Configura og Sigdal, S-55).'},
  {id:'sig',side:'L',t:'Sigdal / Nobia',s:'OB, feilmeldinger, EHF, ordrestokk',st:'del',inn:['Ordrebekreftelse (PDF, leses av CRM)','Feilmeldinger ved ordresetting','EHF-faktura (Lillehammer), skannet PDF (Hamar)'],ut:['Ordre via CET'],om:'OB leses og kontrolleres mot tegningen. Feilmeldinger blir saker.',vei:'Kravlista S-55: OB som XML, EHF til alle, feilmeldinger til fast adresse.'},
@@ -14,12 +14,12 @@ var N=[
  {id:'bank',side:'R',t:'Signering',s:'BankID / DealBuilder',st:'del',inn:['Signert kontrakt (PDF)'],ut:['Kontrakt til signering'],om:'Kontrakten kontrolleres mot ordren når den er signert.',vei:'Signering rett fra CRM (Penneo vurderes).'}
 ];
 var cL=document.getElementById('cL'),cR=document.getElementById('cR'),cC=document.getElementById('cC'),det=document.getElementById('det'),svg=document.getElementById('svg'),map=document.getElementById('map'),cur='crm';
-N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML='<b>'+n.t+'</b><span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
+N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML=(n.id==='crm'?document.getElementById('hlogo').innerHTML:'<b>'+n.t+'</b>')+'<span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
 function c(el){var r=el.getBoundingClientRect(),m=map.getBoundingClientRect();return{l:r.left-m.left,r:r.right-m.left,y:r.top-m.top+r.height/2}}
 function lines(){var W=map.clientWidth,H=map.clientHeight;svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML='';var core=c(document.getElementById('n-crm'));
  N.forEach(function(n){if(n.side==='C')return;var p=c(document.getElementById('n-'+n.id)),d;
-  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+40)+' '+p.y+' '+(x2-40)+' '+core.y+' '+x2+' '+core.y}
-  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+40)+' '+core.y+' '+(b-40)+' '+p.y+' '+b+' '+p.y}
+  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+20)+' '+p.y+' '+(x2-20)+' '+core.y+' '+x2+' '+core.y}
+  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+20)+' '+core.y+' '+(b-20)+' '+p.y+' '+b+' '+p.y}
   var e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('d',d);e.id='p-'+n.id;if(n.id===cur)e.classList.add('hot');svg.appendChild(e)})}
 function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});

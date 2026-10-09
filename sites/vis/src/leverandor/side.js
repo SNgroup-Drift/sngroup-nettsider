@@ -6,6 +6,7 @@
     S.forEach(function(s,i){s.classList.toggle('on',i===n);s.classList.toggle('prev',i<n);s.setAttribute('aria-hidden',i===n?'false':'true')});
     [].forEach.call(dots.children,function(d,i){d.classList.toggle('on',i===n)});
     cur=n;document.getElementById('count').textContent=(n+1)+' / '+S.length;
+    var pg=document.getElementById('prog');if(pg)pg.style.width=((n+1)/S.length*100)+'%';
     document.getElementById('prev').disabled=n===0;document.getElementById('next').disabled=n===S.length-1;
     S[n].scrollTop=0;
     try{history.replaceState(null,'','#'+(n+1))}catch(e){}

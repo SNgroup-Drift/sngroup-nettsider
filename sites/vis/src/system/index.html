@@ -10,37 +10,40 @@
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-.wrap{max-width:1240px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:14px}
-h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
-.sub{color:var(--muted);margin:6px 0 0;max-width:66ch}
-.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 32px;display:grid;gap:16px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .lay{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
-.map{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;min-height:600px}
-.map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.map svg path{fill:none;stroke:var(--line);stroke-width:1.6;transition:stroke .3s,stroke-width .3s}
-.map svg path.hot{stroke:var(--accent);stroke-width:2.4}
-.cols{position:relative;display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:28px;align-items:center;min-height:560px}
-.col{display:grid;gap:10px;align-content:center}
-.col h3{font:600 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 2px}
-.n{position:relative;z-index:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;cursor:pointer;display:grid;gap:3px;font:14px var(--sans);color:var(--fg);transition:border-color .2s,transform .2s}
-.n:hover{transform:translateY(-1px);border-color:var(--sand)}
-.n.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
-.n b{font-weight:600}
-.n span{font-size:12px;color:var(--muted)}
-.n .pill{justify-self:start;margin-top:2px}
-.core{display:grid;gap:10px}
+.map{position:relative;padding:24px;min-height:560px;min-width:0}
+.map>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.map>svg path{fill:none;stroke:var(--line);stroke-width:1.5;transition:stroke var(--dur) var(--ease)}
+.map>svg path.hot{stroke:var(--accent);stroke-width:2}
+.cols{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(0,1fr);column-gap:40px;row-gap:16px;align-items:center;min-height:510px}
+.col{display:grid;gap:10px;align-content:center;min-width:0}
+.col h3{margin:0 0 2px}
+.n{position:relative;z-index:1;background:var(--card);border:1px solid var(--line);border-radius:var(--r-field);padding:10px 12px;text-align:left;cursor:pointer;display:grid;gap:3px;font:400 14px/1.4 var(--sans);color:var(--fg);min-height:44px;transition:border-color var(--dur) var(--ease)}
+.n:hover{border-color:var(--sand)}
+.n.on,.n.on:hover{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.n:focus-visible{border-radius:var(--r-field);box-shadow:var(--focus)}
+.n b{font-weight:600;font-size:15px}
+.n>span{font-size:12px;color:var(--muted)}
+.n .pill{justify-self:start;margin-top:2px;font-size:12px}
 .core .n{background:var(--soft);border-color:var(--sand);padding:16px}
-.core .n b{font:400 24px var(--serif)}
-.det{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px;position:sticky;top:12px}
-.det h2{font:400 28px var(--serif);margin:0}
-.det h4{font:600 12px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
-.det ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
-.det p{margin:0;font-size:14px;color:var(--muted)}
-@media (max-width:900px){.lay{grid-template-columns:1fr}.cols{grid-template-columns:1fr;gap:16px}.map svg{display:none}.det{position:static}}
+.core .n.on{border-color:var(--accent)}
+.core .n b{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em}
+.core .n .hlogo{font-size:28px;color:var(--merke-ord);padding:.3em 0 4px;justify-self:start}
+.det{display:grid;gap:12px;position:sticky;top:12px;min-width:0}
+.det .pill{justify-self:start}
+.det h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.det h4{font:500 13px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
+.det ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px;line-height:1.5}
+.det p{margin:0;font-size:15px;line-height:1.5;color:var(--muted)}
+@media (max-width:900px){.lay{grid-template-columns:1fr}.map{min-height:0}.cols{grid-template-columns:minmax(0,1fr);min-height:0}.map>svg{display:none}.det{position:static}}
+@media (max-width:640px){.wrap{padding-inline:16px}.map{padding:16px}}
 </style>
 </head>
 <body>
 <div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Status per 07.10.2026</span></div>
+<template id="hlogo"><!--hengsel-logo 28--></template>
 <div class="wrap">
   <header class="sidehode">
     <div class="eyebrow">Hele løsningen</div>
@@ -49,15 +52,15 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
   </header>
   <div class="legend"><span class="pill ok">I drift</span><span class="pill info">Delvis</span><span class="pill warn">Under oppsett</span><span class="pill">Planlagt</span></div>
   <div class="lay">
-    <div class="map" id="map">
+    <div class="map card" id="map">
       <svg id="svg" aria-hidden="true"></svg>
       <div class="cols">
-        <div class="col" id="cL"><h3>Inn til CRM</h3></div>
+        <div class="col" id="cL"><h3 class="eyebrow">Inn til CRM</h3></div>
         <div class="col core" id="cC"></div>
-        <div class="col" id="cR"><h3>Ut fra CRM</h3></div>
+        <div class="col" id="cR"><h3 class="eyebrow">Ut fra CRM</h3></div>
       </div>
     </div>
-    <aside class="det" id="det" aria-live="polite"></aside>
+    <aside class="det card" id="det" aria-live="polite"></aside>
   </div>
   <p class="foot">Statusene er en oversikt, ikke en driftsrapport. Skrifter: Newsreader og Inter.</p>
 </div>

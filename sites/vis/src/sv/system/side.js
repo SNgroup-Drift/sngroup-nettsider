@@ -1,7 +1,7 @@
 (function(){
 var ST={ok:['ok','I drift'],del:['info','Delvis'],opp:['warn','Under uppbyggnad'],plan:['','Planerad']};
 var N=[
- {id:'crm',side:'C',t:'Sigdal CRM',s:'Kunder, offerter, order, beställningar, ärenden och montage',st:'ok',inn:['Allt från rutorna till vänster'],ut:['Allt till rutorna till höger'],om:'Navet. Varje uppgift kommer in en gång och kopplas till rätt kund och order. Säljaren ser bara det som avviker, i Min dag (säljarens startsida).',vei:'Flyttas till Cloudflare i produktion.'},
+ {id:'crm',side:'C',t:'Hengsel CRM',s:'Kunder, offerter, order, beställningar, ärenden och montage',st:'ok',inn:['Allt från rutorna till vänster'],ut:['Allt till rutorna till höger'],om:'Navet. Varje uppgift kommer in en gång och kopplas till rätt kund och order. Säljaren ser bara det som avviker, i Min dag (säljarens startsida).',vei:'Flyttas till Cloudflare i produktion.'},
  {id:'m365',side:'C',t:'Microsoft 365',s:'bestilling@, varsel@, inloggning',st:'ok',inn:['Orderbekräftelser, fraktaviseringar och fakturor till bestilling@','Inloggning med jobbkonto'],ut:['Beställningar från bestilling@','Aviseringar från varsel@'],om:'En gemensam ingång för leverantörerna, och samma konto för alla anställda.',vei:'Fler leverantörer över till bestilling@ (leverantörsbrevet).'},
  {id:'cet',side:'L',t:'CET (Configura)',s:'Ritning och order till Sigdal',st:'del',inn:['Nobia-XML med alla rader','Ritningar och elementlista (PDF)'],ut:['Kund och projektnummer (mål)'],om:'Offerten skapas från Nobia-XML utan manuell inmatning. I dag exporterar säljaren filen själv.',vei:'Automatisk export när ritningen sparas (frågat Configura och Sigdal, ingår i kravlistan till Sigdal).'},
  {id:'sig',side:'L',t:'Sigdal / Nobia',s:'Orderbekräftelser, felmeddelanden, EHF, orderstock',st:'del',inn:['Orderbekräftelse (PDF, läses av CRM)','Felmeddelanden vid orderläggning','EHF-faktura, norsk e-faktura (Lillehammer), skannad PDF (Hamar)'],ut:['Order via CET'],om:'Orderbekräftelsen läses och kontrolleras mot ritningen. Felmeddelanden blir ärenden.',vei:'Kravlistan till Sigdal: orderbekräftelse som XML, EHF till alla butiker och felmeddelanden till en fast adress.'},
@@ -14,12 +14,12 @@ var N=[
  {id:'bank',side:'R',t:'Signering',s:'BankID / DealBuilder',st:'del',inn:['Signerat kontrakt (PDF)'],ut:['Kontrakt för signering'],om:'Kontraktet kontrolleras mot ordern när det är signerat.',vei:'Signering direkt från CRM (Penneo utvärderas).'}
 ];
 var cL=document.getElementById('cL'),cR=document.getElementById('cR'),cC=document.getElementById('cC'),det=document.getElementById('det'),svg=document.getElementById('svg'),map=document.getElementById('map'),cur='crm';
-N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML='<b>'+n.t+'</b><span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
+N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML=(n.id==='crm'?document.getElementById('hlogo').innerHTML:'<b>'+n.t+'</b>')+'<span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
 function c(el){var r=el.getBoundingClientRect(),m=map.getBoundingClientRect();return{l:r.left-m.left,r:r.right-m.left,y:r.top-m.top+r.height/2}}
 function lines(){var W=map.clientWidth,H=map.clientHeight;svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML='';var core=c(document.getElementById('n-crm'));
  N.forEach(function(n){if(n.side==='C')return;var p=c(document.getElementById('n-'+n.id)),d;
-  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+40)+' '+p.y+' '+(x2-40)+' '+core.y+' '+x2+' '+core.y}
-  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+40)+' '+core.y+' '+(b-40)+' '+p.y+' '+b+' '+p.y}
+  if(n.side==='L'){var x1=p.r,x2=core.l;d='M'+x1+' '+p.y+' C'+(x1+20)+' '+p.y+' '+(x2-20)+' '+core.y+' '+x2+' '+core.y}
+  else{var a=core.r,b=p.l;d='M'+a+' '+core.y+' C'+(a+20)+' '+core.y+' '+(b-20)+' '+p.y+' '+b+' '+p.y}
   var e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('d',d);e.id='p-'+n.id;if(n.id===cur)e.classList.add('hot');svg.appendChild(e)})}
 function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});
