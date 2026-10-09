@@ -50,7 +50,7 @@ class Component extends DCLogic {
       hrefTop: h ? h : '#hjem',
       hrefKontakt: h + '#kontakt',
       btnWrap: { marginLeft: wide ? 0 : 'auto' },
-      links: [
+      links: this.props.lenker || [
         { label: 'Se løsningen', href: h + '#losningen' },
         { label: 'Montørappen', href: h + '#hengsel' },
         { label: 'Kundereisen', href: h + '#reisen' },

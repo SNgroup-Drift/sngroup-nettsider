@@ -30,6 +30,8 @@ interface Props {
   forhandslast?: string[];
   /** Overstyrer robots-taggen, f.eks. "noindex, nofollow" */
   robots?: string;
+  /** Låser fargemodus (data-theme på <html>), f.eks. "light" på forsiden til hengsel.no. Standard: følger systemet */
+  tema?: "light" | "dark";
 }
 
 const {
@@ -44,11 +46,12 @@ const {
   temafarge = ["#F7F5F1", "#1E1916"],
   forhandslast = [newsreader, inter],
   robots,
+  tema,
 } = Astro.props;
 const canonical = Astro.site ? new URL(path, Astro.site).href : undefined;
 ---
 <!doctype html>
-<html lang="nb">
+<html lang="nb" data-theme={tema}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -93,7 +93,7 @@ for (const v of visninger) {
     const fil = `apptest-${v.navn}-${m}-${tilstand}.png`;
     await page.screenshot({ path: join(ut, fil), fullPage: true });
     console.log(`  bilde: docs/skjermbilder/${fil}`);
-    const valgt = await page.$$eval("[data-lastned] .valgt", (e) => e.map((x) => x.dataset.enhet));
+    const valgt = await page.$$eval("[data-lastned] .dark", (e) => e.map((x) => x.dataset.enhet));
     const linje = await page.textContent("[data-enhetslinje]");
     if (v.navn === "mobil") {
       meld(valgt.join() === "iphone" && linje.startsWith("Du bruker iPhone"), `iPhone gjenkjent (${m}): «${linje}»`);
@@ -114,7 +114,7 @@ for (const v of visninger) {
   const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true, userAgent: UA.android });
   const page = await ctx.newPage();
   await loggInn(page);
-  const valgt = await page.$$eval("[data-lastned] .valgt", (e) => e.map((x) => x.dataset.enhet));
+  const valgt = await page.$$eval("[data-lastned] .dark", (e) => e.map((x) => x.dataset.enhet));
   const linje = await page.textContent("[data-enhetslinje]");
   meld(valgt.join() === "android" && linje === "Du bruker Android – trykk den mørke knappen.", `Android gjenkjent: «${linje}»`);
   for (const modus of ["light", "dark"]) {
@@ -137,7 +137,7 @@ for (const v of visninger) {
   const p3 = await ctx3.newPage();
   await loggInn(p3);
   const klasser = await p3.$$eval("[data-lastned] [data-enhet]", (e) => e.map((x) => x.className));
-  meld(klasser.length === 2 && klasser[0] === klasser[1].replace(/\s+$/, "") && !klasser.join().includes("valgt"), "uten skript: begge knappene like");
+  meld(klasser.length === 2 && klasser[0] === klasser[1].replace(/\s+$/, "") && !klasser.join().includes("dark"), "uten skript: begge knappene like");
   await ctx3.close();
 }
 
