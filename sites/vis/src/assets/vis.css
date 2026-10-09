@@ -83,6 +83,7 @@ a{color:var(--accent);text-underline-offset:3px}
 .hlogo .grep{fill:var(--merke-grep)}
 .hlogo .crm{height:.534em;width:auto;margin-left:.248em;align-self:baseline;overflow:visible}
 .hlogo .crm text{fill:var(--merke-crm);font:650 10px var(--sans);letter-spacing:.6px}
+.eyebrow .hlogo{text-transform:none;letter-spacing:-.01em;color:var(--merke-ord)}
 .hlogo .hake{fill:none;stroke:var(--merke-grep);stroke-width:2.33;stroke-linecap:round;stroke-linejoin:round}
 
 /* Felles skall for rommene: topplinje, sidehode, bunntekst. Bredde 1180, marg 24 (16 på mobil), 16 mellom kort */

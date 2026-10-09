@@ -20,7 +20,7 @@
     idag:function(){var d=S.done;
       h('<div class="hdr"><h2>I dag</h2><span class="pill">tirsdag uke 46</span></div>'+
       (d?'<div class="card"><div class="row"><b>Hanne Liksomlien · kjøkken</b><span class="pill ok">Ferdig</span></div><p>Liksomvegen 4, Lillehammer</p></div>':
-      '<div class="next"><span class="k">Neste jobb · 08:00</span><b>Hanne Liksomlien</b><span>Kjøkken · Liksomvegen 4, Lillehammer</span><span style="opacity:.75;font-size:13px">LI-10087 · 2 dager · du og Kari</span><div class="r"><button type="button" id="nav">Naviger</button><button type="button" id="ring">Ring</button><button type="button" class="go" id="open">Åpne jobb</button></div></div>')+
+      '<div class="next"><span class="eyebrow">Neste jobb · 08:00</span><b>Hanne Liksomlien</b><span>Kjøkken · Liksomvegen 4, Lillehammer</span><span class="m">LI-10087 · 2 dager · du og Kari</span><div class="r"><button type="button" class="btn primary" id="open">Åpne jobb</button><button type="button" class="btn" id="ring">Ring</button><button type="button" class="btn" id="nav">Naviger</button></div></div>')+
       '<div class="sec">Beskjed fra selger</div><div class="card"><p>«Kunden har hund, ring på før dere går inn. Sokkelen kommer som rest uke 47.»</p></div>'+
       '<div class="sec">I morgen</div><div class="card"><div class="row"><b>Hanne Liksomlien · dag 2</b><span class="pill">08:00</span></div><p>Benkeplate og hvitevarer</p></div>');
       on('open',function(){step('open');log('Hengsel','Montøren åpnet jobben. Status: <em>Pågår</em>.');S.view='jobb';render()});
@@ -30,7 +30,7 @@
       if(t==='info')body='<div class="card"><b>Hanne Liksomlien</b><p>Liksomvegen 4, 2609 Lillehammer · 900 00 000</p></div>'+
         '<div class="card"><div class="row"><b>Avtalt montasjesum</b><span>18 400 kr</span></div><p>Kjøkken, 2 dager. Ingen kundepriser i appen.</p></div>'+
         '<div class="sec">Jobbløp</div><div class="flow"><span class="pill ok">Forespurt</span><span class="pill ok">Akseptert</span><span class="pill ok">Montør satt</span><span class="pill ok">Kontrollmål</span><span class="pill info">Pågår</span><span class="pill">Ferdig</span><span class="pill">Godkjent</span></div>'+
-        '<div class="act"><button type="button" class="p" id="toks">KS Kjøkken ('+Object.keys(S.ks).length+'/6)</button><button type="button" class="w" id="toav">Meld avvik</button><button type="button" id="tofe">Ferdig montert</button><button type="button" id="kan">Kan ikke ta denne</button></div>';
+        '<div class="act"><button type="button" class="btn primary" id="toks">KS Kjøkken ('+Object.keys(S.ks).length+'/6)</button><button type="button" class="btn" id="toav">Meld avvik</button><button type="button" class="btn" id="tofe">Ferdig montert</button><button type="button" class="btn ghost" id="kan">Kan ikke ta denne</button></div>';
       if(t==='varer')body='<div class="card"><div class="row"><b>Sigdal · kjøkken</b><span class="pill ok">Levert</span></div><p>54 linjer · LI-10087-1</p></div><div class="card"><div class="row"><b>Sokkel, 2 stk</b><span class="pill warn">Rest uke 47</span></div><p>Sigdal · LI-10087-1</p></div><div class="card"><div class="row"><b>BSH · hvitevarer</b><span class="pill ok">Levert</span></div><p>4 linjer · LI-10087-2</p></div><div class="card"><div class="row"><b>Corinor · benkeplate</b><span class="pill info">I morgen</span></div><p>LI-10087-3</p></div><div class="card"><div class="row"><b>Tapwell · armatur</b><span class="pill ok">Levert</span></div><p>LI-10087-4</p></div><div class="card"><div class="row"><b>Røros Metall · ventilator</b><span class="pill ok">Levert</span></div><p>LI-10087-5</p></div>';
       if(t==='dok')body='<div class="sec">Tegninger</div><div class="card"><b>Plan og oppriss</b><p>PDF fra CET · rev. 2</p></div><div class="card"><b>3D</b><p>PDF fra CET</p></div><div class="sec">Underlag</div><div class="card"><b>Monteringskalkyle</b><p>Avtalt sum og timer</p></div><div class="card"><b>Ordrebekreftelser uten priser</b><p>5 leverandører</p></div><div class="sec">FDV</div><div class="card"><b>FDV og varefakta</b><p>Samlet fra produktdata</p></div>';
       if(t==='bilder'){var p='';for(var i=0;i<S.pics;i++)p+='<div class="pic">Bilde '+(i+1)+'</div>';body='<div class="pics">'+p+'<button type="button" class="pic addpic" id="addp">+ Ta bilde</button></div><p class="muted" style="font-size:13px;margin:0">Uten nett legges bildene i kø og sendes senere.</p>'}
@@ -43,7 +43,7 @@
     ks:function(){
       h('<div class="hdr"><button type="button" class="lk" id="bk">‹ Jobben</button><span class="pill">'+Object.keys(S.ks).length+'/6</span></div><div class="hdr"><h2>KS Kjøkken</h2></div><div class="ks">'+
         KS.map(function(k,i){var v=S.ks[i];return '<div class="ksi '+(v==='ok'?'ok':v==='av'?'av':'')+'"><b>'+(i+1)+'. '+k+'</b><div class="b"><button type="button" class="y" data-i="'+i+'" data-v="ok">OK</button><button type="button" class="n" data-i="'+i+'" data-v="av">Avvik</button></div></div>'}).join('')+
-        '</div><button type="button" class="big p" id="ksdone">Lagre KS</button>');
+        '</div><button type="button" class="btn primary big" id="ksdone">Lagre KS</button>');
       on('bk',function(){go('jobb')});
       [].forEach.call(document.querySelectorAll('.ksi button'),function(b){b.onclick=function(){var i=+b.dataset.i;S.ks[i]=b.dataset.v;
         if(b.dataset.v==='av'){S.av={type:'Mangler',skap:'Høyskap H3',txt:KS[i]+': ',pic:false};S.view='avvik';render();return}render()}});
@@ -55,7 +55,7 @@
         '<label class="f">Hvor<select id="skap">'+['Høyskap H3','Overskap O2','Underskap U4','Benkeplate','Hvitevare'].map(function(x){return '<option'+(a.skap===x?' selected':'')+'>'+x+'</option>'}).join('')+'</select></label>'+
         '<label class="f">Hva er galt<textarea id="txt" placeholder="Skriv kort, gjerne på eget språk">'+a.txt+'</textarea></label>'+
         '<div class="pics">'+(a.pic?'<div class="pic">Bilde av avviket</div>':'<button type="button" class="pic addpic" id="ap">+ Ta bilde</button>')+'</div>'+
-        '<button type="button" class="big p" id="send">Send avvik</button>');
+        '<button type="button" class="btn primary big" id="send">Send avvik</button>');
       on('bk',function(){go('jobb')});
       [].forEach.call($('types').children,function(b){b.onclick=function(){a.type=b.textContent;a.txt=$('txt').value;a.skap=$('skap').value;render()}});
       on('ap',function(){a.pic=true;a.txt=$('txt').value;a.skap=$('skap').value;render()});
@@ -71,7 +71,7 @@
         '<label class="f">Timer brukt<input type="number" id="tim" step="0.5" min="0" value="'+S.timer+'"></label>'+
         '<label class="chk"><input type="checkbox" id="borte"'+(S.borte?' checked':'')+'> Kunden er ikke til stede</label>'+
         (S.borte?'<p class="muted" style="margin:0;font-size:14px">Kunden får lenke på SMS og godkjenner selv.</p>':'<label class="f">Kundens signatur<canvas id="sig" aria-label="Signaturfelt"></canvas></label><button type="button" class="btn" id="clr" style="justify-self:start">Tøm</button>')+
-        '<button type="button" class="big p" id="meld">Meld ferdig</button>');
+        '<button type="button" class="btn primary big" id="meld">Meld ferdig</button>');
       on('bk',function(){go('jobb')});
       $('borte').onchange=function(){S.borte=this.checked;S.timer=$('tim').value;render()};
       var c=$('sig');if(c){var r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=r.width*dpr;c.height=r.height*dpr;var x=c.getContext('2d');x.scale(dpr,dpr);x.lineWidth=2.2;x.lineCap='round';x.strokeStyle=getComputedStyle(document.body).color;var dn=false;S.sig=false;
@@ -85,7 +85,7 @@
         log('CRM','Selgeren fikk beskjed. Leveringspakken «Ditt nye kjøkken» med FDV er klar til sending.');
         log('CRM','Montørfaktura kan kontrolleres mot avtalt sum 18 400 kr.');
         go('ok')})},
-    ok:function(){h('<div class="doneb"><div class="c">✓</div><b>Jobben er ferdig</b><p class="muted" style="margin:0">Selgeren og montasjelederen har fått beskjed. Du trenger ikke ringe noen.</p><button type="button" class="big p" id="hjem" style="width:100%">Til I dag</button></div>');on('hjem',function(){S.tab='idag';go('idag')})},
+    ok:function(){h('<div class="doneb"><div class="c">✓</div><b>Jobben er ferdig</b><p class="muted" style="margin:0">Selgeren og montasjelederen har fått beskjed. Du trenger ikke ringe noen.</p><button type="button" class="btn primary big" id="hjem" style="width:100%">Til I dag</button></div>');on('hjem',function(){S.tab='idag';go('idag')})},
     uke:function(){h('<div class="hdr"><h2>Uke 46</h2></div>'+['Man · Liksomlien dag 1','Tir · Liksomlien dag 2','Ons · Demo Bad, Hamar','Tor · Kontrollmål, Gjøvik','Fre · Ledig'].map(function(x){return '<div class="card"><b>'+x+'</b></div>'}).join(''))},
     kom:function(){h('<div class="hdr"><h2>Kommende</h2></div><div class="card"><b>Uke 47 · sokkel (rest)</b><p>LI-10087 · kort besøk</p></div><div class="card"><b>Uke 48 · Demo Garderobe</b><p>Lillehammer</p></div>')},
     ferd:function(){h('<div class="hdr"><h2>Ferdige</h2></div>'+(S.done?'<div class="card"><div class="row"><b>Hanne Liksomlien</b><span class="pill ok">Ferdig</span></div><p>LI-10087 · i dag</p></div>':'')+'<div class="card"><div class="row"><b>Demo Vaskerom</b><span class="pill ok">Godkjent</span></div><p>Uke 45</p></div>')},

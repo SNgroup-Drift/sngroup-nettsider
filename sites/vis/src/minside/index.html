@@ -10,89 +10,109 @@
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-.wrap{max-width:1180px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
-h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
-.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
-.stage{display:grid;grid-template-columns:400px minmax(0,1fr);gap:24px;align-items:start}
-.phone{background:var(--fg);border-radius:44px;padding:12px;max-width:390px;width:100%;justify-self:center}
-.scr{background:var(--bg);border-radius:34px;height:720px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
-.ph{padding:18px 18px 10px;display:flex;justify-content:space-between;align-items:center}
-.ph .lg{font:400 22px var(--serif)}
-.ph span{font-size:12px;color:var(--muted)}
-.body{overflow:auto;padding:4px 16px 16px;display:grid;gap:12px;align-content:start}
-.body h2{font:400 26px/1.15 var(--serif);margin:4px 0 0}
-.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:8px;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
+/* Rommal b) Prøv selv: telefonen i midten, sidepanel til høyre */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 390px minmax(0,1fr);gap:24px;align-items:start}
+.phone{grid-column:2;width:390px;max-width:100%;height:844px;border-radius:52px;padding:10px;background:#1B1713;border:1px solid var(--line);justify-self:center}
+.scr{background:var(--bg);color:var(--fg);border-radius:42px;height:100%;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;overflow:hidden}
+.sb{height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;font:600 15px var(--sans);font-variant-numeric:tabular-nums}
+.sb svg{display:block}
+.ph{padding:6px 20px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ph .lg{font:400 1.45rem/1 var(--serif);letter-spacing:-.015em}
+.ph span{font-size:13px;color:var(--muted)}
+.body{overflow:auto;padding:8px 20px 24px;display:grid;gap:12px;align-content:start}
+.body h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:4px 0 0;text-wrap:balance}
+.c{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:8px;font-size:15px;line-height:1.5;min-width:0}
 .c b{font-weight:600}
 .c p{margin:0;color:var(--muted)}
-.tl{display:grid;gap:0}
-.tl>div{display:grid;grid-template-columns:22px 1fr;gap:10px;padding-bottom:12px;position:relative;font-size:14px}
-.tl>div::before{content:"";width:12px;height:12px;border-radius:6px;border:2px solid var(--sand);background:var(--bg);margin-top:4px;z-index:1}
-.tl>div::after{content:"";position:absolute;left:6px;top:16px;bottom:0;width:2px;background:var(--line)}
+.c p.ok{color:var(--ok);font-weight:500}
+.tl{display:grid}
+.tl>div{display:grid;grid-template-columns:22px 1fr;gap:10px;padding-bottom:12px;position:relative}
+.tl>div::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--sand);background:var(--bg);margin-top:5px;z-index:1;box-sizing:border-box}
+.tl>div::after{content:"";position:absolute;left:5px;top:18px;bottom:0;width:2px;background:var(--line)}
+.tl>div:last-child{padding-bottom:0}
 .tl>div:last-child::after{display:none}
 .tl>div.d::before{background:var(--ok);border-color:var(--ok)}
 .tl>div.n::before{background:var(--accent);border-color:var(--accent)}
 .tl span{color:var(--muted);font-size:13px;display:block}
-.ln{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
-.ln:last-child{border-bottom:0}
+.ln{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.ln:last-child{border-bottom:0;padding-bottom:0}
 .ln span{font-size:13px;color:var(--muted)}
-.ln .p{font-variant-numeric:tabular-nums;white-space:nowrap}
-.sw{position:relative;width:46px;height:28px;border-radius:14px;background:var(--line);border:0;cursor:pointer;transition:background .2s;grid-row:1/span 2;grid-column:2}
-.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:var(--card);transition:transform .2s}
-.sw[aria-checked="true"]{background:var(--accent)}
-.sw[aria-checked="true"]::after{transform:translateX(18px)}
-.tot{display:flex;justify-content:space-between;align-items:baseline;font-size:15px}
-.tot b{font:400 26px var(--serif);font-variant-numeric:tabular-nums}
-.big{min-height:50px;border-radius:14px;font:500 15px var(--sans);border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;padding:0 16px;width:100%}
-.big.p{background:var(--accent);border-color:var(--accent);color:var(--card)}
-.big:disabled{opacity:.45;cursor:default}
+.ln .p{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--fg);font-size:15px}
+.ln .switch{grid-row:1/span 2;grid-column:2}
+.ln .switch:disabled{opacity:.45;cursor:not-allowed}
+.tot{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.tot b{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.big{width:100%;min-height:48px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
-.chips button{border:1px solid var(--line);border-radius:20px;background:var(--card);font:500 14px var(--sans);padding:8px 12px;cursor:pointer;color:var(--fg);min-height:40px}
-.chips button.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
-textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:12px;padding:10px;font:14px var(--sans);background:var(--card);color:var(--fg);resize:vertical}
-.photo{height:110px;border-radius:12px;background:repeating-linear-gradient(45deg,var(--soft) 0 10px,var(--line) 10px 20px);display:grid;place-items:center;color:var(--muted);font-size:13px}
-.doc{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
-.doc:last-child{border-bottom:0}
-.nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--card);padding:6px 4px 14px}
-.nav button{border:0;background:none;font:500 11px var(--sans);color:var(--muted);padding:8px 2px;cursor:pointer;display:grid;justify-items:center;gap:3px;min-height:48px;position:relative}
-.nav button.on{color:var(--accent)}
-.nav i{width:20px;height:3px;border-radius:2px;background:currentColor;opacity:.5}
-.nav button.on i{opacity:1}
-.dot{position:absolute;top:4px;right:calc(50% - 18px);width:8px;height:8px;border-radius:4px;background:var(--warn)}
-.side{display:grid;gap:14px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px}
-.panel h3{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
-.guide{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.guide li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
-.guide li span{flex:none;width:22px;height:22px;border-radius:11px;border:1.6px solid var(--sand);display:grid;place-items:center;font:600 12px var(--sans);color:var(--muted)}
-.guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card)}.guide li.d{color:var(--muted)}
-.log{display:grid;gap:8px;max-height:360px;overflow:auto}
-.log div{font-size:14px;padding-bottom:8px;border-bottom:1px solid var(--line);animation:li .4s ease}
-@keyframes li{from{opacity:0}}
+.chips button{border:1px solid var(--fg);border-radius:var(--r-pill);background:transparent;font:500 14px var(--sans);padding:0 14px;cursor:pointer;color:var(--fg);min-height:40px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.chips button:hover{background:var(--soft)}
+.chips button.on{background:var(--fg);color:var(--bg)}
+textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:var(--r-field);padding:10px 12px;font:15px/1.5 var(--sans);background:var(--card);color:var(--fg);resize:vertical}
+.photo{height:110px;border-radius:var(--r-field);background:var(--soft);border:1.5px dashed var(--sand);display:grid;place-items:center;color:var(--muted);font-size:13px}
+.doc{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.doc:last-child{border-bottom:0;padding-bottom:0}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--bg);padding:8px 4px 24px}
+.nav button{border:0;background:none;font:400 12px var(--sans);color:var(--muted);padding:8px 2px;cursor:pointer;min-height:44px;position:relative;border-radius:var(--r-sm);transition:color var(--dur) var(--ease)}
+.nav button:hover{color:var(--fg)}
+.nav button.on{color:var(--accent);font-weight:500}
+.nav i{display:none}
+.dot{position:absolute;top:6px;right:calc(50% - 22px);width:8px;height:8px;border-radius:50%;background:var(--warn)}
+/* Sidepanel: «Prøv dette» og «Samtidig i Hengsel» */
+.side{grid-column:3;display:grid;gap:16px;align-content:start;min-width:0}
+.panel{display:grid;gap:12px;align-content:start}
+.panel h3{margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.panel h3 .hlogo{text-transform:none;letter-spacing:-.01em;padding-top:0}
+.panel>.btn{justify-self:start}
+.guide{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.guide li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5}
+.guide li span{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--sand);display:grid;place-items:center;font:600 12px/1 var(--sans);color:var(--muted);transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.guide li.d{color:var(--muted)}
+.guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card);font-size:0}
+.guide li.d span::before{content:"✓";font-size:13px}
+.log{display:grid;gap:8px;max-height:380px;overflow:auto;font-size:15px;line-height:1.5}
+.log div{padding-bottom:8px;border-bottom:1px solid var(--line)}
+.log div:last-child{border-bottom:0;padding-bottom:0}
 .log b{font-weight:600}
-.log em{font-style:normal;color:var(--muted);font-size:12px;margin-right:6px}
-.ok{color:var(--ok)}
-@media (max-width:900px){.stage{grid-template-columns:1fr}.scr{height:680px}}
-
-.view{display:flex;gap:6px}
-.view button{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:20px;padding:7px 14px;font:500 14px var(--sans);cursor:pointer;min-height:40px}
-.view button.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
-.pc .stage{grid-template-columns:1fr}
-.pc .phone{max-width:none;border-radius:16px;padding:0;background:var(--card);border:1px solid var(--line);overflow:hidden}
-.pc .phone::before{content:"Min side i nettleseren (demo)";display:block;font:12px var(--sans);color:var(--muted);background:var(--soft);border-bottom:1px solid var(--line);padding:9px 14px}
+.log em{font-style:normal;color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
+/* PC-visning: Min side i nettleseren */
+.pc .stage{grid-template-columns:minmax(0,1fr)}
+.pc .phone,.pc .side{grid-column:auto}
+.pc .phone{width:auto;max-width:none;height:auto;border-radius:var(--r);padding:0;background:var(--card);border:1px solid var(--line);overflow:hidden;justify-self:stretch}
+.pc .phone::before{content:"Min side i nettleseren (demo)";display:block;font:13px var(--sans);color:var(--muted);background:var(--soft);border-bottom:1px solid var(--line);padding:9px 16px}
+.pc .sb{display:none}
 .pc .scr{border-radius:0;height:640px;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
 .pc .ph{grid-column:1/-1;border-bottom:1px solid var(--line);padding:14px 22px}
-.pc .nav{grid-row:2;grid-column:1;grid-template-columns:1fr;align-content:start;border-top:0;border-right:1px solid var(--line);background:var(--soft);padding:12px 8px;gap:2px}
-.pc .nav button{justify-items:start;font-size:14px;padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:10px}
-.pc .nav button.on{background:var(--line);color:var(--fg)}
-.pc .nav i{display:none}
+.pc .nav{grid-row:2;grid-column:1;grid-template-columns:1fr;align-content:start;border-top:0;border-right:1px solid var(--line);background:var(--bg);padding:12px 8px;gap:2px}
+.pc .nav button{font-size:15px;padding:10px 12px;border-radius:var(--r-field);display:flex;align-items:center;gap:10px;color:var(--fg);text-align:left}
+.pc .nav button:hover{background:var(--soft)}
+.pc .nav button.on{background:var(--line);color:var(--fg);font-weight:600}
 .pc .nav .dot{position:static;margin-left:auto}
-.pc .body{grid-row:2;grid-column:2;padding:20px 28px;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+.pc .body{grid-row:2;grid-column:2;padding:20px 28px;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;align-items:start}
 .pc .body>h2{grid-column:1/-1}
-.pc .body{align-items:start}
-.pc .log{align-content:start}
 .pc .body>.c:first-of-type{grid-column:1/-1}
-.pc .side{grid-template-columns:1fr 1fr}
-@media (max-width:900px){.pc .scr{grid-template-columns:1fr;grid-template-rows:auto auto minmax(0,1fr);height:auto;min-height:600px}.pc .nav{grid-row:2;grid-template-columns:repeat(5,1fr);border-right:0;border-bottom:1px solid var(--line)}.pc .nav button{font-size:12px;padding:8px 4px;justify-content:center}.pc .body{grid-row:3;grid-column:1;grid-template-columns:1fr;padding:16px}.pc .side{grid-template-columns:1fr}}
+.pc .side{grid-template-columns:1fr 1fr;align-items:start}
+@media (max-width:1060px){
+  .stage{grid-template-columns:390px minmax(0,1fr)}
+  .phone{grid-column:1}.side{grid-column:2}
+}
+@media (max-width:860px){
+  .stage{grid-template-columns:minmax(0,1fr)}
+  .phone,.side{grid-column:auto}
+  .pc .scr{grid-template-columns:1fr;grid-template-rows:auto auto minmax(0,1fr);height:auto;min-height:600px}
+  .pc .nav{grid-row:2;grid-template-columns:repeat(5,1fr);border-right:0;border-bottom:1px solid var(--line);padding:6px 4px}
+  .pc .nav button{font-size:12px;padding:8px 4px;justify-content:center;text-align:center}
+  .pc .body{grid-row:3;grid-column:1;grid-template-columns:1fr;padding:16px}
+  .pc .side{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{padding-inline:16px}
+  /* På mobil faller telefonrammen bort: skjermen blir et kort i full bredde */
+  .phone{width:100%;height:760px;padding:0;background:none;border:0;border-radius:0}
+  .scr{border-radius:var(--r);border:1px solid var(--line)}
+  .sb{padding:0 22px}
+  .ph,.body{padding-inline:16px}
+}
 </style>
 </head>
 <body>
@@ -103,19 +123,20 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:1
     <h1>Kundens Min side</h1>
     <p class="lede">Du er Familien Lund. Bytt mellom mobil og PC øverst. Velg tilvalg, godkjenn tilbudet, bekreft leveringen og meld en feil etter montering. Ved siden av ser du hva som skjer i CRM-et samtidig.</p>
   </header>
-  <div class="view" id="view" role="group" aria-label="Visning"><button type="button" data-v="mob" class="on">Mobil</button><button type="button" data-v="pc">PC</button></div>
+  <div><div class="tabs" id="view" role="group" aria-label="Visning"><button type="button" data-v="mob" class="on" aria-pressed="true">Mobil</button><button type="button" data-v="pc" aria-pressed="false">PC</button></div></div>
   <div class="stage">
     <div class="phone"><div class="scr">
+      <div class="sb" aria-hidden="true"><span>09.41</span><svg width="44" height="12" viewBox="0 0 44 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.5 10.5v-1.5M5.5 10.5V7.5M9.5 10.5V5M13.5 10.5V2.5"/><rect x="20" y="1.75" width="20" height="8.5" rx="2.5"/><path d="M42.5 4.75v2.5"/><rect x="22.5" y="4.25" width="12" height="3.5" rx="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="ph"><span class="lg">Studio Sigdal</span><span>Familien Lund</span></div>
       <div class="body" id="body"></div>
       <nav class="nav" id="nav"></nav>
     </div></div>
     <aside class="side">
-      <section class="panel"><h3>Prøv dette</h3>
+      <section class="card panel"><h3 class="eyebrow">Prøv dette</h3>
         <ol class="guide" id="guide"><li data-k="tilvalg"><span>1</span>Legg til et tilvalg i tilbudet</li><li data-k="godkjenn"><span>2</span>Godkjenn og signer</li><li data-k="lev"><span>3</span>Bekreft leveringen</li><li data-k="feil"><span>4</span>Meld en feil med bilde</li></ol>
-        <button class="btn" id="reset" type="button">Start på nytt</button>
+        <button class="btn ghost" id="reset" type="button">Start på nytt</button>
       </section>
-      <section class="panel"><h3>Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
+      <section class="card panel"><h3 class="eyebrow">Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
     </aside>
   </div>
   <p class="foot">Demoen er ikke koblet til ekte data, og ingenting signeres. Skrifter: Newsreader og Inter.</p>

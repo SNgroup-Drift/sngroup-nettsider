@@ -16,19 +16,19 @@ function render(){
  if(S.tab==='hjem'){
   var st=[['Tilbud mottatt','12. oktober',1],['Godkjent og signert',S.signert?'I dag':'Venter på deg',S.signert],['Bestilt fra fabrikken',S.signert?'Bekreftet uke 47':'',S.signert],['Levering',S.lev?'Uke 47, onsdag 08–10':'Uke 47',S.lev],['Montering','Uke 47–48',0],['Ferdig og FDV','',0]];
   var next=st.findIndex(function(x){return !x[2]});
-  h='<h2>Hei, Lund!</h2><div class="c"><b>'+(S.signert?(S.lev?'Alt er klart til levering':'Bekreft leveringen'):'Tilbudet venter på deg')+'</b><p>'+(S.signert?(S.lev?'Vi sender SMS dagen før med tidsvindu.':'Fortell oss hvordan sjåføren kommer inn.'):'Se gjennom, velg tilvalg og godkjenn.')+'</p><button class="big p" type="button" id="cta">'+(S.signert?(S.lev?'Se dokumenter':'Til levering'):'Åpne tilbudet')+'</button></div>';
+  h='<h2>Hei, Lund!</h2><div class="c"><b>'+(S.signert?(S.lev?'Alt er klart til levering':'Bekreft leveringen'):'Tilbudet venter på deg')+'</b><p>'+(S.signert?(S.lev?'Vi sender SMS dagen før med tidsvindu.':'Fortell oss hvordan sjåføren kommer inn.'):'Se gjennom, velg tilvalg og godkjenn.')+'</p><button class="btn primary big" type="button" id="cta">'+(S.signert?(S.lev?'Se dokumenter':'Til levering'):'Åpne tilbudet')+'</button></div>';
   h+='<div class="c"><b>Slik går det</b><div class="tl">'+st.map(function(x,i){return '<div class="'+(x[2]?'d':i===next?'n':'')+'"><div>'+x[0]+(x[1]?'<span>'+x[1]+'</span>':'')+'</div></div>'}).join('')+'</div></div>';
   h+='<div class="c"><b>Selgeren din</b><p>Ingrid, Studio Sigdal Hamar. Svarer på meldinger her innen én arbeidsdag.</p></div>';
  }
  if(S.tab==='tilbud'){
   h='<h2>Tilbud T-1204</h2><div class="c">'+BASE.map(function(x){return '<div class="ln"><b>'+x[0]+'</b><span class="p">'+fmt(x[2])+' kr</span><span>'+x[1]+'</span></div>'}).join('')+'</div>';
-  h+='<div class="c"><b>Tilvalg</b><p>Slå av og på. Prisen oppdateres med en gang.</p>'+OPT.map(function(x){return '<div class="ln"><b>'+x[1]+' · +'+fmt(x[3])+' kr</b><button class="sw" type="button" role="switch" aria-label="'+x[1]+'" aria-checked="'+!!S.opt[x[0]]+'" data-o="'+x[0]+'"'+(S.signert?' disabled':'')+'></button><span>'+x[2]+'</span></div>'}).join('')+'</div>';
-  h+='<div class="c"><div class="tot"><span>Totalt inkl. mva</span><b>'+fmt(total())+' kr</b></div>'+(S.signert?'<p class="ok">Godkjent og signert. Endringer går via selgeren.</p>':S.godkjent?'<p>Kontrakten er klar. Les og signer.</p><button class="big p" type="button" id="sign">Signer kontrakten (demo)</button>':'<button class="big p" type="button" id="ok">Godkjenn tilbudet</button>')+'</div>';
+  h+='<div class="c"><b>Tilvalg</b><p>Slå av og på. Prisen oppdateres med en gang.</p>'+OPT.map(function(x){return '<div class="ln"><b>'+x[1]+' · +'+fmt(x[3])+' kr</b><button class="switch sw" type="button" role="switch" aria-label="'+x[1]+'" aria-checked="'+!!S.opt[x[0]]+'" data-o="'+x[0]+'"'+(S.signert?' disabled':'')+'></button><span>'+x[2]+'</span></div>'}).join('')+'</div>';
+  h+='<div class="c"><div class="tot"><span>Totalt inkl. mva</span><b>'+fmt(total())+' kr</b></div>'+(S.signert?'<p class="ok">Godkjent og signert. Endringer går via selgeren.</p>':S.godkjent?'<p>Kontrakten er klar. Les og signer.</p><button class="btn primary big" type="button" id="sign">Signer kontrakten (demo)</button>':'<button class="btn primary big" type="button" id="ok">Godkjenn tilbudet</button>')+'</div>';
  }
  if(S.tab==='lev'){
-  if(!S.signert)h='<h2>Levering</h2><div class="c"><p>Leveringsuka kommer her når tilbudet er signert og bestilt.</p><button class="big" type="button" data-go="tilbud">Til tilbudet</button></div>';
+  if(!S.signert)h='<h2>Levering</h2><div class="c"><p>Leveringsuka kommer her når tilbudet er signert og bestilt.</p><button class="btn big" type="button" data-go="tilbud">Til tilbudet</button></div>';
   else{h='<h2>Levering uke 47</h2><div class="c"><b>Onsdag 19. november, 08–10</b><p>Sigdal leverer til døra. Vi bærer inn når montøren kommer.</p></div>';
-   h+='<div class="c"><b>Hvordan kommer sjåføren inn?</b><div class="chips" id="tg">'+['Noen er hjemme','Nøkkelboks','Ring meg'].map(function(x){return '<button type="button" class="'+(S.tilgang===x?'on':'')+'">'+x+'</button>'}).join('')+'</div>'+(S.lev?'<p class="ok">Bekreftet. Takk!</p>':'<button class="big p" type="button" id="lev"'+(S.tilgang?'':' disabled')+'>Bekreft leveringen</button>')+'</div>';
+   h+='<div class="c"><b>Hvordan kommer sjåføren inn?</b><div class="chips" id="tg">'+['Noen er hjemme','Nøkkelboks','Ring meg'].map(function(x){return '<button type="button" class="'+(S.tilgang===x?'on':'')+'">'+x+'</button>'}).join('')+'</div>'+(S.lev?'<p class="ok">Bekreftet. Takk!</p>':'<button class="btn primary big" type="button" id="lev"'+(S.tilgang?'':' disabled')+'>Bekreft leveringen</button>')+'</div>';
    h+='<div class="c"><b>Før vi kommer</b><p>Tøm rommet, og sørg for fri vei fra bilen. Vann og strøm skal være klart for tilkobling.</p></div>'}
  }
  if(S.tab==='dok'){
@@ -37,7 +37,7 @@ function render(){
  }
  if(S.tab==='feil'){
   if(S.feil)h='<h2>Takk for beskjeden</h2><div class="c"><b>Sak R-0412 er opprettet</b><p>Ingrid ser saken nå, og du får svar innen én arbeidsdag. Du finner saken her til den er løst.</p><span class="pill info" style="justify-self:start">Under behandling</span></div>';
-  else h='<h2>Meld en feil</h2><div class="c"><b>Hva gjelder det?</b><div class="chips" id="hva">'+['Skade på front','Dør henger skjevt','Mangler del','Annet'].map(function(x,i){return '<button type="button" class="'+(i===0?'on':'')+'">'+x+'</button>'}).join('')+'</div><textarea id="txt" aria-label="Beskriv feilen">Liten flis i hjørnet på skuffefronten under platetoppen.</textarea><div class="photo">Bilde lagt ved (demo)</div><button class="big p" type="button" id="send">Send til Studio Sigdal</button></div>';
+  else h='<h2>Meld en feil</h2><div class="c"><b>Hva gjelder det?</b><div class="chips" id="hva">'+['Skade på front','Dør henger skjevt','Mangler del','Annet'].map(function(x,i){return '<button type="button" class="'+(i===0?'on':'')+'">'+x+'</button>'}).join('')+'</div><textarea id="txt" aria-label="Beskriv feilen">Liten flis i hjørnet på skuffefronten under platetoppen.</textarea><div class="photo">Bilde lagt ved (demo)</div><button class="btn primary big" type="button" id="send">Send til Studio Sigdal</button></div>';
  }
  $('body').innerHTML=h;wire()}
 function wire(){var q=function(s){return $('body').querySelector(s)};
