@@ -1,6 +1,6 @@
 /* Felles verdier for Visningsrommet. Lastes før sidens eget skript.
    Statusdatoen vises i Systemkartet (nb/sv/en) og Veikartet. Endre den bare her. */
-var VIS={statusDato:[2026,10,7]}; // år, måned (1–12), dag
+var VIS={statusDato:[2026,10,9]}; // år, måned (1–12), dag
 (function(){
 var d=VIS.statusDato,dato=new Date(d[0],d[1]-1,d[2]),to=function(n){return (n<10?'0':'')+n};
 var form={

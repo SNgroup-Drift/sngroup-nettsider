@@ -8,11 +8,17 @@ var L=[
  {id:'m365',l:'na',st:'ok',t:'Microsoft 365: bestilling@ og varsel@',g:'Én fast inngang for leverandørene og felles varsler ut.',w:'',dep:[],
   hva:'Ordrebekreftelser, fraktvarsler og fakturaer kommer til bestilling@studiosigdal-innlandet.no. Varsler går ut fra varsel@. Alle logger inn med jobbkontoen.',neste:'Flere leverandører over på bestilling@ med leverandørbrevet.'},
  {id:'min',l:'na',st:'ok',t:'Min side for kunder',g:'Kunden ser tilbud, kontrakt, leveringsuke og FDV selv.',w:'',dep:[],
-  hva:'Kunden har alt på ett sted og slipper å ringe for status. Godkjenninger og endringsønsker kommer rett inn i CRM.',neste:'Signering i portalen (Penneo vurderes).'},
+  hva:'Kunden har alt på ett sted og slipper å ringe for status. Godkjenninger og endringsønsker kommer rett inn i CRM.',neste:'Signering i portalen med Penneo.'},
  {id:'hen',l:'na',st:'ok',t:'Hengsel montørapp',g:'Montøren har jobb, tegning og varer i lomma.',w:'',dep:[],
   hva:'Montasjefirmaet svarer innen 48 timer. KS, bilder, avvik, timer og signatur kommer tilbake til ordren.',neste:'Tegningen som arbeidsflate når DXF er på plass.'},
  {id:'ob',l:'na',st:'ok',t:'Lesing av OB fra Sigdal (PDF)',g:'Ordrebekreftelsen leses automatisk og kobles til ordren.',w:'',dep:['Sigdal'],
   hva:'PDF-en fra Sigdal leses av CRM, og linjene legges på riktig ordre. Selgeren slipper å lete i innboksen.',neste:'OB som XML fra Sigdal (S-55) gjør lesingen sikrere.'},
+ {id:'sign',l:'na',st:'ok',t:'Signering (Penneo)',g:'Kunden signerer kontrakten med BankID via Penneo.',w:'',dep:[],
+  hva:'Kontrakten signeres med BankID rett fra CRM, og kontrolleres mot ordren når den er signert.',neste:'Ta i bruk i alle butikker.'},
+ {id:'po',l:'na',st:'ok',t:'PowerOffice Go',g:'Kunder, prosjekter og faktura fra CRM.',w:'',dep:[],
+  hva:'Prosjekt per kategori og år, med selger og avdeling riktig fra start.',neste:'Flere felt og automatikk er under utvikling.'},
+ {id:'lev',l:'na',st:'ok',t:'Andre leverandører (e-post)',g:'Tapwell, Røros, Corinor, KA og Intra.',w:'',dep:['Leverandører'],
+  hva:'Bestilling og OB via e-post er i drift.',neste:'EDI og filformater er under utvikling.'},
 
  {id:'cf',l:'q4',st:'opp',t:'CRM til Cloudflare i drift',g:'Raskere og sikrere drift med egen produksjon.',w:'Mål: november 2026',dep:[],
   hva:'CRM kjører i et eget produksjonsmiljø med sikker innlogging og backup. Testmiljøet står igjen for nye funksjoner.',neste:'Siste test av innlogging og data, så bytte av adresse.'},
@@ -22,8 +28,6 @@ var L=[
   hva:'Én kobling gir pris, lager og ordrebekreftelse fra de store hvitevaremerkene.',neste:'Entitet er bestilt. Venter på at Tradeplace åpner tilgangen.'},
  {id:'ok',l:'q4',st:'del',t:'Ordrekontroll: tegning mot OB',g:'Avvik mellom tegning og bekreftelse fanges før produksjon.',w:'Mål: desember 2026',dep:['Sigdal'],
   hva:'CRM sammenligner elementlista fra tegningen med OB og lager sak på hvert avvik før endringsfristen går ut.',neste:'Utvide kontrollen til tilvalg og benkeplater.'},
- {id:'sign',l:'q4',st:'plan',t:'Signering i portalen',g:'Kunden signerer kontrakten rett på Min side.',w:'Mål: desember 2026',dep:['Penneo'],
-  hva:'Kontrakten sendes og signeres med BankID fra Min side, og kontrolleres mot ordren når den er signert.',neste:'Penneo vurderes. Avklare pris og oppsett.'},
 
  {id:'fk',l:'q1',st:'plan',t:'Fakturakontroll mot OB',g:'Leverandørfakturaen sjekkes mot bekreftet pris og frakt.',w:'Mål: februar 2027',dep:['PowerOffice Go'],
   hva:'Avvik i pris eller frakt som ikke er avtalt, blir sak før fakturaen godkjennes i PowerOffice Go.',neste:'Koble EHF-fakturaer fra PowerOffice Go til ordren i CRM.'},
@@ -64,8 +68,7 @@ var DEP=[
    ['Tapwell og Pagero','Oppsett av EDI for OB og faktura.',['tap']],
    ['Røros','Godkjenne Excel-malen for bestilling og OB.',['ror']]]],
  ['Andre',[
-   ['Unifon','Avsender og avtale for SMS.',['sms']],
-   ['Penneo','Pris og oppsett for signering i portalen.',['sign']]]]
+   ['Unifon','Avsender og avtale for SMS.',['sms']]]]
 ];
 var cur='alle',q='',open=null;
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
