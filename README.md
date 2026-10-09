@@ -7,6 +7,8 @@ Nettstedene til SN Group (ES-HOLDING AS, org.nr. 927 363 585), samlet i ett repo
 | sngroup.no | `sites/sngroup` | Forsiden med plantegningen, virksomhetene, Hengsel, kontakt, `/personvern` (montørappen Hengsel) og `/design` |
 | hengsel.no | `sites/hengsel` | Forside, personvern og 404 (K-87 del 4) |
 | byggem.no | `sites/byggem` | Forside, prosjekter, kontakt, personvern og 404 (K-87 del 5) |
+| vis.hengsel.no | `sites/vis` | Visningsrommet: demoer av hele løsningen, bare for inviterte (Cloudflare Access) |
+| design.hengsel.no | `sites/design` | Designgalleriet: alle `docs/design/**/*.dc.html` fra Claude Design, bare for inviterte. Bygges fra grenen `demo` |
 | vis.sngroup.no | `sites/vis` | Visningsrommet: lukket demo bak Cloudflare Access, ren HTML uten Astro, på Cloudflare Pages (K-110, se `sites/vis/README.md`) |
 
 Alt er statisk (Astro, og ren HTML for Visningsrommet): ingen server, ingen database, ingen sporing og ingen informasjonskapsler. Eneste unntak er

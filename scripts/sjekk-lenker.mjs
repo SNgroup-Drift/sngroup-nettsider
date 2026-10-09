@@ -45,7 +45,7 @@ for (const navn of nettsteder) {
   }
   const server = await startServer(dist);
   const base = `http://127.0.0.1:${server.address().port}`;
-  const sider = await htmlFiler(dist);
+  const sider = (await htmlFiler(dist)).filter((s) => !(navn === "design" && s.startsWith("/design/")));
   const ko = [...sider];
   const sett = new Set(ko);
   const idCache = new Map();
@@ -69,6 +69,9 @@ for (const navn of nettsteder) {
       continue;
     }
     const type = r.headers.get("content-type") ?? "";
+    // Designgalleriet (design): filene under /design/ er Claude Design-kanvaser med maler ({{ … }}) og Google Fonts.
+    // De skal bare svare 200, ikke gjennomsøkes.
+    if (navn === "design" && side.startsWith("/design/")) continue;
     const js = type.includes("javascript");
     if (!type.includes("html") && !type.includes("css") && !js) continue;
     const tekst = await r.text();

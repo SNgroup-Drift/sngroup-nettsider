@@ -1,0 +1,14 @@
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
+# Forsiden og 404 har ingen skript og bare egne filer. Designfilene under /design/ henter skrifter fra Google Fonts og
+# har egne skript (support.js, _ds_bundle.js, inline), så de får ikke denne CSP-en.
+/
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+/404.html
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'

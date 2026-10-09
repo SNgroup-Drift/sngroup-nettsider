@@ -290,3 +290,63 @@ samme commit som `main`). Skriftene skal komme fra `/fonts/`, ikke fra Google (D
   og status 200 på alt (enkeltside-modus).
 - Sjekk etter publisering, innlogget: `https://vis.sngroup.no/finnes-ikke` skal vise «Fant ikke siden».
 - `robots.txt` stenger for søkemotorer, men det er Access som faktisk holder nettstedet privat.
+
+## design
+
+Designgalleriet (`design.hengsel.no`) viser alle `docs/design/**/*.dc.html` fra Claude Design i nummerrekkefølge med
+tittel og dato (se `sites/design/README.md`). Det er bare for inviterte og ligger bak **samme Access-app som
+Visningsrommet** («Visningsrommet», policy «Inviterte»), og er derfor et **Pages-prosjekt** som `vis`. Produksjonsgrenen
+er `demo`, ikke `main`, så galleriet kan oppdateres uten å røre nettstedene. `vis.hengsel.no` (Pages-prosjektet `vis`,
+gren `main`, `sites/vis`) er ikke berørt.
+
+### 1. Nytt Pages-prosjekt koblet til repoet
+
+Workers & Pages → Create → **Pages** → Connect to Git → velg `SNgroup-Drift/sngroup-nettsider`.
+
+| Felt | Verdi |
+|---|---|
+| Project name | `design` (Cloudflare legger til et suffiks hvis `design.pages.dev` er opptatt; skriv adressen inn her etterpå) |
+| Production branch | `demo` |
+| Framework preset | None |
+| Build command | `npm run build -w sites/design` |
+| Build output directory | `sites/design/dist` |
+| Root directory (advanced) | tomt, altså rotmappen (workspaces må installeres fra roten) |
+| Environment variables | `NODE_VERSION` = `22` |
+
+Rett etter at prosjektet er laget, som for `vis`:
+
+1. Settings → Build → **Branch control** → Automatic deployments for preview branches: **None**.
+2. Settings → Build → **Build watch paths**, Include: `sites/design/*`, `docs/design/*`, `package.json`, `package-lock.json`.
+3. Gjør trinn 2 under (Access) **før** domenet kobles.
+
+Pages-klonen er grunn, så bygget leser datoene fra `sites/design/datoer.json`. Oppdater fila lokalt med
+`npm run datoer -w sites/design` når designfiler er endret, og commit den sammen med endringen.
+
+### 2. Access før domenet kobles
+
+> Access-appen **Visningsrommet** må dekke `design.hengsel.no`, `<prosjekt>.pages.dev` og `*.<prosjekt>.pages.dev`
+> **før** `design.hengsel.no` legges til som custom domain. Ellers er galleriet åpent for alle i glippet.
+
+Zero Trust → Access → Applications → **Visningsrommet** → Edit → Public hostnames → Add public hostname:
+
+- `design.hengsel.no`
+- `<prosjekt>.pages.dev` (adressen prosjektet fikk, f.eks. `design-abc.pages.dev`)
+- `*.<prosjekt>.pages.dev` (hver produksjonsdeploy får en egen adresse per commit)
+
+Lagre. Ikke endre policyen «Inviterte», og ikke rør `vis.sngroup.no`/`vis.hengsel.no` i lista.
+
+Sjekk i et privat vindu: `https://<prosjekt>.pages.dev` skal sende deg til innloggingen hos Access, ikke vise galleriet.
+
+```sh
+curl -sI https://<prosjekt>.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
+```
+
+### 3. Koble `design.hengsel.no`
+
+Ikke start før trinn 2 er gjort og sjekket.
+
+Pages-prosjektet `design` → Custom domains → Set up a custom domain → `design.hengsel.no` → Activate. Cloudflare lager
+CNAME-en selv, siden sonen `hengsel.no` ligger i samme konto. Access dekker allerede vertsnavnet (trinn 2).
+
+Sjekk: `https://design.hengsel.no` gir innloggingen, og etter innlogging galleriet. `curl -sI https://design.hengsel.no`
+skal vise `x-robots-tag: noindex, nofollow`.
