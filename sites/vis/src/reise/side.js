@@ -283,13 +283,11 @@
   $('restart').addEventListener('click',function(){go(cur)});
   $('auto').addEventListener('click',function(){var a=$('auto');a.setAttribute('aria-checked',a.getAttribute('aria-checked')==='true'?'false':'true')});
   $('again').addEventListener('click',function(){go(1);play()});
-  var fsEl=document.documentElement;
-  if(!(fsEl.requestFullscreen||fsEl.webkitRequestFullscreen))$('fs').style.display='none';
+  // Fullskjerm på hele siden. Skjules der nettleseren ikke tillater det (f.eks. Safari på iPad).
+  if(!document.fullscreenEnabled)$('fs').style.display='none';
   $('fs').addEventListener('click',function(){
-    try{
-      if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document)}
-      else{(fsEl.requestFullscreen||fsEl.webkitRequestFullscreen).call(fsEl)}
-    }catch(e){}
+    var p=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+    if(p&&p.catch)p.catch(function(){});
   });
   document.addEventListener('keydown',function(e){
     if(e.target&&(e.target.tagName==='INPUT'||e.target.id==='auto'))return;

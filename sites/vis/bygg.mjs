@@ -51,7 +51,8 @@ for (const s of skrifter) {
 }
 await writeFile(join(fonts, "fonts.css"), css);
 
-// Skjermbildene på forsiden hentes fra hengsel.no, og SN-logoen fra sngroup.no, så de ikke ligger dobbelt i repoet
+// Skjermbildene på forsiden hentes fra hengsel.no, og SN-logoen fra sngroup.no, så de ikke ligger dobbelt i repoet.
+// Bilder som bare finnes i Visningsrommet (f.eks. src/img/opplaering.webp) ligger i src/img og er alt kopiert.
 const sites = join(her, "..");
 const img = join(dist, "img");
 await mkdir(img, { recursive: true });
@@ -59,6 +60,7 @@ const forside = (await readFile(join(src, "index.html"), "utf8")) + (await readF
 const bilder = [...new Set([...forside.matchAll(/\/img\/([a-z0-9-]+\.(?:webp|svg))/g)].map((m) => m[1]))];
 for (const navn of bilder) {
   if (navn.startsWith("sn-logo")) continue;
+  if (await stat(join(src, "img", navn)).catch(() => null)) continue;
   await cp(join(sites, "hengsel", "public", "img", navn), join(img, navn));
 }
 await cp(join(sites, "sngroup", "public", "logo.svg"), join(img, "sn-logo.svg"));
