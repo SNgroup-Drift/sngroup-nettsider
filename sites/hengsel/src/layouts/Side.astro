@@ -7,7 +7,7 @@
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
 import "@sngroup/design/fonts.css";
 import Toppfelt from "@sngroup/design/components/Toppfelt.astro";
-import HengselLogo from "../components/HengselLogo.astro";
+import HengselLogo from "@sngroup/design/components/HengselLogo.astro";
 import Bunn from "../components/Bunn.astro";
 import "../styles/tokens.css";
 import "../styles/hengsel.css";
@@ -45,6 +45,8 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
   robots={robots}
   tema={tema}
   temafarge={["#FBF9F6", "#1B1713"]}
+  ikonPng="/favicon-32.png"
+  appleIkon="/apple-touch-icon-180.png"
   forhandslast={skrifter}
 >
   <div class="side" id="hjem">
@@ -69,4 +71,8 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
 
 <style>
   .side { min-height: 100vh; display: flex; flex-direction: column; }
+  /* Logoen i toppfeltet: 28 px («engsel»), 24 px under 900 px, som før */
+  @media (max-width: 900px) {
+    .side :global(.toppfelt .hengsel-logo) { height: 30px; width: auto; }
+  }
 </style>
