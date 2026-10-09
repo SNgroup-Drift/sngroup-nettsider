@@ -99,12 +99,12 @@
 .chips button{border:1px solid var(--fg);border-radius:var(--r-pill);background:transparent;font:500 14px var(--sans);padding:0 14px;cursor:pointer;color:var(--fg);min-height:40px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
 .chips button:hover{background:var(--card)}
 .chips button.on{background:var(--fg);color:var(--bg)}
-.pic{border:1.5px dashed var(--sand);border-radius:var(--r-field);background:none;min-height:56px;cursor:pointer;color:var(--accent);font:500 14px var(--sans);width:100%}
-.pic.on{border-style:solid;border-color:var(--ok);background:var(--ok-soft);color:var(--ok);cursor:default}
+.pic{border:1.5px dashed var(--sand);border-radius:var(--r-field);background:none;min-height:56px;cursor:pointer;color:var(--accent-tekst);font:500 14px var(--sans);width:100%}
+.pic.on{border-style:solid;border-color:var(--ok);background:var(--ok-soft);color:var(--ok-tekst);cursor:default}
 .pick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .pick button{min-height:44px;border-radius:var(--r-field);border:1px solid var(--line);background:var(--card);font:500 14px var(--sans);color:var(--fg);cursor:pointer;transition:border-color var(--dur) var(--ease)}
 .pick button:hover{border-color:var(--sand)}
-.pick button.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.pick button.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok-tekst)}
 .pick button.av{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
 .empty{font-size:14px;color:var(--muted);margin:0}
 .toast{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 28px);background:var(--fg);color:var(--bg);border-radius:var(--r-field);padding:10px 14px;font-size:14px;opacity:0;transition:opacity var(--dur) var(--ease);pointer-events:none;z-index:5}
@@ -126,7 +126,7 @@
 .log div:last-child{border-bottom:0;padding-bottom:0}
 .log time{font-size:12px;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
 .log b{font-weight:600}
-.log em{font-style:normal;color:var(--accent);font-weight:500}
+.log em{font-style:normal;color:var(--accent-tekst);font-weight:500}
 @media (max-width:1100px){.stage{grid-template-columns:minmax(0,1fr)}.side{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start}}
 @media (max-width:760px){
   .tscr{height:auto}

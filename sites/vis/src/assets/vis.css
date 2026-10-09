@@ -4,6 +4,9 @@
   --bg:#F2E9DB;--card:#FBF9F6;--soft:#F8F2EC;--fg:#31261D;--muted:#5E564C;--line:#E4D4C4;--sand:#C3B5A7;
   --accent:#5074A9;--accent-soft:#E3EAF4;--dusty:#9CA9BD;
   --ok:#3F7A52;--ok-soft:#E4EEE6;--warn:#8A5D14;--warn-soft:#F5EAD3;
+  /* Tekst i aksent/ok: Deep Blue og ok-grønn gir 3,9–4,3:1 på Beige 3 og de myke flatene, så tekst får en litt
+     mørkere tone i lys modus (4,7 og 4,9:1, §9). Flater, streker og knapper bruker --accent/--ok som før. */
+  --accent-tekst:#46689C;--ok-tekst:#3A7049;
   --serif:"Newsreader",Georgia,serif;--sans:"Inter","Helvetica Neue",Arial,sans-serif;
   --r-sm:8px;--r-field:10px;--r:14px;--r-lg:20px;--r-pill:999px;
   --focus:0 0 0 2px var(--bg),0 0 0 4px var(--accent);
@@ -14,19 +17,19 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1B1713;--card:#26201A;--soft:#2F2820;--fg:#F1E9DE;--muted:#C3B7A8;--line:#3B3229;--sand:#9A8E80;
   --accent:#9CA9BD;--accent-soft:#25303F;--dusty:#6E7C92;
-  --ok:#8CC39B;--ok-soft:#1F2E23;--warn:#E2B468;--warn-soft:#33281A;
+  --ok:#8CC39B;--ok-soft:#1F2E23;--warn:#E2B468;--warn-soft:#33281A;--accent-tekst:#9CA9BD;--ok-tekst:#8CC39B;
   --merke-linje:#FBF9F6;--merke-ord:#FBF9F6;--merke-crm:rgba(251,249,246,.6);color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1B1713;--card:#26201A;--soft:#2F2820;--fg:#F1E9DE;--muted:#C3B7A8;--line:#3B3229;--sand:#9A8E80;
   --accent:#9CA9BD;--accent-soft:#25303F;--dusty:#6E7C92;
-  --ok:#8CC39B;--ok-soft:#1F2E23;--warn:#E2B468;--warn-soft:#33281A;
+  --ok:#8CC39B;--ok-soft:#1F2E23;--warn:#E2B468;--warn-soft:#33281A;--accent-tekst:#9CA9BD;--ok-tekst:#8CC39B;
   --merke-linje:#FBF9F6;--merke-ord:#FBF9F6;--merke-crm:rgba(251,249,246,.6);color-scheme:dark}
 
 /* Grunnstil: brødtekst 17/1,6, UI 15, hjelpetekst 14, eyebrow og piller 13 */
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--fg);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-underline-offset:3px}
+a{color:var(--accent-tekst);text-underline-offset:3px}
 .serif{font-family:var(--serif);font-weight:400}
 .muted{color:var(--muted)}
 .num{font-variant-numeric:tabular-nums}
@@ -54,8 +57,8 @@ a{color:var(--accent);text-underline-offset:3px}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:var(--r-pill);font:500 13px/1.4 var(--sans);background:var(--line);color:var(--fg);white-space:nowrap}
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
 .pill.nodot::before{display:none}
-.pill.info{background:var(--accent-soft);color:var(--accent)}
-.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.info{background:var(--accent-soft);color:var(--accent-tekst)}
+.pill.ok{background:var(--ok-soft);color:var(--ok-tekst)}
 .pill.warn{background:var(--warn-soft);color:var(--warn)}
 
 /* Flater: kort på bakgrunnen, fliser inne i kort (aldri kort på kort) */
@@ -91,7 +94,7 @@ a{color:var(--accent);text-underline-offset:3px}
 .topbar .topl{display:inline-flex;align-items:center;gap:14px;min-width:0}
 .topbar .sep{width:1px;height:18px;background:var(--line);flex:none}
 .topbar .pill{font-size:13px}
-.back{font:500 15px var(--sans);color:var(--accent);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.back{font:500 15px var(--sans);color:var(--accent-tekst);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .back:hover{text-decoration:underline}
 .sidehode{display:grid;gap:6px}
 .sidehode h1{font:400 clamp(2rem,3.6vw,3rem)/1.08 var(--serif);letter-spacing:-.015em;margin:0;text-wrap:balance}

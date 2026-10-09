@@ -42,7 +42,7 @@ input[type=range]{width:100%;margin:0;height:28px;accent-color:var(--accent);cur
 .kpi b{font:400 2.25rem/1.1 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .kpi em{font-style:normal;font-size:13px;color:var(--muted)}
 .kpi .main{grid-column:1/-1}
-.kpi .main b{color:var(--accent)}
+.kpi .main b{color:var(--accent-tekst)}
 .bars{display:grid;gap:4px}
 .bar{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;padding:8px 12px;border-radius:var(--r-field);cursor:default;transition:background var(--dur) var(--ease)}
 .bar:hover,.bar:focus-visible,.bar.on{background:var(--soft)}
@@ -61,7 +61,7 @@ input[type=range]{width:100%;margin:0;height:28px;accent-color:var(--accent);cur
 .how b{font-weight:600}
 .how code{font:14px/1.5 var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
 .mini{display:none}
-@media (max-width:900px){.lay{grid-template-columns:minmax(0,1fr)}.res{position:static}.mini{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;justify-content:space-between;align-items:center;gap:10px;background:var(--fg);color:var(--bg);padding:10px 16px calc(10px + env(safe-area-inset-bottom));font-size:14px;text-decoration:none}.mini b{font:400 1.45rem/1.2 var(--serif);font-variant-numeric:tabular-nums}body{padding-bottom:64px}}
+@media (max-width:900px){.lay{grid-template-columns:minmax(0,1fr)}.res{position:static}.mini{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;justify-content:space-between;align-items:center;gap:10px;background:var(--card);color:var(--fg);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));font-size:14px;text-decoration:none}.mini b{font:400 1.45rem/1.2 var(--serif);font-variant-numeric:tabular-nums;color:var(--accent-tekst)}body{padding-bottom:64px}}
 @media (max-width:640px){.wrap{padding-inline:16px}}
 @media (max-width:420px){.kpi{gap:10px}.kpi>div{padding:14px}.kpi b{font-size:1.75rem}.kpi .main b{font-size:2.25rem}.felt input{width:64px}.bar .v{min-width:84px}}
 </style>
