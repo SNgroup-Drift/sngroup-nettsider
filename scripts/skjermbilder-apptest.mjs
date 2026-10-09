@@ -3,10 +3,9 @@
  * Skjermbilder og nettlesersjekker for hengsel.no/apptest (K-107), mot Workeren med passordet (wrangler dev).
  *
  *  - apptest-passord-*: passordsiden, og passordsiden etter feil passord.
- *  - apptest-*-snart / apptest-*-klar: siden etter innlogging, iPhone-knappen med plassholder («lenke kommer snart»)
- *    eller med TestFlight-lenken satt. Tilstanden leses fra siden. Mobil (390) med iPhone-nettleser, PC (1440).
- *  - Sjekker: telefonen gjenkjennes (iPhone, Android, PC), uten skript er knappene like, ingen vannrett rulling ved
- *    360 px, ingen konsollfeil (CSP), og axe (WCAG 2 A/AA) uten brudd, i lys og mørk.
+ *  - apptest-mobil / apptest-desktop: siden etter innlogging. Mobil (390), PC (1440).
+ *  - Sjekker: informasjonskapselen, ingen vannrett rulling ved 360 px, ingen konsollfeil (CSP), og axe (WCAG 2 A/AA)
+ *    uten brudd. Siden er bare i lys modus.
  *
  * Kjør etter `npm run build -w sites/hengsel`, med wrangler dev i gang og en lokal sites/hengsel/.dev.vars (sjekkes ikke inn):
  *   npx wrangler dev -c sites/hengsel/wrangler.jsonc
@@ -64,84 +63,52 @@ async function sjekkAxe(page, navn) {
   meld(brudd.length === 0, `axe ${navn}${brudd.length ? `: ${brudd.join(", ")}` : ""}`);
 }
 
-let tilstand = "";
 for (const v of visninger) {
-  for (const modus of ["light", "dark"]) {
-    const m = modus === "light" ? "lys" : "mork";
-    const ctx = await browser.newContext({ ...v, colorScheme: modus, reducedMotion: "reduce" });
-    const page = await ctx.newPage();
-    const konsoll = [];
-    page.on("console", (x) => x.type() === "error" && !/401/.test(x.text()) && konsoll.push(x.text()));
-    page.on("pageerror", (e) => konsoll.push(e.message));
+  const ctx = await browser.newContext({ ...v, reducedMotion: "reduce" });
+  const page = await ctx.newPage();
+  const konsoll = [];
+  page.on("console", (x) => x.type() === "error" && !/401/.test(x.text()) && konsoll.push(x.text()));
+  page.on("pageerror", (e) => konsoll.push(e.message));
 
-    // Passordsiden
-    await page.goto(`${BASE}/apptest`, { waitUntil: "networkidle" });
-    await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: join(ut, `apptest-passord-${v.navn}-${m}.png`), fullPage: true });
-    await sjekkAxe(page, `passordsiden (${v.navn}, ${m})`);
-    // Feil passord
-    await page.fill("#passord", "feil-passord");
-    await Promise.all([page.waitForLoadState("networkidle"), page.click("button[type=submit]")]);
-    meld(await page.isVisible("[data-feil]"), `feil passord viser feilmeldingen (${v.navn}, ${m})`);
-    if (v.navn === "mobil") await page.screenshot({ path: join(ut, `apptest-passord-feil-${v.navn}-${m}.png`), fullPage: true });
-    await sjekkAxe(page, `passordsiden med feil (${v.navn}, ${m})`);
+  // Passordsiden
+  await page.goto(`${BASE}/apptest`, { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: join(ut, `apptest-passord-${v.navn}.png`), fullPage: true });
+  await sjekkAxe(page, `passordsiden (${v.navn})`);
+  // Feil passord
+  await page.fill("#passord", "feil-passord");
+  await Promise.all([page.waitForLoadState("networkidle"), page.click("button[type=submit]")]);
+  meld(await page.isVisible("[data-feil]"), `feil passord viser feilmeldingen (${v.navn})`);
+  if (v.navn === "mobil") await page.screenshot({ path: join(ut, `apptest-passord-feil-${v.navn}.png`), fullPage: true });
+  await sjekkAxe(page, `passordsiden med feil (${v.navn})`);
 
-    // Siden etter innlogging
-    await loggInn(page);
-    tilstand = (await page.$("[data-enhet=iphone][disabled]")) ? "snart" : "klar";
-    await page.evaluate(() => document.fonts.ready);
-    const fil = `apptest-${v.navn}-${m}-${tilstand}.png`;
-    await page.screenshot({ path: join(ut, fil), fullPage: true });
-    console.log(`  bilde: docs/skjermbilder/${fil}`);
-    const valgt = await page.$$eval("[data-lastned] .dark", (e) => e.map((x) => x.dataset.enhet));
-    const linje = await page.textContent("[data-enhetslinje]");
-    if (v.navn === "mobil") {
-      meld(valgt.join() === "iphone" && linje.startsWith("Du bruker iPhone"), `iPhone gjenkjent (${m}): «${linje}»`);
-    } else {
-      meld(valgt.length === 0 && linje.startsWith("Åpne denne siden på telefonen"), `PC: ingen knapp fremhevet (${m}): «${linje}»`);
-    }
-    await sjekkAxe(page, `/apptest (${v.navn}, ${m}, ${tilstand})`);
-    meld(konsoll.length === 0, `ingen konsollfeil (${v.navn}, ${m})${konsoll.length ? `: ${konsoll.join(" | ")}` : ""}`);
-    const kaker = await ctx.cookies();
-    const k = kaker.find((c) => c.name === "hengsel_apptest");
-    meld(kaker.length === 1 && k?.httpOnly && k.secure && k.sameSite === "Lax" && k.path === "/apptest", `bare én informasjonskapsel, HttpOnly, Secure, SameSite=Lax, Path=/apptest (${v.navn}, ${m})`);
-    await ctx.close();
-  }
+  // Siden etter innlogging
+  await loggInn(page);
+  await page.evaluate(() => document.fonts.ready);
+  const fil = `apptest-${v.navn}.png`;
+  await page.screenshot({ path: join(ut, fil), fullPage: true });
+  console.log(`  bilde: docs/skjermbilder/${fil}`);
+  meld(await page.isVisible("h1:has-text('Test Hengsel Ute')"), `/apptest vises etter innlogging (${v.navn})`);
+  const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
+  meld(sw <= cw, `/apptest (${v.navn}): bredde ${sw}/${cw}`);
+  await sjekkAxe(page, `/apptest (${v.navn})`);
+  meld(konsoll.length === 0, `ingen konsollfeil (${v.navn})${konsoll.length ? `: ${konsoll.join(" | ")}` : ""}`);
+  const kaker = await ctx.cookies();
+  const k = kaker.find((c) => c.name === "hengsel_apptest");
+  meld(kaker.length === 1 && k?.httpOnly && k.secure && k.sameSite === "Lax" && k.path === "/apptest", `bare én informasjonskapsel, HttpOnly, Secure, SameSite=Lax, Path=/apptest (${v.navn})`);
+  await ctx.close();
 }
 
-// Android, uten skript, og 360 px
+// 360 px: ingen vannrett rulling på passordsiden
 {
-  const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true, userAgent: UA.android });
+  const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true });
   const page = await ctx.newPage();
-  await loggInn(page);
-  const valgt = await page.$$eval("[data-lastned] .dark", (e) => e.map((x) => x.dataset.enhet));
-  const linje = await page.textContent("[data-enhetslinje]");
-  meld(valgt.join() === "android" && linje === "Du bruker Android – trykk den mørke knappen.", `Android gjenkjent: «${linje}»`);
-  for (const modus of ["light", "dark"]) {
-    await page.emulateMedia({ colorScheme: modus });
-    for (const sti of ["/apptest"]) {
-      const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
-      meld(sw <= cw, `${sti} (${modus}, 360 px): bredde ${sw}/${cw}`);
-    }
-  }
-  await ctx.close();
-
-  const ctx2 = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true });
-  const p2 = await ctx2.newPage();
-  await p2.goto(`${BASE}/apptest`, { waitUntil: "networkidle" });
-  const b = await p2.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
+  await page.goto(`${BASE}/apptest`, { waitUntil: "networkidle" });
+  const b = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
   meld(b.sw <= b.cw, `passordsiden (360 px): bredde ${b.sw}/${b.cw}`);
-  await ctx2.close();
-
-  const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false, userAgent: UA.iphone });
-  const p3 = await ctx3.newPage();
-  await loggInn(p3);
-  const klasser = await p3.$$eval("[data-lastned] [data-enhet]", (e) => e.map((x) => x.className));
-  meld(klasser.length === 2 && klasser[0] === klasser[1].replace(/\s+$/, "") && !klasser.join().includes("dark"), "uten skript: begge knappene like");
-  await ctx3.close();
+  await ctx.close();
 }
 
 await browser.close();
-console.log(`\nTilstand for iPhone-knappen: ${tilstand === "snart" ? "lenke kommer snart (plassholder)" : "TestFlight-lenke satt"}`);
 console.log(`${feil} feil.`);
 process.exit(feil ? 1 : 0);

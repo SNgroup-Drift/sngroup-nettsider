@@ -14,8 +14,6 @@ interface Env {
   ASSETS: { fetch(req: Request | string | URL, init?: RequestInit): Promise<Response> };
   APPTEST_PASSORD?: string;
   APPTEST_NOKKEL?: string;
-  /** K-114: felles passord for demobrukerne. Vises på /apptest for innloggede. Settes som hemmelighet, aldri i repoet. */
-  DEMO_PASSORD?: string;
 }
 
 const KAKE = "hengsel_apptest";
@@ -69,21 +67,7 @@ async function apptest(req: Request, env: Env, url: URL): Promise<Response> {
   if (url.pathname === "/apptest/passord" || url.pathname === "/apptest/passord.html") {
     return new Response(null, { status: 303, headers: { Location: "/apptest" } });
   }
-  const svar = await env.ASSETS.fetch(req);
-  return medDemopassord(svar, env.DEMO_PASSORD);
-}
-
-/**
- * K-114: demopassordet settes inn i HTML-en for innloggede (bare bak passordet til /apptest). Uten hemmeligheten står
- * linjen skjult, og «Passordet får du av den som inviterte deg» vises i stedet.
- */
-function medDemopassord(svar: Response, passord: string | undefined): Response {
-  if (!passord || !(svar.headers.get("Content-Type") ?? "").startsWith("text/html")) return svar;
-  return new HTMLRewriter()
-    .on("[data-demopassord-verdi]", { element: (el) => el.setInnerContent(passord) })
-    .on("[data-demopassord]", { element: (el) => el.removeAttribute("hidden") })
-    .on("[data-uten-demopassord]", { element: (el) => el.remove() })
-    .transform(svar);
+  return env.ASSETS.fetch(req);
 }
 
 /** Passordsiden fra de statiske filene. Ved feil passord vises feilmeldingen og feltet merkes som ugyldig. */

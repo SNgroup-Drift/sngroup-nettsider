@@ -1,262 +1,198 @@
 ---
 /**
- * hengsel.no/apptest: slik installerer du testversjonen av montørappen (S-56 v2, K-107, K-114).
- * Fasit: docs/design/hengsel/52 Apptest.dc.html (08.10.2026). Siden er nøytral (ingen butikknavn).
+ * hengsel.no/apptest: slik tester du Hengsel Ute (10.10.2026). Fasit: «55 Hengsel apptest.dc.html» i Claude Design-arkivet,
+ * samme profil som forsiden. Ingen skript, ingen sporing.
+ * Ligger bak passord: Workeren (worker/apptest.ts) slipper bare inn med gyldig informasjonskapsel (K-107).
  *
- * Ligger bak passord: Workeren (worker/apptest.ts) slipper bare inn med gyldig informasjonskapsel, og fyller inn
- * demopassordet ([data-demopassord-verdi]), viser passordflaten ([data-demopassord]) og fjerner [data-uten-demopassord].
- * Siden står ikke i menyen, i sitemap.txt eller i lenker fra andre sider, og har noindex, nofollow.
- * Telefonen gjenkjennes og kopier-knappene virker i scripts/apptest.ts. Uten skript vises begge knappene likt.
+ * Siden har noindex,nofollow, står ikke i sitemap.txt og lenkes ikke fra forsiden, menyen eller bunnen
+ * (scripts/sjekk-lenker.mjs passer på det). Lenker og versjon ligger i src/apptest-lenker.ts; en verdi som begynner
+ * med «TODO_» gir en deaktivert knapp («Lenke kommer»).
  */
-import Side from "../layouts/Side.astro";
+import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
+import "@sngroup/design/fonts.css";
+import "../styles/tokens.css";
+import "../styles/hengsel.css";
+import { APPTEST, erTodo } from "../apptest-lenker";
 
-// Byttes når Apple har godkjent betagjennomgangen. Står den som plassholder, vises «lenke kommer snart».
-const TESTFLIGHT_LENKE = "https://testflight.apple.com/join/MygfVe9U";
-const ANDROID_LENKE = "https://play.google.com/apps/internaltest/4701475978909247435";
+const { versjon, epost } = APPTEST;
+const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-350.woff2", "/fonts/TWKLausanne-650.woff2"];
 
-const iosKlar = !TESTFLIGHT_LENKE.startsWith("{{");
-
-const GUIDES = [
-  { title: "iPhone og iPad", via: "via TestFlight",
-    steps: [
-      "Installer appen TestFlight fra App Store. Den er gratis og laget av Apple.",
-      "Åpne lenken du har fått på samme iPhone eller iPad.",
-      "Trykk Godta og deretter Installer i TestFlight.",
-      "Åpne Hengsel og logg inn med brukeren din.",
-      "Tillat kamera og Bluetooth når appen spør. Det trengs for skanning og laser.",
+const BOKSER = [
+  {
+    tittel: "iPhone og iPad", via: "via TestFlight",
+    steg: [
+      "Installer TestFlight fra App Store først. Den er gratis og laget av Apple.",
+      "Åpne lenken under på samme enhet og trykk Installer.",
+      "Åpne Hengsel Ute og logg inn.",
     ],
-    note: "Nye versjoner kommer i TestFlight. Slå på automatiske oppdateringer der, så slipper du å gjøre noe.",
-    small: "En testversjon varer i 90 dager. Når en ny versjon er ute, oppdaterer TestFlight den." },
-  { title: "Android", via: "via Play Butikk",
-    steps: [
-      "Gi Eirik e-postadressen til Google-kontoen du bruker på telefonen.",
-      "Når du er lagt til, åpner du lenken på telefonen og trykker Bli tester.",
-      "Trykk Last ned fra Google Play og installer Hengsel.",
-      "Logg inn med brukeren din.",
-      "Tillat kamera, Bluetooth og enheter i nærheten når appen spør.",
+    knapp: "Åpne i TestFlight", href: APPTEST.testflight,
+    note: "Nye versjoner kommer automatisk i TestFlight.",
+  },
+  {
+    tittel: "Android", via: "via Google Play",
+    steg: [
+      "Gi oss e-postadressen til Google-kontoen på telefonen.",
+      "Åpne lenken under og trykk Bli tester.",
+      "Last ned fra Google Play og logg inn.",
     ],
-    note: "Har du en eldre testversjon (APK) av Hengsel, avinstaller den først. Ellers kan Play-versjonen ikke installeres.",
-    small: "Det kan ta opptil 30 minutter fra du er lagt til, til appen dukker opp i Play Butikk." },
+    knapp: "Bli tester i Google Play", href: APPTEST.play,
+    note: "Det kan ta opptil 30 minutter før appen vises i Play.",
+  },
+  {
+    tittel: "Android uten Play", via: "APK-fil",
+    steg: [
+      "Last ned filen under på telefonen.",
+      "Tillat installasjon fra ukjent kilde når telefonen spør.",
+      "Åpne filen, installer og logg inn.",
+    ],
+    knapp: `Last ned APK (${versjon})`, href: APPTEST.apk,
+    note: "Oppdateres ikke automatisk. Last ned på nytt når det kommer ny versjon.",
+  },
 ];
 
-// K-114: faste demobrukere. Brukernavn = rollen, e-post = brukernavn@demo.invalid, felles passord (fra Workeren).
-const GROUPS: { title: string; users: [string, string, string][] }[] = [
-  { title: "I appen (velg «Demo»)", users: [
-    ["montor1", "Montør", "I dag, jobbsiden, mål og skisse, KS, avvik og Ferdig montert."],
-    ["montor2", "Montør, polsk", "Appen på polsk."],
-    ["firmaleder1", "Firmaleder med team", "Forespørsler, svar og fordeling av jobber."],
-    ["firmaleder2", "Firmaleder uten ansatte", "Egne jobber og forespørsler."],
-    ["firmaleder3", "Firmaleder", "Garderobe, skyvedører og bad."],
-    ["utkjorer", "Utkjører", "Ruten, mottak på lager, levering og skade."],
-    ["selger1", "Selger", "Selgermodus i appen."],
-  ] },
-  { title: "I CRM-et (nettleseren)", users: [
-    ["selger1", "Selgere i tre butikker", "selger1 – selger6. selger2 og selger6 er prosjektselgere."],
-    ["leder", "Leder og admin", ""],
-    ["montasjeleder", "Montasjeleder og bestilling", ""],
-    ["bestilling", "Bestilling", ""],
-    ["superadmin", "Superadmin", ""],
-  ] },
-];
-
-const FAQ = [
-  ["Lenken sier at appen ikke er tilgjengelig", "Du er ikke lagt til ennå. Gi beskjed til Eirik."],
-  ["Laseren blir ikke funnet", "Slå på Bluetooth på telefonen, og trykk på Bluetooth-knappen på Bosch-laseren."],
-  ["Du kommer ikke inn med din egen bruker", "Bruk samme e-post og passord som i CRM."],
-  ["Du kommer ikke inn i demoen", "Sjekk at «Demo» er valgt nederst på innloggingen, og at du skriver hele adressen (montor1@demo.invalid)."],
-];
+// TODO: sju punkter fra W2 (lim inn ordrett) og kjent avvik fra W2
+const NYTT: string[] = [];
+const KJENT_AVVIK = "";
 ---
-<Side
-  title="Slik installerer du Hengsel · Hengsel"
-  description="Slik installerer du testversjonen av montørappen Hengsel på iPhone, iPad eller Android."
-  robots="noindex, nofollow"
-  lenker={[{ label: "Last ned", href: "#" }, { label: "Demobrukerne", href: "#demo" }]}
+<BaseLayout
+  title={`Test Hengsel Ute · Hengsel`}
+  description="Slik installerer du testversjonen av Hengsel Ute på iPhone, iPad eller Android."
+  robots="noindex,nofollow"
+  tema="light"
+  temafarge={["#FBF9F6", "#1B1713"]}
+  forhandslast={skrifter}
 >
-  <main id="innhold" class="apptest">
-    <section class="hero h-innhold" aria-labelledby="tittel">
-      <div class="tekst">
-        <span class="eyebrow">Montørappen · testversjon 1.3.0</span>
-        <h1 id="tittel">Slik installerer du Hengsel</h1>
-        <p class="lede">Appen er i test. Den ligger ikke i App Store eller Play Butikk ennå, så du kan ikke søke den opp der. Du trenger en invitasjon, og så følger du stegene for telefonen din.</p>
+  <div class="side">
+    <header class="topp">
+      <div class="h-innhold rad">
+        <a href="/" class="logo" aria-label="Hengsel – forside">
+          <!-- hengsel-crm-logo-lys.svg, inline så «engsel» settes i TWK Lausanne (teksten i fila er <text>, ikke konturer) -->
+          <svg viewBox="-4 -4 460 128" height="36" aria-hidden="true" class="logo-svg">
+            <g><rect x="0" y="0" width="10" height="72" rx="1" fill="#8FA9D1"/><rect x="0" y="0" width="10" height="4.2" rx="1" fill="#C3B5A7"/><rect x="0" y="2.8" width="10" height="1.4" fill="#C3B5A7"/><rect x="0" y="67.8" width="10" height="4.2" rx="1" fill="#C3B5A7"/><rect x="0" y="67.8" width="10" height="1.4" fill="#C3B5A7"/><rect x="1.8" y="6.7" width="6.4" height="4.6" rx="2.3" fill="#C3B5A7"/><rect x="2.5" y="7.1" width=".6" height="3.8" fill="#5074A9"/><rect x="6.9" y="7.1" width=".6" height="3.8" fill="#5074A9"/><ellipse cx="5" cy="9" rx="1.4" ry="1" fill="#8FA9D1"/><rect x="2.6" y="28" width="4.8" height="16" rx="2.4" fill="#C3B5A7"/><rect x="3" y="33.5" width="4" height=".6" fill="#5074A9"/><rect x="3" y="38.5" width="4" height=".6" fill="#5074A9"/><ellipse cx="5" cy="36" rx="1" ry="1.5" fill="#8FA9D1"/><rect x="3.5" y="51" width="3" height="13.5" rx="1.5" fill="#5074A9"/><rect x="35.1" y="0" width="14" height="27.6" fill="#C3B5A7"/><rect x="12.5" y="0" width="22" height="23.8" fill="#C3B5A7"/><rect x="12.5" y="25.3" width="22" height="2.3" fill="#8FA9D1"/><rect x="12.5" y="39" width="39.1" height="6" fill="#C3B5A7"/><rect x="35.1" y="46.5" width="14" height="25.5" fill="#C3B5A7"/><rect x="37.8" y="49.4" width="2.5" height="6.1" rx="1.25" fill="#5074A9"/><rect x="12.5" y="46.5" width="22" height="25.5" fill="#C3B5A7"/><circle cx="18" cy="49.6" r="1.5" fill="#5074A9"/><circle cx="23.5" cy="49.6" r="1.5" fill="#5074A9"/><circle cx="28.9" cy="49.6" r="1.5" fill="#5074A9"/><rect x="15" y="52.6" width="17" height="2.3" rx="1.15" fill="#5074A9"/><rect x="15.4" y="56.6" width="16.2" height="13" rx=".4" fill="#5074A9"/><rect x="51" y="0" width=".6" height="39" fill="#5074A9"/><rect x="51" y="45" width=".6" height="27" fill="#5074A9"/><rect x="51.6" y="0" width="22" height="72" fill="#C3B5A7"/><rect x="54.3" y="36.5" width="2.5" height="6.1" rx="1.25" fill="#5074A9"/></g>
+            <text font-weight="350" font-size="96" letter-spacing="-1.5" x="80" y="69" fill="#31261D">engsel</text>
+            <text x="378" y="112" text-anchor="end" font-weight="650" font-size="20" letter-spacing="2.4" fill="#31261D" fill-opacity=".6">CRM</text>
+            <path d="M385 94 l9 9 l18 -20" fill="none" stroke="#5074A9" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <span class="eyebrow">Testversjon · {versjon}</span>
       </div>
-      <div class="ikoncelle">
-        <div class="ikonflis">
-          <img class="ikon" src="/img/hengsel-ute-ikon.svg" alt="App-ikonet til Hengsel" width="128" height="128" />
-          <span>Hengsel</span>
-        </div>
-      </div>
-      <div class="lastned" data-lastned>
-        {iosKlar
-          ? <a class="btn lg block" href={TESTFLIGHT_LENKE} data-enhet="iphone">iPhone og iPad – åpne i TestFlight</a>
-          : <button class="btn lg block" type="button" disabled data-enhet="iphone">iPhone og iPad – lenke kommer snart</button>}
-        <a class="btn lg block" href={ANDROID_LENKE} data-enhet="android">Android – bli tester og last ned</a>
-        <p class="enhetslinje" data-enhetslinje data-ios-klar={iosKlar ? "ja" : "nei"}>Åpne denne siden på telefonen og trykk knappen for din telefon.</p>
-      </div>
-    </section>
+    </header>
 
-    <section class="steg h-flate" aria-label="Steg">
-      <div class="h-innhold kortrad">
-        {GUIDES.map((g) => (
-          <article class="card guide">
-            <div class="korthode">
-              <h2>{g.title}</h2>
-              <span class="dempet">{g.via}</span>
-            </div>
-            <ol>
-              {g.steps.map((s, i) => <li><span class="nr" aria-hidden="true">{i + 1}</span><span class="stegtekst">{s}</span></li>)}
-            </ol>
-            <p class="boks">{g.note}</p>
-            <p class="liten dempet">{g.small}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section id="demo" class="demo" aria-labelledby="demo-tittel">
-      <div class="h-innhold demorad">
-        <div class="demohode">
-          <h2 id="demo-tittel">Prøv med demobrukerne</h2>
-          <p class="lede">I demoen er alt oppdiktet, og ingenting sendes ut. Velg «Demo» nederst på innloggingen i appen, og logg inn med brukernavnet og demopassordet. Alle brukerne har samme passord.</p>
+    <main id="innhold">
+      <section class="hero h-innhold">
+        <img src="/img/hengsel-app-ikon-lys.svg" alt="" width="96" height="96" class="ikon" />
+        <div class="hero-tekst">
+          <h1>Test Hengsel Ute</h1>
+          <p class="lede">Appen er i test og ligger ikke åpent i App Store eller Google Play ennå. Velg telefonen din og følg stegene. Innlogging er den samme som i Hengsel CRM.</p>
         </div>
-        <div class="passordflate" data-demopassord hidden>
-          <div class="passord">
-            <span class="etikett">Demopassord</span>
-            <code data-demopassord-verdi></code>
+      </section>
+
+      <section class="h-innhold" aria-label="Slik installerer du appen">
+        <div class="bokser">
+          {BOKSER.map((b) => (
+            <article class="boks">
+              <div class="bokshode">
+                <h2>{b.tittel}</h2>
+                <span class="dempet">{b.via}</span>
+              </div>
+              <ol>
+                {b.steg.map((s) => <li>{s}</li>)}
+              </ol>
+              {erTodo(b.href)
+                ? <button type="button" class="knapp primar" disabled aria-disabled="true">Lenke kommer</button>
+                : <a class="knapp primar" href={b.href}>{b.knapp}</a>}
+              <p class="note dempet">{b.note}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="kolonner-baand">
+        <div class="h-innhold kolonner">
+          <div class="kolonne">
+            <h2>Slik melder du feil</h2>
+            <ul>
+              <li><b>I appen:</b> Meg › Send feilrapport. Skjermbilde og logg følger med.</li>
+              <li><b>På e-post:</b> <a href={`mailto:${epost}`}>{epost}</a>. Skriv hva du gjorde, hva som skjedde og hvilken telefon du har.</li>
+            </ul>
           </div>
-          <button type="button" class="btn primary kopier" data-kopier-passord>Kopier</button>
+          <div class="kolonne">
+            <h2>Hva er nytt i {versjon}</h2>
+            <ul>
+              {NYTT.length ? NYTT.map((p) => <li>{p}</li>) : <li class="dempet">Punktene kommer.</li>}
+              {KJENT_AVVIK && <li><b>Kjent avvik:</b> {KJENT_AVVIK}</li>}
+            </ul>
+          </div>
         </div>
-        <p class="uten" data-uten-demopassord>Passordet får du av den som inviterte deg.</p>
-        <p class="boks smal">Foreløpig skriver du hele adressen: brukernavnet med @demo.invalid bak, for eksempel montor1@demo.invalid. Snart holder det med montor1.</p>
-        <div class="brukerrad">
-          {GROUPS.map((grp) => (
-            <div class="gruppe">
-              <h3>{grp.title}</h3>
-              <ul>
-                {grp.users.map(([navn, rolle, hva]) => (
-                  <li>
-                    <button type="button" class="bruker" data-kopier={navn} aria-label={`Kopier brukernavnet ${navn}`}>
-                      <span>{navn}</span>
-                      <span class="kvittering" aria-live="polite"></span>
-                    </button>
-                    <span class="rolle"><b>{rolle}</b>{hva && <span class="dempet">{hva}</span>}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div><a class="btn" href="/apptest/Logg_inn_i_demoen.pdf">Last ned oversikten (PDF)</a></div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section class="hjelp h-flate" aria-labelledby="hjelp-tittel">
-      <div class="h-innhold">
-        <h2 id="hjelp-tittel">Hvis noe ikke virker</h2>
-        <div class="rader">
-          {FAQ.map(([sp, svar]) => (
-            <div class="rad">
-              <p class="sp">{sp}</p>
-              <p class="dempet svar">{svar}</p>
-            </div>
-          ))}
-        </div>
-        <p class="liten dempet versjon">Hengsel 1.3.0 · iPhone, iPad og Android</p>
+    <footer class="bunn">
+      <div class="h-innhold rad">
+        <span>Hengsel · <a href={`mailto:${epost}`}>{epost}</a></span>
+        <a href="/">Til hengsel.no</a>
       </div>
-    </section>
-  </main>
-</Side>
-
-<script>
-  import "../scripts/apptest";
-</script>
+    </footer>
+  </div>
+</BaseLayout>
 
 <style>
-  .apptest { flex: 1; }
+  /* Profil: Off White, Warm Black, Deep Blue bare på primærknapper og lenker, linjer 1 px Beige 2, kvadratiske hjørner, ingen skygger */
+  .side { min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white); color: var(--warm-black); }
+  main { flex: 1; }
   .dempet { color: var(--muted); }
-  .liten { font-size: 0.92rem; }
-  .boks { background: var(--surface-soft); border-radius: 10px; padding: 14px 16px; }
+  a { color: var(--deep-blue); }
+  .rad { display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; }
 
-  /* Hero og last ned */
-  .hero {
-    display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px;
-    padding-block: clamp(32px, 6vw, 80px) clamp(48px, 7vw, 96px);
-  }
-  .tekst { display: grid; gap: 16px; align-content: start; }
-  .ikonflis {
-    background: var(--surface-highlight); border-radius: 20px; padding: 28px 24px;
-    display: grid; justify-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;
-  }
-  .ikon { display: block; width: 96px; height: 96px; }
-  .lastned { display: grid; gap: 12px; max-width: 480px; }
-  .lastned .btn { white-space: normal; text-align: center; }
-  .enhetslinje { color: var(--muted); font-size: 1rem; padding-top: 4px; }
+  .topp { border-bottom: 1px solid var(--beige-2); }
+  .topp .rad { min-height: 64px; padding-block: 10px; }
+  .logo { display: flex; align-items: center; min-height: 44px; }
+  .logo-svg { height: 36px; width: auto; display: block; font-family: var(--f-body); }
+  .logo:focus-visible { border-radius: 0; }
 
-  @media (min-width: 860px) {
-    .hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px 64px; align-items: start; }
-    .ikoncelle { grid-column: 2; grid-row: 1 / span 2; }
-    .lastned { grid-column: 1; grid-row: 2; }
-    .ikonflis { padding: 56px 32px; }
-    .ikon { width: 128px; height: 128px; }
-  }
+  .hero { display: flex; align-items: flex-start; gap: clamp(20px, 3vw, 32px); padding-block: clamp(40px, 6vw, 72px) clamp(32px, 5vw, 56px); }
+  .ikon { width: 96px; height: 96px; flex: none; display: block; }
+  .hero-tekst { display: grid; gap: 16px; }
+  h1 { font-size: var(--t-hero); line-height: 1.02; }
 
-  /* Steg */
-  .steg { padding-block: clamp(48px, 7vw, 96px); }
-  .kortrad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px 24px; align-items: start; }
-  .guide { padding: 28px 24px; display: grid; gap: 24px; min-width: 0; }
-  .korthode { display: grid; gap: 4px; }
-  .korthode h2 { font-size: var(--t-h2); line-height: 1.15; }
-  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
-  ol li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
-  .nr {
-    width: 32px; height: 32px; border-radius: 999px; background: var(--surface-highlight);
-    display: grid; place-items: center; font-weight: 650; font-size: 0.95rem; font-variant-numeric: tabular-nums;
-  }
-  .stegtekst { padding-top: 4px; }
+  /* Tre bokser i et 1 px Beige 2-rutenett, Off White flater */
+  .bokser { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; background: var(--beige-2); border: 1px solid var(--beige-2); }
+  .boks { background: var(--off-white); padding: 28px 24px; display: grid; gap: 20px; align-content: start; min-width: 0; }
+  .bokshode { display: grid; gap: 4px; }
+  .bokshode h2 { font-size: var(--t-h2); line-height: 1.15; }
+  ol { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+  ol li::marker { font-weight: 650; }
+  .note { font-size: 0.92rem; }
 
-  /* Demobrukerne */
-  .demo { padding-block: clamp(48px, 7vw, 96px); }
-  .demorad { display: grid; gap: clamp(24px, 4vw, 40px); }
-  .demohode { display: grid; gap: 14px; max-width: 760px; }
-  .passordflate {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; max-width: calc(760px + 46px); /* 760 + luft og kant, som i designet */
+  .knapp {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; justify-self: start;
+    border: 1px solid var(--warm-black); background: transparent; color: var(--warm-black); font: 500 1rem var(--f-body);
+    text-decoration: none; border-radius: 0; box-sizing: border-box; white-space: nowrap;
   }
-  .passord { display: grid; gap: 4px; min-width: 0; }
-  .etikett { font-size: 0.86rem; color: var(--muted); }
-  .passord code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: clamp(1.2rem, 3vw, 1.6rem);
-    letter-spacing: 0.02em; word-break: break-all;
-  }
-  .kopier { min-height: 48px; }
-  .uten { background: var(--surface-highlight); border-radius: 14px; padding: 20px 22px; font-size: 1.08rem; }
-  .smal { max-width: calc(760px + 32px); }
-  .brukerrad { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
-  .gruppe { display: grid; gap: 12px; align-content: start; min-width: 0; }
-  .gruppe ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .gruppe li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; align-items: start; justify-items: start; padding: 6px 0; }
-  .bruker {
-    all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
-    min-height: 48px; padding: 0 14px; border-radius: 10px; background: var(--surface-highlight);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1rem; color: var(--ink); flex: none;
-  }
-  .bruker:hover { background: var(--surface-soft); }
-  .bruker:focus-visible { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
-  .kvittering { font-family: var(--f-body); font-size: 0.82rem; color: var(--accent); min-width: 4.5em; }
-  .rolle { display: grid; gap: 2px; min-width: 0; padding-top: 2px; }
-  .rolle .dempet { font-size: 0.95rem; line-height: 1.5; }
+  .knapp.primar { background: var(--deep-blue); border-color: var(--deep-blue); color: var(--off-white); }
+  .knapp.primar:hover { opacity: 0.88; text-decoration: none; }
+  .knapp:disabled { opacity: 0.45; cursor: not-allowed; }
+  .knapp:disabled:hover { opacity: 0.45; }
+  .knapp:focus-visible { border-radius: 0; }
 
-  /* Hvis noe ikke virker */
-  .hjelp { padding-block: clamp(48px, 7vw, 96px); }
-  .hjelp .h-innhold { display: grid; gap: 24px; }
-  .rader { border-top: 1px solid var(--line); }
-  .rad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px 64px; padding-block: 20px; border-bottom: 1px solid var(--line); }
-  .sp { font-weight: 650; }
-  .svar { max-width: 62ch; }
-  .versjon { padding-top: 24px; }
+  .kolonner-baand { background: var(--beige-3); margin-top: clamp(48px, 7vw, 96px); padding-block: clamp(48px, 7vw, 80px); }
+  .kolonner { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); }
+  .kolonne { display: grid; gap: 16px; align-content: start; }
+  .kolonne h2 { font-size: var(--t-h2); line-height: 1.15; }
+  .kolonne ul { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; max-width: 62ch; }
+  /* Deep Blue gir bare 3,95:1 mot Beige 3; den mørkere blåen fra tokens.css gir 4,5:1 */
+  .kolonne a { color: var(--info-tekst); text-decoration: underline; text-underline-offset: 3px; }
+
+  .bunn { border-top: 1px solid var(--beige-2); font-size: 0.92rem; color: var(--muted); }
+  .bunn .rad { padding-block: 24px; flex-wrap: wrap; }
+  .bunn a { color: inherit; }
 
   @media (min-width: 860px) {
-    .kortrad, .brukerrad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .gruppe li { grid-template-columns: 200px minmax(0, 1fr); gap: 14px; }
-    .rad { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); }
+    .bokser { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .kolonner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .hero { flex-direction: column; }
+    .knapp { white-space: normal; text-align: center; }
   }
 </style>

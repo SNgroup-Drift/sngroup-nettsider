@@ -132,8 +132,9 @@ curl -s -o /dev/null -w '%{http_code}\n' https://sngroup.no/finnes-ikke   # skal
 
 ## hengsel.no/apptest (passord)
 
-Siden som viser montørene hvordan de installerer testversjonen av Hengsel (K-107). Den ligger bak ett felles passord,
-står ikke i menyen, i `sitemap.txt` eller i lenker fra andre sider, og har `noindex, nofollow`.
+Siden som viser testerne hvordan de installerer testversjonen av Hengsel Ute (K-107, nytt utseende 10.10.2026). Den
+ligger bak ett felles passord, står ikke i menyen, i `sitemap.txt` eller i lenker fra andre sider, og har `noindex,nofollow`.
+`scripts/sjekk-lenker.mjs` passer på alle tre.
 
 Slik virker det:
 
@@ -141,12 +142,11 @@ Slik virker det:
   Skriptet kjører bare for de stiene. Alt annet serveres som statiske filer, uten kode.
 - Uten gyldig informasjonskapsel viser `/apptest` passordsiden (`dist/apptest/passord.html`). Skjemaet sender passordet med
   POST til `/apptest`. Riktig passord gir 303 til `/apptest` og informasjonskapselen `hengsel_apptest` (HttpOnly, Secure,
-  SameSite=Lax, Path=/apptest, 30 dager). Feil passord gir 401 og «Feil passord. Prøv igjen, eller spør Eirik.».
+  SameSite=Lax, Path=/apptest, 30 dager). Feil passord gir 401 og «Feil passord. Prøv igjen.».
 - Informasjonskapselen er en utløpstid og en HMAC-signatur, ikke passordet. Signaturnøkkelen lages av `APPTEST_NOKKEL` og
   `APPTEST_PASSORD`, så når passordet byttes, må alle skrive det nye.
 - Mangler en av hemmelighetene, er siden låst (503 «Siden er låst. Passordet er ikke satt opp ennå.»).
-- Alle svar fra `/apptest` har `X-Robots-Tag: noindex, nofollow` og `Cache-Control: private, no-store`. App-ikonet ligger
-  under `/apptest/` og er også bak passordet.
+- Alle svar fra `/apptest` har `X-Robots-Tag: noindex, nofollow` og `Cache-Control: private, no-store`.
 
 ### Sette eller bytte passordet
 
@@ -169,17 +169,11 @@ Sjekk etterpå (uten informasjonskapsel skal du få passordsiden, ikke 503):
 curl -sI https://hengsel.no/apptest | grep -iE '^HTTP|x-robots|cache-control|content-security'
 ```
 
-### Bytte TestFlight-lenken
+### Bytte lenker og versjon
 
-Lenken er konstanten øverst i `sites/hengsel/src/pages/apptest.astro`:
-
-```ts
-const TESTFLIGHT_LENKE = "{{TESTFLIGHT_LENKE}}";
-```
-
-Så lenge den står som plassholder (starter med `{{`), vises den dempede knappen «iPhone og iPad – lenke kommer snart».
-Bytt den til den offentlige TestFlight-lenken (`https://testflight.apple.com/join/…`), commit og push. Da blir knappen
-«iPhone og iPad – åpne i TestFlight». Android-lenken ligger rett under (`ANDROID_LENKE`).
+Alt ligger i `sites/hengsel/src/apptest-lenker.ts`: versjon, TestFlight-lenken, Google Play-lenken (intern testing),
+APK-fila og e-postadressen. En verdi som begynner med `TODO_` gir en deaktivert knapp med teksten «Lenke kommer».
+Bytt verdien, commit og push.
 
 ### Teste lokalt
 
