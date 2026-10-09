@@ -8,6 +8,7 @@
     "./base.css": "./src/styles/base.css",
     "./fonts.css": "./src/styles/fonts.css",
     "./components/*": "./src/components/*",
+    "./hengsel-logo": "./src/hengsel-logo.mjs",
     "./types": "./src/types.ts"
   },
   "dependencies": {

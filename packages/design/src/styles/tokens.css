@@ -42,6 +42,12 @@
   --fot: var(--umbra);           /* bunntekst: mørk i begge moduser */
   --fot-tekst: var(--kalk);
 
+  /* Hengsel-logoen (packages/design/src/hengsel-logo.mjs). Pakken: skapet Beige 1, ordet Warm Black; i mørk modus
+     Krem og Off White. Vater og Deep Blue er faste i SVG-en. */
+  --merke-skap: #c3b5a7;
+  --merke-ord: #31261d;
+  --merke-produkt: rgb(49 38 29 / 0.6);
+
   /* Skrift */
   --font-overskrift: "Newsreader Variable", Georgia, "Times New Roman", serif;
   --font-tekst: "Inter Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
@@ -74,6 +80,9 @@
     --enhet-kort: #2e2621;
     --fot: #141110;
     --fot-tekst: var(--natt-tekst);
+    --merke-skap: #f2e9db;
+    --merke-ord: #fbf9f6;
+    --merke-produkt: rgb(251 249 246 / 0.6);
     color-scheme: dark;
   }
 }
@@ -95,5 +104,8 @@
   --enhet-kort: #2e2621;
   --fot: #141110;
   --fot-tekst: var(--natt-tekst);
+  --merke-skap: #f2e9db;
+  --merke-ord: #fbf9f6;
+  --merke-produkt: rgb(251 249 246 / 0.6);
   color-scheme: dark;
 }

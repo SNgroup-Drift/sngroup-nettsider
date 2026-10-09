@@ -1,0 +1,23 @@
+---
+/**
+ * Hengsel-logoen: merket (skapet i Beige 1, Krem i mørk modus) + «engsel» + produktnavn med hake over.
+ * Fasit: docs/design/hengsel/logo/ (logopakken 09.10.2026). SVG-en lages av ../hengsel-logo.mjs; teksten er konturer.
+ * `size` er skriftstørrelsen på «engsel» i px (minst 22, så merket er minst 16 px). Overstyr høyden i CSS med
+ * `height: …; width: auto` der den skal følge skjermbredden (:global(.hengsel-logo) fra komponenten utenfor).
+ */
+import { hengselLogo } from "../hengsel-logo.mjs";
+
+interface Props {
+  size?: number;
+  /** Produktnavnet under ordet. null = bare «Hengsel» (uten produktnavn) */
+  produkt?: "CRM" | "UTE" | null;
+  /** Tilgjengelig navn. Standard: «Hengsel CRM» / «Hengsel UTE» / «Hengsel» */
+  label?: string;
+}
+const { size = 28, produkt = "CRM", label } = Astro.props;
+---
+<Fragment set:html={hengselLogo({ size, produkt, label })} />
+
+<style is:global>
+  .hengsel-logo { display: inline-block; vertical-align: middle; flex: none; }
+</style>
