@@ -1,91 +1,94 @@
 /*
-  hengsel.no – grunnstil og designsystemets komponenter (Hengsel designsystem: base.css og components.css),
-  skrevet om til familiens semantiske variabler. Klassene har prefikset h- så de ikke kolliderer med SN Groups base.css.
+  hengsel.no – skrift, designsystemets navn og grunnklasser.
+  Fasit: docs/design/hengsel/_ds/…/tokens/*.css (Hengsel designsystem v1.0) og <helmet> i «51 Hengsel nettside.dc.html».
+
+  Designsystemets variabler (--bg, --ink, --muted …) peker på familiens variabler i tokens.css, så lys og mørk modus
+  styres ett sted. Avvik: --soft er #6E6355 i stedet for #8A7F72 (tekst trenger 4,5:1, se tokens.css).
 */
+@font-face { font-family: "Reckless Standard M"; src: url("/fonts/RecklessStandardM-Regular.woff2") format("woff2"); font-weight: 300 500; font-display: swap; }
+@font-face { font-family: "TWK Lausanne"; src: url("/fonts/TWKLausanne-350.woff2") format("woff2"); font-weight: 300 549; font-display: swap; }
+@font-face { font-family: "TWK Lausanne"; src: url("/fonts/TWKLausanne-650.woff2") format("woff2"); font-weight: 550 800; font-display: swap; }
+
+:root {
+  --bg: var(--bakgrunn);
+  --surface: var(--kort);
+  --surface-soft: var(--flate-myk);
+  --surface-highlight: var(--flate);
+  --surface-highlight-strong: var(--flate-sterk);
+  --line: var(--linje);
+  --ink: var(--tekst);
+  --muted: var(--tekst-dempet);
+  --soft: var(--tekst-svak);
+  --accent: var(--aksent);
+  --accent-ink: var(--pa-aksent);
+  --accent-soft: var(--aksent-myk);
+  --bad: var(--feil);
+  --bad-soft: var(--feil-myk);
+  --shadow: var(--skygge);
+
+  --f-display: var(--font-overskrift);
+  --f-body: var(--font-tekst);
+  --w-body: 350;
+  --w-strong: 650;
+  --t-eyebrow: 0.82rem;
+  --r-sm: 8px; --r-field: 10px; --r: 14px; --r-lg: 20px; --r-pill: 999px;
+  --wrap: 1180px;
+  --pad: clamp(16px, 4vw, 40px);
+}
+
 html { scroll-padding-top: 72px; }
 [hidden] { display: none !important; }
-body { font-size: 1.0625rem; line-height: 1.6; font-weight: 400; }
-h1, h2, h3 { font-weight: 400; letter-spacing: -0.015em; }
+body { font-size: 1.0625rem; line-height: 1.6; font-weight: var(--w-body); }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.015em; text-wrap: balance; margin: 0; }
 h1 { font-size: var(--t-hero); line-height: 1.02; }
 h2 { font-size: var(--t-h1); line-height: 1.08; }
 h3 { font-size: var(--t-h3); line-height: 1.2; }
-p { margin: 0; }
-a { color: var(--aksent); }
-:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bakgrunn), 0 0 0 4px var(--aksent); border-radius: var(--radius-liten); }
-.wrap { max-width: var(--bredde); }
-.label { font-size: 0.82rem; letter-spacing: 0.06em; line-height: 1.3; }
+p { margin: 0; text-wrap: pretty; }
+b, strong { font-weight: var(--w-strong); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); border-radius: var(--r-sm); }
 
-.h-eyebrow { font: 500 0.82rem/1.3 var(--font-tekst); letter-spacing: 0.06em; text-transform: uppercase; color: var(--tekst-dempet); }
-.h-lede { font-size: var(--t-lede); color: var(--tekst-dempet); max-width: 62ch; margin: 0; }
-.h-dempet { color: var(--tekst-dempet); }
+.eyebrow { font: 500 var(--t-eyebrow)/1.3 var(--f-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: var(--t-lede); color: var(--muted); max-width: 62ch; margin: 0; }
 
 /* Knapper */
-.h-btn {
+.btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 22px;
-  border-radius: var(--radius-pille); border: 1px solid var(--tekst); background: transparent; color: var(--tekst);
-  font: 500 1rem var(--font-tekst); cursor: pointer; text-decoration: none; white-space: nowrap;
+  border-radius: var(--r-pill); border: 1px solid var(--ink); background: transparent; color: var(--ink);
+  font: 500 1rem var(--f-body); cursor: pointer; text-decoration: none; box-sizing: border-box;
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
-.h-btn:hover { background: var(--tekst); color: var(--bakgrunn); }
-.h-btn.primar { background: var(--aksent); border-color: var(--aksent); color: var(--pa-aksent); }
-.h-btn.primar:hover { opacity: 0.88; }
-.h-btn:active { transform: translateY(1px); }
-.h-btn.ikon { width: 44px; padding: 0; font-size: 1.2rem; }
-.h-btn.liten { min-height: 36px; padding: 0 14px; font-size: 0.85rem; }
+.btn:hover { background: var(--ink); color: var(--bg); text-decoration: none; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { background: var(--accent); color: var(--accent-ink); opacity: 0.88; }
+.btn.dark { background: var(--ink); color: var(--bg); }
+.btn.dark:hover { background: var(--ink); color: var(--bg); opacity: 0.88; }
+.btn.lg { min-height: 56px; padding: 0 28px; font-size: 1.125rem; }
+.btn.block { width: 100%; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:disabled:hover { background: transparent; color: var(--ink); }
+.btn.primary:disabled:hover { background: var(--accent); color: var(--accent-ink); }
+.btn.dark:disabled:hover { background: var(--ink); color: var(--bg); opacity: 0.45; }
 
 /* Kort */
-.h-kort { background: var(--kort); border: 1px solid var(--linje); border-radius: var(--radius); padding: 20px 22px; }
-
-/* Piller (status) */
-.h-pille {
-  display: inline-flex; justify-self: start; width: max-content; max-width: 100%; align-items: center; gap: 6px;
-  padding: 3px 10px; border-radius: var(--radius-pille); font: 500 0.8rem/1.4 var(--font-tekst);
-  background: var(--flate); color: var(--tekst); white-space: nowrap;
-}
-.h-pille::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
-.h-pille.info { background: var(--aksent-myk); color: var(--info-tekst); }
-.h-pille.ok { background: var(--ok-myk); color: var(--ok); }
-.h-pille.feil { background: var(--feil-myk); color: var(--feil); }
-
-/* Segmentfaner */
-.h-faner { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: var(--radius-pille); background: var(--flate); border: 1px solid var(--linje); }
-.h-faner.pa-kort { background: var(--kort); }
-.h-faner button {
-  border: 0; background: transparent; color: var(--tekst-dempet); font: 500 0.95rem var(--font-tekst);
-  padding: 0 18px; min-height: 36px; border-radius: var(--radius-pille); cursor: pointer;
-}
-.h-faner button:hover { color: var(--tekst); }
-.h-faner button[aria-selected="true"] { background: var(--tekst); color: var(--bakgrunn); }
-
-/* Chips */
-.h-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.h-chips button {
-  border: 1px solid var(--tekst); background: transparent; color: var(--tekst); font: 500 0.95rem var(--font-tekst);
-  padding: 0 16px; min-height: 40px; border-radius: var(--radius-pille); cursor: pointer;
-}
-.h-chips button:hover { background: var(--flate-myk); }
-.h-chips button[aria-selected="true"] { background: var(--tekst); color: var(--bakgrunn); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; }
 
 /* Skjema */
-.h-felt { display: grid; gap: 6px; }
-.h-felt label, .h-legend { font: 500 0.9rem var(--font-tekst); }
-.h-input {
-  min-height: 44px; padding: 0 14px; border-radius: var(--radius-felt); border: 1px solid var(--linje);
-  background: var(--kort); color: var(--tekst); font: inherit; width: 100%;
+.field { display: grid; gap: 6px; }
+.field label { font: 500 0.9rem var(--f-body); }
+.input {
+  min-height: 44px; padding: 0 14px; border-radius: var(--r-field); border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font: inherit; box-sizing: border-box; width: 100%;
 }
-.h-input::placeholder { color: var(--tekst-svak); }
-.h-input:focus { outline: none; border-color: var(--aksent); box-shadow: 0 0 0 3px var(--aksent-myk); }
-textarea.h-input { padding: 12px 14px; min-height: 110px; resize: vertical; line-height: 1.5; }
-select.h-input { appearance: none; padding-right: 40px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235E564C' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+.input::placeholder { color: var(--soft); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
-/* Seksjoner */
-.h-seksjon { padding-block: var(--seksjon); }
-.h-seksjon.baand { background: var(--flate); }
-.h-hode { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 760px; }
-.h-split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
-.h-split.midt { align-items: center; }
-@media (max-width: 860px) { .h-split { grid-template-columns: minmax(0, 1fr); } }
+/* Seksjoner: innhold 1180 px med luft på sidene */
+.h-innhold { max-width: calc(var(--wrap) + 2 * var(--pad)); margin: 0 auto; padding-inline: var(--pad); box-sizing: border-box; }
+.h-flate { background: var(--surface-highlight); }
 
 @media (prefers-reduced-motion: reduce) {
-  .h-btn:active { transform: none; }
+  .btn:active:not(:disabled) { transform: none; }
 }

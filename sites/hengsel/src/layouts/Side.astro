@@ -1,6 +1,8 @@
 ---
 /**
- * Ramme for hengsel.no: familiens BaseLayout med Hengsel-fargene, toppfeltet (Toppfelt) og bunnen (Familiebaand + bunntekst).
+ * Ramme for hengsel.no: familiens BaseLayout med Hengsel-fargene og -skriftene, toppfeltet (Toppfelt) og bunnen
+ * (Familiebaand + bunntekst). Fasit: docs/design/hengsel/Sidehode.dc.html og Bunn.dc.html.
+ * Sidehodet har menypunkter per side (prop «lenker», som i Sidehode.dc.html).
  */
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
 import "@sngroup/design/fonts.css";
@@ -10,20 +12,41 @@ import Bunn from "../components/Bunn.astro";
 import "../styles/tokens.css";
 import "../styles/hengsel.css";
 
+interface Lenke { label: string; href: string }
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
   /** Overstyrer robots-taggen (/apptest: "noindex, nofollow") */
   robots?: string;
-  /** Forsiden: lenkene i toppfeltet peker til ankre på samme side */
+  /** Forsiden: logoen og «Til toppen» peker til #hjem */
   forside?: boolean;
+  /** Linjen om demodata i bunnteksten */
   demo?: boolean;
+  /** Menypunktene i sidehodet. Standard: forsidens fire, med lenke tilbake til forsiden */
+  lenker?: Lenke[];
+  /** "light" låser lys modus (forsiden). Uten følger siden systemet. */
+  tema?: "light";
 }
-const { title, description, noindex, robots, forside = false, demo = false } = Astro.props;
+const { title, description, noindex, robots, forside = false, demo = false, tema } = Astro.props;
 const h = forside ? "" : "/";
+const lenker = Astro.props.lenker ?? [
+  { label: "Slik henger det sammen", href: `${h}#sammenheng` },
+  { label: "Moduler", href: `${h}#moduler` },
+  { label: "Hengsel Ute", href: `${h}#ute` },
+  { label: "Om oss", href: `${h}#om` },
+];
+const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-350.woff2", "/fonts/TWKLausanne-650.woff2"];
 ---
-<BaseLayout title={title} description={description} noindex={noindex} robots={robots}>
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={noindex}
+  robots={robots}
+  tema={tema}
+  temafarge={["#FBF9F6", "#1B1713"]}
+  forhandslast={skrifter}
+>
   <div class="side" id="hjem">
     <Toppfelt
       hjem={forside ? "#hjem" : "/"}
@@ -35,12 +58,7 @@ const h = forside ? "" : "/";
       kontaktVariant="fylt"
       kontaktHref={`${h}#kontakt`}
       kontaktTekst="Be om demo"
-      lenker={[
-        { label: "Se løsningen", href: `${h}#losningen` },
-        { label: "Montørappen", href: `${h}#hengsel` },
-        { label: "Kundereisen", href: `${h}#reisen` },
-        { label: "Spørsmål", href: `${h}#sporsmal` },
-      ]}
+      lenker={lenker}
     >
       <HengselLogo slot="logo" />
     </Toppfelt>

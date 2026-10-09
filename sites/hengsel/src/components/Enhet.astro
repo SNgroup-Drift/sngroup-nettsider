@@ -1,78 +1,75 @@
 ---
 /**
- * Skjermbilde i ramme: PC (kort med avrundede hjørner), iPad, telefon eller to telefoner.
- * Fasit: docs/design/hengsel/Enhet.dc.html. Rammen skaleres med container-enheter i stedet for zoom.
- * ratio = maks høyde i forhold til bredden. Bildet kan byttes i nettleseren med scripts/enhet.ts.
+ * Skjermbilde i ramme: PC (skjerm med tynn sort ramme, aluminiumskant og fot, som en Studio Display uten merke)
+ * eller telefon (PhoneFrame i designsystemet). Fasit: docs/design/hengsel/Enhet.dc.html.
+ * Rammen skaleres med container-enheter i stedet for zoom: bredden er min(designbredde, plassen, plassen × ratio × B/H).
+ * ratio = maks høyde i forhold til bredden. Klikk på bildet åpner lysboksen (scripts/lysboks.ts).
  */
-import { MAAL, filer, src, typeFor, type Type } from "../scripts/bilder";
+import { MAAL, src } from "../scripts/bilder";
 
 interface Props {
   bilde: string;
   alt: string;
-  type?: Type;
-  ratio?: 0.72 | 0.75 | 0.8 | 1;
-  id?: string;
+  type: "pc" | "phone";
+  ratio?: 0.75 | 0.8 | 1 | 1.4;
   /** Første skjermbilde på siden lastes med en gang, resten når de nærmer seg */
   forst?: boolean;
 }
-const { bilde, alt, type = typeFor(bilde), ratio = 0.75, id, forst = false } = Astro.props;
-const navn = filer(bilde, type);
-const r = String(ratio).replace("0.", "r").replace(/^1$/, "r100");
+const { bilde, alt, type, ratio = 0.75, forst = false } = Astro.props;
+const [w, h] = MAAL[bilde] ?? [0, 0];
+const r = { 0.75: "r75", 0.8: "r80", 1: "r100", 1.4: "r140" }[ratio];
 ---
-<div class:list={["enhet", r]} id={id} data-enhet>
-  <div class:list={["ramme", type]} data-ramme>
-    {[0, 1].map((i) => {
-      const fil = navn[i] ?? navn[0];
-      const [w, h] = MAAL[fil] ?? [0, 0];
-      return (
-        <div class="skjerm" data-skjerm hidden={!navn[i]}>
-          <div class="statuslinje" aria-hidden="true"><span>07.52</span><span class="prikker">••• ▮</span></div>
-          <button type="button" class="zoom" data-zoom aria-label={`Forstørr skjermbildet: ${alt}`}>
-            <img src={src(fil)} alt={alt} width={w} height={h} loading={forst && i === 0 ? "eager" : "lazy"}
-                 fetchpriority={forst && i === 0 ? "high" : undefined} decoding="async" />
-          </button>
-        </div>
-      );
-    })}
+<div class:list={["enhet", r]}>
+  <div class:list={["ramme", type]}>
+    <div class="skjerm">
+      {type === "phone" && <div class="statuslinje" aria-hidden="true"><span>07.52</span><span class="prikker">••• ▮</span></div>}
+      <button type="button" class="zoom" data-zoom aria-label={`Forstørr skjermbildet: ${alt}`}>
+        <img src={src(bilde)} alt={alt} width={w} height={h} loading={forst ? "eager" : "lazy"}
+             fetchpriority={forst ? "high" : undefined} decoding="async" />
+      </button>
+    </div>
+    {type === "pc" && <><div class="stang" aria-hidden="true"></div><div class="fot" aria-hidden="true"></div></>}
   </div>
 </div>
 
 <style>
   .enhet { container-type: inline-size; width: 100%; min-width: 0; display: flex; justify-content: center; }
-  .r72 { --ratio: 0.72; } .r75 { --ratio: 0.75; } .r8 { --ratio: 0.8; } .r100 { --ratio: 1; }
-  .ramme { --w: 856; --h: 592; flex: none; width: min(calc(var(--w) * 1px), 100cqw, calc(100cqw * var(--ratio) * var(--w) / var(--h))); }
-  .ramme.ipad { --w: 1180; --h: 820; }
+  .r75 { --ratio: 0.75; } .r80 { --ratio: 0.8; } .r100 { --ratio: 1; } .r140 { --ratio: 1.4; }
+  /* Rammen er selv en container: cqw under er prosent av rammebredden (856 px for PC, 390 px for telefon i designet) */
+  .ramme {
+    --w: 856; --h: 662; flex: none; container-type: inline-size;
+    width: min(calc(var(--w) * 1px), 100cqw, calc(100cqw * var(--ratio) * var(--w) / var(--h)));
+  }
   .ramme.phone { --w: 390; --h: 844; }
-  .ramme.pair { --w: 816; --h: 920; display: grid; grid-template-columns: 1fr 1fr; gap: 4.4%; align-items: start; }
   .zoom { all: unset; display: block; width: 100%; height: 100%; cursor: zoom-in; }
-  .zoom:focus-visible { box-shadow: inset 0 0 0 3px var(--aksent); }
-  img { display: block; width: 100%; height: auto; }
-  .statuslinje { display: none; }
+  .zoom:focus-visible { box-shadow: inset 0 0 0 3px var(--accent); }
+  img { display: block; width: 100%; height: 100%; }
 
-  /* PC: kort med avrundede hjørner */
-  .pc .skjerm { border-radius: clamp(10px, 2.3cqw, 20px); overflow: hidden; border: 1px solid var(--linje); background: var(--flate); box-shadow: var(--skygge); }
+  /* PC: 1 designpiksel = 100/856 cqw = 0,1168cqw */
+  .pc { display: flex; flex-direction: column; align-items: center; }
+  .pc .skjerm {
+    width: 100%; box-sizing: border-box; background: #0e0e10; border-radius: 1.636cqw; padding: 1.752cqw;
+    box-shadow: 0 0 0 0.1168cqw #a2a3a7, 0 0 0 0.3505cqw #c9cacd, 0 0 0 0.4673cqw #a2a3a7, var(--shadow);
+  }
+  .pc .zoom { aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0.2336cqw; background: #f2e9db; }
+  .pc img { object-fit: contain; object-position: top left; }
+  .stang {
+    width: 19%; height: 11.68cqw; background: #c9cacd; border-left: 1px solid #a2a3a7; border-right: 1px solid #a2a3a7;
+    clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%); box-sizing: border-box;
+  }
+  .fot { width: 31%; height: 1.402cqw; background: #b6b7ba; border-radius: 0 0 0.9346cqw 0.9346cqw; }
 
-  /* iPad */
-  .ipad .skjerm {
-    container-type: inline-size; aspect-ratio: 1180 / 820; padding: 1.19cqw; background: var(--ramme);
-    border-radius: 3.2cqw; box-shadow: 0 0 0 1px var(--linje), var(--skygge);
+  /* Telefon: PhoneFrame i designsystemet, 390 × 844, radius 52, ramme 10, skjermradius 42, statuslinje 50.
+     1 designpiksel = 100/390 cqw = 0,2564cqw */
+  .phone .skjerm {
+    aspect-ratio: 390 / 844; padding: 2.564cqw; background: var(--ramme); border-radius: 13.33cqw;
+    box-shadow: 0 0 0 1px var(--line), var(--shadow); display: flex; flex-direction: column; box-sizing: border-box;
   }
-  .ipad .zoom { border-radius: 2.2cqw; overflow: hidden; background: var(--flate); }
-  .ipad img { height: 100%; object-fit: cover; object-position: top; }
-
-  /* Telefon (alene eller par) */
-  .phone .skjerm, .pair .skjerm {
-    container-type: inline-size; aspect-ratio: 390 / 844; padding: 2.56cqw; background: var(--ramme);
-    border-radius: 13.3cqw; box-shadow: 0 0 0 1px var(--linje), var(--skygge);
-    display: flex; flex-direction: column;
+  .statuslinje {
+    display: flex; flex: none; height: 12.82cqw; align-items: center; justify-content: space-between; padding: 0 7.69cqw;
+    background: var(--surface-highlight); color: var(--ink); font: 600 3.9cqw var(--f-body); border-radius: 10.77cqw 10.77cqw 0 0;
   }
-  .pair .skjerm + .skjerm { margin-top: 19.5%; } /* 76 px av 390 */
-  .skjerm[hidden] { display: none !important; }
-  .phone .statuslinje, .pair .statuslinje {
-    display: flex; flex: none; height: 12.8cqw; align-items: center; justify-content: space-between; padding: 0 7.7cqw;
-    background: var(--flate); color: var(--tekst); font: 600 3.9cqw var(--font-tekst); border-radius: 10.8cqw 10.8cqw 0 0;
-  }
-  .prikker { letter-spacing: 0.5cqw; }
-  .phone .zoom, .pair .zoom { flex: 1; min-height: 0; overflow: hidden; border-radius: 0 0 10.8cqw 10.8cqw; background: var(--flate); }
-  .phone img, .pair img { height: 100%; object-fit: cover; object-position: top center; }
+  .prikker { letter-spacing: 0.51cqw; }
+  .phone .zoom { flex: 1; min-height: 0; overflow: hidden; border-radius: 0 0 10.77cqw 10.77cqw; background: var(--surface-highlight); }
+  .phone img { object-fit: cover; object-position: top center; }
 </style>

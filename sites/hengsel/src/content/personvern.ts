@@ -3,6 +3,8 @@ import type { Avsnitt } from "@sngroup/design/types";
 /**
  * Personvern for hengsel.no. Dagens tekst fra hengsel.no (docs/kilde/hengsel.no/personvern.raw.html) ordrett,
  * med to endringer Eirik godkjente 07.10.2026: skriftene ligger på egen server, og driften er hos Cloudflare.
+ * 09.10.2026: tilpasset den nye forsiden (fil 51): ingen fane som huskes i nettleseren, og skjemaet har bare
+ * navn, butikk, e-post og telefon.
  */
 const epost = '<a href="mailto:drift@sngroup.no">drift@sngroup.no</a>';
 
@@ -10,7 +12,7 @@ export const personvern = {
   etikett: "hengsel.no",
   tittel: "Personvern",
   ingress: "Slik behandler vi opplysningene dine når du besøker hengsel.no eller tar kontakt med oss.",
-  oppdatert: "Sist oppdatert 7. oktober 2026",
+  oppdatert: "Sist oppdatert 9. oktober 2026",
   behandlingsansvarlig: "ES-HOLDING AS",
   kontakt: "drift@sngroup.no",
   avsnitt: [
@@ -24,7 +26,6 @@ export const personvern = {
       punkter: [
         "Siden har ingen innlogging, ingen analyseverktøy og ingen sporing.",
         "Vi bruker ingen informasjonskapsler (cookies).",
-        "Nettleseren din husker hvilken fane du sist så på under «Se løsningen». Dette lagres bare lokalt hos deg og sendes ikke til oss.",
         // Endret 07.10.2026 (var: «Skriftene lastes fra Google Fonts. …»)
         "Skriftene ligger på vår egen server. Nettsiden henter ingenting fra andre nettsteder.",
         // Endret 07.10.2026 (var: «Nettsiden driftes hos Lovable, …»)
@@ -35,7 +36,7 @@ export const personvern = {
       overskrift: "Når du ber om demo eller skriver til oss",
       tekst: [
         "Skjemaet på forsiden lagrer ingenting. Det fyller ut en e-post i ditt eget e-postprogram, og ingenting blir sendt før du selv trykker send.",
-        "Når du sender e-posten, mottar vi det du har skrevet: navn, butikk eller firma, e-post, telefon, antall selgere, hva du er interessert i og meldingen din.",
+        "Når du sender e-posten, mottar vi det du har skrevet: navn, butikk, e-post og telefon, og det du eventuelt skriver i e-posten.",
       ],
       punkter: [
         "<b>Formål:</b> å svare deg, avtale en gjennomgang og følge opp henvendelsen.",
