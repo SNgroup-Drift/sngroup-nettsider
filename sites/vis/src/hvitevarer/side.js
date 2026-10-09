@@ -45,10 +45,10 @@ function totals(){var n=0,v=0;chosen().forEach(function(p){n+=p.net;v+=p.veil});
 function tab1(){
  var h='<h2>Velg produkter</h2><p class="muted">Søk i katalogen fra BSH, Electrolux, Miele og Smeg. Ett produkt per type på ordren.</p>';
  h+='<div class="row"><input class="search" id="q" type="search" placeholder="Søk på merke, modell eller type" aria-label="Søk i katalogen" value="'+S.q.replace(/"/g,'&quot;')+'"><button class="btn" type="button" id="fill">Fyll inn Bergs ønsker</button></div>';
- h+='<div class="chips" id="cb" aria-label="Merke">'+BRANDS.map(function(b){return '<button type="button" class="'+(S.brand===b?'on':'')+'" aria-pressed="'+(S.brand===b)+'">'+b+'</button>'}).join('')+'</div>';
- h+='<div class="chips" id="ck" aria-label="Type">'+KATS.map(function(b){return '<button type="button" class="'+(S.kat===b?'on':'')+'" aria-pressed="'+(S.kat===b)+'">'+(b==='Alle'?'Alle typer':b)+'</button>'}).join('')+'</div>';
+ h+='<div class="chips" id="cb" aria-label="Merke">'+BRANDS.map(function(b){return '<button type="button" class="btn'+(S.brand===b?' dark':'')+'" aria-pressed="'+(S.brand===b)+'">'+b+'</button>'}).join('')+'</div>';
+ h+='<div class="chips" id="ck" aria-label="Type">'+KATS.map(function(b){return '<button type="button" class="btn'+(S.kat===b?' dark':'')+'" aria-pressed="'+(S.kat===b)+'">'+(b==='Alle'?'Alle typer':b)+'</button>'}).join('')+'</div>';
  h+=''+(S.sent?'<p class="muted">Bestillingen er sendt. Endringer gjøres nå som endringsordre.</p>':'')+'<div class="live" id="live" aria-live="polite"></div><div class="list" id="list"></div>';
- h+='<div class="foot"><span id="tot">'+totals()+'</span><button class="btn primary" type="button" id="next"'+(chosen().length?'':' disabled')+'>Sjekk mot ordren</button></div>';
+ h+='<div class="afoot"><span id="tot">'+totals()+'</span><button class="btn primary" type="button" id="next"'+(chosen().length?'':' disabled')+'>Sjekk mot ordren</button></div>';
  $('body').innerHTML=h;
  var qt;$('q').oninput=function(){S.q=this.value;clearTimeout(qt);qt=setTimeout(function(){fetchLive(500);renderList()},250)};
  $('cb').querySelectorAll('button').forEach(function(b){b.onclick=function(){S.brand=b.textContent;fetchLive(500);tab1()}});
@@ -65,7 +65,7 @@ function renderList(){if(!$('list'))return;
   return '<div class="prow'+(on?' sel':'')+'"><div class="pn"><b>'+p.m+' '+p.mod+'</b><span>'+p.navn+' · '+p.lev+'</span></div>'+
   '<div class="pp">'+(S.loading?'<span class="sk"></span><span class="sk" style="width:64px"></span>':'<span>Netto <b>'+fmt(p.net)+'</b></span><span>Veil. '+fmt(p.veil)+'</span>')+'</div>'+
   '<div class="pl">'+(S.loading?'<span class="sk" style="width:90px"></span>':'<span class="pill '+l[1]+'">'+l[0]+'</span>')+'</div>'+
-  '<div class="pb"><button type="button" class="btn'+(on?' on':'')+'" data-id="'+p.id+'" aria-pressed="'+on+'"'+(S.sent?' disabled':'')+'>'+(on?'Valgt':'Velg')+'</button></div></div>'}).join(''):'<p class="muted" style="padding:12px 0">Ingen treff. Prøv et annet søk.</p>';
+  '<div class="pb"><button type="button" class="btn'+(on?' dark':'')+'" data-id="'+p.id+'" aria-pressed="'+on+'"'+(S.sent?' disabled':'')+'>'+(on?'Valgt':'Velg')+'</button></div></div>'}).join(''):'<p class="muted" style="padding:12px 0">Ingen treff. Prøv et annet søk.</p>';
  $('list').querySelectorAll('[data-id]').forEach(function(b){b.onclick=function(){var p=byId(b.dataset.id);
   if(S.sel[p.kat]===p.id){delete S.sel[p.kat];log('Fjernet '+p.m+' '+p.mod+' fra ordren.')}
   else{var old=S.sel[p.kat];S.sel[p.kat]=p.id;delete S.keep[p.id];log((old?'Byttet '+p.kat.toLowerCase()+' til ':'La til ')+'<b>'+p.m+' '+p.mod+'</b> på ordren. Netto '+fmt(p.net)+'.')}
@@ -82,7 +82,7 @@ function tab2(){
   h+='<div class="test"><i class="'+(c.lev?'y':'n')+'">'+(c.lev?'✓':'!')+'</i><div>'+(c.lev?'Kommer før montasje':'Kommer etter montasje')+'<span>'+c.l[0]+(c.lev?', levert til lager innen uke '+ONSKET+'.':'. Montasjen er uke 47.')+(S.keep[p.id]?' Beholdt, kunden varsles.':'')+'</span></div></div></div>';
   if(bad){h+='<div class="fix">'+(alt?'<button class="btn primary" type="button" data-sw="'+p.id+'" data-to="'+alt.id+'">Bytt til '+alt.m+' '+alt.mod+'</button>':'')+(c.fit&&!c.lev?'<button class="btn" type="button" data-keep="'+p.id+'">Behold, ettermonter uke 49</button>':'')+'</div>'}
   h+='</div>'});
- h+='</div><div class="foot"><span class="sum">'+(i.fit||i.lev?'<b class="wn">'+(i.fit+i.lev)+' avvik</b> må løses før bestilling':'<b class="ok">Alt stemmer med ordren</b>')+'</span><button class="btn primary" type="button" id="next"'+(canTab(3)?'':' disabled')+'>Til bestilling</button></div>';
+ h+='</div><div class="afoot"><span class="sum">'+(i.fit||i.lev?'<b class="wn">'+(i.fit+i.lev)+' avvik</b> må løses før bestilling':'<b class="ok">Alt stemmer med ordren</b>')+'</span><button class="btn primary" type="button" id="next"'+(canTab(3)?'':' disabled')+'>Til bestilling</button></div>';
  $('body').innerHTML=h;
  var key=C.map(function(p){return p.id}).join();if(S.logged2!==key){S.logged2=key;var msg=[];C.forEach(function(p){var c=check(p);if(!c.fit)msg.push('<b>'+p.m+' '+p.mod+'</b> krever '+p.need+' cm, tegningen har '+c.s[0]+' cm');if(!c.lev)msg.push('<b>'+p.m+' '+p.mod+'</b> er restordre til uke 49');});
   log(msg.length?'Sjekk mot ordren fant avvik: '+msg.join('. ')+'.':'Sjekk mot ordren: alle varer passer og kommer i tide.')}
@@ -102,7 +102,7 @@ function tab3(){
   h+='<div class="st">'+(st.st==='sendt'?'<span class="spin" aria-hidden="true"></span>Venter på bekreftelse …':st.st==='ok'?'<span>Ordrenr. <b class="on">'+ONR[s]+'</b><br>Levering uke '+st.uke+(st.late?' <span class="wn">(ønsket '+ONSKET+')</span>':st.rest?' <span class="wn">(restordre, avtalt)</span>':'')+'</span>':'<span class="muted">Ikke sendt</span>')+'</div></div>'});
  h+='</div>';
  if(S.caseTxt)h+='<div class="case"><b>'+S.caseTxt[0]+'</b><span>'+S.caseTxt[1]+'</span></div>';
- h+='<div class="foot">'+totals()+(S.done?'<button class="btn primary" type="button" id="next">Se hva som skjer etterpå</button>':'<button class="btn primary" type="button" id="send"'+(S.sent?' disabled':'')+'>'+(S.sent?'Sender …':'Bestill fra '+k.length+' leverandører')+'</button>')+'</div>';
+ h+='<div class="afoot">'+totals()+(S.done?'<button class="btn primary" type="button" id="next">Se hva som skjer etterpå</button>':'<button class="btn primary" type="button" id="send"'+(S.sent?' disabled':'')+'>'+(S.sent?'Sender …':'Bestill fra '+k.length+' leverandører')+'</button>')+'</div>';
  $('body').innerHTML=h;
  if($('next'))$('next').onclick=function(){go(4)};
  if($('send'))$('send').onclick=send}
@@ -125,9 +125,9 @@ function events(){var g=groups(),k=Object.keys(g),kept=chosen().filter(function(
  ['Fakturaer matchet mot bestillingen','Ved levering',k.length+' fakturaer, netto '+fmt(tot)+' til sammen. Beløpene stemmer, og de ligger klare til attestering på ordren.'],
  ['Klar for montasje','Uke 47','Hvitevarene er bestilt, bekreftet og fakturert uten at noe er tastet inn for hånd.'+(kept.length?' Ettermontering uke 49 står i Piotrs plan.':'')]]}
 function tab4(){var E=events();
- var h='<h2>Etterpå</h2><p class="muted">Leveringsvarsel og faktura kommer som data fra leverandøren, ikke som PDF i innboksen. Sigdal CRM kobler dem til ordren selv.</p><div class="tl">';
+ var h='<h2>Etterpå</h2><p class="muted">Leveringsvarsel og faktura kommer som data fra leverandøren, ikke som PDF i innboksen. Hengsel CRM kobler dem til ordren selv.</p><div class="tl">';
  E.forEach(function(e,i){var d=i<=S.etter;h+='<div class="'+(d?'d':i===S.etter+1?'n':'w')+'"><div><b>'+e[0]+'</b> <em>· '+e[1]+'</em><span>'+e[2]+'</span></div></div>'});
- h+='</div><div class="foot"><span class="sum">'+(S.etter>=E.length-1?'<b class="ok">Alt koblet til ordre 24-0791</b>':(S.etter)+' av '+(E.length-1)+' hendelser')+'</span><button class="btn primary" type="button" id="ff"'+(S.etter>=E.length-1||S.ffing?' disabled':'')+'>'+(S.ffing?'Spoler …':'Spol fram')+'</button></div>';
+ h+='</div><div class="afoot"><span class="sum">'+(S.etter>=E.length-1?'<b class="ok">Alt koblet til ordre 24-0791</b>':(S.etter)+' av '+(E.length-1)+' hendelser')+'</span><button class="btn primary" type="button" id="ff"'+(S.etter>=E.length-1||S.ffing?' disabled':'')+'>'+(S.ffing?'Spoler …':'Spol fram')+'</button></div>';
  $('body').innerHTML=h;
  if($('ff'))$('ff').onclick=function(){S.ffing=true;tab4();var n=E.length-1-S.etter;for(var j=1;j<=n;j++)(function(j){later(function(){S.etter++;var e=E[S.etter];log('<b>'+e[0]+'</b>: '+e[2]);if(S.etter>=E.length-1){S.ffing=false;step('etter')}if(S.tab===4)tab4()},j*800)})(j)}}
 $('reset').onclick=init;

@@ -54,8 +54,8 @@ function vUtb(){
  h+='<div><span>Levert valg</span><b>'+lev+' av 24</b><em>'+Math.round(lev/24*100)+' % av kjøperne</em></div>';
  h+='<div><span>Sum tilvalg</span><b>'+fmt(sum)+' kr</b><em>Faktureres kjøperne direkte</em></div>';
  h+='<div><span>Dager til tilvalgsfrist</span><b>'+(S.fristB?'Ute':OG.B.dager+' dager')+'</b><em>Oppgang B, '+OG.B.frist+'</em></div>';
- h+='<div><span>Leveranse per oppgang</span><b style="font-size:22px">A uke 48<br>B uke 3</b><em>Bekreftet med Sigdal</em></div></div>';
- h+='<section class="box"><div class="bh"><h2>Strandkanten, byggetrinn 2</h2><button class="btn" type="button" id="remind"'+(mangler.length?'':' disabled')+'>Send påminnelse til de som ikke har valgt</button></div>';
+ h+='<div><span>Leveranse per oppgang</span><b style="font-size:1.45rem;line-height:1.2">A uke 48<br>B uke 3</b><em>Bekreftet med Sigdal</em></div></div>';
+ h+='<section class="card box"><div class="bh"><h2>Strandkanten, byggetrinn 2</h2><button class="btn" type="button" id="remind"'+(mangler.length?'':' disabled')+'>Send påminnelse til de som ikke har valgt</button></div>';
  h+='<div class="legend">'+['ikke','velger','levert','passert','last'].map(function(k){return '<span><i class="u '+k+'" style="min-height:0;padding:0"></i>'+ST[k]+'</span>'}).join('')+'</div>';
  h+='<div class="bld" role="grid" aria-label="Leiligheter etter etasje og nummer"><span></span><div class="og" style="grid-column:2/span 3">Oppgang A</div><span></span><div class="og" style="grid-column:6/span 3">Oppgang B</div>';
  for(var f=4;f>=1;f--){h+='<div class="fl">'+f+'. et.</div>';COLS.forEach(function(c,i){if(i===3)h+='<span></span>';h+=cell(S.units['H0'+f+c])})}
@@ -89,24 +89,24 @@ function elev(c){
 function opt(group,key,label,pr,on,chk,dis){return '<button type="button" class="opt'+(chk?' chk':'')+'" role="'+(chk?'checkbox':'radio')+'" aria-checked="'+on+'" data-g="'+group+'" data-k="'+key+'"'+(dis?' disabled':'')+'><span class="mk"></span><span>'+label+'</span><span class="pr">'+(pr?'+'+fmt(pr)+' kr':'Inkludert')+'</span></button>'}
 function vKjop(){
  var u=S.units[DAHL],c=S.dahl,lock=S.dahlSent||u.st!=='velger';
- var h='<div class="phwrap"><div class="phone"><div class="scr"><div class="ph"><span class="lg">Studio Sigdal</span><span>Strandkanten · '+DAHL+'</span></div><div class="pb" id="pb">';
+ var h='<div class="phwrap"><div class="phone"><div class="scr"><div class="sb" aria-hidden="true"><span>09.41</span><span>••• ▮</span></div><div class="ph"><span class="lg">Studio Sigdal</span><span>Strandkanten · '+DAHL+'</span></div><div class="pb" id="pb">';
  if(!S.dahlSent&&u.st!=='velger'){
-  h+='<h2>Fristen er ute</h2><div class="c"><b>Dere får standardkjøkkenet</b><p>Tilvalgsfristen for oppgang B gikk ut før valgene ble sendt. Kjøkkenet leveres som avtalt med Mjøsbygg, uten tillegg.</p></div><div class="c">'+elev(std())+'</div>';
-  h+='</div><div class="foot"><div class="tot"><span>Tilvalg</span><b>0 kr</b></div></div></div></div>';
+  h+='<h2>Fristen er ute</h2><div class="card c"><b>Dere får standardkjøkkenet</b><p>Tilvalgsfristen for oppgang B gikk ut før valgene ble sendt. Kjøkkenet leveres som avtalt med Mjøsbygg, uten tillegg.</p></div><div class="card c">'+elev(std())+'</div>';
+  h+='</div><div class="pfoot"><div class="tot"><span>Tilvalg</span><b>0 kr</b></div></div></div></div>';
  }else if(S.dahlSent){
-  h+='<h2>Takk, familien Dahl!</h2><div class="c"><b>Kvittering for tilvalg</b><p>Mottatt i dag. Valgene er låst og sendt til prosjektselgeren.</p>'+lines(c)+'</div><div class="c">'+elev(c)+'</div>';
-  h+='<div class="c"><b>Slik går det videre</b><p>Tilvalgene faktureres dere direkte fra Studio Sigdal. Standardkjøkkenet er dekket av kjøpekontrakten med Mjøsbygg. Levering '+OG.B.lev+'.</p></div>';
-  h+='</div><div class="foot"><div class="tot"><span>Tilvalg totalt</span><b>'+fmt(price(c))+' kr</b></div><button class="big" type="button" disabled>Valgene er sendt</button></div></div></div>';
+  h+='<h2>Takk, familien Dahl!</h2><div class="card c"><b>Kvittering for tilvalg</b><p>Mottatt i dag. Valgene er låst og sendt til prosjektselgeren.</p>'+lines(c)+'</div><div class="card c">'+elev(c)+'</div>';
+  h+='<div class="card c"><b>Slik går det videre</b><p>Tilvalgene faktureres dere direkte fra Studio Sigdal. Standardkjøkkenet er dekket av kjøpekontrakten med Mjøsbygg. Levering '+OG.B.lev+'.</p></div>';
+  h+='</div><div class="pfoot"><div class="tot"><span>Tilvalg totalt</span><b>'+fmt(price(c))+' kr</b></div><button class="btn primary big" type="button" disabled>Valgene er sendt</button></div></div></div>';
  }else{
-  h+='<h2>Hei, familien Dahl</h2><div class="c"><b>Standardkjøkken type B, 3-roms</b><p>Hvite matte fronter, laminat benkeplate og standard hvitevarepakke er med i kjøpesummen. Velg tillegg under.</p>'+elev(c)+'</div>';
-  h+='<div class="c"><b>Frist for tilvalg: '+OG.B.frist+'</b><p>'+OG.B.dager+' dager igjen. Etter fristen leveres standardkjøkkenet.</p></div>';
-  h+='<div class="c"><b>Fronter</b>'+Object.keys(F).map(function(k){return opt('f',k,F[k][0],F[k][1],c.f===k,0,lock)}).join('')+'</div>';
-  h+='<div class="c"><b>Benkeplate</b>'+Object.keys(BP).map(function(k){return opt('b',k,BP[k][0],BP[k][1],c.b===k,0,lock)}).join('')+'</div>';
-  h+='<div class="c"><b>Hvitevarer</b>'+opt('x','std','Standard hvitevarepakke',0,true,1,true)+opt('x','i',X.i[0],X.i[1],!!c.i,1,lock)+opt('x','k',X.k[0],X.k[1],!!c.k,1,lock)+'</div>';
-  h+='<div class="c"><b>Ekstra</b>'+opt('x','s',X.s[0],X.s[1],!!c.s,1,lock)+opt('x','l',X.l[0],X.l[1],!!c.l,1,lock)+'</div>';
-  h+='</div><div class="foot"><div class="tot"><span>Tilvalg totalt</span><b>'+fmt(price(c))+' kr</b></div><button class="big" type="button" id="sendv">Send valgene</button></div></div></div>';
+  h+='<h2>Hei, familien Dahl</h2><div class="card c"><b>Standardkjøkken type B, 3-roms</b><p>Hvite matte fronter, laminat benkeplate og standard hvitevarepakke er med i kjøpesummen. Velg tillegg under.</p>'+elev(c)+'</div>';
+  h+='<div class="card c"><b>Frist for tilvalg: '+OG.B.frist+'</b><p>'+OG.B.dager+' dager igjen. Etter fristen leveres standardkjøkkenet.</p></div>';
+  h+='<div class="card c"><b>Fronter</b>'+Object.keys(F).map(function(k){return opt('f',k,F[k][0],F[k][1],c.f===k,0,lock)}).join('')+'</div>';
+  h+='<div class="card c"><b>Benkeplate</b>'+Object.keys(BP).map(function(k){return opt('b',k,BP[k][0],BP[k][1],c.b===k,0,lock)}).join('')+'</div>';
+  h+='<div class="card c"><b>Hvitevarer</b>'+opt('x','std','Standard hvitevarepakke',0,true,1,true)+opt('x','i',X.i[0],X.i[1],!!c.i,1,lock)+opt('x','k',X.k[0],X.k[1],!!c.k,1,lock)+'</div>';
+  h+='<div class="card c"><b>Ekstra</b>'+opt('x','s',X.s[0],X.s[1],!!c.s,1,lock)+opt('x','l',X.l[0],X.l[1],!!c.l,1,lock)+'</div>';
+  h+='</div><div class="pfoot"><div class="tot"><span>Tilvalg totalt</span><b>'+fmt(price(c))+' kr</b></div><button class="btn primary big" type="button" id="sendv">Send valgene</button></div></div></div>';
  }
- h+='<div class="explain"><section class="box"><h2>Det kjøperen ser</h2><p class="note">Familien Dahl har kjøpt H0304 i oppgang B. De får en lenke fra prosjektselgeren og velger tilvalg på mobilen. Prisen oppdateres med en gang, og skissen viser valgene.</p><p class="note">Når de sender, låses valgene. Enheten blir Levert valg hos utbygger, og prosjektselgeren får beskjed om hvilken tegning som må endres i CET.</p>';
+ h+='<div class="explain"><section class="card box"><h2>Det kjøperen ser</h2><p class="note">Familien Dahl har kjøpt H0304 i oppgang B. De får en lenke fra prosjektselgeren og velger tilvalg på mobilen. Prisen oppdateres med en gang, og skissen viser valgene.</p><p class="note">Når de sender, låses valgene. Enheten blir Levert valg hos utbygger, og prosjektselgeren får beskjed om hvilken tegning som må endres i CET.</p>';
  h+='<div class="det"><div class="ln"><span>Status hos utbygger</span><span class="pill '+({levert:'ok',velger:'info',passert:'warn',last:''}[u.st]||'')+'">'+ST[u.st]+'</span></div><div class="ln"><span>'+(S.dahlSent?'Tilvalg sendt':'Tilvalg i utkast')+'</span><span class="p">'+fmt(price(c))+' kr</span></div></div>';
  h+='<div class="acts"><button class="btn" type="button" data-go="utb">Se utbyggeroversikten</button></div></section></div></div>';
  return h}
@@ -118,11 +118,11 @@ function counts(o){
   var ch=cetChanges(c);if(ch.length&&(u.st==='levert'||u.st==='last'))r.cet.push([u.id,ch])});
  return r}
 function vBest(){
- var h='<section class="box"><h2>Samlet bestilling per oppgang</h2><p class="note">Når tilvalgsfristen er ute, samles alle valg i oppgangen til én bestilling hos Sigdal. Leiligheter uten valg får standardkjøkkenet for sin type.</p></section>';
+ var h='<section class="card box"><h2>Samlet bestilling per oppgang</h2><p class="note">Når tilvalgsfristen er ute, samles alle valg i oppgangen til én bestilling hos Sigdal. Leiligheter uten valg får standardkjøkkenet for sin type.</p></section>';
  ['A','B'].forEach(function(o){
   var r=counts(o),open=ogOpen(o),done=S.bestilt[o],U=all().filter(function(u){return og(u.id)===o});
   var sum=0;
-  h+='<section class="box"><div class="bh"><h2>'+OG[o].navn+' · 12 leiligheter</h2><span class="pill '+(done?'ok':open?'info':'warn')+'">'+(done?'Bestilt, levering '+OG[o].lev:open?'Frist '+OG[o].frist:'Frist ute '+OG[o].frist)+'</span></div>';
+  h+='<section class="card box"><div class="bh"><h2>'+OG[o].navn+' · 12 leiligheter</h2><span class="pill '+(done?'ok':open?'info':'warn')+'">'+(done?'Bestilt, levering '+OG[o].lev:open?'Frist '+OG[o].frist:'Frist ute '+OG[o].frist)+'</span></div>';
   h+='<div class="chipsrow">'+U.map(function(u){return cell(u,1)}).join('')+'</div>';
   if(open)h+='<p class="note">Foreløpige tall. '+r.mangler+' leiligheter har ikke sendt valg og er regnet som standard.</p>';
   h+='<div class="tbl"><table><thead><tr><th>Variant</th><th class="n">Antall</th><th class="n">Tilvalg</th></tr></thead><tbody>';

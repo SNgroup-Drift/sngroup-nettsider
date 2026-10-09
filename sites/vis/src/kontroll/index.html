@@ -10,42 +10,40 @@
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-.wrap{max-width:1240px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
-h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
-.sub{color:var(--muted);margin:6px 0 0;max-width:66ch}
-.tabs{display:flex;gap:8px;flex-wrap:wrap}
-.tabs button{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:22px;padding:9px 16px;font:500 14px var(--sans);cursor:pointer;min-height:42px}
-.tabs button.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
+.velg{display:flex;gap:8px;flex-wrap:wrap}
 .lay{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
-.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px;min-width:0}
-.box h2{font:400 26px/1.2 var(--serif);margin:0}
-.box h3{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.lay>.card{display:grid;gap:12px;min-width:0;align-content:start}
+.lay h3{margin:0}
 .docs{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:14px}
-.doc{border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--soft)}
+.doc{background:var(--soft);border-radius:var(--r-field);padding:6px 12px;line-height:1.5}
 .doc b{font-weight:600}
-.tbl{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
-th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
-th{font:600 12px var(--sans);color:var(--muted)}
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:600px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;line-height:1.45}
+th{font:600 13px var(--sans);color:var(--muted);padding-block:8px}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-tr.scan{background:var(--accent-soft)}
-tr.bad td{background:var(--warn-soft)}
+tbody tr{transition:background var(--dur) var(--ease)}
+tbody tr:hover td{background:var(--soft)}
+tbody tr.scan td{background:var(--accent-soft)}
+tbody tr.bad td{background:var(--warn-soft)}
 tr.bad td.diff{color:var(--warn);font-weight:600}
 td.st{width:110px}
 .flags{display:grid;gap:10px}
-.flag{border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:0 12px 12px 0;padding:12px;display:grid;gap:8px;font-size:14px;animation:fi .35s ease}
-@keyframes fi{from{opacity:0;transform:translateY(4px)}}
-.flag.ok{border-left-color:var(--ok);opacity:.75}
+.flag{gap:8px;font-size:15px;padding:12px 14px;line-height:1.45}
+.flag.ok .acts{align-items:center}
 .flag b{font-weight:600}
-.flag p{margin:0;color:var(--muted)}
-.acts{display:flex;gap:6px;flex-wrap:wrap}
-.acts .btn{min-height:36px;padding:6px 12px;font-size:13px}
+.flag p{margin:0;color:var(--muted);font-size:14px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.flag .acts{gap:6px}
+.flag .btn{min-height:40px;padding:0 14px;font-size:14px}
 .sum{display:grid;gap:8px}
-.sum div{background:var(--soft);border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.sum b{font:400 22px var(--serif);white-space:nowrap;font-variant-numeric:tabular-nums}
+.sum div{background:var(--soft);border-radius:var(--r-field);padding:12px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sum b{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em;white-space:nowrap;font-variant-numeric:tabular-nums}
 .sum span{font-size:13px;color:var(--muted)}
 .empty{color:var(--muted);font-size:14px;margin:0}
-@media (max-width:900px){.lay{grid-template-columns:1fr}}
+@media (max-width:900px){.lay{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.wrap{padding-inline:16px}.lay>.card{padding:16px}}
 </style>
 </head>
 <body>
@@ -56,16 +54,16 @@ td.st{width:110px}
     <h1>Ordre- og fakturakontroll</h1>
     <p class="lede">CRM-et legger dokumentene oppå hverandre og viser bare det som ikke stemmer. Kjør kontrollen, og bestem hva som skal skje med hvert avvik.</p>
   </header>
-  <nav class="tabs" id="tabs"></nav>
+  <nav class="velg" id="tabs" aria-label="Velg kontroll"></nav>
   <div class="lay">
-    <section class="box">
-      <h3 id="ctx"></h3>
+    <section class="card">
+      <h3 class="eyebrow" id="ctx"></h3>
       <div class="docs" id="docs"></div>
       <div class="tbl"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
-      <div class="acts"><button class="btn primary" id="run" type="button">Kjør kontroll</button><button class="btn" id="reset" type="button">Start på nytt</button></div>
+      <div class="acts"><button class="btn primary" id="run" type="button">Kjør kontroll</button><button class="btn ghost" id="reset" type="button">Start på nytt</button></div>
     </section>
-    <aside class="box">
-      <h3>Avvik</h3>
+    <aside class="card">
+      <h3 class="eyebrow">Avvik</h3>
       <div class="flags" id="flags"><p class="empty">Kjør kontrollen for å se avvikene.</p></div>
       <div class="sum" id="sum" hidden></div>
     </aside>

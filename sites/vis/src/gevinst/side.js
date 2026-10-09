@@ -26,7 +26,7 @@ var DEF={},V={},EL={};
 function field(d,host){
  var id=d[0],dec=d[8]||0;DEF[id]=d[2];V[id]=d[2];
  var w=document.createElement('div');w.className='f';
- w.innerHTML='<div class="top"><label for="n_'+id+'">'+d[1]+'</label><span class="num"><input id="n_'+id+'" type="text" inputmode="'+(dec?'decimal':'numeric')+'" autocomplete="off"><span>'+d[6]+'</span></span></div>'+
+ w.innerHTML='<div class="top"><label for="n_'+id+'">'+d[1]+'</label><span class="felt"><input id="n_'+id+'" type="text" inputmode="'+(dec?'decimal':'numeric')+'" autocomplete="off"><span>'+d[6]+'</span></span></div>'+
   '<input type="range" id="r_'+id+'" min="'+d[3]+'" max="'+d[4]+'" step="'+d[5]+'" aria-label="'+d[1]+'">'+(d[7]?'<p class="hint">'+d[7]+'</p>':'');
  host.appendChild(w);
  var n=w.querySelector('#n_'+id),r=w.querySelector('#r_'+id);EL[id]={n:n,r:r,d:d,dec:dec};

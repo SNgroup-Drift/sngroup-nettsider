@@ -10,47 +10,50 @@
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-.wrap{max-width:1240px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
-h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
-.sub{color:var(--muted);margin:6px 0 0;max-width:64ch}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
 .steps{display:flex;gap:6px;flex-wrap:wrap}
-.steps span{font:500 13px var(--sans);padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.steps span{font:500 13px/1.4 var(--sans);padding:5px 12px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--card);color:var(--muted);transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
 .steps span.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 .steps span.d{background:var(--ok-soft);border-color:var(--ok-soft);color:var(--ok)}
 .lay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
-.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px;min-width:0}
-.box h2{font:400 26px/1.2 var(--serif);margin:0}
-.box h3{font:600 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
-.mail{border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.mail .hd{background:var(--soft);padding:10px 12px;font-size:13px;display:grid;gap:2px}
+.wrap>.card,.lay>.card{display:grid;gap:12px;min-width:0;align-content:start}
+.card h2{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.card h3{margin:0}
+.mail{border:1px solid var(--line);border-radius:var(--r-field);overflow:hidden}
+.mail .hd{background:var(--soft);padding:10px 14px;font-size:14px;display:grid;gap:2px;line-height:1.45}
 .mail .hd b{font-weight:600}
-.mail .bd{padding:12px;font-size:14px;display:grid;gap:8px}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font:600 12px var(--sans);color:var(--muted)}
-td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.mail .bd{padding:12px 14px;font-size:15px;display:grid;gap:8px;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+th{font:600 13px var(--sans);color:var(--muted)}
+tbody tr:hover td{background:var(--soft)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .sc{display:grid;gap:8px}
-.sc button{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px;font:14px var(--sans);color:var(--fg);cursor:pointer;display:grid;gap:2px;min-height:48px}
+.sc button{text-align:left;border:1px solid transparent;background:var(--soft);border-radius:var(--r-field);padding:12px 16px;font:15px/1.45 var(--sans);color:var(--fg);cursor:pointer;display:grid;gap:2px;min-height:48px;transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease)}
+.sc button:hover{border-color:var(--sand)}
 .sc button b{font-weight:600}
-.sc button span{color:var(--muted);font-size:13px}
-.sc button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.sc button span{color:var(--muted);font-size:14px}
+.sc button.on{border-color:var(--accent);background:var(--card);box-shadow:0 0 0 2px var(--accent-soft)}
 .read{display:grid;gap:6px}
-.fld{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px;padding:8px 10px;border-radius:10px;background:var(--soft);opacity:.35;transition:opacity .3s}
+.fld{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:15px;line-height:1.45;padding:10px 14px;border-radius:var(--r-field);background:var(--soft);opacity:.35;transition:opacity var(--dur) var(--ease)}
 .fld.v{opacity:1}
-.fld span:first-child{color:var(--muted)}
+.fld span:first-child{color:var(--muted);font-size:14px}
 .fld b{font-weight:600;overflow-wrap:anywhere}
-.res{border-radius:12px;padding:14px;display:grid;gap:6px;font-size:14px}
-.res.ok{background:var(--ok-soft)}
-.res.warn{background:var(--warn-soft)}
+.res{border-radius:var(--r-field);background:var(--soft);padding:14px 16px;display:grid;gap:6px;font-size:15px;line-height:1.5}
+.res.ok{box-shadow:inset 3px 0 0 var(--ok)}
+.res.warn{box-shadow:inset 3px 0 0 var(--warn)}
 .res b{font-weight:600}
-.res p{margin:0}
-.reply{border:1px dashed var(--sand);border-radius:12px;padding:12px;font-size:14px;display:grid;gap:6px;background:var(--bg)}
-.lv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.lv div{background:var(--soft);border-radius:12px;padding:12px;font-size:14px;display:grid;gap:4px;align-content:start}
-.lv b{font:400 20px var(--serif)}
+.res p{margin:0;color:var(--muted)}
+#out{display:grid;gap:12px}
+.reply{border:1px dashed var(--sand);border-radius:var(--r-field);padding:12px 14px;font-size:15px;line-height:1.5;display:grid;gap:6px;background:var(--bg)}
+.lv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lv div{background:var(--soft);border-radius:var(--r-field);padding:14px 16px;font-size:15px;line-height:1.5;display:grid;gap:6px;align-content:start}
+.lv b{font:600 17px/1.3 var(--sans)}
+.lv span:last-child{color:var(--muted)}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
 .hide{display:none}
-@media (max-width:900px){.lay{grid-template-columns:1fr}.lv{grid-template-columns:1fr}.fld{grid-template-columns:1fr auto}.fld span:first-child{grid-column:1/-1}}
+@media (max-width:900px){.lay{grid-template-columns:minmax(0,1fr)}.lv{grid-template-columns:minmax(0,1fr)}.fld{grid-template-columns:minmax(0,1fr) auto}.fld span:first-child{grid-column:1/-1}}
+@media (max-width:640px){.wrap{padding-inline:16px}}
 </style>
 </head>
 <body>
@@ -63,8 +66,8 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
   </header>
   <div class="steps" id="steps"><span class="on">1 · Bestillingen</span><span>2 · Send bekreftelse</span><span>3 · Hos Studio Sigdal</span><span>4 · Svaret dere får</span></div>
   <div class="lay">
-    <section class="box">
-      <h3>Innboksen hos Nordstein</h3>
+    <section class="card">
+      <h3 class="eyebrow">Innboksen hos Nordstein</h3>
       <div class="mail">
         <div class="hd"><span><b>Fra:</b> bestilling@studiosigdal-innlandet.no</span><span><b>Emne:</b> Bestilling 24-0815 · Haugen · P-2614</span></div>
         <div class="bd">
@@ -74,23 +77,23 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
             <tr><td>Utsparing for platetopp</td><td class="n">1</td><td class="n">950</td></tr>
             <tr><td>Utsparing for kum, underlimt</td><td class="n">1</td><td class="n">1 250</td></tr>
           </tbody></table>
-          <span class="muted" style="font-size:13px">Svar med ordrebekreftelse til denne adressen. Bruk referansen <b>24-0815 · Haugen · P-2614</b>.</span>
+          <span class="muted" style="font-size:14px">Svar med ordrebekreftelse til denne adressen. Bruk referansen <b>24-0815 · Haugen · P-2614</b>.</span>
         </div>
       </div>
-      <h3>Hvordan svarer dere?</h3>
+      <h3 class="eyebrow">Hvordan svarer dere?</h3>
       <div class="sc" id="sc"></div>
-      <div class="acts"><button class="btn primary" id="send" type="button" disabled>Send til bestilling@</button><button class="btn" id="reset" type="button">Start på nytt</button></div>
+      <div class="acts"><button class="btn primary" id="send" type="button" disabled>Send til bestilling@</button><button class="btn ghost" id="reset" type="button">Start på nytt</button></div>
     </section>
-    <section class="box" id="right">
-      <h3>Hos Studio Sigdal</h3>
+    <section class="card" id="right">
+      <h3 class="eyebrow">Hos Studio Sigdal</h3>
       <h2 id="rt">Venter på bekreftelsen</h2>
       <p class="muted" id="rp" style="margin:0">Velg et svar til venstre og send det. CRM-et leser PDF-en, finner riktig ordre og sjekker den mot bestillingen.</p>
       <div class="read" id="read"></div>
       <div id="out"></div>
     </section>
   </div>
-  <section class="box">
-    <h3>Tre nivåer, samme mål</h3>
+  <section class="card">
+    <h3 class="eyebrow">Tre nivåer, samme mål</h3>
     <div class="lv">
       <div><span class="pill ok" style="justify-self:start">Nivå 1 · alle</span><b>PDF på e-post</b><span>Fast referanse og bekreftelse til bestilling@. Vi leser PDF-en selv. Ingen endring hos dere utover adresse og referanse.</span></div>
       <div><span class="pill info" style="justify-self:start">Nivå 2</span><b>Fast fil</b><span>Bekreftelse og prisliste i en fast Excel- eller CSV-mal. Gir færre tolkningsfeil og raskere svar.</span></div>

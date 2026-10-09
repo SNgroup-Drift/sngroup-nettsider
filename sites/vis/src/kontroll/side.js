@@ -25,22 +25,22 @@ var K={
   acts:[['Krev kreditnota','Lager et e-postutkast til leverandøren. Du sender selv.'],['Godkjenn','Fakturaen kan betales som den er.']]}
 };
 var cur='sig',T=[],res={},run=false;
-Object.keys(K).forEach(function(k){var b=document.createElement('button');b.type='button';b.textContent=K[k].t;b.dataset.k=k;b.onclick=function(){load(k)};$('tabs').appendChild(b)});
+Object.keys(K).forEach(function(k){var b=document.createElement('button');b.type='button';b.className='btn';b.textContent=K[k].t;b.dataset.k=k;b.onclick=function(){load(k)};$('tabs').appendChild(b)});
 function at(ms,f){T.push(setTimeout(f,ms))}
 function load(k){T.forEach(clearTimeout);T=[];cur=k;res={};run=false;var d=K[k];
- [].forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.dataset.k===k)});
+ [].forEach.call($('tabs').children,function(b){b.classList.toggle('dark',b.dataset.k===k);b.setAttribute('aria-pressed',b.dataset.k===k)});
  $('ctx').textContent=d.ctx;$('docs').innerHTML=d.docs.map(function(x,i){return (i?'<span class="muted">mot</span>':'')+'<span class="doc"><b>'+x[0]+'</b> · '+x[1]+'</span>'}).join('');
- $('th').innerHTML='<tr><th>'+d.cols[0]+'</th><th>'+d.cols[1]+'</th><th>'+d.cols[2]+'</th><th class="st"></th></tr>';
- var num=k==='lev';
+ var num=k==='lev',nc=num?' class="n"':'';
+ $('th').innerHTML='<tr><th>'+d.cols[0]+'</th><th'+nc+'>'+d.cols[1]+'</th><th'+nc+'>'+d.cols[2]+'</th><th class="st"></th></tr>';
  $('tb').innerHTML=d.rows.map(function(r,i){return '<tr id="r'+i+'"><td>'+r[0]+'</td><td'+(num?' class="n"':'')+'>'+r[1]+'</td><td class="diff'+(num?' n':'')+'">'+r[2]+'</td><td class="st"></td></tr>'}).join('');
  $('flags').innerHTML='<p class="empty">Kjør kontrollen for å se avvikene.</p>';$('sum').hidden=true;$('run').disabled=false}
 $('run').onclick=function(){if(run)return;run=true;$('run').disabled=true;var d=K[cur];$('flags').innerHTML='';
  d.rows.forEach(function(r,i){at(i*380,function(){var tr=$('r'+i);[].forEach.call($('tb').children,function(x){x.classList.remove('scan')});
   if(r[3]){tr.classList.add('bad');tr.lastChild.innerHTML='<span class="pill warn">Avvik</span>';flag(i)}else{tr.classList.add('scan');tr.lastChild.innerHTML='<span class="pill ok">Stemmer</span>'}})});
  at(d.rows.length*380+200,function(){[].forEach.call($('tb').children,function(x){x.classList.remove('scan')});summary()})};
-function flag(i){var d=K[cur],r=d.rows[i],el=document.createElement('div');el.className='flag';el.id='f'+i;
- el.innerHTML='<b>'+r[0]+'</b><p>'+r[3]+'</p>'+(r[4]?'<span style="font-size:13px">Beløp: <b>'+fmt(r[4])+' kr</b></span>':'')+'<div class="acts">'+d.acts.map(function(a,j){return '<button class="btn'+(j?'':' primary')+'" type="button" data-j="'+j+'">'+a[0]+'</button>'}).join('')+'</div>';
- el.querySelectorAll('button').forEach(function(b){b.onclick=function(){var j=+b.dataset.j;res[i]=j;el.classList.add('ok');el.querySelector('.acts').innerHTML='<span class="pill '+(j?'ok':'info')+'">'+d.acts[j][0]+'</span><span class="muted" style="font-size:13px">'+d.acts[j][1]+'</span>';summary()}});
+function flag(i){var d=K[cur],r=d.rows[i],el=document.createElement('div');el.className='tile warn flag';el.id='f'+i;
+ el.innerHTML='<b>'+r[0]+'</b><p>'+r[3]+'</p>'+(r[4]?'<span style="font-size:14px">Beløp: <b>'+fmt(r[4])+' kr</b></span>':'')+'<div class="acts">'+d.acts.map(function(a,j){return '<button class="btn'+(j?'':' primary')+'" type="button" data-j="'+j+'">'+a[0]+'</button>'}).join('')+'</div>';
+ el.querySelectorAll('button').forEach(function(b){b.onclick=function(){var j=+b.dataset.j;res[i]=j;el.classList.remove('warn');el.classList.add('ok');el.querySelector('.acts').innerHTML='<span class="pill '+(j?'ok':'info')+'">'+d.acts[j][0]+'</span><span class="muted" style="font-size:14px">'+d.acts[j][1]+'</span>';summary()}});
  $('flags').appendChild(el)}
 function summary(){var d=K[cur],bad=d.rows.filter(function(r){return r[3]}),done=Object.keys(res).length,sikret=0;
  d.rows.forEach(function(r,i){if(r[3]&&res[i]===0)sikret+=r[4]||0});

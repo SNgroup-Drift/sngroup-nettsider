@@ -42,7 +42,7 @@ function pillOf(o){
 function cardHtml(o){var is=issues(o),f=is.some(function(x){return x[0]==='f'}),a=is.length>0;
  var cls=f?'feil':a?'adv':o.st==='akseptert'?'ok':'';
  var lv='Sigdal u'+o.sig+o.o.map(function(x){return ' · '+x[0]+' u'+x[1]}).join('');
- return '<div role="button" tabindex="0" class="card '+cls+'" draggable="true" data-id="'+o.id+'" aria-pressed="'+(SEL===o.id)+'"><span class="grip" aria-hidden="true"></span>'+
+ return '<div role="button" tabindex="0" class="job '+cls+'" draggable="true" data-id="'+o.id+'" aria-pressed="'+(SEL===o.id)+'"><span class="grip" aria-hidden="true"></span>'+
   '<span class="n"><b>'+o.k+'</b><span>'+o.s+' · '+o.id+'</span></span><span class="lv">'+lv+'</span>'+pillOf(o)+
   is.map(function(x){return '<span class="iss '+x[0]+'">'+(x[0]==='f'?'Feil: ':'')+x[1]+'</span>'}).join('')+'</div>'}
 function hereBtn(key,label){var o=SEL&&byId(SEL);if(!o)return '';var cur=o.t?o.t+'|'+o.w:'none';if(cur===key)return '';
@@ -69,8 +69,8 @@ function kpi(){var plan=O.filter(function(o){return o.t}).length,un=O.length-pla
  O.forEach(function(o){issues(o).forEach(function(x){x[0]==='f'?f++:a++})});
  var occ=WEEKS.map(function(w){var cap=TEAMS.filter(function(t){return !isFerie(t.id,w)}).length*CAP;var n=O.filter(function(o){return o.w===w}).length;return {w:w,n:n,cap:cap,p:cap?Math.round(n/cap*100):(n?999:0)}});
  var top=Math.max(125,Math.max.apply(null,occ.map(function(x){return Math.min(x.p,200)})));
- $('kpi').innerHTML='<div><span>Planlagt</span><b>'+plan+'</b><em>jobber på tavla</em></div><div><span>Uten plan</span><b>'+un+'</b><em>i «Ikke planlagt»</em></div><div><span>Konflikter</span><b>'+(f+a)+'</b><em>'+f+' feil · '+a+' advarsler</em></div>'+
-  '<div class="wide"><span>Belegg per uke</span><div class="occ">'+occ.map(function(x){var hgt=Math.min(x.p,200)/top*100;return '<div title="Uke '+x.w+': '+x.n+' av '+x.cap+' jobber"><strong>'+x.p+' %</strong><span class="bar"><i class="'+(x.p>100?'over':'')+'" style="height:'+hgt+'%"></i><u style="top:'+(100-100/top*100)+'%"></u></span>Uke '+x.w+'</div>'}).join('')+'</div></div>';
+ $('kpi').innerHTML='<div class="card"><span>Planlagt</span><b>'+plan+'</b><em>jobber på tavla</em></div><div class="card"><span>Uten plan</span><b>'+un+'</b><em>i «Ikke planlagt»</em></div><div class="card"><span>Konflikter</span><b>'+(f+a)+'</b><em>'+f+' feil · '+a+' advarsler</em></div>'+
+  '<div class="card wide"><span>Belegg per uke</span><div class="occ">'+occ.map(function(x){var hgt=Math.min(x.p,200)/top*100;return '<div title="Uke '+x.w+': '+x.n+' av '+x.cap+' jobber"><strong>'+x.p+' %</strong><span class="bar"><i class="'+(x.p>100?'over':'')+'" style="height:'+hgt+'%"></i><u style="top:'+(100-100/top*100)+'%"></u></span>Uke '+x.w+'</div>'}).join('')+'</div></div>';
 }
 function conflicts(){var L=[];
  O.forEach(function(o){if(!o.t)return;issues(o).forEach(function(x){if(x[1].indexOf('Over kapasitet')===0)return;L.push([x[0],o,x[1]])})});
@@ -100,13 +100,13 @@ $('sim').onclick=function(){var sent=O.filter(function(o){return o.st==='sendt'&
 /* Trykk og flytt */
 $('board').addEventListener('click',function(e){if(supp){e.preventDefault();return}
  var to=e.target.closest('[data-to]');if(to){var id=SEL;move(id,to.dataset.to);var mc=$('board').querySelector('[data-id="'+id+'"]');if(mc)mc.focus({preventScroll:true});return}
- var c=e.target.closest('.card');if(c){SEL=SEL===c.dataset.id?null:c.dataset.id;render()}});
+ var c=e.target.closest('.job');if(c){SEL=SEL===c.dataset.id?null:c.dataset.id;render()}});
 $('selx').onclick=function(){var id=SEL;SEL=null;render();var c=$('board').querySelector('[data-id="'+id+'"]');if(c)c.focus()};
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&SEL){$('selx').onclick()}});
-$('board').addEventListener('keydown',function(e){var c=e.target.classList&&e.target.classList.contains('card')&&e.target;if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();SEL=SEL===c.dataset.id?null:c.dataset.id;render()}});
+$('board').addEventListener('keydown',function(e){var c=e.target.classList&&e.target.classList.contains('job')&&e.target;if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();SEL=SEL===c.dataset.id?null:c.dataset.id;render()}});
 /* HTML5 drag (mus) */
 var dragId=null;
-$('board').addEventListener('dragstart',function(e){var c=e.target.closest&&e.target.closest('.card');if(!c)return;dragId=c.dataset.id;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',dragId)}catch(_){}setTimeout(function(){c.classList.add('dragging')},0)});
+$('board').addEventListener('dragstart',function(e){var c=e.target.closest&&e.target.closest('.job');if(!c)return;dragId=c.dataset.id;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',dragId)}catch(_){}setTimeout(function(){c.classList.add('dragging')},0)});
 $('board').addEventListener('dragend',function(){dragId=null;clearOver();var d=$('board').querySelector('.dragging');if(d)d.classList.remove('dragging')});
 $('board').addEventListener('dragover',function(e){var d=e.target.closest('[data-drop]');if(!d||!dragId)return;e.preventDefault();e.dataTransfer.dropEffect='move';setOver(d)});
 $('board').addEventListener('drop',function(e){var d=e.target.closest('[data-drop]');if(!d||!dragId)return;e.preventDefault();var id=dragId;dragId=null;clearOver();move(id,d.dataset.drop)});
@@ -114,10 +114,10 @@ function clearOver(){$('board').querySelectorAll('.drop.over').forEach(function(
 function setOver(d){$('board').querySelectorAll('.drop.over').forEach(function(x){if(x!==d)x.classList.remove('over')});if(d)d.classList.add('over')}
 /* Pekerbasert drag via håndtaket (berøring, penn) */
 var P=null,supp=false;
-$('board').addEventListener('pointerdown',function(e){var g=e.target.closest('.grip');if(!g||e.pointerType==='mouse')return;var c=g.closest('.card');
+$('board').addEventListener('pointerdown',function(e){var g=e.target.closest('.grip');if(!g||e.pointerType==='mouse')return;var c=g.closest('.job');
  P={id:c.dataset.id,x:e.clientX,y:e.clientY,el:c,on:false,pid:e.pointerId};try{g.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()});
 $('board').addEventListener('pointermove',function(e){if(!P||e.pointerId!==P.pid)return;
- if(!P.on){if(Math.abs(e.clientX-P.x)+Math.abs(e.clientY-P.y)<6)return;P.on=true;P.g=P.el.cloneNode(true);P.g.classList.add('ghost');P.g.removeAttribute('data-id');document.body.appendChild(P.g);P.el.classList.add('dragging')}
+ if(!P.on){if(Math.abs(e.clientX-P.x)+Math.abs(e.clientY-P.y)<6)return;P.on=true;P.g=P.el.cloneNode(true);P.g.classList.add('drag');P.g.removeAttribute('data-id');document.body.appendChild(P.g);P.el.classList.add('dragging')}
  e.preventDefault();P.g.style.left=(e.clientX-80)+'px';P.g.style.top=(e.clientY-24)+'px';
  var el=document.elementFromPoint(e.clientX,e.clientY),d=el&&el.closest&&el.closest('[data-drop]');setOver(d||null);P.over=d;
  var br=$('board').getBoundingClientRect();if(e.clientX>br.right-40)$('board').scrollLeft+=12;else if(e.clientX<br.left+40)$('board').scrollLeft-=12});
