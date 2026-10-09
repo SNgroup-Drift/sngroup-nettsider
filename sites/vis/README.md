@@ -45,12 +45,37 @@ Skriftene er Newsreader (titler) og Inter (tekst), selvhostet fra `@fontsource-v
 ikke i `src/`; `bygg.mjs` legger dem og `fonts.css` i `dist/fonts/` ved hvert bygg. Ingen kall til Google Fonts, og
 CSP-en tillater bare skrifter fra `'self'`. Ikke lag en mappe `src/fonts/`; bygget stopper da.
 
+## Profilen i korte trekk
+
+- **Tokens** (samme navn som før, nye verdier): `--bg` Beige 3, `--card` Off White, `--soft` Beige 4, `--fg` Warm Black,
+  `--muted`, `--line` Beige 2, `--sand` Beige 1, `--accent` Deep Blue (Dusty Blue i mørk), `--accent-soft`, `--dusty`,
+  `--ok`/`--ok-soft`, `--warn`/`--warn-soft`. Bruk aldri faste fargekoder i rommene (unntak: telefon- og nettbrettrammen
+  `#1B1713`); da blir mørk modus feil.
+- **Tekst i aksent- eller ok-farge** bruker `--accent-tekst` og `--ok-tekst`. Deep Blue og ok-grønn gir under 4,5:1 som
+  tekst på Beige 3 og de myke flatene, så tekstvariantene er litt mørkere i lys modus (like i mørk). Flater, streker og
+  knapper bruker `--accent`/`--ok`.
+- **Typografi:** Newsreader 400 bare på titler og nøkkeltall, aldri under 1,45rem. Inter 17/1,6 til brødtekst, 15 til UI,
+  14 til hjelpetekst, 13 til eyebrow og piller. Versaler og sperring bare med klassen `.eyebrow` (paneloverskrifter som
+  «Prøv dette», «Samtidig i …», «Bak kulissene»); lag ikke egne regler med `text-transform`/`letter-spacing`.
+- **Flater:** `.card` på bakgrunnen, `.tile` inni kort (aldri kort på kort). Varsler og valgt rad markeres med
+  `box-shadow:inset 3px 0 0 var(--warn)` (eller `--ok`/`--accent`), ikke `border-left`. Ingen skygger og gradienter
+  (eneste unntak: varselet som glir inn i Kundens reise).
+- **Kontroller:** `.btn` (44 px pille), `.btn.primary`, `.btn.dark` for valgt pille i velgere, `.btn.ghost` for
+  «Start på nytt»; `.tabs` med `aria-selected`; `.switch` med `role="switch"` og `aria-checked`; statuspiller `.pill.ok/.warn/.info`.
+- **Klassenavn som kolliderer med vis.css:** `.card`, `.tabs`, `.foot`, `.num`, `.ghost`, `.tile`, `.pill`. Bruk andre
+  navn for lokale ting (rommene bruker f.eks. `.job`, `.tabbar`, `.steg`, `.afoot`, `.felt`). Regler på `svg` i et rom må
+  avgrenses (`.flow>svg`), ellers treffer de også Hengsel-logoen.
+- **Hengsel-logoen** i innhold som lages av skript: legg `<template id="hlogo"><!--hengsel-logo 16--></template>` i HTML
+  og klon `innerHTML` i `side.js` (se `crm/side.js` og `system/side.js`).
+
 ## Kommandoer (fra rotmappen)
 
 ```sh
 npm run build -w sites/vis         # src/ → dist/
 npm test                           # lenkesjekk for alle nettstedene, også rommene i C
-npm run skjermbilder:vis           # alle sider på 390 og 1280 px, lys og mørk + skjermbilder i docs/skjermbilder/vis-*
+npm run skjermbilder:vis           # alle sider på 390 og 1280 px, lys og mørk (konsoll, CSP, rulling, skrifter)
+                                   # + skjermbilder i docs/skjermbilder/vis-*
+VIS_DIST=/tmp/vis node sites/vis/bygg.mjs   # bygg til en annen mappe enn dist/
 ```
 
 

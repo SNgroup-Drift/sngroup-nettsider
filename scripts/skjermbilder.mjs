@@ -153,6 +153,13 @@ for (const [navn, { base }] of Object.entries(servere)) {
   const page = await ctx.newPage();
   await page.goto(servere.hengsel.base + "/", { waitUntil: "networkidle" });
   const src = (id) => page.$eval(`#${id} img`, (i) => i.getAttribute("src"));
+  // Forsiden fra Claude Design (PR #4, 08.10) har ikke lenger fanene, områdene og kundereisen. Sjekkene kjøres bare
+  // hvis de finnes; ellers sjekkes at forsiden ikke lagrer noe.
+  if (!(await page.$("[data-hero-faner]"))) {
+    console.log("hengsel: forsiden har ikke fanene (data-hero-faner) lenger, hopper over fanesjekkene");
+    const lagret = await page.evaluate(() => Object.keys(localStorage));
+    meld(lagret.length === 0 && (await ctx.cookies()).length === 0, `hengsel: ingenting i localStorage, ingen informasjonskapsler (${lagret.join(", ")})`);
+  } else {
   await page.click("[data-hero-faner] button:nth-child(2)");
   meld((await src("hero-enhet")) === "/img/ipad-min-dag.webp", "hengsel: heroen bytter til iPad");
   await page.click('[data-omrader] button[data-omrade="Leveranse"]');
@@ -163,6 +170,7 @@ for (const [navn, { base }] of Object.entries(servere)) {
   meld(lagret.join() === "crm-tour" && (await ctx.cookies()).length === 0, `hengsel: bare crm-tour i localStorage, ingen informasjonskapsler (${lagret.join(", ")})`);
   await page.click("[data-steg-neste]");
   meld((await page.textContent("[data-steg-nr]")).startsWith("Steg 2 av 11"), "hengsel: kundereisen går til steg 2");
+  }
   const skrifter = await page.evaluate(async () => {
     await document.fonts.ready;
     return [...document.fonts].filter((f) => f.status === "loaded").map((f) => `${f.family} ${f.style} ${f.weight}`);
