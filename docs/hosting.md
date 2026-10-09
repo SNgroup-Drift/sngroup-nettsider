@@ -2,10 +2,12 @@
 
 Bestemt 07.10.2026 (erstatter Pages-beslutningen fra 04.10): hvert nettsted er sin egen Cloudflare Worker med
 statiske filer, bygd med **Workers Builds** og Git-integrasjon fra samme repo (`SNgroup-Drift/sngroup-nettsider`).
-Workerne serverer `sites/<navn>/dist`, uten egen kode. Eirik kobler Cloudflare til GitHub selv.
+Workerne serverer `sites/<navn>/dist`. Unntaket er `hengsel`, som har et lite skript bare for `/apptest` (passordet, se
+«hengsel.no/apptest» under). Eirik kobler Cloudflare til GitHub selv.
 
 Repoet har ingen API-nøkler, ingen kontoinformasjon, ingen hemmeligheter og ingen wrangler-innlogging. Det eneste
-Cloudflare-oppsettet i repoet er `sites/<navn>/wrangler.jsonc` (her sngroup; de andre er like):
+Cloudflare-oppsettet i repoet er `sites/<navn>/wrangler.jsonc` (her sngroup; hengsel har i tillegg `main`, `binding` og
+`run_worker_first`, se under):
 
 ```jsonc
 {
@@ -122,21 +124,67 @@ curl -s -o /dev/null -w '%{http_code}\n' https://sngroup.no/finnes-ikke   # skal
 
 - Cloudflare Web Analytics / Zaraz: ikke slå på (ingen sporing). Web Analytics ville også trenge en endring i CSP-en.
 - Ingen `main` i wrangler.jsonc og ingen Worker-kode: nettstedene er rent statiske.
-- Ingen bindinger (KV, D1, R2), ingen `account_id` og ingen hemmeligheter i repoet.
+- Ingen `main` og ingen Worker-kode for sngroup og byggem: de er rent statiske. hengsel har bare skriptet for `/apptest`.
+- Ingen bindinger (KV, D1, R2) og ingen `account_id` i repoet. Den eneste hemmeligheten er passordet for
+  hengsel.no/apptest, og den ligger bare i Cloudflare.
+- `run_worker_first`: bare `["/apptest", "/apptest/*"]` i hengsel. Ikke utvid den; resten av nettstedet skal ikke gå
+  gjennom kode.
 
-## hengsel.no/apptest (testsiden)
+## hengsel.no/apptest (passord)
 
-Siden som viser testerne hvordan de installerer testversjonen av Hengsel Ute. Den er statisk som resten av hengsel.no
-(passordet, Worker-skriptet og informasjonskapselen fra K-107 ble fjernet 10.10.2026), står ikke i menyen, i `sitemap.txt`
-eller i lenker fra andre sider, og har `noindex,nofollow`. `scripts/sjekk-lenker.mjs` passer på alle tre.
+Siden som viser testerne hvordan de installerer testversjonen av Hengsel Ute (K-107, nytt utseende 10.10.2026). Den
+ligger bak ett felles passord, står ikke i menyen, i `sitemap.txt` eller i lenker fra andre sider, og har `noindex,nofollow`.
+`scripts/sjekk-lenker.mjs` passer på alle tre.
 
-Hemmelighetene `APPTEST_PASSORD`, `APPTEST_NOKKEL` og `DEMO_PASSORD` i Worker-en `hengsel` brukes ikke lenger og kan slettes.
+Slik virker det:
+
+- `sites/hengsel/wrangler.jsonc` har `"main": "./worker/apptest.ts"` og `assets.run_worker_first: ["/apptest", "/apptest/*"]`.
+  Skriptet kjører bare for de stiene. Alt annet serveres som statiske filer, uten kode.
+- Uten gyldig informasjonskapsel viser `/apptest` passordsiden (`dist/apptest/passord.html`). Skjemaet sender passordet med
+  POST til `/apptest`. Riktig passord gir 303 til `/apptest` og informasjonskapselen `hengsel_apptest` (HttpOnly, Secure,
+  SameSite=Lax, Path=/apptest, 30 dager). Feil passord gir 401 og «Feil passord. Prøv igjen.».
+- Informasjonskapselen er en utløpstid og en HMAC-signatur, ikke passordet. Signaturnøkkelen lages av `APPTEST_NOKKEL` og
+  `APPTEST_PASSORD`, så når passordet byttes, må alle skrive det nye.
+- Mangler en av hemmelighetene, er siden låst (503 «Siden er låst. Passordet er ikke satt opp ennå.»).
+- Alle svar fra `/apptest` har `X-Robots-Tag: noindex, nofollow` og `Cache-Control: private, no-store`.
+
+### Sette eller bytte passordet
+
+Fra rotmappen i repoet, innlogget med `npx wrangler login` (eller i dashbordet: Worker `hengsel` → Settings →
+Variables and Secrets → Add → Type **Secret**):
+
+```sh
+npx wrangler secret put APPTEST_PASSORD -c sites/hengsel/wrangler.jsonc   # skriv passordet når wrangler spør
+openssl rand -base64 32                                                    # lag en tilfeldig nøkkel …
+npx wrangler secret put APPTEST_NOKKEL -c sites/hengsel/wrangler.jsonc    # … og lim den inn her
+```
+
+Begge må settes før `/apptest` kan åpnes. Nøkkelen settes én gang. For å bytte passord kjøres bare den første
+kommandoen på nytt; gamle informasjonskapsler slutter da å virke. Bytter du `APPTEST_NOKKEL`, må også alle logge inn på
+nytt. Hemmelighetene skal aldri stå i repoet, i en innsjekket `.dev.vars` eller i rapporter.
+
+Sjekk etterpå (uten informasjonskapsel skal du få passordsiden, ikke 503):
+
+```sh
+curl -sI https://hengsel.no/apptest | grep -iE '^HTTP|x-robots|cache-control|content-security'
+```
 
 ### Bytte lenker og versjon
 
 Alt ligger i `sites/hengsel/src/apptest-lenker.ts`: versjon, TestFlight-lenken, Google Play-lenken (intern testing),
 APK-fila og e-postadressen. En verdi som begynner med `TODO_` gir en deaktivert knapp med teksten «Lenke kommer».
 Bytt verdien, commit og push.
+
+### Teste lokalt
+
+Lag `sites/hengsel/.dev.vars` (står i `.gitignore`, sjekkes aldri inn) med et testpassord:
+
+```sh
+printf 'APPTEST_PASSORD=%s\nAPPTEST_NOKKEL=%s\n' "et-testpassord" "$(openssl rand -base64 32)" > sites/hengsel/.dev.vars
+npm run build -w sites/hengsel
+npx wrangler dev -c sites/hengsel/wrangler.jsonc          # http://localhost:8787/apptest
+node scripts/skjermbilder-apptest.mjs                       # skjermbilder og sjekker mot wrangler dev
+```
 
 ## vis
 

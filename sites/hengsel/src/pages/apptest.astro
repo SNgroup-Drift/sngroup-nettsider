@@ -1,7 +1,8 @@
 ---
 /**
  * hengsel.no/apptest: slik tester du Hengsel Ute (10.10.2026). Fasit: «55 Hengsel apptest.dc.html» i Claude Design-arkivet,
- * samme profil som forsiden. Statisk side, uten skript, sporing eller informasjonskapsler.
+ * samme profil som forsiden. Ingen skript, ingen sporing.
+ * Ligger bak passord: Workeren (worker/apptest.ts) slipper bare inn med gyldig informasjonskapsel (K-107).
  *
  * Siden har noindex,nofollow, står ikke i sitemap.txt og lenkes ikke fra forsiden, menyen eller bunnen
  * (scripts/sjekk-lenker.mjs passer på det). Lenker og versjon ligger i src/apptest-lenker.ts; en verdi som begynner
@@ -98,7 +99,7 @@ const KJENT_AVVIK = "";
                 {b.steg.map((s) => <li>{s}</li>)}
               </ol>
               {erTodo(b.href)
-                ? <span class="knapp primar" aria-disabled="true">Lenke kommer</span>
+                ? <button type="button" class="knapp primar" disabled aria-disabled="true">Lenke kommer</button>
                 : <a class="knapp primar" href={b.href}>{b.knapp}</a>}
               <p class="note dempet">{b.note}</p>
             </article>
@@ -170,8 +171,8 @@ const KJENT_AVVIK = "";
   }
   .knapp.primar { background: var(--deep-blue); border-color: var(--deep-blue); color: var(--off-white); }
   .knapp.primar:hover { opacity: 0.88; text-decoration: none; }
-  .knapp[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
-  .knapp[aria-disabled="true"]:hover { opacity: 0.45; }
+  .knapp:disabled { opacity: 0.45; cursor: not-allowed; }
+  .knapp:disabled:hover { opacity: 0.45; }
   .knapp:focus-visible { border-radius: 0; }
 
   .kolonner-baand { background: var(--beige-3); margin-top: clamp(48px, 7vw, 96px); padding-block: clamp(48px, 7vw, 80px); }
@@ -179,6 +180,8 @@ const KJENT_AVVIK = "";
   .kolonne { display: grid; gap: 16px; align-content: start; }
   .kolonne h2 { font-size: var(--t-h2); line-height: 1.15; }
   .kolonne ul { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; max-width: 62ch; }
+  /* Deep Blue gir bare 3,95:1 mot Beige 3; den mørkere blåen fra tokens.css gir 4,5:1 */
+  .kolonne a { color: var(--info-tekst); text-decoration: underline; text-underline-offset: 3px; }
 
   .bunn { border-top: 1px solid var(--beige-2); font-size: 0.92rem; color: var(--muted); }
   .bunn .rad { padding-block: 24px; flex-wrap: wrap; }
