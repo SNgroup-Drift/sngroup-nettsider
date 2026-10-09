@@ -35,9 +35,11 @@ bygg.mjs              Kopierer src/ til dist/, legger skriftene i dist/fonts/, s
                       og setter inn Hengsel-logoen
 ```
 
-Hengsel-logoen skrives som `<!--hengsel-logo 18-->` i HTML (tallet er høyden i px: 26 i toppfeltet, 18 i topplinjen i
-rommene, 16 i tekst, 28 i systemkartet, 20 i bunnen). `bygg.mjs` bytter kommentaren med SVG-en fra
-`sites/hengsel/src/components/HengselLogo.astro`. Skjermbildene på forsiden (`b:'/img/navn.webp'` i C) hentes fra
+Hengsel-logoen skrives som `<!--hengsel-logo 18-->` i HTML (tallet er skriftstørrelsen på «engsel» i px, som
+font-size: 26 i toppfeltet, 18–20 i topplinjen i rommene, 16 i tekst, 28 i systemkartet, 20 i bunnen). `bygg.mjs`
+bytter kommentaren med SVG-en fra `packages/design/src/hengsel-logo.mjs` (logopakken `docs/design/hengsel/logo/`,
+teksten som konturer; samme logo som hengsel.no og sngroup.no). Favikonene (`favicon.svg`, `favicon-32.png`,
+`apple-touch-icon-180.png`) er kopier fra pakken. Skjermbildene på forsiden (`b:'/img/navn.webp'` i C) hentes fra
 `sites/hengsel/public/img/` og SN-logoen fra `sites/sngroup/public/` ved bygg, så de ikke ligger dobbelt. Bytt til
 Sigdal CRM-skjermbilder der det finnes.
 

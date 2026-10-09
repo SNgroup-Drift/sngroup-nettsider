@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Bygger Visningsrommet: kopierer src/ til dist/, legger de selvhostede skriftene i dist/fonts/, skjermbildene
- * (fra sites/hengsel/public/img) og SN-logoen (fra sites/sngroup/public) i dist/img/, og setter inn Hengsel-logoen.
+ * (fra sites/hengsel/public/img) og SN-logoen (fra sites/sngroup/public) i dist/img/, og setter inn Hengsel-logoen
+ * (fra packages/design/src/hengsel-logo.mjs, samme SVG som hengsel.no og sngroup.no bruker).
  *
  * Skriftene er de samme som i designpakken (packages/design/src/styles/fonts.css): Newsreader (vanlig og kursiv) og
  * Inter fra @fontsource-variable. dist/fonts/fonts.css får familienavnene «Newsreader» og «Inter», så stilene i sidene
@@ -12,6 +13,7 @@
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+import { hengselLogo } from "@sngroup/design/hengsel-logo";
 
 const her = import.meta.dirname;
 const src = join(her, "src");
@@ -66,20 +68,9 @@ for (const navn of bilder) {
 await cp(join(sites, "sngroup", "public", "logo.svg"), join(img, "sn-logo.svg"));
 await cp(join(sites, "sngroup", "public", "logo-mork.svg"), join(img, "sn-logo-mork.svg"));
 
-// Hengsel-logoen der det står <!--hengsel-logo 18--> (tallet er høyden i px). Fasit: sites/hengsel/src/components/HengselLogo.astro
-function hengselLogo(size) {
-  const d = size <= 28
-    ? { a: 2.5, w: 25.5, h: 67, x2: 36, sw: 5, gy: 29, gh: 14, r: 7 }
-    : { a: 1.5, w: 26.5, h: 69, x2: 36, sw: 3, gy: 31, gh: 10, r: 5 };
-  return `<span class="hlogo" style="font-size:${size}px" role="img" aria-label="Hengsel CRM">` +
-    `<svg class="merke" viewBox="0 0 64 72" aria-hidden="true">` +
-    `<rect class="dor" x="${d.a}" y="${d.a}" width="${d.w}" height="${d.h}" stroke-width="${d.sw}"/>` +
-    `<rect class="dor" x="${d.x2}" y="${d.a}" width="${d.w}" height="${d.h}" stroke-width="${d.sw}"/>` +
-    `<rect class="grep" x="17" y="${d.gy}" width="13" height="${d.gh}" rx="${d.r}"/>` +
-    `<rect class="grep" x="34" y="${d.gy}" width="13" height="${d.gh}" rx="${d.r}"/></svg>` +
-    `<span aria-hidden="true">engsel</span>` +
-    `<svg class="crm" viewBox="0 0 25 20" aria-hidden="true"><path class="hake" d="M1.17 5.24l3.33 3.33l6.67 -7.4"/><text x="0" y="19.6">CRM</text></svg></span>`;
-}
+// Hengsel-logoen der det står <!--hengsel-logo 18--> (tallet er skriftstørrelsen på «engsel» i px, som font-size).
+// Klassen hlogo og størrelsen i vis.css; CSP-en for vis tillater style-attributtet.
+const logo = (size) => hengselLogo({ produkt: "CRM", klasse: "hlogo", attr: `style="font-size:${size}px"` });
 let sider = 0;
 async function settInnLogo(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
@@ -87,7 +78,7 @@ async function settInnLogo(dir) {
     if (e.isDirectory()) await settInnLogo(sti);
     else if (e.name.endsWith(".html")) {
       const tekst = await readFile(sti, "utf8");
-      const ny = tekst.replace(/<!--hengsel-logo (\d+)-->/g, (_, n) => hengselLogo(Number(n)));
+      const ny = tekst.replace(/<!--hengsel-logo (\d+)-->/g, (_, n) => logo(Number(n)));
       if (ny !== tekst) { await writeFile(sti, ny); sider++; }
     }
   }

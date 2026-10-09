@@ -11,19 +11,20 @@
   --r-sm:8px;--r-field:10px;--r:14px;--r-lg:20px;--r-pill:999px;
   --focus:0 0 0 2px var(--bg),0 0 0 4px var(--accent);
   --dur:160ms;--ease:cubic-bezier(.2,.7,.2,1);
-  /* Hengsel-logoen: grep og hake er Deep Blue i begge moduser */
-  --merke-dor:#C3B5A7;--merke-linje:#31261D;--merke-grep:#5074A9;--merke-ord:#31261D;--merke-crm:rgba(49,38,29,.56);
+  /* Hengsel-logoen (logopakken docs/design/hengsel/logo): skapet Beige 1, ordet Warm Black; Krem og Off White i mørk.
+     Vater og Deep Blue (grep, ovn, hake) er faste i SVG-en. */
+  --merke-skap:#C3B5A7;--merke-ord:#31261D;--merke-produkt:rgba(49,38,29,.6);
   color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1B1713;--card:#26201A;--soft:#2F2820;--fg:#F1E9DE;--muted:#C3B7A8;--line:#3B3229;--sand:#9A8E80;
   --accent:#9CA9BD;--accent-soft:#25303F;--dusty:#6E7C92;
   --ok:#8CC39B;--ok-soft:#1F2E23;--warn:#E2B468;--warn-soft:#33281A;--accent-tekst:#9CA9BD;--ok-tekst:#8CC39B;
-  --merke-linje:#FBF9F6;--merke-ord:#FBF9F6;--merke-crm:rgba(251,249,246,.6);color-scheme:dark}}
+  --merke-skap:#F2E9DB;--merke-ord:#FBF9F6;--merke-produkt:rgba(251,249,246,.6);color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1B1713;--card:#26201A;--soft:#2F2820;--fg:#F1E9DE;--muted:#C3B7A8;--line:#3B3229;--sand:#9A8E80;
   --accent:#9CA9BD;--accent-soft:#25303F;--dusty:#6E7C92;
   --ok:#8CC39B;--ok-soft:#1F2E23;--warn:#E2B468;--warn-soft:#33281A;--accent-tekst:#9CA9BD;--ok-tekst:#8CC39B;
-  --merke-linje:#FBF9F6;--merke-ord:#FBF9F6;--merke-crm:rgba(251,249,246,.6);color-scheme:dark}
+  --merke-skap:#F2E9DB;--merke-ord:#FBF9F6;--merke-produkt:rgba(251,249,246,.6);color-scheme:dark}
 
 /* Grunnstil: brødtekst 17/1,6, UI 15, hjelpetekst 14, eyebrow og piller 13 */
 *{box-sizing:border-box}
@@ -78,16 +79,11 @@ a{color:var(--accent-tekst);text-underline-offset:3px}
 .switch[aria-checked="true"]::after{transform:translateX(18px)}
 .switch:focus-visible{border-radius:var(--r-pill)}
 
-/* Hengsel-logoen (fasit: sites/hengsel/src/components/HengselLogo.astro). Størrelsen er font-size.
-   Markeringen settes inn av bygg.mjs der det står <!--hengsel-logo 18-->. Aldri strekk, farger eller effekter. */
-.hlogo{display:inline-flex;align-items:baseline;font:350 18px/1 var(--sans);color:var(--merke-ord);letter-spacing:-.01em;white-space:nowrap;padding-top:.3em;vertical-align:middle}
-.hlogo .merke{height:.713em;width:auto;flex:none;align-self:baseline;margin-right:.04em}
-.hlogo .dor{fill:var(--merke-dor);stroke:var(--merke-linje)}
-.hlogo .grep{fill:var(--merke-grep)}
-.hlogo .crm{height:.534em;width:auto;margin-left:.248em;align-self:baseline;overflow:visible}
-.hlogo .crm text{fill:var(--merke-crm);font:650 10px var(--sans);letter-spacing:.6px}
-.eyebrow .hlogo{text-transform:none;letter-spacing:-.01em;color:var(--merke-ord)}
-.hlogo .hake{fill:none;stroke:var(--merke-grep);stroke-width:2.33;stroke-linecap:round;stroke-linejoin:round}
+/* Hengsel-logoen (packages/design/src/hengsel-logo.mjs, fra logopakken docs/design/hengsel/logo). Teksten er konturer.
+   Størrelsen er font-size på <svg> («engsel» i px, høyden 1,25 em med produktnavn, 1 em uten).
+   Settes inn av bygg.mjs der det står <!--hengsel-logo 18-->. Aldri strekk, farger eller effekter. */
+.hlogo{display:inline-block;height:1.25em;width:auto;vertical-align:middle;flex:none}
+.hlogo-ord{height:1em}
 
 /* Felles skall for rommene: topplinje, sidehode, bunntekst. Bredde 1180, marg 24 (16 på mobil), 16 mellom kort */
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;width:100%;max-width:1180px;margin:0 auto;padding:14px 24px 0}

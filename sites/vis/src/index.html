@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/hengsel-app-ikon-lys.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="icon" href="/hengsel-app-ikon-mork.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/apple-touch-icon-180.png">
 <title>Visningsrommet</title>
 <link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -56,6 +56,7 @@ footer .inner{padding-block:24px;display:flex;flex-direction:column;gap:20px}
 .levert{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
 .levert p{margin:0}
 .levert>span{display:inline-flex;align-items:center;gap:10px}
+.levert-av{display:inline-flex;align-items:center;text-decoration:none}
 .baand{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px 32px}
 .avsender{text-decoration:none!important;display:flex;align-items:center;gap:14px;color:var(--fg);text-decoration:none;min-height:44px;font:500 15px/1.4 var(--sans)}
 .avsender svg{flex:none;display:block}
@@ -108,7 +109,7 @@ footer .inner{padding-block:24px;display:flex;flex-direction:column;gap:20px}
 
 <footer>
   <div class="inner">
-    <div class="levert"><p>Alle data i Visningsrommet er oppdiktet. <a href="/cdn-cgi/access/logout">Logg ut</a></p><span>Levert med <!--hengsel-logo 20--></span></div>
+    <div class="levert"><p>Alle data i Visningsrommet er oppdiktet. <a href="/cdn-cgi/access/logout">Logg ut</a></p><span>Levert med <a href="https://hengsel.no" class="levert-av"><!--hengsel-logo 20--></a></span></div>
     <aside class="baand" aria-label="SN Group">
       <a href="https://sngroup.no" class="avsender">
         <svg width="32" height="32" viewBox="0 0 44 44" aria-hidden="true"><g transform="translate(5,5)"><rect class="strek" x="0" y="0" width="34" height="34"/><line class="strek" x1="17" y1="0" x2="17" y2="21"/><line class="strek" x1="0" y1="21" x2="34" y2="21"/><path class="bue" d="M17 21 A9 9 0 0 1 26 30"/></g></svg>
@@ -116,7 +117,7 @@ footer .inner{padding-block:24px;display:flex;flex-direction:column;gap:20px}
       </a>
       <ul aria-label="Søstersidene">
         <li><a href="https://sngroup.no">sngroup.no</a></li>
-        <li><span class="skille" aria-hidden="true">·</span><span aria-current="page" class="her">hengsel.no</span></li>
+        <li><span class="skille" aria-hidden="true">·</span><a href="https://hengsel.no">hengsel.no</a></li>
         <li><span class="skille" aria-hidden="true">·</span><a href="https://byggem.no">byggem.no</a></li>
       </ul>
     </aside>
