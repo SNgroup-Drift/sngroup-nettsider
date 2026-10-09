@@ -10,40 +10,50 @@
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-.wrap{max-width:1180px;margin:0 auto;padding:12px 16px 32px;display:grid;gap:16px}
-h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
-.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
-.stage{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:24px;align-items:center}
-.phone{width:100%;max-width:360px;justify-self:center;background:var(--fg);border-radius:40px;padding:12px}
-.screen{background:var(--bg);border-radius:30px;height:640px;display:grid;grid-template-rows:auto auto 1fr;overflow:hidden;position:relative}
-.sb{display:flex;justify-content:space-between;padding:10px 20px 4px;font:600 12px var(--sans)}
-.app{padding:4px 16px 8px;display:flex;justify-content:space-between;align-items:center}
-.app b{font:400 20px var(--serif)}
-.view{padding:6px 14px 16px;display:grid;gap:10px;align-content:start;overflow:auto}
-.notif{position:absolute;left:10px;right:10px;top:34px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:0 10px 24px -14px rgba(49,38,29,.5);display:grid;gap:2px;transform:translateY(-130%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:3}
+/* Kundens reise: Min side i en telefon, steg for steg. Rommal a) Simulering. */
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 32px;display:grid;gap:16px}
+.stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;align-items:center}
+
+/* Telefonen: ramme #1B1713, radius 52/42, 390 × 720 */
+.phone{width:100%;max-width:390px;justify-self:center;background:#1B1713;border:1px solid var(--line);border-radius:52px;padding:10px}
+.screen{background:var(--bg);color:var(--fg);border-radius:42px;height:720px;display:grid;grid-template-rows:auto auto minmax(0,1fr);overflow:hidden;position:relative}
+.sb{display:flex;justify-content:space-between;padding:14px 30px 4px;font:600 .95rem var(--sans);font-variant-numeric:tabular-nums}
+.app{padding:6px 20px 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.app b{font:400 1.45rem/1 var(--serif);letter-spacing:-.015em}
+.view{padding:6px 16px 16px;display:grid;gap:10px;align-content:start;overflow:auto}
+/* Varselet glir inn fra toppen – eneste skygge i Visningsrommet */
+.notif{position:absolute;left:10px;right:10px;top:40px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;box-shadow:0 1px 2px rgba(49,38,29,.06),0 12px 40px -12px rgba(49,38,29,.22);display:grid;gap:2px;transform:translateY(-160%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:3}
 .notif.show{transform:none}
-.notif small{font:600 11px var(--sans);color:var(--muted)}
-.notif span{font-size:14px}
-.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:5px;animation:ci .45s ease both}
+.notif small{font:600 12px/1.4 var(--sans);color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.notif span{font-size:14px;line-height:1.4}
+.c{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:6px;font-size:15px;line-height:1.5;animation:ci .45s ease both}
 @keyframes ci{from{opacity:0;transform:translateY(8px)}}
 .c b{font-weight:600}.c p{margin:0;font-size:14px;color:var(--muted)}
-.c .row{display:flex;justify-content:space-between;font-size:14px}
-.big{min-height:50px;border-radius:14px;border:0;background:var(--accent);color:var(--card);font:500 16px var(--sans)}
+.c .row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:15px;font-variant-numeric:tabular-nums}
+.big{width:100%;min-height:50px;font-size:16px;animation:ci .45s ease both}
 .tl{display:flex;gap:4px}.tl i{flex:1;height:5px;border-radius:3px;background:var(--line)}.tl i.d{background:var(--ok)}.tl i.c{background:var(--accent)}
-.hero{border-radius:14px;height:120px;background:linear-gradient(135deg,var(--line),var(--soft));display:grid;place-items:end start;padding:10px;font:400 18px var(--serif)}
-.side{display:grid;gap:14px}
-.k{font:500 13px var(--sans);color:var(--accent)}
-.side h2{font:400 clamp(26px,3.4vw,38px)/1.1 var(--serif);margin:0}
-.side p{margin:0;color:var(--muted);font-size:16px;max-width:52ch}
-.bak{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px}
-.bak h3{font:600 12px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
-.bak ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
-.steps{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
-.steps button{border:0;background:none;padding:6px 2px;display:grid;gap:5px;justify-items:center;font:500 12px var(--sans);color:var(--muted);cursor:pointer;text-align:center}
-.steps button i{display:block;width:100%;height:4px;border-radius:2px;background:var(--line)}
+.hero{border-radius:var(--r);height:120px;background:var(--line);display:grid;place-items:end start;padding:12px;font:400 1.45rem/1 var(--serif);letter-spacing:-.015em;animation:ci .45s ease both}
+
+/* Ved siden av telefonen */
+.side{display:grid;gap:14px;align-content:center}
+.side h2{font:400 clamp(1.75rem,3.4vw,2.4rem)/1.1 var(--serif);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.side p{margin:0;color:var(--muted);max-width:52ch;text-wrap:pretty}
+.bak{display:grid;gap:8px;padding:16px 18px}
+.bak h3{margin:0}
+.bak ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
+
+/* Steglinje og knapper */
+.bar{display:grid;gap:12px;padding:14px 16px}
+.steps{position:relative;display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.steps button{flex:1 0 108px;border:0;background:none;padding:8px 4px;min-height:44px;display:grid;gap:6px;justify-items:center;font:500 13px var(--sans);color:var(--muted);cursor:pointer;border-radius:var(--r-sm);text-align:center;white-space:nowrap}
+.steps button:hover{color:var(--fg)}
+.steps button i{display:block;width:100%;height:4px;border-radius:2px;background:var(--line);transition:background var(--dur) var(--ease)}
 .steps button.on{color:var(--fg)}.steps button.on i{background:var(--accent)}.steps button.p i{background:var(--dusty)}
 .ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-@media (max-width:820px){.stage{grid-template-columns:1fr}.steps span{display:none}}
+#pl{min-width:110px}
+.hint{font-size:13px;color:var(--muted);margin-left:auto}
+@media (max-width:640px){.wrap{padding-inline:16px}.hint{display:none}}
+@media (prefers-reduced-motion:reduce){.c,.big,.hero{animation:none}}
 </style>
 </head>
 <body>
@@ -54,23 +64,25 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
     <h1>Kundens reise</h1>
     <p class="lede">Det Hanne Liksomlien opplever fra tilbud til ferdig kjøkken. Alt hun trenger kommer til henne, og hun slipper å ringe for å spørre om status.</p>
   </header>
-  <div class="stage">
+  <main class="stage">
     <div class="phone"><div class="screen">
       <div class="sb"><span id="clock">09:12</span><span>Min side</span></div>
-      <div class="app"><b>Studio Sigdal</b><span class="pill" id="where">Tilbud</span></div>
+      <div class="app"><b>Studio Sigdal</b><span class="pill nodot" id="where">Tilbud</span></div>
       <div class="view" id="v"></div>
-      <div class="notif" id="nt"><small id="ntk">SMS</small><span id="ntt"></span></div>
+      <div class="notif" id="nt" aria-live="polite"><small id="ntk">SMS</small><span id="ntt"></span></div>
     </div></div>
     <div class="side">
-      <span class="k" id="k"></span>
+      <span class="eyebrow" id="k"></span>
       <h2 id="h"></h2>
       <p id="p"></p>
-      <div class="bak"><h3>Bak kulissene</h3><ul id="bk"></ul></div>
+      <div class="card bak"><h3 class="eyebrow">Bak kulissene</h3><ul id="bk"></ul></div>
     </div>
-  </div>
-  <nav class="steps" id="steps" aria-label="Steg"></nav>
-  <div class="ctl"><button class="btn" id="pv" type="button">‹ Forrige</button><button class="btn primary" id="pl" type="button">Spill av</button><button class="btn" id="nx" type="button">Neste ›</button></div>
-  <p class="foot">Skrifter: Newsreader og Inter.</p>
+  </main>
+  <footer class="card bar">
+    <nav class="steps" id="steps" aria-label="Steg"></nav>
+    <div class="ctl"><button class="btn" id="pv" type="button">‹ Forrige</button><button class="btn primary" id="pl" type="button">Spill av</button><button class="btn" id="nx" type="button">Neste ›</button><span class="hint">Piltaster: bla</span></div>
+    <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+  </footer>
 </div>
 <script src="/kunde/side.js"></script>
 </body>
