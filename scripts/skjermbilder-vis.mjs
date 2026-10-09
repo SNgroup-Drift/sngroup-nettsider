@@ -1,0 +1,82 @@
+#!/usr/bin/env node
+/**
+ * Nettlesersjekker og skjermbilder for Visningsrommet (sites/vis, K-110) med Playwright (Chromium).
+ *
+ *  - Alle sider (og 404) på 390 px og 1280 px, lys og mørk: ingen konsollfeil (CSP fra _headers gjelder),
+ *    ingen vannrett rulling, ingen forespørsler til andre verter, og Newsreader og Inter lastes fra /fonts/.
+ *  - Skjermbilder av forsiden, /reise/, /sv/ og 404 til docs/skjermbilder/vis-*.png.
+ *
+ * Kjør etter `npm run build`: node scripts/skjermbilder-vis.mjs
+ * Chromium: PLAYWRIGHT_BROWSERS_PATH, eller CHROMIUM_PATH for en bestemt fil.
+ */
+import { chromium } from "playwright";
+import { mkdir, readdir } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { startServer } from "./statisk-server.mjs";
+
+const rot = resolve(import.meta.dirname, "..");
+const dist = join(rot, "sites", "vis", "dist");
+const ut = join(rot, "docs", "skjermbilder");
+await mkdir(ut, { recursive: true });
+
+async function sider(dir, pre = "") {
+  const liste = [];
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    if (e.isDirectory() && e.name !== "fonts" && e.name !== "assets") liste.push(...(await sider(join(dir, e.name), `${pre}/${e.name}`)));
+    else if (e.name === "index.html") liste.push(`${pre}/`);
+  }
+  return liste;
+}
+const alle = [...(await sider(dist)).sort(), "/finnes-ikke"];
+const bilder = { "/": "forside", "/reise/": "reise", "/sv/": "sv", "/finnes-ikke": "404" };
+
+const server = await startServer(dist);
+const base = `http://127.0.0.1:${server.address().port}`;
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
+let feil = 0;
+
+const visninger = [
+  { navn: "mobil", viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
+  { navn: "desktop", viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 },
+];
+for (const v of visninger) {
+  for (const modus of ["light", "dark"]) {
+    const ctx = await browser.newContext({ ...v, colorScheme: modus, reducedMotion: "reduce" });
+    for (const sti of alle) {
+      const page = await ctx.newPage();
+      const konsoll = [];
+      const eksterne = new Set();
+      // På 404-siden logger Chromium selve 404-svaret som en feil; det er forventet
+      page.on("console", (m) => m.type() === "error" && !(sti === "/finnes-ikke" && /status of 404/.test(m.text()) && m.location().url === base + sti) && konsoll.push(m.text()));
+      page.on("pageerror", (e) => konsoll.push(e.message));
+      page.on("request", (r) => !r.url().startsWith(base) && !r.url().startsWith("data:") && eksterne.add(new URL(r.url()).host));
+      const svar = await page.goto(base + sti, { waitUntil: "networkidle" });
+      await page.evaluate(() => document.fonts.ready);
+      const r = await page.evaluate(() => ({
+        sw: document.documentElement.scrollWidth,
+        cw: document.documentElement.clientWidth,
+        lastet: [...new Set([...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family.replace(/["']/g, "")))].sort(),
+        brukt: [...new Set([...document.querySelectorAll("body *")].map((e) => getComputedStyle(e).fontFamily.split(",")[0].replace(/["']/g, "").trim()))],
+      }));
+      const forventet = ["Inter", "Newsreader"].filter((f) => r.brukt.includes(f));
+      const mangler = forventet.filter((f) => !r.lastet.includes(f));
+      const status = sti === "/finnes-ikke" ? 404 : 200;
+      const ok = svar.status() === status && r.sw <= r.cw && !konsoll.length && !eksterne.size && !mangler.length;
+      if (!ok) feil++;
+      console.log(
+        `${ok ? "✓" : "✗"} ${sti} (${v.viewport.width} px, ${modus === "light" ? "lys" : "mørk"}): ${svar.status()}, bredde ${r.sw}/${r.cw}, skrifter ${r.lastet.join(" + ") || "ingen"}` +
+          `${konsoll.length ? `, konsoll: ${konsoll.join(" | ")}` : ""}${eksterne.size ? `, eksterne: ${[...eksterne].join(", ")}` : ""}${mangler.length ? `, ikke lastet: ${mangler.join(", ")}` : ""}`,
+      );
+      if (bilder[sti]) {
+        const fil = `vis-${bilder[sti]}-${v.navn}-${modus === "light" ? "lys" : "mork"}.png`;
+        await page.screenshot({ path: join(ut, fil), fullPage: sti !== "/reise/" });
+      }
+      await page.close();
+    }
+    await ctx.close();
+  }
+}
+await browser.close();
+server.close();
+console.log(`\n${alle.length} sider × 4 visninger, ${feil} feil.`);
+process.exit(feil ? 1 : 0);

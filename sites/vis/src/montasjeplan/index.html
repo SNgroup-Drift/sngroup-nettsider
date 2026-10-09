@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Montasjeplan · Visningsrommet</title>
+<link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
+body.sel .wrap{padding-bottom:104px}
+.eyebrow .hlogo{text-transform:none}
+h3.eyebrow{margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+/* Nøkkeltall */
+.kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.6fr);gap:16px}
+.kpi>.card{display:grid;gap:4px;align-content:start;padding:16px 18px;min-width:0}
+.kpi span{font-size:14px;color:var(--muted)}
+.kpi b{font:400 2.25rem/1.1 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.kpi em{font-style:normal;font-size:13px;color:var(--muted)}
+.occ{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;margin-top:4px}
+.occ div{display:grid;gap:3px;justify-items:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.occ .bar{width:100%;max-width:44px;height:46px;background:var(--soft);border-radius:6px;position:relative;overflow:hidden}
+.occ .bar i{position:absolute;left:0;right:0;bottom:0;background:var(--accent);border-radius:6px 6px 0 0;transition:height var(--dur) var(--ease)}
+.occ .bar i.over{background:var(--dusty)}
+.occ .bar u{position:absolute;left:0;right:0;border-top:1.5px dashed var(--sand)}
+.occ strong{font-weight:600;color:var(--fg)}
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.tools .muted{font-size:14px}
+/* Tavla */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.stage>.card{padding:14px;min-width:0}
+.board{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.grid{display:grid;grid-template-columns:minmax(160px,1fr) repeat(4,minmax(140px,1fr));gap:8px;min-width:744px}
+.hd{font:600 13px var(--sans);color:var(--muted);padding:2px 4px;display:flex;justify-content:space-between;align-items:baseline}
+.hd b{font:400 1.45rem/1 var(--serif);color:var(--fg);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.hd.w{justify-content:flex-start;gap:6px}
+.tl{grid-column:2/span 4;padding:8px 4px 0;font-size:14px}
+.tl>span{position:sticky;left:0;display:inline-flex;gap:8px;align-items:baseline;flex-wrap:wrap;max-width:100%}
+.tl b{font-weight:600}
+.tl em{font-style:normal;font-size:12px;color:var(--muted)}
+.drop{background:var(--soft);border:1.5px dashed transparent;border-radius:12px;padding:8px;display:grid;gap:8px;align-content:start;min-height:128px;transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.un{grid-column:1;grid-row:2/span 6;background:var(--bg);border-color:var(--line)}
+.drop.full{border-color:var(--dusty)}
+.drop.ferie{background:var(--bg);border-color:var(--sand)}
+.drop.over{background:var(--accent-soft);border-color:var(--accent)}
+.ch{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);min-height:18px}
+.ch .cap{font-variant-numeric:tabular-nums}
+.ch .cap.x{color:var(--fg);font-weight:600}
+/* Jobbkort: --card, 1 px --line, 3 px innfelt kant i tilstandsfarge, radius 10 */
+.job{--edge:var(--sand);box-sizing:border-box;display:grid;gap:4px;background:var(--card);border:1px solid var(--line);box-shadow:inset 3px 0 0 var(--edge);border-radius:var(--r-field);padding:8px 34px 9px 13px;position:relative;cursor:grab;font-size:13px;line-height:1.4;color:var(--fg);min-height:44px;-webkit-user-select:none;user-select:none;-webkit-user-drag:element;transition:border-color var(--dur) var(--ease)}
+.job:hover{border-color:var(--sand)}
+.job:focus-visible{border-radius:var(--r-field);box-shadow:inset 3px 0 0 var(--edge),var(--focus)}
+.job[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--edge),0 0 0 2px var(--accent-soft)}
+.job.feil{--edge:var(--warn)}
+.job.adv{--edge:var(--dusty)}
+.job.ok{--edge:var(--ok)}
+.job.dragging{opacity:.4}
+.job .n{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.job .n b{font-weight:600;font-size:14px}
+.job .n span,.job .lv{color:var(--muted);font-size:12px}
+.job .pill{justify-self:start;font-size:12px;padding:2px 8px}
+.iss{font-size:12px;line-height:1.35}
+.iss.f{color:var(--warn);font-weight:500}
+.iss.a{color:var(--muted)}
+.grip{position:absolute;top:2px;right:2px;width:30px;height:40px;border-radius:var(--r-sm);touch-action:none;cursor:grab;display:grid;place-items:center;color:var(--sand);font:600 14px/1 var(--sans);letter-spacing:-3px}
+.grip::before{content:"⋮⋮"}
+.here{border:1px solid var(--accent);background:var(--card);color:var(--accent-tekst);border-radius:var(--r-pill);font:500 13px var(--sans);min-height:40px;cursor:pointer;padding:0 12px;transition:background var(--dur) var(--ease)}
+.here:hover{background:var(--accent-soft)}
+.here:focus-visible{border-radius:var(--r-pill)}
+.drag{position:fixed;z-index:50;pointer-events:none;width:170px;opacity:.95;border-color:var(--accent)}
+/* Sidepanelene */
+.side{display:grid;gap:16px}
+.side>.card{display:grid;gap:12px;align-content:start}
+.guide{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.guide li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5}
+.guide li span{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--sand);display:grid;place-items:center;font:600 12px/1 var(--sans);color:var(--muted);transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.guide li.d{color:var(--muted)}
+.guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card);font-size:0}
+.guide li.d span::after{content:"✓";font-size:12px}
+.side .btn.ghost{justify-self:start}
+.cf{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.cf li{background:var(--soft);border-radius:var(--r-field);box-shadow:inset 3px 0 0 var(--warn);padding:10px 12px 10px 14px;font-size:14px;line-height:1.4;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+.cf li.a{box-shadow:inset 3px 0 0 var(--dusty)}
+.cf li b{font-weight:600}
+.cf li span{color:var(--muted);font-size:13px;grid-column:1}
+.cf li .btn{grid-column:2;grid-row:1/span 2;min-height:40px;padding:0 14px;font-size:14px}
+.cf .none{box-shadow:inset 3px 0 0 var(--ok);color:var(--ok-tekst);display:block}
+.log{display:grid;gap:8px;max-height:340px;overflow:auto;font-size:15px}
+.log div{line-height:1.5;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.log b{font-weight:600}
+.log em{font-style:normal;color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
+.selbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:calc(100% - 32px);max-width:560px;background:var(--fg);color:var(--bg);border-radius:var(--r);padding:8px 8px 8px 16px;display:none;gap:10px;align-items:center;justify-content:space-between;z-index:40;font-size:15px}
+body.sel .selbar{display:flex}
+.selbar .btn{color:var(--bg);border-color:var(--sand);flex:none}
+.selbar .btn:hover{background:var(--bg);color:var(--fg)}
+@media (max-width:1060px){.stage{grid-template-columns:minmax(0,1fr)}.side{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}}
+@media (max-width:760px){.kpi{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.kpi .wide{grid-column:1/-1}.kpi>.card{padding:14px}.kpi b{font-size:1.75rem}.stage>.card{padding:10px}}
+@media (max-width:640px){.wrap{padding-inline:16px}.side{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Prøv selv · oppdiktede ordre</span></div>
+<div class="wrap">
+  <header class="sidehode">
+    <div class="eyebrow">For selger og montasjeansvarlig</div>
+    <h1>Montasjeplan</h1>
+    <p class="lede">Sett montører på ordrene for uke 46 til 49. Tavla sjekker leveringsukene fra Sigdal og andre leverandører, kapasitet og sertifisering med en gang. Noen konflikter ligger allerede der. Løs dem.</p>
+  </header>
+  <div class="kpi" id="kpi"></div>
+  <div class="tools">
+    <button class="btn primary" type="button" id="sim">Simuler svar</button>
+    <span class="muted">Dra et kort med musa eller håndtaket, eller trykk kortet og så «Flytt hit».</span>
+  </div>
+  <div class="stage">
+    <section class="card" aria-label="Plantavle"><div class="board" id="board"></div></section>
+    <aside class="side">
+      <section class="card"><h3 class="eyebrow">Konflikter</h3><ul class="cf" id="cf" aria-live="polite"></ul></section>
+      <section class="card"><h3 class="eyebrow">Prøv dette</h3>
+        <ol class="guide" id="guide">
+          <li data-k="berg"><span>1</span>Flytt Berg til en uke da benkeplaten er kommet</li>
+          <li data-k="nilsen"><span>2</span>Gi steinjobben til Nilsen en montør med steinsertifikat</li>
+          <li data-k="kap"><span>3</span>Løs overbookingen hos Arne i uke 47</li>
+          <li data-k="plan"><span>4</span>Planlegg en jobb fra «Ikke planlagt»</li>
+          <li data-k="svar"><span>5</span>Trykk «Simuler svar» og planlegg den avviste jobben på nytt</li>
+        </ol>
+        <button class="btn ghost" id="reset" type="button">Start på nytt</button>
+      </section>
+      <section class="card"><h3 class="eyebrow">Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
+    </aside>
+  </div>
+  <p class="foot">Demoen er ikke koblet til ekte data, og ingen forespørsler sendes. Kunder og ordre er oppdiktet. Skrifter: Newsreader og Inter.</p>
+</div>
+<div class="selbar" id="selbar" role="status"><span id="seltxt"></span><button class="btn" type="button" id="selx">Avbryt</button></div>
+<script src="/montasjeplan/side.js"></script>
+</body>
+</html>

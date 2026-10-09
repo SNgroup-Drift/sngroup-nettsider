@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Leverandørløsningen · Visningsrommet</title>
+<link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+html,body{height:100%}
+body{display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);min-height:100%;row-gap:16px}
+.topbar{width:100%}
+.deck{position:relative;max-width:1180px;width:100%;margin:0 auto;padding:0 24px;min-height:0;overflow:hidden}
+.slide{position:absolute;inset:0 24px;border-radius:var(--r-lg);padding:48px;overflow:auto;opacity:0;visibility:hidden;transition:opacity var(--dur) var(--ease),visibility 0s var(--dur);display:flex;flex-direction:column;gap:24px}
+.slide.on{opacity:1;visibility:visible;transition:opacity var(--dur) var(--ease)}
+.prog{position:absolute;top:0;left:24px;right:24px;height:24px;border-radius:var(--r-lg) var(--r-lg) 0 0;overflow:hidden;pointer-events:none;z-index:2}
+.prog i{position:absolute;left:0;top:0;height:3px;width:0;background:var(--accent);transition:width var(--dur) var(--ease)}
+h1,h2{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.015em;text-wrap:balance}
+h1{font-size:clamp(2.5rem,5.6vw,4.6rem);line-height:1.04;max-width:16ch}
+h2{font-size:clamp(2rem,3.6vw,3rem);line-height:1.08}
+.lead{font-size:1.18rem;line-height:1.5;color:var(--muted);max-width:60ch;margin:0;text-wrap:pretty}
+.big{font:400 clamp(1.45rem,3.2vw,2.25rem)/1.2 var(--serif);letter-spacing:-.015em;max-width:28ch;margin:0;text-wrap:balance}
+.grid{display:grid;gap:12px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.box{background:var(--soft);border-radius:var(--r-field);padding:14px 16px;display:grid;gap:4px;align-content:start;font-size:15px;line-height:1.45}
+.box b{font-weight:600}
+.box p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.box .n{font:500 13px var(--sans);color:var(--accent-tekst);font-variant-numeric:tabular-nums}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.steps .pill{justify-self:start;margin-top:6px}
+.key{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.key .ref{font:400 clamp(2.75rem,9vw,6.5rem)/1 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.key .ref span{color:var(--accent-tekst)}
+.parts{display:flex;gap:12px;flex-wrap:wrap}
+.parts div{background:var(--soft);border-radius:var(--r-field);padding:14px 18px;min-width:140px;display:grid;gap:2px}
+.parts b{font:400 2.25rem/1.1 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.parts span{font-size:13px;line-height:1.4;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 13px var(--sans);color:var(--muted);padding-block:8px}
+tr:not(:first-child){transition:background var(--dur) var(--ease)}
+tr:not(:first-child):hover{background:var(--soft)}
+.levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lvl{border-radius:var(--r-field);padding:16px;background:var(--soft);display:grid;gap:8px;align-content:start}
+.lvl .pill{justify-self:start}
+.lvl .t{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em}
+.lvl ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;line-height:1.5}
+.map{display:grid;gap:12px}
+.mrow{display:grid;grid-template-columns:minmax(150px,1.3fr) 3fr minmax(110px,1fr);gap:12px;align-items:center;font-size:15px;line-height:1.4}
+.mrow b{font-weight:600}
+.track{position:relative;height:12px;background:var(--soft);border-radius:var(--r-pill);border:1px solid var(--line);overflow:hidden}
+.track i,.track u{position:absolute;top:0;bottom:0;left:0;border-radius:var(--r-pill)}
+.track u{background:var(--dusty);width:0;transition:width var(--dur) var(--ease)}
+.track i{background:var(--accent);width:0;transition:width var(--dur) var(--ease)}
+.slide.on .track i{width:var(--now)}
+.slide.on .track u{width:var(--goal)}
+.mrow small{font-size:14px;color:var(--muted)}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.phases .box{box-shadow:inset 0 3px 0 var(--dusty);padding-top:16px}
+.phases .box:first-child{box-shadow:inset 0 3px 0 var(--accent)}
+.phases .pill,.prio .pill{justify-self:start}
+.prio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.prio ul{margin:0;padding-left:18px;font-size:15px;line-height:1.45;display:grid;gap:6px}
+.note{font-size:14px;line-height:1.5;color:var(--muted);margin:0}
+.end{justify-content:center;align-items:flex-start}
+.bar{max-width:1180px;width:100%;margin:0 auto 16px;padding:0 24px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.count{font-size:13px;color:var(--muted);min-width:56px;font-variant-numeric:tabular-nums}
+.dots{display:flex;flex-wrap:wrap;margin-left:auto}
+.dots button{width:28px;height:40px;border:0;background:transparent;padding:0;cursor:pointer;display:grid;place-items:center}
+.dots button::before{content:"";width:8px;height:8px;border-radius:var(--r-pill);background:var(--line);transition:background var(--dur) var(--ease),width var(--dur) var(--ease)}
+.dots button:hover::before{background:var(--sand)}
+.dots button.on::before{background:var(--accent);width:20px}
+@media (max-width:820px){
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .levels,.prio,.phases{grid-template-columns:minmax(0,1fr)}
+  .mrow{grid-template-columns:minmax(0,1fr);gap:4px}
+  .dots{display:none}
+}
+@media (max-width:640px){
+  .deck,.bar{padding-inline:16px}
+  .slide{inset:0 16px;padding:28px 20px}
+  .prog{left:16px;right:16px}
+  .steps{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Intern versjon · forslag 06.10</span></div>
+
+<main class="deck" id="deck" aria-live="polite">
+<span class="prog" aria-hidden="true"><i id="prog"></i></span>
+
+<section class="card slide" aria-label="1 Tittel">
+  <div class="eyebrow in">Leverandørløsningen</div>
+  <h1 class="in" style="--d:1">Én registrering. Resten går av seg selv.</h1>
+  <p class="lead in" style="--d:2">Hva vi vil at leverandørene leverer, hvordan det kommer inn, og hva det betyr for selgeren og butikken.</p>
+  <div class="parts in" style="--d:3" aria-label="Nøkkeltall">
+    <div><b>~500</b><span>kundekontrakter i året</span></div>
+    <div><b>12</b><span>datastrømmer</span></div>
+    <div><b>3</b><span>nivåer</span></div>
+    <div><b>1</b><span>referanse fra bestilling til faktura</span></div>
+  </div>
+</section>
+
+<section class="card slide" aria-label="2 Visjonen">
+  <div class="eyebrow in">Visjonen</div>
+  <p class="big in" style="--d:1">Selgeren selger og følger opp kunden. Alt mellom signert kontrakt og ferdig montert kjøkken går av seg selv, helt til noe avviker.</p>
+  <div class="grid g3">
+    <div class="box in" style="--d:2"><b>Ingen dobbel registrering</b><p>Leverandørens data går rett inn i tilbud, ordre, kontroll og faktura.</p></div>
+    <div class="box in" style="--d:3"><b>Unntak i stedet for kontroll</b><p>CRM sjekker alt linje for linje. Selgeren ser bare det som avviker.</p></div>
+    <div class="box in" style="--d:4"><b>Kunden vet alltid status</b><p>Leveringsuke, endringer og levering i Min side og på SMS.</p></div>
+  </div>
+</section>
+
+<section class="card slide" aria-label="3 Slik fungerer det for selgeren">
+  <div class="eyebrow in">Slik fungerer det for selgeren</div>
+  <h2 class="in" style="--d:1">Én kundeordre, åtte steg</h2>
+  <div class="steps">
+    <div class="box in" style="--d:2"><span class="n">1</span><b>Tilbud</b><p>Katalog med innpris, lager og leveringstid. Tegningen fra CET kommer inn selv.</p><span class="pill info nodot">Produktdata · pris · lager</span></div>
+    <div class="box in" style="--d:3"><span class="n">2</span><b>Signering</b><p>Leveringsuker regnes bakover fra montasjedato.</p><span class="pill info nodot">Ledetider</span></div>
+    <div class="box in" style="--d:4"><span class="n">3</span><b>Bestilling</b><p>Samme minutt, vår referanse, riktig kanal per leverandør.</p><span class="pill info nodot">Bestilling</span></div>
+    <div class="box in" style="--d:5"><span class="n">4</span><b>Bekreftelse</b><p>Sjekkes linje for linje. Avvik blir en oppgave.</p><span class="pill info nodot">Ordrebekreftelse</span></div>
+    <div class="box in" style="--d:6"><span class="n">5</span><b>Endring</b><p>Siste endringsdag på ordren. Rest og endring får egen status.</p><span class="pill info nodot">Endring · rest</span></div>
+    <div class="box in" style="--d:7"><span class="n">6</span><b>Levering</b><p>SMS med dag og tidsvindu. Montøren ser hva som kommer.</p><span class="pill info nodot">Varsel · sporing</span></div>
+    <div class="box in" style="--d:8"><span class="n">7</span><b>Faktura</b><p>Avstemmes mot OB. Kundefaktura i samme mva-periode.</p><span class="pill info nodot">EHF</span></div>
+    <div class="box in" style="--d:9"><span class="n">8</span><b>Etterpå</b><p>FDV fra produktdata. Reklamasjon fra montørappen med bilder.</p><span class="pill info nodot">Dokumenter · reklamasjon</span></div>
+  </div>
+</section>
+
+<section class="card slide" aria-label="4 De tolv strømmene">
+  <div class="eyebrow in">Det vi vil ha fra leverandørene</div>
+  <h2 class="in" style="--d:1">Tolv datastrømmer</h2>
+  <div class="grid g4">
+    <div class="box in" style="--d:2"><span class="n">1</span><b>Produktdata</b><p>Artikkel, EAN/NOBB, mål, status</p></div>
+    <div class="box in" style="--d:2"><span class="n">2</span><b>Pris og kampanje</b><p>Innpris per selskap, gyldig fra–til</p></div>
+    <div class="box in" style="--d:3"><span class="n">3</span><b>Lager og leveringstid</b><p>Helst i sanntid</p></div>
+    <div class="box in" style="--d:3"><span class="n">4</span><b>Bestilling</b><p>Referanse, kundenr., adresse, uke</p></div>
+    <div class="box in" style="--d:4"><span class="n">5</span><b>Ordrebekreftelse</b><p>Pris, rabatt og uke per linje</p></div>
+    <div class="box in" style="--d:4"><span class="n">6</span><b>Endring, rest, annullering</b><p>Merket, med opprinnelig ordrenr.</p></div>
+    <div class="box in" style="--d:5"><span class="n">7</span><b>Leveringsvarsel</b><p>Dag, tidsvindu, sporing</p></div>
+    <div class="box in" style="--d:5"><span class="n">8</span><b>Faktura og kreditnota</b><p>EHF med referansen i egne felt</p></div>
+    <div class="box in" style="--d:6"><span class="n">9</span><b>Reklamasjon</b><p>Sak med bilder og status tilbake</p></div>
+    <div class="box in" style="--d:6"><span class="n">10</span><b>Dokumenter</b><p>FDV, monteringsanvisning, bilder</p></div>
+    <div class="box in" style="--d:7"><span class="n">11</span><b>Avtale og betingelser</b><p>Rabatt, frakt, betaling som data</p></div>
+    <div class="box in" style="--d:7"><span class="n">12</span><b>Kontakter</b><p>Ordre, service, teknisk</p></div>
+  </div>
+</section>
+
+<section class="card slide" aria-label="5 Felles nøkler">
+  <div class="eyebrow in">Det som binder alt sammen</div>
+  <div class="key in" style="--d:1"><div class="ref">HA<span>-</span>10412<span>-</span>2</div></div>
+  <div class="parts in" style="--d:2">
+    <div><b>HA</b><span>butikk (Hamar)</span></div>
+    <div><b>10412</b><span>vår ordre</span></div>
+    <div><b>2</b><span>løpenummer per leverandør</span></div>
+  </div>
+  <p class="big in" style="--d:3;font-size:clamp(1.45rem,2.4vw,1.75rem)">Vår referanse i et fast felt er det viktigste enkeltkravet. Uten den må CRM gjette, og da må et menneske kontrollere.</p>
+  <table class="in" style="--d:4">
+    <tr><th>Nøkkel</th><th>Eksempel</th><th>Hvor</th></tr>
+    <tr><td>Kundenummer per selskap</td><td>Hamar 231200 hos Nobia</td><td>Bestilling, OB, faktura («OEM code» i Tradeplace)</td></tr>
+    <tr><td>Leverandørens ordrenr.</td><td>484429</td><td>OB, og eget felt på fakturaen</td></tr>
+    <tr><td>Artikkel</td><td>Artikkelnr., EAN/NOBB</td><td>Katalog, bestilling, OB, faktura</td></tr>
+    <tr><td>Leveringssted</td><td>Butikk eller kunde</td><td>Bestilling og OB</td></tr>
+  </table>
+</section>
+
+<section class="card slide" aria-label="6 Tre nivåer">
+  <div class="eyebrow in">Alle leverandører kan være med</div>
+  <h2 class="in" style="--d:1">Tre nivåer, samme kontroll i CRM</h2>
+  <div class="levels">
+    <div class="lvl in" style="--d:2"><span class="pill">Nivå 1 · alle</span><span class="t">E-post og PDF</span><ul><li>Bestilling fra bestilling@</li><li>OB, fraktvarsel og faktura tilbake dit</li><li>Referansen i fast felt</li><li>CRM leser PDF med AI</li></ul></div>
+    <div class="lvl in" style="--d:3"><span class="pill info">Nivå 2 · de fleste</span><span class="t">Filer og EHF</span><ul><li>Alt fra nivå 1</li><li>Produkt- og prisfil med gyldighet</li><li>EHF til hvert selskap</li><li>Fast mal på OB</li></ul></div>
+    <div class="lvl in" style="--d:4"><span class="pill ok">Nivå 3 · de største</span><span class="t">Direkte kobling</span><ul><li>EDI, Tradeplace eller API</li><li>Status og sporing som meldinger</li><li>Pris og lager i sanntid</li><li>Reklamasjon med status</li></ul></div>
+  </div>
+  <p class="note in" style="--d:5">Uansett nivå ender bekreftelsen i samme OB-modell, avvikene i samme liste og varslene på samme sted.</p>
+</section>
+
+<section class="card slide" aria-label="7 Krav">
+  <div class="eyebrow in">Krav</div>
+  <h2 class="in" style="--d:1">Må, bør og kan</h2>
+  <div class="prio">
+    <div class="box in" style="--d:2"><span class="pill warn">Må</span><ul><li>Vår referanse i fast felt på OB, fraktbrev og faktura</li><li>OB, fraktvarsel og faktura til bestilling@</li><li>Kundenummer per selskap</li><li>Pris, rabatt og uke per linje</li><li>Rest, endring og annullering merket</li><li>EHF med ordrenr. og referanse</li><li>Varsel før formatendringer</li></ul></div>
+    <div class="box in" style="--d:3"><span class="pill info">Bør</span><ul><li>Produkt- og prisfil med gyldighet</li><li>Varsel før prisendring</li><li>FDV, monteringsanvisning og bilder per artikkel</li><li>Sporing og leveringsdag før levering</li></ul></div>
+    <div class="box in" style="--d:4"><span class="pill ok">Kan</span><ul><li>EDI, Tradeplace eller API med testmiljø</li><li>Pris og lager i sanntid</li><li>Reklamasjon via API med status</li></ul></div>
+  </div>
+</section>
+
+<section class="card slide" aria-label="8 Frister">
+  <div class="eyebrow in">Frister vi ber om</div>
+  <h2 class="in" style="--d:1">Forslag til servicenivå</h2>
+  <table class="in" style="--d:2">
+    <tr><th>Hendelse</th><th>Frist</th></tr>
+    <tr><td>Ordrebekreftelse etter bestilling</td><td>Innen 1 virkedag</td></tr>
+    <tr><td>Bekreftelse av endring</td><td>Innen 1 virkedag</td></tr>
+    <tr><td>Varsel om forsinkelse</td><td>Straks, med ny uke</td></tr>
+    <tr><td>Leveringsvarsel med dag og tidsvindu</td><td>Minst 2 virkedager før</td></tr>
+    <tr><td>Prisendring</td><td>Minst 60 dager før</td></tr>
+    <tr><td>Faktura</td><td>Etter levering, ikke før</td></tr>
+    <tr><td>Svar på reklamasjon</td><td>Innen 3 virkedager</td></tr>
+  </table>
+  <p class="note in" style="--d:3">Forslag. Justeres per leverandør etter hva som er realistisk.</p>
+</section>
+
+<section class="card slide" aria-label="9 Leverandørkartet">
+  <div class="eyebrow in">Leverandørkartet</div>
+  <h2 class="in" style="--d:1">Hvor de er, og hvor vi skal</h2>
+  <div class="map in" style="--d:2" role="list">
+    <div class="mrow" role="listitem"><b>Sigdal / Nobia</b><div class="track" style="--now:50%;--goal:100%"><u></u><i></i></div><small>Nivå 1–2 → 3 · S-55</small></div>
+    <div class="mrow" role="listitem"><b>Hvitevarer (BSH, Electrolux, Miele, Smeg, Gorenje)</b><div class="track" style="--now:33%;--goal:100%"><u></u><i></i></div><small>1 → 3 · Tradeplace</small></div>
+    <div class="mrow" role="listitem"><b>Tapwell</b><div class="track" style="--now:33%;--goal:100%"><u></u><i></i></div><small>1 → 3 · EDI via Pagero</small></div>
+    <div class="mrow" role="listitem"><b>KA</b><div class="track" style="--now:33%;--goal:66%"><u></u><i></i></div><small>1 → 2 · KA-online</small></div>
+    <div class="mrow" role="listitem"><b>Røros Metall</b><div class="track" style="--now:33%;--goal:66%"><u></u><i></i></div><small>1 → 2 · Excel-mal</small></div>
+    <div class="mrow" role="listitem"><b>Intra, Corinor, Quooker, Nibu, Thermocold</b><div class="track" style="--now:33%;--goal:66%"><u></u><i></i></div><small>1 → 2 · leverandørbrevet</small></div>
+    <div class="mrow" role="listitem"><b>Transport (Opter, Møbelfrakt)</b><div class="track" style="--now:0%;--goal:100%"><u></u><i></i></div><small>– → 3 · sporing via API</small></div>
+  </div>
+  <p class="note in" style="--d:3">Mørk strek er nivået i dag, lys strek er målet.</p>
+</section>
+
+<section class="card slide" aria-label="10 Sigdal S-55">
+  <div class="eyebrow in">Sigdal og Nobia · S-55</div>
+  <h2 class="in" style="--d:1">Raske gevinster som krever lite hos Nobia</h2>
+  <div class="grid g3">
+    <div class="box in" style="--d:2"><b>Feilmeldinger til fast adresse</b><p>Kopi per butikk, ikke bare til selgeren. På sikt som JSON/XML.</p></div>
+    <div class="box in" style="--d:3"><b>Kopi av OB til bestilling@</b><p>Så CRM kan lese og kontrollere selv.</p></div>
+    <div class="box in" style="--d:4"><b>EHF også til Hamar</b><p>I dag får bare Lillehammer EHF. Hamar får skannet PDF.</p></div>
+    <div class="box in" style="--d:5"><b>Ordrenummer som Order Reference</b><p>Ikke bare i fritekst på EHF-en.</p></div>
+    <div class="box in" style="--d:6"><b>Feltbeskrivelse og feilkoder</b><p>For Nobia-XML, så vi leser riktig.</p></div>
+    <div class="box in" style="--d:7"><b>Ordrestokk per ordre</b><p>Én rad per ordre, ikke samlet.</p></div>
+  </div>
+  <p class="note in" style="--d:8">Hele kravlista har elleve områder, fra CET til reklamasjon. Sendes til Beatrice og Noman, med kopi til William.</p>
+</section>
+
+<section class="card slide" aria-label="11 Plan">
+  <div class="eyebrow in">Plan</div>
+  <h2 class="in" style="--d:1">Fire faser</h2>
+  <div class="phases">
+    <div class="box in" style="--d:2"><span class="pill info">Nå til 13.10</span><b>Fase 0 · nivå 1 for alle</b><p>bestilling@, fast referanse, leverandørbrevet og oppstart i Hamar</p></div>
+    <div class="box in" style="--d:3"><span class="pill">Uke 42–44</span><b>Fase 1 · CRM leser selv</b><p>CET-leseren, AI-lesing av OB, fakturakontroll, EHF for Hamar</p></div>
+    <div class="box in" style="--d:4"><span class="pill">Q4</span><b>Fase 2 · de store koblingene</b><p>S-55, Tradeplace, Tapwell EDI og produktfiler</p></div>
+    <div class="box in" style="--d:5"><span class="pill">2027</span><b>Fase 3 · hele løpet</b><p>Sanntid, sporing, reklamasjon med status og FDV automatisk</p></div>
+  </div>
+</section>
+
+<section class="card slide end" aria-label="12 Avslutning">
+  <div class="eyebrow in">Det leverandøren får tilbake</div>
+  <p class="big in" style="--d:1">Rene bestillinger, én kontakt hos oss, færre telefoner og raskere betaling.</p>
+  <p class="lead in" style="--d:2">Vi tester koblingen sammen og stiller gjerne som pilot.</p>
+  <a class="btn primary in" style="--d:3" href="/reise/">Se Ordrens reise ›</a>
+</section>
+
+</main>
+
+<footer class="bar">
+  <button class="btn" id="prev" type="button">‹ Forrige</button>
+  <button class="btn primary" id="next" type="button">Neste ›</button>
+  <span class="count" id="count"></span>
+  <button class="btn ghost" id="fs" type="button">Fullskjerm</button>
+  <nav class="dots" id="dots" aria-label="Lysbilder"></nav>
+</footer>
+
+<script src="/leverandor/side.js"></script>
+</body>
+</html>

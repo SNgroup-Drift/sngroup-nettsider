@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Veikart og status · Visningsrommet</title>
+<link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1180px;margin:0 auto;padding:16px 24px 32px;display:grid;gap:16px}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
+.kpi button{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;display:grid;gap:8px;text-align:left;cursor:pointer;color:var(--fg);font:400 15px var(--sans);min-height:44px;transition:border-color var(--dur) var(--ease)}
+.kpi button:hover{border-color:var(--sand)}
+.kpi button.on,.kpi button.on:hover{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.kpi button:focus-visible{border-radius:var(--r);box-shadow:var(--focus)}
+.kpi b{font:400 2.25rem/1.1 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.kpi .pill{justify-self:start}
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.filt{display:flex;gap:8px;flex-wrap:wrap}
+.search{position:relative;flex:0 1 320px;min-width:0}
+.search input{width:100%;min-height:44px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:var(--r-field);padding:8px 14px;font:400 15px var(--sans);transition:border-color var(--dur) var(--ease)}
+.search input::placeholder{color:var(--muted)}
+.search input:hover{border-color:var(--sand)}
+.search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;align-items:start}
+.lane{display:grid;gap:10px;align-content:start;min-width:0}
+.lane header{display:grid;gap:2px;padding:0 2px 10px;border-bottom:2px solid var(--line);position:relative}
+.lane header::after{content:"";position:absolute;left:2px;bottom:-6px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--sand)}
+.lane.now header{border-bottom-color:var(--ok)}
+.lane.now header::after{background:var(--ok);border-color:var(--ok)}
+.lane h2{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em;margin:0}
+.lane header span{font-size:13px;color:var(--muted)}
+.lane .empty{font-size:14px;color:var(--muted);padding:10px 2px;margin:0}
+.lane .card{padding:0;min-width:0;transition:border-color var(--dur) var(--ease)}
+.lane .card:hover{border-color:var(--sand)}
+.lane .card.open,.lane .card.open:hover{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.lane .card>button{all:unset;box-sizing:border-box;display:grid;gap:6px;width:100%;padding:14px 16px;cursor:pointer;border-radius:var(--r);min-height:44px}
+.lane .card>button:focus-visible{box-shadow:var(--focus);border-radius:var(--r)}
+.lane .card .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.lane .card b{font:600 15px/1.35 var(--sans)}
+.lane .card .chev{flex:none;color:var(--muted);font-size:15px;line-height:1.35;transition:transform var(--dur) var(--ease)}
+.lane .card.open .chev{transform:rotate(90deg)}
+.lane .card .gir{font-size:14px;color:var(--muted);line-height:1.45}
+.lane .card .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lane .card .when,.lane .card .dep{font-size:13px;line-height:1.4;color:var(--muted)}
+.lane .card .dep i{font-style:normal;color:var(--fg)}
+.det{display:none;gap:6px;border-top:1px solid var(--line);margin:0 16px;padding:12px 0 16px}
+.lane .card.open .det{display:grid}
+.det h3{margin:6px 0 0}
+.det h3:first-child{margin-top:0}
+.det p{margin:0;font-size:14px;line-height:1.5}
+.trenger{display:grid;gap:12px;min-width:0}
+.trenger>h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.trenger>.note{font-size:15px;color:var(--muted);margin:-4px 0 4px}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.part{gap:10px;align-content:start;padding:16px}
+.part h3{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em;margin:0}
+.part ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.part li{display:grid;gap:2px;font-size:15px;line-height:1.45;box-shadow:inset 3px 0 0 var(--sand);padding-left:12px}
+.part li b{font-weight:600}
+.part li span{font-size:14px;color:var(--muted)}
+.part li a{font:500 14px var(--sans);justify-self:start;min-height:40px;display:inline-flex;align-items:center;text-decoration:none}
+.part li a:hover{text-decoration:underline}
+@media (max-width:1080px){.tl{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:720px){.tl{grid-template-columns:minmax(0,1fr);gap:24px}.search{flex:1 1 100%}}
+@media (max-width:640px){.wrap{padding-inline:16px}}
+</style>
+</head>
+<body>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Status per 07.10.2026</span></div>
+<div class="wrap">
+  <header class="sidehode">
+    <div class="eyebrow">Hvor langt vi har kommet</div>
+    <h1>Veikart og status</h1>
+    <p class="lede">Det som er i drift nå, og det som kommer kvartal for kvartal. Trykk på et kort for å se hva det gir butikken, neste steg og hvem vi venter på.</p>
+  </header>
+  <div class="kpi" id="kpi" aria-label="Antall leveranser per status"></div>
+  <div class="tools">
+    <div class="filt" id="filt" aria-label="Filtrer på status"></div>
+    <div class="search"><input id="q" type="search" placeholder="Søk, f.eks. Tradeplace eller faktura" aria-label="Søk i veikartet"></div>
+  </div>
+  <div class="tl" id="tl"></div>
+  <section class="card trenger" id="trenger">
+    <h2>Hva vi trenger fra andre</h2>
+    <p class="note">Mye av tempoet styres av andre. Her er det vi venter på, samlet per part.</p>
+    <div class="parts" id="parts"></div>
+  </section>
+  <p class="foot">Veikartet er et anslag og kan endres. Skrifter: Newsreader og Inter.</p>
+</div>
+<script src="/veikart/side.js"></script>
+</body>
+</html>

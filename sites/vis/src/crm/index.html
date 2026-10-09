@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Prøv CRM · Visningsrommet</title>
+<link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/vis.css">
+<style>
+.wrap{max-width:1180px;margin:0 auto;padding:20px 24px 40px;display:grid;gap:16px}
+.wrap>.sidehode{margin-bottom:8px}
+/* Oppgavene som fliser med nummererte sirkler (24 px, 1,5 px --sand; ferdig = fylt --ok med hake) */
+.guide{display:flex;gap:8px;flex-wrap:wrap;counter-reset:g}
+.guide span{counter-increment:g;display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 16px 6px 8px;min-height:40px;font:400 15px/1.4 var(--sans);transition:color var(--dur) var(--ease)}
+.guide span i{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--sand);display:grid;place-items:center;font:600 12px/1 var(--sans);font-style:normal;color:var(--muted);transition:background var(--dur) var(--ease)}
+.guide span i::before{content:counter(g)}
+.guide span.d{color:var(--muted)}
+.guide span.d i{background:var(--ok);border-color:var(--ok);color:var(--card)}
+.guide span.d i::before{content:"✓"}
+/* CRM-skjermen */
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;min-height:620px}
+.side{background:var(--bg);border-right:1px solid var(--line);padding:20px 12px;display:grid;align-content:start;gap:2px}
+.side .brand{padding:2px 12px 16px;line-height:1}
+.side .grp{padding:14px 12px 6px}
+.side button{border:0;background:none;text-align:left;font:400 15px var(--sans);color:var(--fg);padding:8px 12px;border-radius:var(--r-field);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;transition:background var(--dur) var(--ease)}
+.side button:hover{background:var(--soft)}
+.side button.on{background:var(--line);font-weight:600}
+.badge{font:500 13px/1.4 var(--sans);background:var(--warn-soft);color:var(--warn);border-radius:var(--r-pill);padding:0 8px;font-variant-numeric:tabular-nums}
+.main{padding:24px;display:grid;gap:16px;align-content:start;min-width:0}
+.hd{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.hd h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.crumb{font-size:14px;color:var(--muted)}
+.crumb a{cursor:pointer;color:var(--accent-tekst)}
+.crumb a:hover{text-decoration:underline}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.kpi{background:var(--soft);border-radius:var(--r-field);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.kpi b{font:400 2.25rem/1.1 var(--serif);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.kpi span{font-size:14px;color:var(--muted)}
+.list{border:1px solid var(--line);border-radius:var(--r-field);overflow:hidden}
+.li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 16px;border-top:1px solid var(--line);align-items:center;cursor:pointer;background:var(--card);font-size:15px;transition:background var(--dur) var(--ease)}
+.li:first-child{border-top:0}
+.li:hover{background:var(--soft)}
+.li .t{font-weight:500}
+.li .s{font-size:14px;color:var(--muted);grid-column:1}
+.li .r{grid-row:1/span 2;grid-column:2;display:flex;gap:6px;align-items:center}
+.li.warn{box-shadow:inset 3px 0 0 var(--warn)}
+.main .tabs{justify-self:start}
+.box{background:var(--soft);border-radius:var(--r-field);padding:14px 16px;display:grid;gap:6px;font-size:15px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.row span:first-child{color:var(--muted)}
+.row span:last-child{text-align:right}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 13px var(--sans);color:var(--muted)}
+th.n,td.n{text-align:right;font-variant-numeric:tabular-nums}
+table tr:hover td{background:var(--soft)}
+tr.new td{animation:fl .6s var(--ease)}
+@keyframes fl{from{background:var(--accent-soft)}to{background:transparent}}
+.sak{background:var(--warn-soft);box-shadow:inset 3px 0 0 var(--warn);border-radius:var(--r-field);padding:16px 20px;display:grid;gap:6px;font-size:15px}
+.sak b{color:var(--warn);font-weight:600}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.plan{display:grid;grid-template-columns:140px repeat(5,minmax(0,1fr));gap:4px;font-size:14px}
+.plan div{background:var(--soft);border-radius:var(--r-sm);padding:8px 10px;min-height:56px;line-height:1.4}
+.plan .h{background:none;font:600 13px var(--sans);color:var(--muted);min-height:0}
+.plan .m{background:none;font-weight:500;display:flex;align-items:center;padding-left:0}
+.plan .j{background:var(--accent-soft);color:var(--accent-tekst);font-weight:500}
+.plan .j.ok{background:var(--ok-soft);color:var(--ok-tekst)}
+.plan .j.w{background:var(--warn-soft);color:var(--warn);box-shadow:inset 3px 0 0 var(--warn)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);border-radius:var(--r-field);padding:10px 16px;font-size:15px;opacity:0;transition:opacity var(--dur) var(--ease);pointer-events:none;z-index:9;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+@media (max-width:820px){.app{grid-template-columns:1fr}.side{grid-template-columns:repeat(3,minmax(0,1fr));border-right:0;border-bottom:1px solid var(--line);padding:12px}.side .brand{grid-column:1/-1;padding:4px 8px 10px}.side .grp{display:none}.side button{padding:8px 10px}.main{padding:20px 16px}.plan{grid-template-columns:96px repeat(5,minmax(112px,1fr));overflow-x:auto;padding-bottom:4px}}
+@media (max-width:640px){.wrap{padding:16px 16px 32px}.side{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Prøv selv · oppdiktede data</span></div>
+<div class="wrap">
+  <header class="sidehode">
+    <div class="eyebrow">Hengsel CRM</div>
+    <h1>Prøv CRM selv</h1>
+    <p class="lede">En dag som selger. Klikk deg rundt: start i Min dag, løs avvikene og importer et nytt tilbud fra CET.</p>
+  </header>
+  <div class="guide" id="guide">
+    <span data-k="avvik"><i></i>Løs avviket fra Tapwell</span>
+    <span data-k="faktura"><i></i>Godkjenn eller avvis fraktavviket</span>
+    <span data-k="cet"><i></i>Importer et tilbud fra CET</span>
+    <span data-k="plan"><i></i>Se montasjeplanen</span>
+  </div>
+  <div class="app">
+    <nav class="side" id="side" aria-label="Meny"></nav>
+    <main class="main" id="main"></main>
+  </div>
+  <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<template id="hlogo"><!--hengsel-logo 18--></template>
+<script src="/crm/side.js"></script>
+</body>
+</html>

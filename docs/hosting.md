@@ -191,3 +191,102 @@ npm run build -w sites/hengsel
 npx wrangler dev -c sites/hengsel/wrangler.jsonc          # http://localhost:8787/apptest
 node scripts/skjermbilder-apptest.mjs                       # skjermbilder og sjekker mot wrangler dev
 ```
+
+## vis
+
+Visningsrommet (`vis.sngroup.no`, K-110) er et rent statisk nettsted uten byggesteg utover kopiering (se
+`sites/vis/README.md`). Det ligger bak **Cloudflare Access** (appen «Visningsrommet», policy «Inviterte»), og er derfor
+et **Pages-prosjekt**, ikke en Worker som de andre nettstedene. Pages leser `_headers` fra output-mappen på samme måte.
+
+Fram til K-110 ble det lastet opp for hånd som zip til Pages-prosjektet `vis-sngroup` (Direct Upload). Et Direct
+Upload-prosjekt kan ikke kobles til Git i etterkant, så det lages et nytt prosjekt `vis`, og domenet flyttes over.
+Repoet har ingen nøkler eller konto-ID for dette; alt under gjøres i dashbordet.
+
+### 1. Nytt Pages-prosjekt koblet til repoet
+
+Workers & Pages → Create → **Pages** → Connect to Git → velg `SNgroup-Drift/sngroup-nettsider`.
+
+| Felt | Verdi |
+|---|---|
+| Project name | `vis` (gir `vis-8we.pages.dev`: `vis.pages.dev` var opptatt, så Cloudflare la til et tilfeldig suffiks) |
+| Production branch | `main` |
+| Framework preset | None |
+| Build command | `npm run build -w sites/vis` |
+| Build output directory | `sites/vis/dist` |
+| Root directory (advanced) | tomt, altså rotmappen (workspaces må installeres fra roten, se over) |
+| Environment variables | `NODE_VERSION` = `22` |
+
+**Rekkefølgen sørger for at ingenting havner åpent på nettet før Access er på plass.** Bestemt 08.10: Pages, og ingen
+forhåndsvisninger for vis.
+
+1. Lag prosjektet **før** PR-en for K-110 er flettet til `main`. Veiviseren starter et første bygg fra `main` med en
+   gang, og det **feiler** (`sites/vis` finnes ikke på `main` ennå). Det er meningen: da publiseres ingenting.
+2. Settings → Build → **Branch control** → Automatic deployments for preview branches: **None**. Da bygges ingen
+   andre greiner (heller ikke `claude/*`) til åpne adresser under `*.vis-8we.pages.dev`.
+3. Settings → Build → **Build watch paths**, Include: `sites/vis/*`, `package.json`, `package-lock.json`. Da bygger
+   ikke en endring i sngroup, hengsel eller byggem vis på nytt.
+4. Gjør trinn 2 under (Access).
+5. Flett PR-en. Det første vellykkede bygget havner da på `vis-8we.pages.dev`, som allerede er bak Access.
+
+Har PR-en allerede blitt flettet når prosjektet lages, blir første bygg publisert med en gang på en åpen
+`vis-8we.pages.dev`. Gjør da punkt 2 til 4 umiddelbart.
+
+### 2. Access før domenet flyttes
+
+> **Access-appen «Visningsrommet» må dekke alle tre adressene før domenet flyttes:**
+>
+> - `vis-8we.pages.dev`
+> - `*.vis-8we.pages.dev`
+> - `vis.sngroup.no`
+>
+> Flytt `vis.sngroup.no` (trinn 3) **først når Access er utvidet** og sjekken under viser innloggingen. Ellers kan
+> det nye prosjektet være åpent for alle i glippet mellom flytting og Access.
+
+Zero Trust → Access → Applications → **Visningsrommet** → Edit → Overview / Public hostnames → Add public hostname:
+
+- `vis-8we.pages.dev`
+- `*.vis-8we.pages.dev`. Hver produksjonsdeploy får også en egen adresse per commit (`<hash>.vis-8we.pages.dev`), selv med
+  forhåndsvisninger av, så jokertegnet trengs.
+
+Lagre. Kontroller at `vis.sngroup.no` fortsatt står i lista (den skal allerede være der), og behold
+`vis-sngroup.pages.dev` til trinn 4. Ikke endre policyen «Inviterte».
+
+Sjekk etter at PR-en er flettet (i et privat vindu): `https://vis-8we.pages.dev` og adressen til siste deploy (Deployments → kopier lenken) skal
+begge sende deg til innloggingen hos Access, ikke vise forsiden.
+
+```sh
+curl -sI https://vis-8we.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
+```
+
+### 3. Flytt `vis.sngroup.no`
+
+Ikke start før trinn 2 er gjort og sjekket: Access-appen må dekke `vis-8we.pages.dev`, `*.vis-8we.pages.dev` og
+`vis.sngroup.no`.
+
+1. Pages-prosjektet `vis-sngroup` → Custom domains → `vis.sngroup.no` → Remove. Domenet er nede til trinn 2 under er
+   ferdig (vanligvis et par minutter).
+2. Pages-prosjektet `vis` → Custom domains → Set up a custom domain → `vis.sngroup.no` → Activate. Cloudflare oppdaterer
+   CNAME-en til `vis-8we.pages.dev` selv, siden sonen ligger i samme konto.
+3. Access-appen trenger ingen ny endring her. Den dekker allerede `vis.sngroup.no` (kontrollert i trinn 2), og
+   beskyttelsen følger vertsnavnet, ikke Pages-prosjektet.
+
+Sjekk: `https://vis.sngroup.no` gir innloggingen, og etter innlogging den nye forsiden (Deployments i `vis` viser
+samme commit som `main`). Skriftene skal komme fra `/fonts/`, ikke fra Google (DevTools → Network → Font).
+
+### 4. Rydd etter 14 dager
+
+`vis-sngroup` står urørt i 14 dager som reserve (domenet kan flyttes tilbake med trinn 3 i omvendt rekkefølge). Deretter:
+
+1. Workers & Pages → `vis-sngroup` → Settings → Delete project.
+2. Zero Trust → Access → Applications → Visningsrommet → fjern `vis-sngroup.pages.dev` fra public hostnames.
+
+### Ellers
+
+- Publisering skjer ved push til `main`. Ingen opplasting for hånd lenger; `vis-sngroup.zip` på Macen er ikke kilden
+  lenger, det er `sites/vis/src/`.
+- CSP og andre hoder ligger i `sites/vis/src/_headers` og kopieres uendret til `dist/`. CSP-en tillater bare skrifter
+  fra `'self'` (skriftene ligger i `dist/fonts/`, ingen Google Fonts).
+- `sites/vis/src/404.html` gjør at ukjente adresser får status 404 med en egen side. Uten den svarer Pages med forsiden
+  og status 200 på alt (enkeltside-modus).
+- Sjekk etter publisering, innlogget: `https://vis.sngroup.no/finnes-ikke` skal vise «Fant ikke siden».
+- `robots.txt` stenger for søkemotorer, men det er Access som faktisk holder nettstedet privat.

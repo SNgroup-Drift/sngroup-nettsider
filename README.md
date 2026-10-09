@@ -7,8 +7,9 @@ Nettstedene til SN Group (ES-HOLDING AS, org.nr. 927 363 585), samlet i ett repo
 | sngroup.no | `sites/sngroup` | Forsiden med plantegningen, virksomhetene, Hengsel, kontakt, `/personvern` (montørappen Hengsel) og `/design` |
 | hengsel.no | `sites/hengsel` | Forside, personvern og 404 (K-87 del 4) |
 | byggem.no | `sites/byggem` | Forside, prosjekter, kontakt, personvern og 404 (K-87 del 5) |
+| vis.sngroup.no | `sites/vis` | Visningsrommet: lukket demo bak Cloudflare Access, ren HTML uten Astro, på Cloudflare Pages (K-110, se `sites/vis/README.md`) |
 
-Alt er statisk Astro: ingen server, ingen database, ingen sporing og ingen informasjonskapsler. Eneste unntak er
+Alt er statisk (Astro, og ren HTML for Visningsrommet): ingen server, ingen database, ingen sporing og ingen informasjonskapsler. Eneste unntak er
 hengsel.no/apptest, som ligger bak et felles passord med et lite Worker-skript og én informasjonskapsel (se docs/hosting.md).
 
 ## Oppsett
@@ -34,6 +35,7 @@ scripts/
   sjekk-lenker.mjs        npm test: alle interne lenker på de bygde sidene svarer 200
   skjermbilder.mjs        Skjermbilder og nettlesersjekker (360 px, konsoll, CSP)
   skjermbilder-apptest.mjs  Skjermbilder og sjekker av hengsel.no/apptest mot wrangler dev (passordet)
+  skjermbilder-vis.mjs    Skjermbilder og sjekker av Visningsrommet (390 og 1280 px, lys og mørk, skriftene)
   csp-hasher.mjs          Legger hashen for inline-CSS inn i CSP-en i dist/_headers
   statisk-server.mjs      Liten server som løser stier og 404 som Cloudflare Workers
 ```
