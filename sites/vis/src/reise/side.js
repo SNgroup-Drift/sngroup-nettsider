@@ -138,7 +138,7 @@
    lead:'Kunden får beskjed om dag og tidsvindu. Montøren ser hva som er levert, og melder avvik med bilde rett fra appen.',
    head:{t:'Ordre 10087',s:'Levering uke 45 · montasje uke 46'},
    rows:fiveRows('', 'Bestilt').concat([{id:'avv',who:'Avvik: skadet sidepanel',what:'Meldt av montør, med bilde',ref:'LI-10087-1',hidden:1}]),
-   nodes:[{id:'tr',name:'Transportør',chan:'Sporing (API)'},{id:'kunde',name:'Kunden',chan:'SMS'},{id:'hen',name:'Hengsel · montør',chan:'Montørappen'},{id:'sig',name:'Sigdal',chan:'Reklamasjon'}],
+   nodes:[{id:'tr',name:'Transportør',chan:'Sporing (API)'},{id:'kunde',name:'Kunden',chan:'SMS via Unifon'},{id:'hen',name:'Hengsel · montør',chan:'Montørappen'},{id:'sig',name:'Sigdal',chan:'Reklamasjon'}],
    card:{kind:'note',lbl:'Ingen telefon',t:'Erstatningen kommer uke 47',p:'Selgeren ser avviket og svaret, men trenger ikke ringe noen.'},
    script:function(){
     at(300,function(){cap('To virkedager før kommer leveringsvarselet med dag og tidsvindu.');pk('tr','in','Leveringsvarsel',1500)});
