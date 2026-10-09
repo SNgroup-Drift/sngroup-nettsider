@@ -2,6 +2,38 @@
 
 Filer: `Forside.dc.html`, `Personvern.dc.html`, `404.dc.html`. Felles deler: `Sidehode`, `Bunn` (familiebånd + bunntekst), `Plantegning Entre`, `Enhet` (telefon-, iPad- og PC-ramme). `Oversikt.dc.html` viser alle sider i PC 1440 og mobil 390, lys og mørk (`?tema=lys|mork`).
 
+## 52 Apptest og 53 Apptest passord (08.10) – S-56 v2
+Erstatter docs/design/hengsel/apptest/Apptest.dc.html. Samme toppfelt, familiebånd og bunntekst som resten av hengsel.no, og samme skrift som fil 51.
+- Nytt: delen «Prøv med demobrukerne» med passordflate (monospace + Kopier), tilstand uten passord, merknad om @demo.invalid, to brukerlister der brukernavnet kopieres ved trykk («Kopiert» i 1,8 s), og knappen «Last ned oversikten (PDF)».
+- App-ikonet er L9 (`img/hengsel-ute-ikon.svg`), ikke lenger bildeplass.
+- «Hvis noe ikke virker» har fått fjerde rad (demo-innlogging). Metalinje «Hengsel 1.3.0 · iPhone, iPad og Android».
+- Merker for Workeren ligger i markeringen: data-demopassord, data-demopassord-verdi, data-uten-demopassord, data-lastned, data-enhet, data-enhetslinje.
+- Tweaks: enhet (auto/iphone/android/pc), lenke (klar/ikke klar), passord (med/uten), tema. Passordsiden har tilstand (tom/feil) og tema.
+- Passordet i designet er oppdiktet («Demo-passord-2026»).
+
+## 51 Hengsel nettside (08.10) – ny forside som erstatter dagens
+`51 Hengsel nettside.dc.html`. Forside, Personvern og 404 fra v1.3 er arkiv; Personvern.dc.html og 404.dc.html brukes videre uendret.
+- Åtte seksjoner i briefens rekkefølge: forside (Min dag på PC i Studio Display-ramme), slik henger det sammen (CRM · Min side · Hengsel Ute + linjen lead → reklamasjon), moduler (11, uten priser), Hengsel Ute (ikon L9, tre telefoner), integrasjoner (7), om oss, kontakt, bunn.
+- Skrift: TWK Lausanne 350/650 og Reckless Standard M fra `fonts/` (kopiert fra crm_v4). Newsreader/Inter er reserve.
+- Telefonskjermer: «Bildeverktøy» finnes ikke som skjermbilde ennå (fil 36, MV11–18 er forslag). Viser «Avvik med bilde» (`hengsel-avvik.webp`) i stedet. Bytt når v2 er bygget.
+- App Store / Google Play er stiplede plassholdere, ikke lenker.
+- Modulsetningene er nye og korte, basert på det som er i drift. Sigdal og Nobia står med navn under integrasjoner (bestilling og OB).
+- Familiegrep beholdt: Sidehode, plantegning Entré i kontakt, SN Group-bånd og bunntekst. Sidehode har fått prop `lenker`.
+- Bare lys modus, som bestilt. Kontaktskjemaet har navn, butikk, e-post og telefon og åpner e-post til drift@sngroup.no.
+
+## Merkenavn i skjermbildene (07.10)
+Ekte merkenavn er dekket over og erstattet med «Hengsel» (Hengsel-logoen der det sto en logo), i samme skrift og farge som appen:
+- `tilbudet.webp`: «Hengsel Moment · fronter Eik natur», «Kjøkkenbatteri Hengsel», «Frakt Hengsel», og Hengsel i hele leverandørkolonnen (var Sigdal, Elkjøp Proff, Tapwell).
+- `bestilling.webp`: alle leverandører (Sigdal, Tapwell, Elkjøp Proff, Noro) → Hengsel.
+- `leder.webp`, `signert.webp`: «Forskudd til Hengsel»; på signert også «Sigdal, Tapwell, Elkjøp Proff» → «Hengsel».
+- `etterkalkyle.webp`: «Forskudd til Hengsel», «Unoterte til Hengsel», «Superadmin · Butikknavn».
+- `kundeportalen.webp`: «Kjøkken · Hengsel» og «Hengsel» i selgerkortet. `kundeportalen-pc.webp`: logo og «Studio Sigdal Hamar» → Hengsel-logoen.
+- `hengsel-avvik.webp`: «SK100 · Hengsel · OB …».
+- `hengsel-varer-a.webp`: leverandørene Sigdal og Electrolux → Hengsel. `hengsel-varer-b.webp`: «FDV Hengsel kjøkken.pdf».
+- `telefon-a.webp`, `ipad-min-dag.webp`: «Avvik på faktura fra Hengsel».
+- `produkter-hos-kunden.webp`: Siemens og Røros Metall → Hengsel. `telefon-b.webp`: «Hengsel stekeovn 60 cm».
+- Står igjen: Penneo og BankID (signeringstjenesten) på `signert.webp` og `kjoper-godkjenner-b.webp`. Si fra om de også skal byttes.
+
 ## Tekst
 - All tekst, alle faner og alle skjermbilder er hentet ordrett fra `docs/kilde/hengsel.no/index.raw.html` og `personvern.raw.html`. Ingen nye påstander.
 - Ny tekst er bare familiegrepene: «En del av SN Group», lenkene sngroup.no · hengsel.no · byggem.no, «org.nr. 927 363 585» i bunnteksten (fra personvernteksten), etikettene i plantegningen og 404-siden («Dette rommet finnes ikke», «Siden finnes ikke.», «Til forsiden»).

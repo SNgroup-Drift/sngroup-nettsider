@@ -8,10 +8,10 @@
   - Tekst i info-piller er #43649A og i ok-piller #376C49 (designsystemet: 3,9:1 og 4,3:1).
 */
 html:root {
-  /* Skrift: én linje per familie. Bytt til "Reckless Neue" og "TWK Lausanne" når weblisensen er bekreftet
-     (og legg @font-face for filene i fonts.css). */
-  --font-overskrift: "Newsreader Variable", Georgia, "Times New Roman", serif;
-  --font-tekst: "Inter Variable", "Helvetica Neue", Arial, sans-serif;
+  /* Skrift: Reckless Standard M og TWK Lausanne (public/fonts, @font-face i hengsel.css). Reserve: Newsreader og Inter,
+     selvhostet fra @fontsource (@sngroup/design/fonts.css). */
+  --font-overskrift: "Reckless Standard M", "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-tekst: "TWK Lausanne", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
 
   /* Merkevarefarger (bare disse åtte) */
   --warm-black: #31261d;
@@ -53,7 +53,8 @@ html:root {
   --merke-crm: rgb(49 38 29 / 0.56);
 
   /* Mål */
-  --bredde: 1180px;
+  /* 1180 px innhold + luft på sidene (designet bruker content-box, familiens .wrap border-box) */
+  --bredde: calc(1180px + 2 * var(--gutter));
   --gutter: clamp(16px, 4vw, 40px);
   --radius: 14px;
   --radius-liten: 8px;

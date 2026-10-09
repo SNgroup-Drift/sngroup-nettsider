@@ -1,110 +1,166 @@
 ---
 /**
- * hengsel.no/apptest: slik installerer du testversjonen av montørappen (S-56, K-107).
- * Fasit: docs/design/hengsel/apptest/Apptest.dc.html. Siden er nøytral (ingen butikknavn).
+ * hengsel.no/apptest: slik installerer du testversjonen av montørappen (S-56 v2, K-107, K-114).
+ * Fasit: docs/design/hengsel/52 Apptest.dc.html (08.10.2026). Siden er nøytral (ingen butikknavn).
  *
- * Ligger bak passord: Workeren (worker/apptest.ts) slipper bare inn med gyldig informasjonskapsel.
+ * Ligger bak passord: Workeren (worker/apptest.ts) slipper bare inn med gyldig informasjonskapsel, og fyller inn
+ * demopassordet ([data-demopassord-verdi]), viser passordflaten ([data-demopassord]) og fjerner [data-uten-demopassord].
  * Siden står ikke i menyen, i sitemap.txt eller i lenker fra andre sider, og har noindex, nofollow.
- * Telefonen gjenkjennes i scripts/apptest.ts. Uten skript vises begge knappene likt.
+ * Telefonen gjenkjennes og kopier-knappene virker i scripts/apptest.ts. Uten skript vises begge knappene likt.
  */
 import Side from "../layouts/Side.astro";
 
 // Byttes når Apple har godkjent betagjennomgangen. Står den som plassholder, vises «lenke kommer snart».
-const TESTFLIGHT_LENKE = "{{TESTFLIGHT_LENKE}}";
+const TESTFLIGHT_LENKE = "https://testflight.apple.com/join/MygfVe9U";
 const ANDROID_LENKE = "https://play.google.com/apps/internaltest/4701475978909247435";
 
 const iosKlar = !TESTFLIGHT_LENKE.startsWith("{{");
 
-const iphoneSteg = [
-  "Installer appen TestFlight fra App Store. Den er gratis og laget av Apple.",
-  "Åpne lenken du har fått på samme iPhone eller iPad.",
-  "Trykk Godta og deretter Installer i TestFlight.",
-  "Åpne Hengsel og logg inn med brukeren din.",
-  "Tillat kamera og Bluetooth når appen spør. Det trengs for skanning og laser.",
+const GUIDES = [
+  { title: "iPhone og iPad", via: "via TestFlight",
+    steps: [
+      "Installer appen TestFlight fra App Store. Den er gratis og laget av Apple.",
+      "Åpne lenken du har fått på samme iPhone eller iPad.",
+      "Trykk Godta og deretter Installer i TestFlight.",
+      "Åpne Hengsel og logg inn med brukeren din.",
+      "Tillat kamera og Bluetooth når appen spør. Det trengs for skanning og laser.",
+    ],
+    note: "Nye versjoner kommer i TestFlight. Slå på automatiske oppdateringer der, så slipper du å gjøre noe.",
+    small: "En testversjon varer i 90 dager. Når en ny versjon er ute, oppdaterer TestFlight den." },
+  { title: "Android", via: "via Play Butikk",
+    steps: [
+      "Gi Eirik e-postadressen til Google-kontoen du bruker på telefonen.",
+      "Når du er lagt til, åpner du lenken på telefonen og trykker Bli tester.",
+      "Trykk Last ned fra Google Play og installer Hengsel.",
+      "Logg inn med brukeren din.",
+      "Tillat kamera, Bluetooth og enheter i nærheten når appen spør.",
+    ],
+    note: "Har du en eldre testversjon (APK) av Hengsel, avinstaller den først. Ellers kan Play-versjonen ikke installeres.",
+    small: "Det kan ta opptil 30 minutter fra du er lagt til, til appen dukker opp i Play Butikk." },
 ];
-const androidSteg = [
-  "Gi Eirik e-postadressen til Google-kontoen du bruker på telefonen.",
-  "Når du er lagt til, åpner du lenken på telefonen og trykker Bli tester.",
-  "Trykk Last ned fra Google Play og installer Hengsel.",
-  "Logg inn med brukeren din.",
-  "Tillat kamera, Bluetooth og enheter i nærheten når appen spør.",
+
+// K-114: faste demobrukere. Brukernavn = rollen, e-post = brukernavn@demo.invalid, felles passord (fra Workeren).
+const GROUPS: { title: string; users: [string, string, string][] }[] = [
+  { title: "I appen (velg «Demo»)", users: [
+    ["montor1", "Montør", "I dag, jobbsiden, mål og skisse, KS, avvik og Ferdig montert."],
+    ["montor2", "Montør, polsk", "Appen på polsk."],
+    ["firmaleder1", "Firmaleder med team", "Forespørsler, svar og fordeling av jobber."],
+    ["firmaleder2", "Firmaleder uten ansatte", "Egne jobber og forespørsler."],
+    ["firmaleder3", "Firmaleder", "Garderobe, skyvedører og bad."],
+    ["utkjorer", "Utkjører", "Ruten, mottak på lager, levering og skade."],
+    ["selger1", "Selger", "Selgermodus i appen."],
+  ] },
+  { title: "I CRM-et (nettleseren)", users: [
+    ["selger1", "Selgere i tre butikker", "selger1 – selger6. selger2 og selger6 er prosjektselgere."],
+    ["leder", "Leder og admin", ""],
+    ["montasjeleder", "Montasjeleder og bestilling", ""],
+    ["bestilling", "Bestilling", ""],
+    ["superadmin", "Superadmin", ""],
+  ] },
 ];
-const problemer = [
+
+const FAQ = [
   ["Lenken sier at appen ikke er tilgjengelig", "Du er ikke lagt til ennå. Gi beskjed til Eirik."],
   ["Laseren blir ikke funnet", "Slå på Bluetooth på telefonen, og trykk på Bluetooth-knappen på Bosch-laseren."],
-  ["Du kommer ikke inn", "Bruk samme e-post og passord som i CRM."],
-];
-const kort = [
-  { tittel: "iPhone og iPad", via: "via TestFlight", steg: iphoneSteg,
-    boks: "Nye versjoner kommer i TestFlight. Slå på automatiske oppdateringer der, så slipper du å gjøre noe.",
-    merknad: "En testversjon varer i 90 dager. Når en ny versjon er ute, oppdaterer TestFlight den." },
-  { tittel: "Android", via: "via Play Butikk", steg: androidSteg,
-    boks: "Har du en eldre testversjon (APK) av Hengsel, avinstaller den først. Ellers kan Play-versjonen ikke installeres.",
-    merknad: "Det kan ta opptil 30 minutter fra du er lagt til, til appen dukker opp i Play Butikk." },
+  ["Du kommer ikke inn med din egen bruker", "Bruk samme e-post og passord som i CRM."],
+  ["Du kommer ikke inn i demoen", "Sjekk at «Demo» er valgt nederst på innloggingen, og at du skriver hele adressen (montor1@demo.invalid)."],
 ];
 ---
 <Side
   title="Slik installerer du Hengsel · Hengsel"
   description="Slik installerer du testversjonen av montørappen Hengsel på iPhone, iPad eller Android."
   robots="noindex, nofollow"
+  lenker={[{ label: "Last ned", href: "#" }, { label: "Demobrukerne", href: "#demo" }]}
 >
   <main id="innhold" class="apptest">
-    <section class="hero wrap" aria-labelledby="tittel">
+    <section class="hero h-innhold" aria-labelledby="tittel">
       <div class="tekst">
-        <span class="h-eyebrow">Montørappen · testversjon 1.3.0</span>
+        <span class="eyebrow">Montørappen · testversjon 1.3.0</span>
         <h1 id="tittel">Slik installerer du Hengsel</h1>
-        <p class="h-lede">Appen er i test. Den ligger ikke i App Store eller Play Butikk ennå, så du kan ikke søke den opp der. Du trenger en invitasjon, og så følger du stegene for telefonen din.</p>
+        <p class="lede">Appen er i test. Den ligger ikke i App Store eller Play Butikk ennå, så du kan ikke søke den opp der. Du trenger en invitasjon, og så følger du stegene for telefonen din.</p>
       </div>
       <div class="ikoncelle">
         <div class="ikonflis">
-          <picture>
-            <source type="image/webp" media="(prefers-color-scheme: dark)" srcset="/apptest/hengsel-ikon-192-mork.webp 192w, /apptest/hengsel-ikon-384-mork.webp 384w" sizes="(min-width: 860px) 128px, 96px" />
-            <source type="image/png" media="(prefers-color-scheme: dark)" srcset="/apptest/hengsel-ikon-192-mork.png 192w, /apptest/hengsel-ikon-384-mork.png 384w" sizes="(min-width: 860px) 128px, 96px" />
-            <source type="image/webp" srcset="/apptest/hengsel-ikon-192.webp 192w, /apptest/hengsel-ikon-384.webp 384w" sizes="(min-width: 860px) 128px, 96px" />
-            <img class="ikon" src="/apptest/hengsel-ikon-192.png" srcset="/apptest/hengsel-ikon-192.png 192w, /apptest/hengsel-ikon-384.png 384w" sizes="(min-width: 860px) 128px, 96px" width="128" height="128" alt="" />
-          </picture>
+          <img class="ikon" src="/img/hengsel-ute-ikon.svg" alt="App-ikonet til Hengsel" width="128" height="128" />
           <span>Hengsel</span>
         </div>
       </div>
       <div class="lastned" data-lastned>
         {iosKlar
-          ? <a class="h-btn stor" href={TESTFLIGHT_LENKE} data-enhet="iphone">iPhone og iPad – åpne i TestFlight</a>
-          : <button class="h-btn stor" type="button" disabled data-enhet="iphone">iPhone og iPad – lenke kommer snart</button>}
-        <a class="h-btn stor" href={ANDROID_LENKE} data-enhet="android">Android – bli tester og last ned</a>
-        <p class="h-dempet enhetslinje" data-enhetslinje data-ios-klar={iosKlar ? "ja" : "nei"}>Åpne denne siden på telefonen og trykk knappen for din telefon.</p>
+          ? <a class="btn lg block" href={TESTFLIGHT_LENKE} data-enhet="iphone">iPhone og iPad – åpne i TestFlight</a>
+          : <button class="btn lg block" type="button" disabled data-enhet="iphone">iPhone og iPad – lenke kommer snart</button>}
+        <a class="btn lg block" href={ANDROID_LENKE} data-enhet="android">Android – bli tester og last ned</a>
+        <p class="enhetslinje" data-enhetslinje data-ios-klar={iosKlar ? "ja" : "nei"}>Åpne denne siden på telefonen og trykk knappen for din telefon.</p>
       </div>
     </section>
 
-    <section class="steg" aria-label="Steg">
-      <div class="wrap kortrad">
-        {kort.map((k) => (
-          <div class="h-kort">
+    <section class="steg h-flate" aria-label="Steg">
+      <div class="h-innhold kortrad">
+        {GUIDES.map((g) => (
+          <article class="card guide">
             <div class="korthode">
-              <h2>{k.tittel}</h2>
-              <span class="h-dempet">{k.via}</span>
+              <h2>{g.title}</h2>
+              <span class="dempet">{g.via}</span>
             </div>
             <ol>
-              {k.steg.map((s, i) => <li><span class="nr" aria-hidden="true">{i + 1}</span><span class="stegtekst">{s}</span></li>)}
+              {g.steps.map((s, i) => <li><span class="nr" aria-hidden="true">{i + 1}</span><span class="stegtekst">{s}</span></li>)}
             </ol>
-            <p class="boks">{k.boks}</p>
-            <p class="merknad h-dempet">{k.merknad}</p>
-          </div>
+            <p class="boks">{g.note}</p>
+            <p class="liten dempet">{g.small}</p>
+          </article>
         ))}
       </div>
     </section>
 
-    <section class="hjelp" aria-labelledby="hjelp-tittel">
-      <div class="wrap">
-        <h2 id="hjelp-tittel">Hvis noe ikke virker</h2>
-        <dl>
-          {problemer.map(([sp, svar]) => (
-            <div class="rad">
-              <dt>{sp}</dt>
-              <dd class="h-dempet">{svar}</dd>
+    <section id="demo" class="demo" aria-labelledby="demo-tittel">
+      <div class="h-innhold demorad">
+        <div class="demohode">
+          <h2 id="demo-tittel">Prøv med demobrukerne</h2>
+          <p class="lede">I demoen er alt oppdiktet, og ingenting sendes ut. Velg «Demo» nederst på innloggingen i appen, og logg inn med brukernavnet og demopassordet. Alle brukerne har samme passord.</p>
+        </div>
+        <div class="passordflate" data-demopassord hidden>
+          <div class="passord">
+            <span class="etikett">Demopassord</span>
+            <code data-demopassord-verdi></code>
+          </div>
+          <button type="button" class="btn primary kopier" data-kopier-passord>Kopier</button>
+        </div>
+        <p class="uten" data-uten-demopassord>Passordet får du av den som inviterte deg.</p>
+        <p class="boks smal">Foreløpig skriver du hele adressen: brukernavnet med @demo.invalid bak, for eksempel montor1@demo.invalid. Snart holder det med montor1.</p>
+        <div class="brukerrad">
+          {GROUPS.map((grp) => (
+            <div class="gruppe">
+              <h3>{grp.title}</h3>
+              <ul>
+                {grp.users.map(([navn, rolle, hva]) => (
+                  <li>
+                    <button type="button" class="bruker" data-kopier={navn} aria-label={`Kopier brukernavnet ${navn}`}>
+                      <span>{navn}</span>
+                      <span class="kvittering" aria-live="polite"></span>
+                    </button>
+                    <span class="rolle"><b>{rolle}</b>{hva && <span class="dempet">{hva}</span>}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
-        </dl>
-        <p class="merknad h-dempet versjon">Hengsel 1.3.0 · iPhone, iPad og Android</p>
+        </div>
+        <div><a class="btn" href="/apptest/Logg_inn_i_demoen.pdf">Last ned oversikten (PDF)</a></div>
+      </div>
+    </section>
+
+    <section class="hjelp h-flate" aria-labelledby="hjelp-tittel">
+      <div class="h-innhold">
+        <h2 id="hjelp-tittel">Hvis noe ikke virker</h2>
+        <div class="rader">
+          {FAQ.map(([sp, svar]) => (
+            <div class="rad">
+              <p class="sp">{sp}</p>
+              <p class="dempet svar">{svar}</p>
+            </div>
+          ))}
+        </div>
+        <p class="liten dempet versjon">Hengsel 1.3.0 · iPhone, iPad og Android</p>
       </div>
     </section>
   </main>
@@ -116,58 +172,91 @@ const kort = [
 
 <style>
   .apptest { flex: 1; }
+  .dempet { color: var(--muted); }
+  .liten { font-size: 0.92rem; }
+  .boks { background: var(--surface-soft); border-radius: 10px; padding: 14px 16px; }
+
+  /* Hero og last ned */
   .hero {
     display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px;
     padding-block: clamp(32px, 6vw, 80px) clamp(48px, 7vw, 96px);
   }
   .tekst { display: grid; gap: 16px; align-content: start; }
-  .tekst h1 { font-size: var(--t-hero); line-height: 1.02; margin: 0; }
   .ikonflis {
-    background: var(--flate); border-radius: var(--radius-stor); padding: 28px 24px;
-    display: grid; justify-items: center; gap: 8px; font-size: 0.95rem; color: var(--tekst);
+    background: var(--surface-highlight); border-radius: 20px; padding: 28px 24px;
+    display: grid; justify-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;
   }
-  .ikon { display: block; width: 96px; height: 96px; border-radius: 22px; }
+  .ikon { display: block; width: 96px; height: 96px; }
   .lastned { display: grid; gap: 12px; max-width: 480px; }
-  .stor { min-height: 56px; padding: 0 28px; font-size: 1.125rem; width: 100%; box-sizing: border-box; white-space: normal; text-align: center; }
-  .stor.valgt { background: var(--tekst); color: var(--bakgrunn); }
-  .stor.valgt:hover { opacity: 0.88; }
-  .stor:disabled { opacity: 0.45; cursor: not-allowed; }
-  .stor:disabled:hover { background: transparent; color: var(--tekst); }
-  .stor.valgt:disabled:hover { background: var(--tekst); color: var(--bakgrunn); opacity: 0.45; }
-  .stor:disabled:active { transform: none; }
-  .enhetslinje { font-size: 1rem; padding-top: 4px; }
+  .lastned .btn { white-space: normal; text-align: center; }
+  .enhetslinje { color: var(--muted); font-size: 1rem; padding-top: 4px; }
 
   @media (min-width: 860px) {
     .hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px 64px; align-items: start; }
     .ikoncelle { grid-column: 2; grid-row: 1 / span 2; }
     .lastned { grid-column: 1; grid-row: 2; }
     .ikonflis { padding: 56px 32px; }
-    .ikon { width: 128px; height: 128px; border-radius: 29px; }
+    .ikon { width: 128px; height: 128px; }
   }
 
-  .steg { background: var(--flate); padding-block: clamp(48px, 7vw, 96px); }
+  /* Steg */
+  .steg { padding-block: clamp(48px, 7vw, 96px); }
   .kortrad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px 24px; align-items: start; }
-  @media (min-width: 860px) { .kortrad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-  .h-kort { padding: 28px 24px; display: grid; gap: 24px; }
+  .guide { padding: 28px 24px; display: grid; gap: 24px; min-width: 0; }
   .korthode { display: grid; gap: 4px; }
-  .korthode h2 { font-size: var(--t-h2); line-height: 1.15; margin: 0; }
+  .korthode h2 { font-size: var(--t-h2); line-height: 1.15; }
   ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
-  li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
+  ol li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
   .nr {
-    width: 32px; height: 32px; border-radius: var(--radius-pille); background: var(--flate);
-    display: grid; place-items: center; font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums;
+    width: 32px; height: 32px; border-radius: 999px; background: var(--surface-highlight);
+    display: grid; place-items: center; font-weight: 650; font-size: 0.95rem; font-variant-numeric: tabular-nums;
   }
-  .stegtekst { padding-top: 3px; }
-  .boks { background: var(--flate-myk); border-radius: var(--radius-felt); padding: 14px 16px; }
-  .merknad { font-size: 0.92rem; }
+  .stegtekst { padding-top: 4px; }
 
+  /* Demobrukerne */
+  .demo { padding-block: clamp(48px, 7vw, 96px); }
+  .demorad { display: grid; gap: clamp(24px, 4vw, 40px); }
+  .demohode { display: grid; gap: 14px; max-width: 760px; }
+  .passordflate {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; max-width: calc(760px + 46px); /* 760 + luft og kant, som i designet */
+  }
+  .passord { display: grid; gap: 4px; min-width: 0; }
+  .etikett { font-size: 0.86rem; color: var(--muted); }
+  .passord code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: clamp(1.2rem, 3vw, 1.6rem);
+    letter-spacing: 0.02em; word-break: break-all;
+  }
+  .kopier { min-height: 48px; }
+  .uten { background: var(--surface-highlight); border-radius: 14px; padding: 20px 22px; font-size: 1.08rem; }
+  .smal { max-width: calc(760px + 32px); }
+  .brukerrad { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
+  .gruppe { display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .gruppe ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .gruppe li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; align-items: start; justify-items: start; padding: 6px 0; }
+  .bruker {
+    all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+    min-height: 48px; padding: 0 14px; border-radius: 10px; background: var(--surface-highlight);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1rem; color: var(--ink); flex: none;
+  }
+  .bruker:hover { background: var(--surface-soft); }
+  .bruker:focus-visible { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+  .kvittering { font-family: var(--f-body); font-size: 0.82rem; color: var(--accent); min-width: 4.5em; }
+  .rolle { display: grid; gap: 2px; min-width: 0; padding-top: 2px; }
+  .rolle .dempet { font-size: 0.95rem; line-height: 1.5; }
+
+  /* Hvis noe ikke virker */
   .hjelp { padding-block: clamp(48px, 7vw, 96px); }
-  .hjelp .wrap { display: grid; gap: 24px; }
-  .hjelp h2 { font-size: var(--t-h1); line-height: 1.08; margin: 0; }
-  dl { margin: 0; border-top: 1px solid var(--linje); }
-  .rad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px 64px; padding-block: 20px; border-bottom: 1px solid var(--linje); }
-  @media (min-width: 860px) { .rad { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); } }
-  dt { font-weight: 600; }
-  dd { margin: 0; max-width: 62ch; }
+  .hjelp .h-innhold { display: grid; gap: 24px; }
+  .rader { border-top: 1px solid var(--line); }
+  .rad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px 64px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .sp { font-weight: 650; }
+  .svar { max-width: 62ch; }
   .versjon { padding-top: 24px; }
+
+  @media (min-width: 860px) {
+    .kortrad, .brukerrad { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .gruppe li { grid-template-columns: 200px minmax(0, 1fr); gap: 14px; }
+    .rad { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); }
+  }
 </style>
