@@ -233,13 +233,23 @@ Har PR-en allerede blitt flettet når prosjektet lages, blir første bygg publis
 
 ### 2. Access før domenet flyttes
 
+> **Access-appen «Visningsrommet» må dekke alle tre adressene før domenet flyttes:**
+>
+> - `vis.pages.dev`
+> - `*.vis.pages.dev`
+> - `vis.sngroup.no`
+>
+> Flytt `vis.sngroup.no` (trinn 3) **først når Access er utvidet** og sjekken under viser innloggingen. Ellers kan
+> det nye prosjektet være åpent for alle i glippet mellom flytting og Access.
+
 Zero Trust → Access → Applications → **Visningsrommet** → Edit → Overview / Public hostnames → Add public hostname:
 
 - `vis.pages.dev`
 - `*.vis.pages.dev`. Hver produksjonsdeploy får også en egen adresse per commit (`<hash>.vis.pages.dev`), selv med
   forhåndsvisninger av, så jokertegnet trengs.
 
-Lagre. Behold `vis.sngroup.no` og `vis-sngroup.pages.dev` som de er, og ikke endre policyen «Inviterte».
+Lagre. Kontroller at `vis.sngroup.no` fortsatt står i lista (den skal allerede være der), og behold
+`vis-sngroup.pages.dev` til trinn 4. Ikke endre policyen «Inviterte».
 
 Sjekk etter at PR-en er flettet (i et privat vindu): `https://vis.pages.dev` og adressen til siste deploy (Deployments → kopier lenken) skal
 begge sende deg til innloggingen hos Access, ikke vise forsiden.
@@ -250,11 +260,15 @@ curl -sI https://vis.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloud
 
 ### 3. Flytt `vis.sngroup.no`
 
+Ikke start før trinn 2 er gjort og sjekket: Access-appen må dekke `vis.pages.dev`, `*.vis.pages.dev` og
+`vis.sngroup.no`.
+
 1. Pages-prosjektet `vis-sngroup` → Custom domains → `vis.sngroup.no` → Remove. Domenet er nede til trinn 2 under er
    ferdig (vanligvis et par minutter).
 2. Pages-prosjektet `vis` → Custom domains → Set up a custom domain → `vis.sngroup.no` → Activate. Cloudflare oppdaterer
    CNAME-en til `vis.pages.dev` selv, siden sonen ligger i samme konto.
-3. Access-appen trenger ingen endring: `vis.sngroup.no` står der allerede.
+3. Access-appen trenger ingen ny endring her. Den dekker allerede `vis.sngroup.no` (kontrollert i trinn 2), og
+   beskyttelsen følger vertsnavnet, ikke Pages-prosjektet.
 
 Sjekk: `https://vis.sngroup.no` gir innloggingen, og etter innlogging den nye forsiden (Deployments i `vis` viser
 samme commit som `main`). Skriftene skal komme fra `/fonts/`, ikke fra Google (DevTools → Network → Font).
