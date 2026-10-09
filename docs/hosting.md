@@ -208,7 +208,7 @@ Workers & Pages → Create → **Pages** → Connect to Git → velg `SNgroup-Dr
 
 | Felt | Verdi |
 |---|---|
-| Project name | `vis` (gir `vis.pages.dev`) |
+| Project name | `vis` (gir `vis-8we.pages.dev`: `vis.pages.dev` var opptatt, så Cloudflare la til et tilfeldig suffiks) |
 | Production branch | `main` |
 | Framework preset | None |
 | Build command | `npm run build -w sites/vis` |
@@ -222,21 +222,21 @@ forhåndsvisninger for vis.
 1. Lag prosjektet **før** PR-en for K-110 er flettet til `main`. Veiviseren starter et første bygg fra `main` med en
    gang, og det **feiler** (`sites/vis` finnes ikke på `main` ennå). Det er meningen: da publiseres ingenting.
 2. Settings → Build → **Branch control** → Automatic deployments for preview branches: **None**. Da bygges ingen
-   andre greiner (heller ikke `claude/*`) til åpne adresser under `*.vis.pages.dev`.
+   andre greiner (heller ikke `claude/*`) til åpne adresser under `*.vis-8we.pages.dev`.
 3. Settings → Build → **Build watch paths**, Include: `sites/vis/*`, `package.json`, `package-lock.json`. Da bygger
    ikke en endring i sngroup, hengsel eller byggem vis på nytt.
 4. Gjør trinn 2 under (Access).
-5. Flett PR-en. Det første vellykkede bygget havner da på `vis.pages.dev`, som allerede er bak Access.
+5. Flett PR-en. Det første vellykkede bygget havner da på `vis-8we.pages.dev`, som allerede er bak Access.
 
 Har PR-en allerede blitt flettet når prosjektet lages, blir første bygg publisert med en gang på en åpen
-`vis.pages.dev`. Gjør da punkt 2 til 4 umiddelbart.
+`vis-8we.pages.dev`. Gjør da punkt 2 til 4 umiddelbart.
 
 ### 2. Access før domenet flyttes
 
 > **Access-appen «Visningsrommet» må dekke alle tre adressene før domenet flyttes:**
 >
-> - `vis.pages.dev`
-> - `*.vis.pages.dev`
+> - `vis-8we.pages.dev`
+> - `*.vis-8we.pages.dev`
 > - `vis.sngroup.no`
 >
 > Flytt `vis.sngroup.no` (trinn 3) **først når Access er utvidet** og sjekken under viser innloggingen. Ellers kan
@@ -244,29 +244,29 @@ Har PR-en allerede blitt flettet når prosjektet lages, blir første bygg publis
 
 Zero Trust → Access → Applications → **Visningsrommet** → Edit → Overview / Public hostnames → Add public hostname:
 
-- `vis.pages.dev`
-- `*.vis.pages.dev`. Hver produksjonsdeploy får også en egen adresse per commit (`<hash>.vis.pages.dev`), selv med
+- `vis-8we.pages.dev`
+- `*.vis-8we.pages.dev`. Hver produksjonsdeploy får også en egen adresse per commit (`<hash>.vis-8we.pages.dev`), selv med
   forhåndsvisninger av, så jokertegnet trengs.
 
 Lagre. Kontroller at `vis.sngroup.no` fortsatt står i lista (den skal allerede være der), og behold
 `vis-sngroup.pages.dev` til trinn 4. Ikke endre policyen «Inviterte».
 
-Sjekk etter at PR-en er flettet (i et privat vindu): `https://vis.pages.dev` og adressen til siste deploy (Deployments → kopier lenken) skal
+Sjekk etter at PR-en er flettet (i et privat vindu): `https://vis-8we.pages.dev` og adressen til siste deploy (Deployments → kopier lenken) skal
 begge sende deg til innloggingen hos Access, ikke vise forsiden.
 
 ```sh
-curl -sI https://vis.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
+curl -sI https://vis-8we.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
 ```
 
 ### 3. Flytt `vis.sngroup.no`
 
-Ikke start før trinn 2 er gjort og sjekket: Access-appen må dekke `vis.pages.dev`, `*.vis.pages.dev` og
+Ikke start før trinn 2 er gjort og sjekket: Access-appen må dekke `vis-8we.pages.dev`, `*.vis-8we.pages.dev` og
 `vis.sngroup.no`.
 
 1. Pages-prosjektet `vis-sngroup` → Custom domains → `vis.sngroup.no` → Remove. Domenet er nede til trinn 2 under er
    ferdig (vanligvis et par minutter).
 2. Pages-prosjektet `vis` → Custom domains → Set up a custom domain → `vis.sngroup.no` → Activate. Cloudflare oppdaterer
-   CNAME-en til `vis.pages.dev` selv, siden sonen ligger i samme konto.
+   CNAME-en til `vis-8we.pages.dev` selv, siden sonen ligger i samme konto.
 3. Access-appen trenger ingen ny endring her. Den dekker allerede `vis.sngroup.no` (kontrollert i trinn 2), og
    beskyttelsen følger vertsnavnet, ikke Pages-prosjektet.
 
