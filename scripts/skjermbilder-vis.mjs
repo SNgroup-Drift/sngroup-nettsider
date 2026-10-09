@@ -2,9 +2,9 @@
 /**
  * Nettlesersjekker og skjermbilder for Visningsrommet (sites/vis, K-110) med Playwright (Chromium).
  *
- *  - Alle sider (og 404) på 390 px og 1280 px, lys og mørk: ingen konsollfeil (CSP fra _headers gjelder),
+ *  - Alle sider (og 404) på 390, 1280 og 1440 px, lys og mørk: ingen konsollfeil (CSP fra _headers gjelder),
  *    ingen vannrett rulling, ingen forespørsler til andre verter, og Newsreader og Inter lastes fra /fonts/.
- *  - Skjermbilder av forsiden, /reise/, /sv/ og 404 til docs/skjermbilder/vis-*.png.
+ *  - Skjermbilder av forsiden, /system/, /reise/, /sv/ og 404 på mobil (390) og PC (1440) til docs/skjermbilder/vis-*.png.
  *
  * Kjør etter `npm run build`: node scripts/skjermbilder-vis.mjs
  * Chromium: PLAYWRIGHT_BROWSERS_PATH, eller CHROMIUM_PATH for en bestemt fil.
@@ -28,7 +28,7 @@ async function sider(dir, pre = "") {
   return liste;
 }
 const alle = [...(await sider(dist)).sort(), "/finnes-ikke"];
-const bilder = { "/": "forside", "/reise/": "reise", "/sv/": "sv", "/finnes-ikke": "404" };
+const bilder = { "/": "forside", "/system/": "system", "/reise/": "reise", "/sv/": "sv", "/finnes-ikke": "404" };
 
 const server = await startServer(dist);
 const base = `http://127.0.0.1:${server.address().port}`;
@@ -37,11 +37,13 @@ let feil = 0;
 
 const visninger = [
   { navn: "mobil", viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
-  { navn: "desktop", viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 },
+  { navn: "1280", viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1, bareSjekk: true },
+  { navn: "desktop", viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
 ];
 for (const v of visninger) {
   for (const modus of ["light", "dark"]) {
-    const ctx = await browser.newContext({ ...v, colorScheme: modus, reducedMotion: "reduce" });
+    const { navn: _n, bareSjekk, ...oppsett } = v;
+    const ctx = await browser.newContext({ ...oppsett, colorScheme: modus, reducedMotion: "reduce" });
     for (const sti of alle) {
       const page = await ctx.newPage();
       const konsoll = [];
@@ -67,7 +69,7 @@ for (const v of visninger) {
         `${ok ? "✓" : "✗"} ${sti} (${v.viewport.width} px, ${modus === "light" ? "lys" : "mørk"}): ${svar.status()}, bredde ${r.sw}/${r.cw}, skrifter ${r.lastet.join(" + ") || "ingen"}` +
           `${konsoll.length ? `, konsoll: ${konsoll.join(" | ")}` : ""}${eksterne.size ? `, eksterne: ${[...eksterne].join(", ")}` : ""}${mangler.length ? `, ikke lastet: ${mangler.join(", ")}` : ""}`,
       );
-      if (bilder[sti]) {
+      if (bilder[sti] && !bareSjekk) {
         const fil = `vis-${bilder[sti]}-${v.navn}-${modus === "light" ? "lys" : "mork"}.png`;
         await page.screenshot({ path: join(ut, fil), fullPage: sti !== "/reise/" });
       }
@@ -78,5 +80,5 @@ for (const v of visninger) {
 }
 await browser.close();
 server.close();
-console.log(`\n${alle.length} sider × 4 visninger, ${feil} feil.`);
+console.log(`\n${alle.length} sider × ${visninger.length * 2} visninger, ${feil} feil.`);
 process.exit(feil ? 1 : 0);

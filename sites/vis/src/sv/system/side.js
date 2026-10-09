@@ -11,7 +11,7 @@ var N=[
  {id:'min',side:'R',t:'Mina sidor',s:'Kundportalen',st:'ok',inn:['Kundens godkännanden och ändringsönskemål'],ut:['Offert, kontrakt, leveransvecka, drift- och skötselanvisningar'],om:'Kunden ser allt på ett ställe och slipper ringa för att få veta status.',vei:'Signering i portalen (Penneo utvärderas).'},
  {id:'hen',side:'R',t:'Hengsel',s:'Montörsappen för montagefirmor och montörer',st:'ok',inn:['Egenkontroll, bilder, avvikelser, timmar, signatur'],ut:['Jobb, ritningar, varor, meddelanden från säljaren'],om:'Montagefirman svarar inom 48 timmar, och montören har allt i fickan.',vei:'Ritningen som arbetsyta (väntar på DXF).'},
  {id:'sms',side:'R',t:'Sms',s:'Leveransavisering och påminnelser',st:'opp',inn:['Svar från kunden (mål)'],ut:['Dag och tidsfönster för leverans','Påminnelser'],om:'Kunden får besked utan att säljaren behöver ringa.',vei:'Klargörs med operatören Unifon.'},
- {id:'bank',side:'R',t:'Signering',s:'BankID / DealBuilder',st:'del',inn:['Signerat kontrakt (PDF)'],ut:['Kontrakt för signering'],om:'Kontraktet kontrolleras mot ordern när det är signerat.',vei:'Signering direkt från CRM (Penneo utvärderas).'}
+ {id:'bank',side:'R',t:'Signering',s:'BankID / DealBuilder',st:'plan',inn:['Signerat kontrakt (PDF)'],ut:['Kontrakt för signering'],om:'Kontraktet kontrolleras mot ordern när det är signerat.',vei:'Signering direkt från CRM (Penneo utvärderas).'}
 ];
 var cL=document.getElementById('cL'),cR=document.getElementById('cR'),cC=document.getElementById('cC'),det=document.getElementById('det'),svg=document.getElementById('svg'),map=document.getElementById('map'),cur='crm';
 N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML=(n.id==='crm'?document.getElementById('hlogo').innerHTML:'<b>'+n.t+'</b>')+'<span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
@@ -25,6 +25,5 @@ function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});
  svg.querySelectorAll('path').forEach(function(p){p.classList.toggle('hot',p.id==='p-'+id||id==='crm')});
  det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4 class="eyebrow">In till CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Ut från CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Nästa steg</h4><p>'+n.vei+'</p>'}
-try{document.getElementById('dt').textContent=new Date(2026,9,7).toLocaleDateString('sv-SE',{day:'2-digit',month:'2-digit',year:'numeric'})}catch(e){}
 new ResizeObserver(lines).observe(map);lines();show('crm');
 })();

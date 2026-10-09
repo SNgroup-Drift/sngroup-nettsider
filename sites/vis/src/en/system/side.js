@@ -11,7 +11,7 @@ var N=[
  {id:'min',side:'R',t:'My page',s:'The customer portal',st:'ok',inn:['The customer’s approvals and change requests'],ut:['Quote, contract, delivery week, operation and maintenance documents'],om:'The customer sees everything in one place and does not need to call for status.',vei:'Signing in the portal (Penneo under evaluation).'},
  {id:'hen',side:'R',t:'Hengsel',s:'The fitter app for fitting companies and fitters',st:'ok',inn:['Quality checks, photos, deviations, hours, signature'],ut:['Jobs, drawings, goods, messages from the salesperson'],om:'The fitting company replies within 48 hours, and the fitter has everything in their pocket.',vei:'The drawing as a workspace (waiting for DXF).'},
  {id:'sms',side:'R',t:'Text messages',s:'Delivery notices and reminders',st:'opp',inn:['Replies from the customer (target)'],ut:['Delivery day and time window','Reminders'],om:'The customer is informed without the salesperson having to call.',vei:'To be agreed with the operator Unifon.'},
- {id:'bank',side:'R',t:'Signing',s:'BankID / DealBuilder',st:'del',inn:['Signed contract (PDF)'],ut:['Contract for signing'],om:'The contract is checked against the order once it is signed.',vei:'Signing directly from the CRM (Penneo under evaluation).'}
+ {id:'bank',side:'R',t:'Signing',s:'BankID / DealBuilder',st:'plan',inn:['Signed contract (PDF)'],ut:['Contract for signing'],om:'The contract is checked against the order once it is signed.',vei:'Signing directly from the CRM (Penneo under evaluation).'}
 ];
 var cL=document.getElementById('cL'),cR=document.getElementById('cR'),cC=document.getElementById('cC'),det=document.getElementById('det'),svg=document.getElementById('svg'),map=document.getElementById('map'),cur='crm';
 N.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='n';b.id='n-'+n.id;b.innerHTML=(n.id==='crm'?document.getElementById('hlogo').innerHTML:'<b>'+n.t+'</b>')+'<span>'+n.s+'</span><span class="pill '+ST[n.st][0]+'">'+ST[n.st][1]+'</span>';b.onclick=function(){show(n.id)};(n.side==='L'?cL:n.side==='R'?cR:cC).appendChild(b)});
@@ -25,6 +25,5 @@ function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});
  svg.querySelectorAll('path').forEach(function(p){p.classList.toggle('hot',p.id==='p-'+id||id==='crm')});
  det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4 class="eyebrow">Into the CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Out of the CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Next step</h4><p>'+n.vei+'</p>'}
-try{document.getElementById('dt').textContent=new Date(2026,9,7).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}catch(e){}
 new ResizeObserver(lines).observe(map);lines();show('crm');
 })();

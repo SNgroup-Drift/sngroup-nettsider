@@ -11,7 +11,7 @@ var C=[
  {u:'/reise/',b:'/img/ordre-og-montasje.webp',t:'Ordrens reise',type:'Simulering',p:'Én kjøkkenordre fra tegning i CET til montert kjøkken og faktura, i åtte scener med fem leverandører.',r:['selger','montor','leverandor','sigdal'],go:'Spill av'},
  {u:'/crm/',b:'/img/min-dag.webp',t:'Prøv CRM selv',type:'Prøv selv',p:'En dag som selger: Min dag, avvik fra leverandører, tilbud fra CET, ordre og montasjeplan.',r:['selger','sigdal'],go:'Prøv CRM'},
  {u:'/kunde/',b:'/img/kundeportalen.webp',t:'Kundens reise',type:'Simulering',p:'Det kunden opplever i Min side og på SMS, fra tilbud og BankID til FDV og reklamasjon.',r:['selger'],go:'Spill av'},
- {u:'/opplaering/',b:'/img/saker.webp',t:'Opplæring for selgere',type:'Opplæring',p:'Ti korte deler fra kunde og tilbud til bestilling, frister og montasje.',r:['selger'],go:'Start'},
+ {u:'/opplaering/',b:'/img/opplaering.webp',t:'Opplæring for selgere',type:'Opplæring',p:'Ti korte deler fra kunde og tilbud til bestilling, frister og montasje.',r:['selger'],go:'Start'},
  {u:'/montor/',b:'/img/hengsel-i-dag-a.webp',t:'Montørappen Hengsel',type:'Prøv selv',p:'En monteringsdag: neste jobb, KS, avvik med bilde og ferdigmelding med signatur.',r:['montor','selger'],go:'Prøv appen'},
  {u:'/levprov/',b:'/img/bestilling.webp',t:'Prøv som leverandør',type:'Prøv selv',p:'Send en ordrebekreftelse til bestilling@ og se hvordan den leses, kobles og besvares på sekunder.',r:['leverandor','sigdal'],go:'Prøv nå'},
  {u:'/minside/',b:'/img/kundeportalen-pc.webp',t:'Kundens Min side',type:'Prøv selv',p:'Vær kunden på mobil eller PC: velg tilvalg, godkjenn og signer, bekreft leveringen og meld en feil. Se hva CRM-et gjør samtidig.',r:['selger','sigdal'],go:'Prøv Min side'},
@@ -30,11 +30,11 @@ var C=[
 ];
 var cur='alle';
 function finnes(k){return R.some(function(x){return x[0]===k})}
-try{var q=new URLSearchParams(location.search).get('rolle');if(q&&finnes(q))cur=q;else{var s=localStorage.getItem('vis-rolle');if(s&&finnes(s))cur=s}}catch(e){}
+try{var q=new URLSearchParams(location.search).get('rolle');if(q&&finnes(q))cur=q;else{var s=localStorage.getItem('vis.rolle');if(s&&finnes(s))cur=s}}catch(e){}
 var roles=document.getElementById('roles'),out=document.getElementById('out');
 R.forEach(function(r){var b=document.createElement('button');b.type='button';b.className='btn';b.textContent=r[1];b.dataset.r=r[0];b.onclick=function(){set(r[0])};roles.appendChild(b)});
 function card(c){return '<a class="card rom" href="'+c.u+'"><div class="bilde"><img src="'+c.b+'" alt="" width="1600" height="1000" loading="lazy"></div><span class="pill info nodot">'+c.type+'</span><span class="ktittel">'+c.t+'</span><p>'+c.p+'</p><span class="go">'+c.go+' ›</span></a>'}
-function set(r){cur=r;try{localStorage.setItem('vis-rolle',r)}catch(e){}
+function set(r){cur=r;try{localStorage.setItem('vis.rolle',r)}catch(e){}
  try{history.replaceState(null,'',r==='alle'?location.pathname:'?rolle='+r)}catch(e){}
  [].forEach.call(roles.children,function(b){b.classList.toggle('dark',b.dataset.r===r);b.setAttribute('aria-pressed',b.dataset.r===r)});
  var info=R.filter(function(x){return x[0]===r})[0];document.getElementById('intro').textContent=info[2];

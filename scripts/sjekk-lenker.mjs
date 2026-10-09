@@ -27,7 +27,8 @@ async function htmlFiler(dir, pre = "") {
   return ut;
 }
 
-const intern = (u) => !/^(https?:|mailto:|tel:|data:|\/\/)/i.test(u) && u !== "";
+// /cdn-cgi/ (f.eks. utlogging fra Cloudflare Access i Visningsrommet) serveres av Cloudflare, ikke fra dist
+const intern = (u) => !/^(https?:|mailto:|tel:|data:|\/\/|\/cdn-cgi\/)/i.test(u) && u !== "";
 
 let feil = 0;
 let sjekket = 0;
