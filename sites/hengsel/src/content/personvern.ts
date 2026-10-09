@@ -4,7 +4,7 @@ import type { Avsnitt } from "@sngroup/design/types";
  * Personvern for hengsel.no. Dagens tekst fra hengsel.no (docs/kilde/hengsel.no/personvern.raw.html) ordrett,
  * med to endringer Eirik godkjente 07.10.2026: skriftene ligger på egen server, og driften er hos Cloudflare.
  * 09.10.2026: tilpasset den nye forsiden (fil 51): ingen fane som huskes i nettleseren, og skjemaet har bare
- * navn, butikk, e-post og telefon.
+ * navn, butikk, e-post og telefon. Linjen om informasjonskapsler nevner testsiden for montørappen (K-107).
  */
 const epost = '<a href="mailto:drift@sngroup.no">drift@sngroup.no</a>';
 
@@ -25,7 +25,7 @@ export const personvern = {
       overskrift: "Når du besøker siden",
       punkter: [
         "Siden har ingen innlogging, ingen analyseverktøy og ingen sporing.",
-        "Vi bruker ingen informasjonskapsler (cookies).",
+        "Vi bruker ingen informasjonskapsler (cookies). Unntaket er en passordbeskyttet testside for inviterte testere av montørappen: når du har skrevet riktig passord der, lagres én nødvendig informasjonskapsel i 30 dager, så du slipper å skrive passordet på nytt. Den brukes ikke til noe annet.",
         // Endret 07.10.2026 (var: «Skriftene lastes fra Google Fonts. …»)
         "Skriftene ligger på vår egen server. Nettsiden henter ingenting fra andre nettsteder.",
         // Endret 07.10.2026 (var: «Nettsiden driftes hos Lovable, …»)
