@@ -12,7 +12,7 @@ function toast(t){var e=$('toast');e.textContent=t;e.classList.add('show');clear
 function step(k){S.steps[k]=1;[].forEach.call($('guide').children,function(s){s.classList.toggle('d',!!S.steps[s.dataset.k])})}
 function nSaker(){return Object.keys(S.saker).filter(function(k){return S.saker[k]}).length}
 function side(){var m=[['','Oversikt'],['dag','Min dag',nSaker()],['','Salg'],['kunder','Kunder'],['tilbud','Tilbud'],['ordre','Ordre'],['','Leveranse'],['plan','Montasjeplan'],['saker','Saker',nSaker()]];
- var lg=$('hlogo');$('side').innerHTML='<div class="brand">'+(lg?lg.innerHTML:'Sigdal CRM')+'</div>'+m.map(function(x){if(!x[0])return '<div class="grp">'+x[1]+'</div>';return '<button type="button" data-v="'+x[0]+'" class="'+(S.v===x[0]||(S.v==='ordre1'&&x[0]==='ordre')?'on':'')+'">'+x[1]+(x[2]?'<span class="badge">'+x[2]+'</span>':'')+'</button>'}).join('');
+ var lg=$('hlogo');$('side').innerHTML='<div class="brand">'+(lg?lg.innerHTML:'Hengsel CRM')+'</div>'+m.map(function(x){if(!x[0])return '<div class="grp eyebrow">'+x[1]+'</div>';return '<button type="button" data-v="'+x[0]+'" class="'+(S.v===x[0]||(S.v==='ordre1'&&x[0]==='ordre')?'on':'')+'">'+x[1]+(x[2]?'<span class="badge">'+x[2]+'</span>':'')+'</button>'}).join('');
  [].forEach.call($('side').querySelectorAll('button'),function(b){b.onclick=function(){go(b.dataset.v)}})}
 function go(v,o){S.v=v;if(o)S.ord=o;if(v==='ordre1')S.tab=S.tab||'over';render()}
 function h(x){$('main').innerHTML=x}

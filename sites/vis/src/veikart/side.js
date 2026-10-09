@@ -3,7 +3,7 @@ var $=function(i){return document.getElementById(i)};
 var ST={ok:['ok','I drift'],del:['info','Delvis'],opp:['warn','Under oppsett'],plan:['','Planlagt']};
 var LANES=[['na','I drift nå','Brukes hver dag'],['q4','Q4 2026','okt. til des.'],['q1','Q1 2027','jan. til mars'],['q2','Q2 2027','april til juni'],['sen','Senere','Ikke tidfestet']];
 var L=[
- {id:'crm',l:'na',st:'ok',t:'Sigdal CRM',g:'Tilbud fra Nobia-XML, ordre, saker og Min dag på ett sted.',w:'',dep:[],
+ {id:'crm',l:'na',st:'ok',t:'Hengsel CRM',g:'Tilbud fra Nobia-XML, ordre, saker og Min dag på ett sted.',w:'',dep:[],
   hva:'Tilbudet lages rett fra Nobia-XML uten tasting. Ordre, bestillinger og saker henger sammen, og selgeren ser bare det som avviker i Min dag.',neste:'Flyttes til Cloudflare i drift (prod) i Q4.'},
  {id:'m365',l:'na',st:'ok',t:'Microsoft 365: bestilling@ og varsel@',g:'Én fast inngang for leverandørene og felles varsler ut.',w:'',dep:[],
   hva:'Ordrebekreftelser, fraktvarsler og fakturaer kommer til bestilling@studiosigdal-innlandet.no. Varsler går ut fra varsel@. Alle logger inn med jobbkontoen.',neste:'Flere leverandører over på bestilling@ med leverandørbrevet.'},
@@ -87,7 +87,7 @@ function card(x){var o=open===x.id;
  '<span class="gir">'+esc(x.g)+'</span>'+
  '<span class="meta"><span class="pill '+ST[x.st][0]+'">'+ST[x.st][1]+'</span>'+(x.w?'<span class="when">'+esc(x.w)+'</span>':'')+'</span>'+
  (x.dep.length?'<span class="dep">Avhenger av: <i>'+x.dep.map(esc).join(', ')+'</i></span>':'')+
- '</button><div class="det" id="d-'+x.id+'"><h3>Hva det gir</h3><p>'+esc(x.hva)+'</p><h3>Neste steg</h3><p>'+esc(x.neste)+'</p><h3>Avhenger av</h3><p>'+(x.dep.length?esc(x.dep.join(', ')):'Bare oss selv.')+'</p></div></article>'}
+ '</button><div class="det" id="d-'+x.id+'"><h3 class="eyebrow">Hva det gir</h3><p>'+esc(x.hva)+'</p><h3 class="eyebrow">Neste steg</h3><p>'+esc(x.neste)+'</p><h3 class="eyebrow">Avhenger av</h3><p>'+(x.dep.length?esc(x.dep.join(', ')):'Bare oss selv.')+'</p></div></article>'}
 function render(){
  $('tl').innerHTML=LANES.map(function(l){var it=L.filter(function(x){return x.l===l[0]&&match(x)});
   return '<section class="lane'+(l[0]==='na'?' now':'')+'" aria-label="'+l[1]+'"><header><h2>'+l[1]+'</h2><span>'+l[2]+'</span></header>'+

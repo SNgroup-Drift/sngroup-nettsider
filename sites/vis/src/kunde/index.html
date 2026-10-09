@@ -24,7 +24,7 @@
 /* Varselet glir inn fra toppen – eneste skygge i Visningsrommet */
 .notif{position:absolute;left:10px;right:10px;top:40px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;box-shadow:0 1px 2px rgba(49,38,29,.06),0 12px 40px -12px rgba(49,38,29,.22);display:grid;gap:2px;transform:translateY(-160%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:3}
 .notif.show{transform:none}
-.notif small{font:600 12px/1.4 var(--sans);color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.notif small{font-size:12px}
 .notif span{font-size:14px;line-height:1.4}
 .c{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:6px;font-size:15px;line-height:1.5;animation:ci .45s ease both}
 @keyframes ci{from{opacity:0;transform:translateY(8px)}}
@@ -69,7 +69,7 @@
       <div class="sb"><span id="clock">09:12</span><span>Min side</span></div>
       <div class="app"><b>Studio Sigdal</b><span class="pill nodot" id="where">Tilbud</span></div>
       <div class="view" id="v"></div>
-      <div class="notif" id="nt" aria-live="polite"><small id="ntk">SMS</small><span id="ntt"></span></div>
+      <div class="notif" id="nt" aria-live="polite"><small id="ntk" class="eyebrow">SMS</small><span id="ntt"></span></div>
     </div></div>
     <div class="side">
       <span class="eyebrow" id="k"></span>

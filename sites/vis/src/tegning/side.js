@@ -111,11 +111,11 @@
     var h='<div class="row"><button type="button" class="btn" id="bk" style="min-height:40px;padding:6px 10px">‹ Alle</button>'+pill+'</div>'+
       '<h2>'+e.id+'</h2><p class="ty">'+e.t+'</p>';
     if(S.mode==='av'){
-      h+='<div class="sec">Meld avvik på '+e.id+'</div><div class="chips" id="rs">'+REASONS.map(function(r){return '<button type="button" class="'+(S.reason===r?'on':'')+'">'+r+'</button>'}).join('')+'</div>'+
+      h+='<div class="sec eyebrow">Meld avvik på '+e.id+'</div><div class="chips" id="rs">'+REASONS.map(function(r){return '<button type="button" class="'+(S.reason===r?'on':'')+'">'+r+'</button>'}).join('')+'</div>'+
         '<button type="button" class="pic'+(S.pic?' on':'')+'" id="pic">'+(S.pic?'✓ Bilde lagt ved (demo)':'+ Ta bilde')+'</button>'+
         '<div class="acts"><button type="button" class="a" id="sendav">Send avvik</button><button type="button" id="cancel">Avbryt</button></div>';
     } else if(S.mode==='ml'){
-      h+='<div class="sec">Hvilken del mangler?</div><div class="chips" id="ps">'+e.v.map(function(v){return '<button type="button" class="'+(S.part===v[0]?'on':'')+'">'+esc(v[0])+'</button>'}).join('')+'</div>'+
+      h+='<div class="sec eyebrow">Hvilken del mangler?</div><div class="chips" id="ps">'+e.v.map(function(v){return '<button type="button" class="'+(S.part===v[0]?'on':'')+'">'+esc(v[0])+'</button>'}).join('')+'</div>'+
         '<div class="acts"><button type="button" class="a" id="sendml">Meld mangel</button><button type="button" id="cancel">Avbryt</button></div>';
     } else {
       h+='<div class="kv"><span>Mål B×H×D</span><b>'+e.m+' mm</b><span>Front</span><b>'+FRONT+'</b></div>'+
@@ -123,7 +123,7 @@
         '<div class="mn"><b>Monteringsnotat</b>'+esc(e.n)+'</div>'+
         '<div class="acts">'+(st.s==='done'?'<button type="button" id="undo">Angre ferdig</button>':'<button type="button" class="p" id="ok">✓ Ferdig montert</button>')+
         '<button type="button" class="w" id="av">Meld avvik</button><button type="button" id="ml">Mangler del</button></div>'+
-        '<div class="sec">Varelinjer</div><ul class="lines">'+e.v.map(function(v){return '<li>'+esc(v[0])+'<span>'+v[1]+' stk</span></li>'}).join('')+'</ul>';
+        '<div class="sec eyebrow">Varelinjer</div><ul class="lines">'+e.v.map(function(v){return '<li>'+esc(v[0])+'<span>'+v[1]+' stk</span></li>'}).join('')+'</ul>';
     }
     d.innerHTML=h;
     on('bk',function(){S.sel=null;S.mode=null;paint();det()});

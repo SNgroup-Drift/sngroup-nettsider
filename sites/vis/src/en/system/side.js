@@ -24,7 +24,7 @@ function lines(){var W=map.clientWidth,H=map.clientHeight;svg.setAttribute('view
 function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});
  svg.querySelectorAll('path').forEach(function(p){p.classList.toggle('hot',p.id==='p-'+id||id==='crm')});
- det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4>Into the CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>Out of the CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>Next step</h4><p>'+n.vei+'</p>'}
+ det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4 class="eyebrow">Into the CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Out of the CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Next step</h4><p>'+n.vei+'</p>'}
 try{document.getElementById('dt').textContent=new Date(2026,9,7).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}catch(e){}
 new ResizeObserver(lines).observe(map);lines();show('crm');
 })();

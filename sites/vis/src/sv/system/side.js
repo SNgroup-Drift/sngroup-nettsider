@@ -24,7 +24,7 @@ function lines(){var W=map.clientWidth,H=map.clientHeight;svg.setAttribute('view
 function show(id){cur=id;var n=N.filter(function(x){return x.id===id})[0];
  document.querySelectorAll('.n').forEach(function(b){b.classList.toggle('on',b.id==='n-'+id)});
  svg.querySelectorAll('path').forEach(function(p){p.classList.toggle('hot',p.id==='p-'+id||id==='crm')});
- det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4>In till CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>Ut från CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>Nästa steg</h4><p>'+n.vei+'</p>'}
+ det.innerHTML='<span class="pill '+ST[n.st][0]+'" style="justify-self:start">'+ST[n.st][1]+'</span><h2>'+n.t+'</h2><p>'+n.om+'</p><h4 class="eyebrow">In till CRM</h4><ul>'+n.inn.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Ut från CRM</h4><ul>'+n.ut.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4 class="eyebrow">Nästa steg</h4><p>'+n.vei+'</p>'}
 try{document.getElementById('dt').textContent=new Date(2026,9,7).toLocaleDateString('sv-SE',{day:'2-digit',month:'2-digit',year:'numeric'})}catch(e){}
 new ResizeObserver(lines).observe(map);lines();show('crm');
 })();
