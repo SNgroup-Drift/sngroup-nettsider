@@ -96,12 +96,12 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:1
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · oppdiktet kunde</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Prøv selv · oppdiktet kunde</span></div>
 <div class="wrap">
-  <header>
+  <header class="sidehode">
     <div class="eyebrow">Det kunden ser</div>
     <h1>Kundens Min side</h1>
-    <p class="sub">Du er Familien Lund. Bytt mellom mobil og PC øverst. Velg tilvalg, godkjenn tilbudet, bekreft leveringen og meld en feil etter montering. Ved siden av ser du hva som skjer i CRM-et samtidig.</p>
+    <p class="lede">Du er Familien Lund. Bytt mellom mobil og PC øverst. Velg tilvalg, godkjenn tilbudet, bekreft leveringen og meld en feil etter montering. Ved siden av ser du hva som skjer i CRM-et samtidig.</p>
   </header>
   <div class="view" id="view" role="group" aria-label="Visning"><button type="button" data-v="mob" class="on">Mobil</button><button type="button" data-v="pc">PC</button></div>
   <div class="stage">
@@ -115,10 +115,10 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:1
         <ol class="guide" id="guide"><li data-k="tilvalg"><span>1</span>Legg til et tilvalg i tilbudet</li><li data-k="godkjenn"><span>2</span>Godkjenn og signer</li><li data-k="lev"><span>3</span>Bekreft leveringen</li><li data-k="feil"><span>4</span>Meld en feil med bilde</li></ol>
         <button class="btn" id="reset" type="button">Start på nytt</button>
       </section>
-      <section class="panel"><h3>Samtidig i Sigdal CRM</h3><div class="log" id="log" aria-live="polite"></div></section>
+      <section class="panel"><h3>Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
     </aside>
   </div>
-  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data, og ingenting signeres. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data, og ingenting signeres. Skrifter: Newsreader og Inter.</p>
 </div>
 <script src="/minside/side.js"></script>
 </body>

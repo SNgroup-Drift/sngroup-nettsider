@@ -133,12 +133,12 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · kommer</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill warn">Prøv selv · kommer</span></div>
 <div class="wrap">
-  <header>
+  <header class="sidehode">
     <div class="eyebrow">Hengsel for montører</div>
     <h1>Tegningen i Hengsel</h1>
-    <p class="sub">Romtegningen er arbeidsflaten. Trykk på et skap, se mål, varelinjer og notat, og meld det ferdig eller med avvik rett i tegningen.</p>
+    <p class="lede">Romtegningen er arbeidsflaten. Trykk på et skap, se mål, varelinjer og notat, og meld det ferdig eller med avvik rett i tegningen.</p>
   </header>
   <p class="note"><span class="pill warn">Kommer</span><span><b>Slik blir det.</b> Venter på tegningsfil (DXF) fra CET.</span></p>
   <div class="stage">
@@ -186,12 +186,12 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
         <button class="btn" id="reset" type="button">Start på nytt</button>
       </section>
       <section class="panel">
-        <h2>Samtidig i Sigdal CRM</h2>
+        <h2>Samtidig i <!--hengsel-logo 16--></h2>
         <div class="log" id="log" aria-live="polite"></div>
       </section>
     </aside>
   </div>
-  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data. Tegning, ordre og kunde er oppdiktet. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data. Tegning, ordre og kunde er oppdiktet. Skrifter: Newsreader og Inter.</p>
 </div>
 
 <script src="/tegning/side.js"></script>

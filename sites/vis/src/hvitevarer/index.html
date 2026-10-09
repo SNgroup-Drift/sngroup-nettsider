@@ -126,12 +126,12 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · under oppsett</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill warn">Prøv selv · under oppsett</span></div>
 <div class="wrap">
-  <header>
+  <header class="sidehode">
     <div class="eyebrow">Hvitevarer</div>
     <h1>Hvitevarer via Tradeplace</h1>
-    <p class="sub">Selgeren bestiller fra BSH (Bosch, Siemens), Electrolux (AEG), Miele og Smeg rett fra ordren i Sigdal CRM. Én kobling i stedet for fire nettportaler. Du er Ingrid i Hamar, og ordren er 24-0791 for familien Berg.</p>
+    <p class="lede">Selgeren bestiller fra BSH (Bosch, Siemens), Electrolux (AEG), Miele og Smeg rett fra ordren i Sigdal CRM. Én kobling i stedet for fire nettportaler. Du er Ingrid i Hamar, og ordren er 24-0791 for familien Berg.</p>
   </header>
   <div class="status" role="note"><span class="pill warn">Under oppsett</span><span><b>Slik blir det. Koblingen er under oppsett.</b> Tilgang til Tradeplace er bestilt. Produkter, priser og ordrenumre her er oppdiktet.</span></div>
   <div class="stage">
@@ -145,7 +145,7 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
         <ol class="guide" id="guide"><li data-k="velg"><span>1</span>Velg tre eller flere produkter. Prøv søk og merke.</li><li data-k="sjekk"><span>2</span>Rett avvikene i sjekken mot ordren</li><li data-k="bestill"><span>3</span>Bestill fra alle merkene med ett trykk</li><li data-k="etter"><span>4</span>Spol fram til leveringsvarsel og faktura</li></ol>
         <button class="btn" id="reset" type="button">Start på nytt</button>
       </section>
-      <section class="panel"><h3>Samtidig i Sigdal CRM</h3><div class="log" id="log" aria-live="polite"></div></section>
+      <section class="panel"><h3>Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
     </aside>
   </div>
   <section class="cmp" aria-labelledby="cmph">
@@ -157,7 +157,7 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
         <ul><li>Pris og lager hentes live mens du velger</li><li>Mål og leveringsuke sjekkes mot ordren før du bestiller</li><li>Bekreftelser og avvik lander på ordren, avvik blir sak</li><li>Leveringsvarsel og faktura kobles til ordren av seg selv</li></ul></div>
     </div>
   </section>
-  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data, og ingenting bestilles. Merkene vises bare med navn. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data, og ingenting bestilles. Merkene vises bare med navn. Skrifter: Newsreader og Inter.</p>
 </div>
 <script src="/hvitevarer/side.js"></script>
 </body>

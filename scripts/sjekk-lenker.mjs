@@ -68,14 +68,16 @@ for (const navn of nettsteder) {
       continue;
     }
     const type = r.headers.get("content-type") ?? "";
-    if (!type.includes("html") && !type.includes("css")) continue;
+    const js = type.includes("javascript");
+    if (!type.includes("html") && !type.includes("css") && !js) continue;
     const tekst = await r.text();
     // href/src i HTML, og url(...) i CSS (også inline <style>, der skriftene ligger)
     const lenker = [
       ...(type.includes("html") ? [...tekst.matchAll(/\s(?:href|src)="([^"]+)"/g)].map((m) => m[1]) : []),
       ...[...tekst.matchAll(/url\(([^)]+)\)/g)].map((m) => m[1].replace(/["']/g, "")),
-      // Rommene i Visningsrommet (vis): kortene lages av skript fra arrayet C, med adressen i u:'/rom/'
-      ...(type.includes("html") ? [...tekst.matchAll(/\bu:'(\/[^']*)'/g)].map((m) => m[1]) : []),
+      // Rommene i Visningsrommet (vis): kortene lages av skript (side.js) fra arrayet C, med adressen i u:'/rom/'
+      // og skjermbildet i b:'/img/navn.webp'
+      ...(type.includes("html") || js ? [...tekst.matchAll(/\b[ub]:'(\/[^']*)'/g)].map((m) => m[1]) : []),
     ].filter((l) => !l.includes("'+")); // href="'+c.u+'" er en mal i skriptet, ikke en lenke
     for (const lenke of lenker) {
       if (!intern(lenke)) continue;

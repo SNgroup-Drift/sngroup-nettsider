@@ -71,12 +71,12 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Status per 07.10.2026</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Status per 07.10.2026</span></div>
 <div class="wrap">
-  <header>
+  <header class="sidehode">
     <div class="eyebrow">Hvor langt vi har kommet</div>
     <h1>Veikart og status</h1>
-    <p class="sub">Det som er i drift nå, og det som kommer kvartal for kvartal. Trykk på et kort for å se hva det gir butikken, neste steg og hvem vi venter på.</p>
+    <p class="lede">Det som er i drift nå, og det som kommer kvartal for kvartal. Trykk på et kort for å se hva det gir butikken, neste steg og hvem vi venter på.</p>
   </header>
   <div class="kpi" id="kpi" aria-label="Antall leveranser per status"></div>
   <div class="tools">
@@ -89,7 +89,7 @@ h1{font:400 clamp(30px,4.6vw,46px)/1.08 var(--serif);margin:2px 0 0}
     <p class="note">Mye av tempoet styres av andre. Her er det vi venter på, samlet per part.</p>
     <div class="parts" id="parts"></div>
   </section>
-  <p class="muted" style="font-size:12px;margin:0">Veikartet er et anslag og kan endres. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Veikartet er et anslag og kan endres. Skrifter: Newsreader og Inter.</p>
 </div>
 <script src="/veikart/side.js"></script>
 </body>

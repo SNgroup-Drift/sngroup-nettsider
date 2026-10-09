@@ -93,12 +93,12 @@ body.sel .selbar{display:flex}
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · oppdiktede ordre</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Prøv selv · oppdiktede ordre</span></div>
 <div class="wrap">
-  <header>
+  <header class="sidehode">
     <div class="eyebrow">For selger og montasjeansvarlig</div>
     <h1>Montasjeplan</h1>
-    <p class="sub">Sett montører på ordrene for uke 46 til 49. Tavla sjekker leveringsukene fra Sigdal og andre leverandører, kapasitet og sertifisering med en gang. Noen konflikter ligger allerede der. Løs dem.</p>
+    <p class="lede">Sett montører på ordrene for uke 46 til 49. Tavla sjekker leveringsukene fra Sigdal og andre leverandører, kapasitet og sertifisering med en gang. Noen konflikter ligger allerede der. Løs dem.</p>
   </header>
   <div class="kpi" id="kpi"></div>
   <div class="tools">
@@ -119,10 +119,10 @@ body.sel .selbar{display:flex}
         </ol>
         <button class="btn" id="reset" type="button">Start på nytt</button>
       </section>
-      <section class="panel"><h3>Samtidig i Sigdal CRM</h3><div class="log" id="log" aria-live="polite"></div></section>
+      <section class="panel"><h3>Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
     </aside>
   </div>
-  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data, og ingen forespørsler sendes. Kunder og ordre er oppdiktet. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data, og ingen forespørsler sendes. Kunder og ordre er oppdiktet. Skrifter: Newsreader og Inter.</p>
 </div>
 <div class="selbar" id="selbar" role="status"><span id="seltxt"></span><button class="btn" type="button" id="selx">Avbryt</button></div>
 <script src="/montasjeplan/side.js"></script>

@@ -85,12 +85,12 @@ canvas{width:100%;height:150px;background:var(--card);border:1px solid var(--lin
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="/">‹ Visningsrommet</a><span class="demo">Prøv selv · oppdiktet jobb</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 18--></span><span class="pill nodot">Prøv selv · oppdiktet jobb</span></div>
 <div class="wrap">
-  <header>
+  <header class="sidehode">
     <div class="eyebrow">Montørappen Hengsel</div>
     <h1>En monteringsdag</h1>
-    <p class="sub">Trykk deg gjennom jobben som montøren. Til høyre ser du hva som skjer i CRM samtidig, og hvem som får beskjed.</p>
+    <p class="lede">Trykk deg gjennom jobben som montøren. Til høyre ser du hva som skjer i CRM samtidig, og hvem som får beskjed.</p>
   </header>
   <div class="stage">
     <div class="phone" aria-label="Montørappen">
@@ -113,12 +113,12 @@ canvas{width:100%;height:150px;background:var(--card);border:1px solid var(--lin
         <button class="btn" id="reset" type="button">Start på nytt</button>
       </section>
       <section class="panel">
-        <h2>Samtidig i Sigdal CRM</h2>
+        <h2>Samtidig i <!--hengsel-logo 16--></h2>
         <div class="log" id="log" aria-live="polite"></div>
       </section>
     </aside>
   </div>
-  <p class="muted" style="font-size:12px;margin:0">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
 </div>
 
 <script src="/montor/side.js"></script>
