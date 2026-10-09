@@ -3,6 +3,8 @@
  * Ramme for hengsel.no: familiens BaseLayout med Hengsel-fargene og -skriftene, toppfeltet (Toppfelt) og bunnen
  * (Familiebaand + bunntekst). Fasit: docs/design/hengsel/Sidehode.dc.html og Bunn.dc.html.
  * Sidehodet har menypunkter per side (prop «lenker», som i Sidehode.dc.html).
+ * Favikonene er logopakkens sett (docs/design/hengsel/logo/LES-MEG.md): favicon.svg, favicon-32.png, favicon-192.png og
+ * apple-touch-icon-180.png i public/.
  */
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
 import "@sngroup/design/fonts.css";
@@ -11,6 +13,7 @@ import HengselLogo from "../components/HengselLogo.astro";
 import Bunn from "../components/Bunn.astro";
 import "../styles/tokens.css";
 import "../styles/hengsel.css";
+import { ikoner } from "../content/ikoner";
 
 interface Lenke { label: string; href: string }
 interface Props {
@@ -31,9 +34,9 @@ interface Props {
 const { title, description, noindex, robots, forside = false, demo = false, tema } = Astro.props;
 const h = forside ? "" : "/";
 const lenker = Astro.props.lenker ?? [
-  { label: "Slik henger det sammen", href: `${h}#sammenheng` },
-  { label: "Moduler", href: `${h}#moduler` },
+  { label: "Hengsel CRM", href: `${h}#crm` },
   { label: "Hengsel Ute", href: `${h}#ute` },
+  { label: "Moduler", href: `${h}#moduler` },
   { label: "Om oss", href: `${h}#om` },
 ];
 const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-350.woff2", "/fonts/TWKLausanne-650.woff2"];
@@ -45,6 +48,8 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
   robots={robots}
   tema={tema}
   temafarge={["#FBF9F6", "#1B1713"]}
+  ikoner={ikoner}
+  appleIkon="/apple-touch-icon-180.png"
   forhandslast={skrifter}
 >
   <div class="side" id="hjem">

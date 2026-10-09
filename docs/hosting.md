@@ -132,13 +132,15 @@ curl -s -o /dev/null -w '%{http_code}\n' https://sngroup.no/finnes-ikke   # skal
 
 ## hengsel.no/apptest (passord)
 
-Siden som viser montørene hvordan de installerer testversjonen av Hengsel (K-107). Den ligger bak ett felles passord,
+Siden som viser montørene hvordan de installerer testversjonen av Hengsel Ute (K-107, ny 09.10.2026). Den ligger bak ett felles passord,
 står ikke i menyen, i `sitemap.txt` eller i lenker fra andre sider, og har `noindex, nofollow`.
 
 Slik virker det:
 
 - `sites/hengsel/wrangler.jsonc` har `"main": "./worker/apptest.ts"` og `assets.run_worker_first: ["/apptest", "/apptest/*"]`.
   Skriptet kjører bare for de stiene. Alt annet serveres som statiske filer, uten kode.
+- Siden har fire deler: iOS via TestFlight, Android via Google Play (Internal testing), Android som APK, og «Slik
+  melder du feil» (Meg › Send feilrapport i appen).
 - Uten gyldig informasjonskapsel viser `/apptest` passordsiden (`dist/apptest/passord.html`). Skjemaet sender passordet med
   POST til `/apptest`. Riktig passord gir 303 til `/apptest` og informasjonskapselen `hengsel_apptest` (HttpOnly, Secure,
   SameSite=Lax, Path=/apptest, 30 dager). Feil passord gir 401 og «Feil passord. Prøv igjen, eller spør Eirik.».
@@ -169,17 +171,19 @@ Sjekk etterpå (uten informasjonskapsel skal du få passordsiden, ikke 503):
 curl -sI https://hengsel.no/apptest | grep -iE '^HTTP|x-robots|cache-control|content-security'
 ```
 
-### Bytte TestFlight-lenken
+### Sette inn lenkene (TestFlight, Google Play, APK)
 
-Lenken er konstanten øverst i `sites/hengsel/src/pages/apptest.astro`:
+Lenkene er de tre konstantene øverst i `sites/hengsel/src/pages/apptest.astro`:
 
 ```ts
-const TESTFLIGHT_LENKE = "{{TESTFLIGHT_LENKE}}";
+const TESTFLIGHT_LENKE = "TODO"; // iOS: https://testflight.apple.com/join/…
+const PLAY_LENKE = "TODO";       // Android: https://play.google.com/apps/internaltest/…
+const APK_LENKE = "TODO";        // Android: direkte nedlasting av .apk-filen
 ```
 
-Så lenge den står som plassholder (starter med `{{`), vises den dempede knappen «iPhone og iPad – lenke kommer snart».
-Bytt den til den offentlige TestFlight-lenken (`https://testflight.apple.com/join/…`), commit og push. Da blir knappen
-«iPhone og iPad – åpne i TestFlight». Android-lenken ligger rett under (`ANDROID_LENKE`).
+Så lenge en står som `TODO`, viser den delen en deaktivert knapp og «Lenken kommer. Du får den av den som inviterte
+deg.». Bytt den til lenken, commit og push. Da blir knappen en vanlig lenke («Åpne i TestFlight», «Bli tester i Google
+Play», «Last ned APK»).
 
 ### Teste lokalt
 

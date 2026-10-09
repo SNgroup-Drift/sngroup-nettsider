@@ -2,7 +2,7 @@
 /**
  * Skjermbilder og nettlesersjekker med Playwright (Chromium).
  *
- *  - Skjermbilder av sngroup.no (/, /personvern, /design og 404) og hengsel.no (/, /personvern og 404) på desktop og mobil, lys og mørk,
+ *  - Skjermbilder av sngroup.no (/, /personvern, /design og 404) og hengsel.no (/, /apptest, /personvern og 404) på desktop og mobil, lys og mørk,
  *    og byggem.no (/, /prosjekter, /kontakt, /personvern og 404) til docs/skjermbilder/ (filene starter med «hengsel-» og «byggem-»).
  *  - Alle sider på alle nettsteder: ingen vannrett rulling ved 360 px, ingen konsollfeil (CSP fra _headers gjelder).
  *  - Plantegningen: et klikk på et rom bytter tekst og åpner riktig rad.
@@ -56,7 +56,8 @@ for (const side of [{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "pe
 
 // 1b. Skjermbilder av hengsel.no og byggem.no (filene starter med «hengsel-» og «byggem-»)
 const andreSider = [
-  ...[{ sti: "/", fil: "forside" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }].map((s) => ({ ...s, nett: "hengsel" })),
+  // /apptest tas her fra de statiske filene, uten passordet (Workeren testes i skjermbilder-apptest.mjs)
+  ...[{ sti: "/", fil: "forside" }, { sti: "/apptest", fil: "apptest" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }].map((s) => ({ ...s, nett: "hengsel" })),
   ...[{ sti: "/", fil: "forside" }, { sti: "/prosjekter", fil: "prosjekter" }, { sti: "/kontakt", fil: "kontakt" }, { sti: "/personvern", fil: "personvern" }, { sti: "/finnes-ikke", fil: "404" }].map((s) => ({ ...s, nett: "byggem" })),
 ];
 for (const side of andreSider) {

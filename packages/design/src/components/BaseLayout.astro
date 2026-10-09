@@ -22,6 +22,8 @@ interface Props {
   delingsbilde?: string;
   /** Favikon (sti og type). Standard: /favicon.svg */
   ikon?: { href: string; type: string };
+  /** Flere favikoner, f.eks. PNG i faste størrelser (hengsel.no: favicon-32.png og favicon-192.png) */
+  ikoner?: { href: string; type?: string; sizes?: string }[];
   /** apple-touch-icon (sti) */
   appleIkon?: string;
   /** Fargen i nettleserens adressefelt: [lys, mørk] */
@@ -42,6 +44,7 @@ const {
   ogBeskrivelse = description,
   delingsbilde,
   ikon = { href: "/favicon.svg", type: "image/svg+xml" },
+  ikoner = [],
   appleIkon,
   temafarge = ["#F7F5F1", "#1E1916"],
   forhandslast = [newsreader, inter],
@@ -67,6 +70,7 @@ const canonical = Astro.site ? new URL(path, Astro.site).href : undefined;
     <meta name="theme-color" content={temafarge[0]} media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content={temafarge[1]} media="(prefers-color-scheme: dark)" />
     <link rel="icon" href={ikon.href} type={ikon.type} />
+    {ikoner.map((i) => <link rel="icon" href={i.href} type={i.type} sizes={i.sizes} />)}
     {appleIkon && <link rel="apple-touch-icon" href={appleIkon} />}
     {forhandslast.map((f) => <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />)}
   </head>

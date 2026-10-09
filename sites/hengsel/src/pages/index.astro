@@ -1,18 +1,31 @@
 ---
 /**
- * hengsel.no – forsiden. Fasit: docs/design/hengsel/51 Hengsel nettside.dc.html (Claude Design, 08.10.2026).
- * Åtte seksjoner: forside (Min dag på PC) → slik henger det sammen → moduler → Hengsel Ute → integrasjoner → om oss →
- * kontakt → bunn. Bare lys modus. Tekst i content/forside.ts.
+ * hengsel.no – forsiden. Fasit: docs/design/hengsel/51 Hengsel nettside.dc.html (Claude Design, 08.10.2026), med
+ * endringene 09.10.2026: ny logo (docs/design/hengsel/logo), Hengsel CRM og Hengsel Ute side om side øverst,
+ * skjermbildene av appen fra public/skjermbilder (ute-*.webp, 2×, vist med width = halve pikselbredden),
+ * kvadratiske hjørner og ingen skygger. Skjermbildene vises uten enhetsramme.
+ * Seksjoner: forside med de to produktene → slik henger det sammen → Hengsel Ute (skjermbildene) → moduler →
+ * integrasjoner → om oss → kontakt → bunn. Bare lys modus. Tekst i content/forside.ts.
  * Skript (ingen inline, CSP script-src 'self'): lysboksen (scripts/lysboks.ts), kontaktskjemaet (scripts/kontakt.ts),
  * som åpner en ferdig utfylt e-post, og koordinatene i plantegningen (scripts/plantegning.ts). Ingenting lagres.
  */
 import Side from "../layouts/Side.astro";
-import Enhet from "../components/Enhet.astro";
+import HengselLogo from "../components/HengselLogo.astro";
 import PlantegningEntre from "../components/PlantegningEntre.astro";
-import { CHAIN, FLOW, INTEG, MODULER, PHONES } from "../content/forside";
+import { CHAIN, FLOW, INTEG, MODULER, PRODUKTER, UTE_TEKST } from "../content/forside";
 import { selskap } from "../content/selskap";
+import { tekstFraNokkel, uteSkjermbilder } from "../lib/skjermbilder";
 
 const ADDR = selskap.epost;
+
+// Skjermbildene av Hengsel Ute (public/skjermbilder/ute-*.webp). Det første vises også øverst, ved siden av CRM-et.
+// Fram til filene ligger der, vises dagens «I dag»-skjermbilde (public/img) øverst, og galleriet sier at bildene kommer.
+const UTE = uteSkjermbilder().map((b) => {
+  const t = UTE_TEKST[b.nokkel];
+  return { ...b, title: t?.title ?? tekstFraNokkel(b.nokkel), text: t?.text, alt: `Hengsel Ute: ${t?.title ?? tekstFraNokkel(b.nokkel)}` };
+});
+const uteForst = UTE[0] ?? { src: "/img/hengsel-i-dag-a.webp", width: 390, height: 844, alt: "Hengsel Ute: I dag" };
+const crm = PRODUKTER.crm.bilde;
 ---
 <Side
   title="Hengsel – for kjøkken- og interiørbutikker"
@@ -23,7 +36,7 @@ const ADDR = selskap.epost;
 >
   <main id="innhold">
     <section class="hero">
-      <div class="h-innhold hero-rutenett">
+      <div class="h-innhold">
         <div class="hero-tekst">
           <span class="eyebrow">For kjøkken- og interiørbutikker</span>
           <h1>Én løsning for butikken, fra første henvendelse til ferdig montert kjøkken.</h1>
@@ -33,7 +46,31 @@ const ADDR = selskap.epost;
             <a class="btn" href="#kontakt">Book en gjennomgang</a>
           </div>
         </div>
-        <Enhet bilde="min-dag" type="pc" alt="Min dag i Hengsel CRM: selgerens arbeidsliste med panel til høyre" ratio={0.8} forst />
+
+        <div class="produkter">
+          <article class="produkt" id="crm">
+            <div class="produkt-hode">
+              <h2><HengselLogo produkt="crm" hoyde={48} /></h2>
+              <span class="hvem">{PRODUKTER.crm.who}</span>
+              <p class="dempet">{PRODUKTER.crm.text}</p>
+              <a class="pil" href={PRODUKTER.crm.lenke.href}>{PRODUKTER.crm.lenke.label} <span aria-hidden="true">→</span></a>
+            </div>
+            <button type="button" class="zoom pc" data-zoom aria-label={`Forstørr skjermbildet: ${crm.alt}`}>
+              <img src={crm.src} alt={crm.alt} width={Math.round(crm.px[0] / 2)} height={Math.round(crm.px[1] / 2)} loading="eager" fetchpriority="high" decoding="async" />
+            </button>
+          </article>
+          <article class="produkt">
+            <div class="produkt-hode">
+              <h2><HengselLogo produkt="ute" hoyde={48} /></h2>
+              <span class="hvem">{PRODUKTER.ute.who}</span>
+              <p class="dempet">{PRODUKTER.ute.text}</p>
+              <a class="pil" href={PRODUKTER.ute.lenke.href}>{PRODUKTER.ute.lenke.label} <span aria-hidden="true">→</span></a>
+            </div>
+            <button type="button" class="zoom telefon" data-zoom aria-label={`Forstørr skjermbildet: ${uteForst.alt}`}>
+              <img src={uteForst.src} alt={uteForst.alt} width={uteForst.width} height={uteForst.height} loading="eager" decoding="async" />
+            </button>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -59,7 +96,37 @@ const ADDR = selskap.epost;
       </div>
     </section>
 
-    <section id="moduler" class="seksjon">
+    <section id="ute" class="seksjon">
+      <div class="h-innhold ute">
+        <div class="hode">
+          <HengselLogo produkt="ute" hoyde={48} />
+          <h2>Appen for montøren, med jobben for dagen.</h2>
+          <p class="lede">Montøren ser neste jobb og hva som mangler, fyller ut KS punkt for punkt og melder avvik med bilde. Alt står på ordren hos kontoret med en gang.</p>
+          <div class="butikker">
+            <span>Last ned i App Store</span>
+            <span>Last ned i Google Play</span>
+          </div>
+        </div>
+        {UTE.length > 0 ? (
+          <ul class="galleri">
+            {UTE.map((b) => (
+              <li>
+                <figure>
+                  <button type="button" class="zoom telefon" data-zoom aria-label={`Forstørr skjermbildet: ${b.alt}`}>
+                    <img src={b.src} alt={b.alt} width={b.width} height={b.height} loading="lazy" decoding="async" />
+                  </button>
+                  <figcaption><b>{b.title}</b>{b.text && <span class="dempet">{b.text}</span>}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="dempet galleri-tom">Skjermbildene av appen kommer.</p>
+        )}
+      </div>
+    </section>
+
+    <section id="moduler" class="seksjon h-flate">
       <div class="h-innhold">
         <div class="hode">
           <span class="eyebrow">Moduler</span>
@@ -76,31 +143,6 @@ const ADDR = selskap.epost;
           ))}
           <li class="tom" aria-hidden="true"></li>
         </ol>
-      </div>
-    </section>
-
-    <section id="ute" class="seksjon h-flate">
-      <div class="h-innhold ute">
-        <div class="ute-hode">
-          <img src="/img/hengsel-ute-ikon.svg" alt="App-ikonet til Hengsel Ute" width="96" height="96" class="ute-ikon" />
-          <div class="hode-tekst">
-            <span class="eyebrow">Hengsel Ute</span>
-            <h2>Appen for montøren, med jobben for dagen.</h2>
-            <p class="lede">Montøren ser neste jobb og hva som mangler, fyller ut KS punkt for punkt og melder avvik med bilde. Alt står på ordren hos kontoret med en gang.</p>
-            <div class="butikker">
-              <span>Last ned i App Store</span>
-              <span>Last ned i Google Play</span>
-            </div>
-          </div>
-        </div>
-        <div class="telefoner">
-          {PHONES.map((p) => (
-            <figure>
-              <Enhet bilde={p.bilde} type="phone" alt={p.alt} ratio={1.4} />
-              <figcaption><b>{p.title}</b><span class="dempet">{p.text}</span></figcaption>
-            </figure>
-          ))}
-        </div>
       </div>
     </section>
 
@@ -171,44 +213,60 @@ const ADDR = selskap.epost;
 <style>
   .dempet { color: var(--muted); }
   .seksjon { padding-block: clamp(64px, 9vw, 120px); }
-  .hode { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 760px; }
+  .hode { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 760px; justify-items: start; }
   .hode-tekst { display: grid; gap: 14px; align-content: start; max-width: 760px; }
+  .hvem { font-size: 0.9rem; color: var(--soft); }
 
-  /* Forside */
+  /* Skjermbilder: uten ramme, kvadratiske, 1 px linje. Klikk åpner lysboksen */
+  .zoom { all: unset; display: block; max-width: 100%; cursor: zoom-in; border: 1px solid var(--line); box-sizing: content-box; }
+  .zoom:focus-visible { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+  .zoom img { display: block; max-width: 100%; height: auto; }
+  .zoom.pc { width: 100%; box-sizing: border-box; background: #f2e9db; }
+  .zoom.pc img { width: 100%; }
+
+  /* Forside: tekst, så de to produktene side om side */
   .hero { padding-block: clamp(48px, 8vw, 104px) clamp(40px, 6vw, 72px); }
-  .hero-rutenett { display: grid; gap: clamp(32px, 5vw, 56px); }
-  .hero-tekst { display: grid; gap: 22px; max-width: 760px; }
+  .hero-tekst { display: grid; gap: 22px; max-width: 760px; margin-bottom: clamp(40px, 6vw, 72px); }
   .hero-lede { font-size: 1.22rem; }
   .knapper { display: flex; flex-wrap: wrap; gap: 12px; }
+  .produkter { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(32px, 5vw, 48px); align-items: start; }
+  .produkt { display: grid; gap: 24px; align-content: start; min-width: 0; padding-top: 28px; border-top: 1px solid var(--line); }
+  .produkt-hode { display: grid; gap: 10px; justify-items: start; }
+  .produkt-hode h2 { margin-bottom: 8px; line-height: 0; }
+  .pil { font-weight: 650; color: var(--ink); }
+  .pil:hover { text-decoration: underline; }
+  .produkt .telefon { justify-self: start; }
 
   /* Slik henger det sammen */
   .tre { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .flyt { padding: 28px; display: grid; gap: 12px; align-content: start; min-width: 0; }
-  .hvem { font-size: 0.9rem; color: var(--soft); }
   .kjede { margin-top: 28px; font-size: 0.95rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 10px; }
+
+  /* Hengsel Ute: skjermbildene i naturlig størrelse (width = halve pikselbredden), tre i bredden på 1180 px */
+  .ute { display: grid; }
+  .butikker { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .butikker span {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: var(--r-pill);
+    border: 1px dashed var(--soft); color: var(--muted); font-size: 0.95rem; box-sizing: border-box;
+  }
+  .galleri {
+    list-style: none; margin: 0; padding: 0; display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 390px), 1fr)); gap: 40px 5px; align-items: start;
+  }
+  .galleri li { min-width: 0; display: grid; justify-items: start; }
+  figure { margin: 0; display: grid; gap: 14px; min-width: 0; max-width: 100%; }
+  figcaption { display: grid; gap: 4px; }
+  figcaption .dempet { font-size: 0.95rem; }
+  .galleri-tom { font-size: 1.08rem; }
 
   /* Moduler: ruter med 1 px skille */
   .moduler {
     list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
-    gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    gap: 1px; background: var(--line); border: 1px solid var(--line); overflow: hidden;
   }
   .moduler li { background: var(--surface); padding: 22px 22px 24px; display: grid; gap: 6px; align-content: start; min-width: 0; }
   .moduler .nr { font-size: 0.82rem; color: var(--soft); font-variant-numeric: tabular-nums; }
   .moduler li .dempet { font-size: 0.95rem; line-height: 1.5; }
-
-  /* Hengsel Ute */
-  .ute { display: grid; gap: clamp(32px, 5vw, 56px); }
-  .ute-hode { display: flex; flex-direction: column; gap: clamp(20px, 3vw, 40px); align-items: flex-start; }
-  .ute-ikon { width: 96px; height: 96px; display: block; flex: none; }
-  .butikker { display: flex; flex-wrap: wrap; gap: 10px; }
-  .butikker span {
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
-    border: 1px dashed var(--soft); color: var(--muted); font-size: 0.95rem; box-sizing: border-box;
-  }
-  .telefoner { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 3vw, 40px); align-items: start; }
-  figure { margin: 0; display: grid; gap: 14px; min-width: 0; }
-  figcaption { display: grid; gap: 4px; text-align: center; }
-  figcaption .dempet { font-size: 0.95rem; }
 
   /* Integrasjoner */
   .integ {
@@ -226,14 +284,14 @@ const ADDR = selskap.epost;
   .kontakt-tekst { display: grid; gap: 18px; align-content: start; min-width: 0; }
   .epost { font-weight: 650; color: var(--ink); }
   .plan-kort { width: 100%; margin-top: 8px; }
-  .skjema { display: grid; gap: 14px; padding: clamp(20px, 3vw, 32px); border-radius: 20px; min-width: 0; align-self: start; }
+  .skjema { display: grid; gap: 14px; padding: clamp(20px, 3vw, 32px); min-width: 0; align-self: start; }
   .par { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; }
   .send { justify-self: start; }
   .notis { font-size: 0.88rem; color: var(--muted); }
 
   @media (min-width: 860px) {
-    .tre, .telefoner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .ute-hode { flex-direction: row; }
+    .produkter { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .tre { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .om { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); }
     .kontakt { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
   }
@@ -247,7 +305,7 @@ const ADDR = selskap.epost;
   .lysboks::backdrop { background: var(--lysboks); }
   .lysboks img { max-width: 100%; max-height: 92vh; width: auto; height: auto; object-fit: contain; }
   .lukk {
-    position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0;
+    position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border: 0;
     background: var(--off-white); color: var(--warm-black); font-size: 1.4rem; cursor: pointer;
   }
 </style>

@@ -2,6 +2,10 @@
   hengsel.no – skrift, designsystemets navn og grunnklasser.
   Fasit: docs/design/hengsel/_ds/…/tokens/*.css (Hengsel designsystem v1.0) og <helmet> i «51 Hengsel nettside.dc.html».
 
+  Profilen (09.10.2026): Off White #FBF9F6, Warm Black #31261D, Deep Blue #5074A9. TWK Lausanne til tekst, Reckless til
+  overskrifter fra 20 px (mindre overskrifter i TWK Lausanne 650). Kvadratiske hjørner og ingen skygger: alle radiene
+  er 0 og --shadow er none (tokens.css).
+
   Designsystemets variabler (--bg, --ink, --muted …) peker på familiens variabler i tokens.css, så lys og mørk modus
   styres ett sted. Avvik: --soft er #6E6355 i stedet for #8A7F72 (tekst trenger 4,5:1, se tokens.css).
 */
@@ -31,7 +35,7 @@
   --w-body: 350;
   --w-strong: 650;
   --t-eyebrow: 0.82rem;
-  --r-sm: 8px; --r-field: 10px; --r: 14px; --r-lg: 20px; --r-pill: 999px;
+  --r-sm: var(--radius-liten); --r-field: var(--radius-felt); --r: var(--radius); --r-lg: var(--radius-stor); --r-pill: var(--radius-pille);
   --wrap: 1180px;
   --pad: clamp(16px, 4vw, 40px);
 }
@@ -39,10 +43,12 @@
 html { scroll-padding-top: 72px; }
 [hidden] { display: none !important; }
 body { font-size: 1.0625rem; line-height: 1.6; font-weight: var(--w-body); }
+/* Overskrifter: Reckless fra 20 px (h1–h3). h4–h6 er under 20 px og settes i TWK Lausanne 650 */
 h1, h2, h3 { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.015em; text-wrap: balance; margin: 0; }
 h1 { font-size: var(--t-hero); line-height: 1.02; }
 h2 { font-size: var(--t-h1); line-height: 1.08; }
-h3 { font-size: var(--t-h3); line-height: 1.2; }
+h3 { font-size: var(--t-h3); line-height: 1.25; }
+h4, h5, h6 { font-family: var(--f-body); font-weight: var(--w-strong); font-size: 1rem; line-height: 1.4; margin: 0; }
 p { margin: 0; text-wrap: pretty; }
 b, strong { font-weight: var(--w-strong); }
 a { color: var(--accent); text-decoration: none; }
@@ -83,7 +89,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   background: var(--surface); color: var(--ink); font: inherit; box-sizing: border-box; width: 100%;
 }
 .input::placeholder { color: var(--soft); }
-.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
 
 /* Seksjoner: innhold 1180 px med luft på sidene */
 .h-innhold { max-width: calc(var(--wrap) + 2 * var(--pad)); margin: 0 auto; padding-inline: var(--pad); box-sizing: border-box; }

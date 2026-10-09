@@ -5,7 +5,7 @@ Nettstedene til SN Group (ES-HOLDING AS, org.nr. 927 363 585), samlet i ett repo
 | Nettsted | Mappe | Innhold |
 |---|---|---|
 | sngroup.no | `sites/sngroup` | Forsiden med plantegningen, virksomhetene, Hengsel, kontakt, `/personvern` (montørappen Hengsel) og `/design` |
-| hengsel.no | `sites/hengsel` | Forside, personvern og 404 (K-87 del 4) |
+| hengsel.no | `sites/hengsel` | Forside (Hengsel CRM og Hengsel Ute side om side), personvern, 404 og `/apptest` bak passord |
 | byggem.no | `sites/byggem` | Forside, prosjekter, kontakt, personvern og 404 (K-87 del 5) |
 | vis.sngroup.no | `sites/vis` | Visningsrommet: lukket demo bak Cloudflare Access, ren HTML uten Astro, på Cloudflare Pages (K-110, se `sites/vis/README.md`) |
 
@@ -27,6 +27,10 @@ sites/<navn>/           Ett Astro-prosjekt per nettsted
   src/content/            Tekst og selskapsopplysninger (TODO der tekst mangler)
   src/styles/tokens.css   Nettstedets farger som familiens semantiske variabler (hengsel.no), og skriften på én linje
   src/pages/              Sidene
+  src/lib/skjermbilder.ts (bare hengsel) Leser public/skjermbilder/ute-*.webp ved bygging: mål fra WebP-hodet, width = halve pikselbredden
+  public/skjermbilder/    (bare hengsel) Skjermbildene av Hengsel Ute, ute-*.webp i 2×. Rekkefølge = filnavnet; tekst i src/content/forside.ts (UTE_TEKST)
+  public/favicon*.png, favicon.svg, apple-touch-icon-180.png
+                          (bare hengsel) Favikonsettet fra logopakken docs/design/hengsel/logo/
   public/_headers         Sikkerhetshoder (Cloudflare Workers, statiske filer)
   public/_redirects       Stibaserte omdirigeringer (www → apex gjøres i Cloudflare, se docs/hosting.md)
   wrangler.jsonc          Worker-oppsett: navn, dist som statiske filer, 404-side (ingen nøkler; kode bare for hengsel.no/apptest)
@@ -75,6 +79,12 @@ Ingen API-nøkler, kontoinformasjon eller wrangler-innlogging ligger i repoet. C
 Cloudflare-dashbordet.
 
 ## Designregler (kort)
+
+hengsel.no (profilen 09.10.2026): Off White #FBF9F6, Warm Black #31261D og Deep Blue #5074A9. TWK Lausanne til tekst,
+Reckless til overskrifter fra 20 px (mindre overskrifter i TWK Lausanne 650). Kvadratiske hjørner og ingen skygger.
+Logoen er `docs/design/hengsel/logo/` (LES-MEG.md der), inline i `sites/hengsel/src/components/HengselLogo.astro`
+fordi ordet er `<text>` i TWK Lausanne. Reglene under gjelder sngroup.no og byggem.no.
+
 
 - Farger bare fra `tokens.css`. Komponentene bruker de semantiske navnene (`--bakgrunn`, `--tekst`, `--aksent` …), så lys og mørk modus følger med automatisk.
 - Ingen rosa/magenta, ingen signalfarger, ingen gradienter, ingen Sigdal-farger, -logo eller -bilder.

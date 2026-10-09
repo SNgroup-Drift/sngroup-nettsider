@@ -41,31 +41,28 @@ html:root {
   --info-tekst: #43649a;
   --ok: #376c49;   --ok-myk: #e4eee6;
   --feil: #8e3522; --feil-myk: #f4e1db;
-  --skygge: 0 1px 2px rgb(49 38 29 / 0.06), 0 12px 40px -12px rgb(49 38 29 / 0.22);
-  --ramme: #1b1713;                 /* telefon- og iPad-rammen */
+  --skygge: none;                   /* profilen (09.10.2026): ingen skygger */
   --lysboks: #1b1713;
 
-  /* Logoen (H-merket): grep og hake er Deep Blue i begge moduser */
-  --merke-dor: var(--beige-1);
-  --merke-linje: var(--warm-black);
-  --merke-grep: var(--deep-blue);
+  /* Logoen (logopakken 09.10.2026): skapene og ordet skifter med bakgrunnen, resten er fast (HengselLogo.astro) */
+  --merke-skap: var(--beige-1);     /* Beige 1 på lys bunn (hengsel-logo-lys.svg) */
   --merke-ord: var(--warm-black);
-  --merke-crm: rgb(49 38 29 / 0.56);
 
   /* Mål */
   /* 1180 px innhold + luft på sidene (designet bruker content-box, familiens .wrap border-box) */
   --bredde: calc(1180px + 2 * var(--gutter));
   --gutter: clamp(16px, 4vw, 40px);
-  --radius: 14px;
-  --radius-liten: 8px;
-  --radius-felt: 10px;
-  --radius-stor: 20px;
-  --radius-pille: 999px;
+  /* Profilen (09.10.2026): kvadratiske hjørner overalt, også på knapper og piller */
+  --radius: 0;
+  --radius-liten: 0;
+  --radius-felt: 0;
+  --radius-stor: 0;
+  --radius-pille: 0;
   --seksjon: clamp(64px, 9vw, 120px);
   --t-hero: clamp(2.5rem, 5.6vw, 4.6rem);
   --t-h1: clamp(2rem, 3.6vw, 3rem);
   --t-h2: 1.75rem;
-  --t-h3: 1.45rem;   /* minste serif-størrelse */
+  --t-h3: 1.25rem;   /* 20 px: minste størrelse i Reckless. Mindre overskrifter settes i TWK Lausanne 650 */
   --t-lede: 1.18rem;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur: 160ms;
@@ -92,10 +89,8 @@ html:root {
     --info-tekst: var(--dusty-blue);
     --ok: #8cc39b;   --ok-myk: #1f2e23;
     --feil: #e69a87; --feil-myk: #36211c;
-    --skygge: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -12px rgb(0 0 0 / 0.6);
-    --merke-linje: var(--off-white);
+    --merke-skap: #f2e9db;          /* Krem på mørk bunn (hengsel-logo-mork.svg) */
     --merke-ord: var(--off-white);
-    --merke-crm: rgb(251 249 246 / 0.6);
     color-scheme: dark;
   }
 }
@@ -118,9 +113,7 @@ html:root[data-theme="dark"] {
   --info-tekst: var(--dusty-blue);
   --ok: #8cc39b;   --ok-myk: #1f2e23;
   --feil: #e69a87; --feil-myk: #36211c;
-  --skygge: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -12px rgb(0 0 0 / 0.6);
-  --merke-linje: var(--off-white);
+  --merke-skap: #f2e9db;          /* Krem på mørk bunn (hengsel-logo-mork.svg) */
   --merke-ord: var(--off-white);
-  --merke-crm: rgb(251 249 246 / 0.6);
   color-scheme: dark;
 }

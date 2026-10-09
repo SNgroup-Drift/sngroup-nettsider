@@ -3,10 +3,10 @@
  * Skjermbilder og nettlesersjekker for hengsel.no/apptest (K-107), mot Workeren med passordet (wrangler dev).
  *
  *  - apptest-passord-*: passordsiden, og passordsiden etter feil passord.
- *  - apptest-*-snart / apptest-*-klar: siden etter innlogging, iPhone-knappen med plassholder («lenke kommer snart»)
- *    eller med TestFlight-lenken satt. Tilstanden leses fra siden. Mobil (390) med iPhone-nettleser, PC (1440).
- *  - Sjekker: telefonen gjenkjennes (iPhone, Android, PC), uten skript er knappene like, ingen vannrett rulling ved
- *    360 px, ingen konsollfeil (CSP), og axe (WCAG 2 A/AA) uten brudd, i lys og mørk.
+ *  - apptest-*-todo / apptest-*-klar: siden etter innlogging, med lenkene som TODO-plassholdere («Lenken kommer») eller
+ *    med alle tre lenkene satt. Tilstanden leses fra siden. Mobil (390) med iPhone-nettleser, PC (1440).
+ *  - Sjekker: telefonen gjenkjennes (iPhone: del 1, Android: del 2 og 3, PC: ingen), uten skript er delene like, ingen
+ *    vannrett rulling ved 360 px, ingen konsollfeil (CSP), og axe (WCAG 2 A/AA) uten brudd, i lys og mørk.
  *
  * Kjør etter `npm run build -w sites/hengsel`, med wrangler dev i gang og en lokal sites/hengsel/.dev.vars (sjekkes ikke inn):
  *   npx wrangler dev -c sites/hengsel/wrangler.jsonc
@@ -88,17 +88,17 @@ for (const v of visninger) {
 
     // Siden etter innlogging
     await loggInn(page);
-    tilstand = (await page.$("[data-enhet=iphone][disabled]")) ? "snart" : "klar";
+    tilstand = (await page.$("[data-lenke][disabled]")) ? "todo" : "klar";
     await page.evaluate(() => document.fonts.ready);
     const fil = `apptest-${v.navn}-${m}-${tilstand}.png`;
     await page.screenshot({ path: join(ut, fil), fullPage: true });
     console.log(`  bilde: docs/skjermbilder/${fil}`);
-    const valgt = await page.$$eval("[data-lastned] .dark", (e) => e.map((x) => x.dataset.enhet));
+    const valgt = await page.$$eval(".del.valgt", (e) => e.map((x) => x.id));
     const linje = await page.textContent("[data-enhetslinje]");
     if (v.navn === "mobil") {
-      meld(valgt.join() === "iphone" && linje.startsWith("Du bruker iPhone"), `iPhone gjenkjent (${m}): «${linje}»`);
+      meld(valgt.join() === "ios" && linje.startsWith("Du bruker iPhone"), `iPhone gjenkjent, del 1 fremhevet (${m}): «${linje}»`);
     } else {
-      meld(valgt.length === 0 && linje.startsWith("Åpne denne siden på telefonen"), `PC: ingen knapp fremhevet (${m}): «${linje}»`);
+      meld(valgt.length === 0 && linje.startsWith("Fire deler"), `PC: ingen del fremhevet (${m}): «${linje}»`);
     }
     await sjekkAxe(page, `/apptest (${v.navn}, ${m}, ${tilstand})`);
     meld(konsoll.length === 0, `ingen konsollfeil (${v.navn}, ${m})${konsoll.length ? `: ${konsoll.join(" | ")}` : ""}`);
@@ -114,9 +114,9 @@ for (const v of visninger) {
   const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true, userAgent: UA.android });
   const page = await ctx.newPage();
   await loggInn(page);
-  const valgt = await page.$$eval("[data-lastned] .dark", (e) => e.map((x) => x.dataset.enhet));
+  const valgt = await page.$$eval(".del.valgt", (e) => e.map((x) => x.id));
   const linje = await page.textContent("[data-enhetslinje]");
-  meld(valgt.join() === "android" && linje === "Du bruker Android – trykk den mørke knappen.", `Android gjenkjent: «${linje}»`);
+  meld(valgt.join() === "google-play,apk" && linje.startsWith("Du bruker Android"), `Android gjenkjent, del 2 og 3 fremhevet: «${linje}»`);
   for (const modus of ["light", "dark"]) {
     await page.emulateMedia({ colorScheme: modus });
     for (const sti of ["/apptest"]) {
@@ -136,12 +136,12 @@ for (const v of visninger) {
   const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false, userAgent: UA.iphone });
   const p3 = await ctx3.newPage();
   await loggInn(p3);
-  const klasser = await p3.$$eval("[data-lastned] [data-enhet]", (e) => e.map((x) => x.className));
-  meld(klasser.length === 2 && klasser[0] === klasser[1].replace(/\s+$/, "") && !klasser.join().includes("dark"), "uten skript: begge knappene like");
+  const fremhevet = await p3.$$eval(".del.valgt, [data-din]:not([hidden])", (e) => e.length);
+  meld(fremhevet === 0, "uten skript: ingen del fremhevet");
   await ctx3.close();
 }
 
 await browser.close();
-console.log(`\nTilstand for iPhone-knappen: ${tilstand === "snart" ? "lenke kommer snart (plassholder)" : "TestFlight-lenke satt"}`);
+console.log(`\nTilstand for lenkene: ${tilstand === "todo" ? "minst én står som TODO («Lenken kommer»)" : "alle tre lenkene satt"}`);
 console.log(`${feil} feil.`);
 process.exit(feil ? 1 : 0);

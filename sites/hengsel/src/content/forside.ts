@@ -1,4 +1,35 @@
 // hengsel.no – teksten på forsiden. Fasit: docs/design/hengsel/51 Hengsel nettside.dc.html (08.10.2026), ordrett.
+// 09.10.2026: forsiden viser Hengsel CRM og Hengsel Ute side om side (PRODUKTER), og skjermbildene av appen
+// (public/skjermbilder/ute-*.webp) med tekst fra UTE_TEKST.
+
+/** De to produktene øverst på forsiden, side om side. Teksten er hentet fra FLOW og Hengsel Ute-delen. */
+export const PRODUKTER = {
+  crm: {
+    who: "Kontoret",
+    text: "Min dag, salgstavle, kundekort, tilbud, bestilling, ordre, montasje, saker og resultater. På PC, iPad og telefon.",
+    lenke: { label: "Se modulene", href: "#moduler" },
+    bilde: { src: "/img/min-dag.webp", px: [2876, 1796] as [number, number], alt: "Min dag i Hengsel CRM: selgerens arbeidsliste med panel til høyre" },
+  },
+  ute: {
+    who: "Montøren",
+    text: "Dagens jobber, varer og tegning, KS med typeskilt, avvik med bilde og ferdigmelding med kundens signatur.",
+    lenke: { label: "Se appen", href: "#ute" },
+  },
+};
+
+/**
+ * Bildetekst til skjermbildene av Hengsel Ute. Nøkkelen er filnavnet uten «ute-», tall foran og «.webp»
+ * (ute-03-ks.webp → «ks»). Filer uten tekst her får teksten laget av filnavnet (ute-i-dag.webp → «I dag»).
+ * TODO (Eirik): fyll inn tekst for de elleve filene når de ligger i public/skjermbilder/.
+ */
+export const UTE_TEKST: Record<string, { title: string; text?: string }> = {
+  "i-dag": { title: "I dag", text: "Neste jobb, hva som mangler og «På vei»." },
+  "jobb": { title: "Jobben", text: "Info, varer, dokumenter og bilder på én side." },
+  "varer": { title: "Varer", text: "Hva som er levert, og hva som mangler." },
+  "ks": { title: "KS", text: "Punkt for punkt, med OK, avvik og bilde." },
+  "avvik": { title: "Avvik med bilde", text: "Hva som skjedde, bilde og om det trengs ny vare." },
+  "ferdig": { title: "Ferdig montert", text: "Ferdigmelding med kundens signatur." },
+};
 
 /** Slik henger det sammen: tre flater */
 export const FLOW = [

@@ -11,6 +11,7 @@ import HengselLogo from "../../components/HengselLogo.astro";
 import "../../styles/tokens.css";
 import "../../styles/hengsel.css";
 import { selskap } from "../../content/selskap";
+import { ikoner } from "../../content/ikoner";
 
 const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-350.woff2", "/fonts/TWKLausanne-650.woff2"];
 ---
@@ -19,6 +20,8 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
   description="Siden er for inviterte testere."
   robots="noindex, nofollow"
   temafarge={["#FBF9F6", "#1B1713"]}
+  ikoner={ikoner}
+  appleIkon="/apple-touch-icon-180.png"
   forhandslast={skrifter}
 >
   <div class="side">
@@ -58,13 +61,13 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
   .hode .rad { height: 64px; display: flex; align-items: center; }
   .logo { display: flex; align-items: center; text-decoration: none; }
   .midt { display: grid; place-items: center; padding: clamp(32px, 8vw, 96px) clamp(16px, 4vw, 40px); }
-  .skjema { width: 100%; max-width: 440px; box-sizing: border-box; padding: clamp(24px, 4vw, 36px); border-radius: 20px; display: grid; gap: 18px; }
+  .skjema { width: 100%; max-width: 440px; box-sizing: border-box; padding: clamp(24px, 4vw, 36px); display: grid; gap: 18px; }
   .tekst { display: grid; gap: 8px; }
   h1 { font-size: var(--t-h1); line-height: 1.08; }
   .input, .btn { min-height: 48px; }
   .feil {
-    margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--surface-soft);
-    box-shadow: inset 3px 0 0 var(--bad); font-weight: 650;
+    margin: 0; padding: 12px 14px; background: var(--surface-soft);
+    border-left: 3px solid var(--bad); font-weight: 650;
   }
   .bunn { border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted); }
   .bunn .rad { padding-block: 24px; display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; }

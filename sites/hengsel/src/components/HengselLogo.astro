@@ -1,37 +1,70 @@
 ---
 /**
- * Hengsel-logoen: H-merket (to skapdører, grep i Deep Blue) + «engsel» + hake over «CRM».
- * Fasit: Brand i Hengsel designsystem (docs/design/hengsel/_ds/…/_ds_bundle.js og components.css).
- * Ordet tegnes med --font-tekst (Inter nå, TWK Lausanne når lisensen er klar). Under 28 px brukes det lille merket.
+ * Hengsel-logoen (logopakken 09.10.2026, docs/design/hengsel/logo/LES-MEG.md): merket (vater, skap og ovn) + «engsel»,
+ * og med produkt («CRM» eller «UTE») under ordet, høyrestilt, med hake over.
+ * Fasit: hengsel-logo-lys/-mork.svg, hengsel-crm-logo-*.svg og hengsel-ute-logo-*.svg. Markeringen er kopiert derfra.
+ *
+ * Logofilene har ordet som <text> i TWK Lausanne, så SVG-en ligger inline (en <img> kan ikke bruke sidens skrift).
+ * Fargene som skifter med bakgrunnen (skap, ord og produktnavn) er CSS-variabler fra tokens.css (--merke-skap,
+ * --merke-ord): Beige 1 og Warm Black på lys bunn (filene -lys), Krem og Off White på mørk (filene -mork).
+ * Vater, grep, ovn og hake er alltid Deep Blue / #8FA9D1, som i filene. Ikke strekk, roter eller legg på skygge.
  */
-interface Props { size?: number }
-const { size = 28 } = Astro.props;
-const liten = size <= 28;
-const d = liten
-  ? { a: 2.5, w: 25.5, h: 67, x2: 36, sw: 5, gy: 29, gh: 14, r: 7 }
-  : { a: 1.5, w: 26.5, h: 69, x2: 36, sw: 3, gy: 31, gh: 10, r: 5 };
+interface Props {
+  /** Produktnavn under ordet. Uten: bare «Hengsel» */
+  produkt?: "crm" | "ute";
+  /** Høyden i px (hele logoen). Standard 34 (sidehodet). Luft rundt logoen: minst merkets høyde */
+  hoyde?: number;
+}
+const { produkt, hoyde = 34 } = Astro.props;
+const navn = produkt ? `Hengsel ${produkt.toUpperCase()}` : "Hengsel";
+const vb = produkt ? "-4 -4 460 128" : "-4 -4 460 112";
+const bredde = Math.round((hoyde * 460) / (produkt ? 128 : 112));
 ---
-<span class="logo" role="img" aria-label="Hengsel CRM">
-  <svg class="merke" viewBox="0 0 64 72" aria-hidden="true">
-    <rect class="dor" x={d.a} y={d.a} width={d.w} height={d.h} stroke-width={d.sw} />
-    <rect class="dor" x={d.x2} y={d.a} width={d.w} height={d.h} stroke-width={d.sw} />
-    <rect class="grep" x="17" y={d.gy} width="13" height={d.gh} rx={d.r} />
-    <rect class="grep" x="34" y={d.gy} width="13" height={d.gh} rx={d.r} />
-  </svg><span class="ord" aria-hidden="true">engsel</span><svg class="crm" viewBox="0 0 25 20" aria-hidden="true"><path class="hake" d="M1.17 5.24l3.33 3.33l6.67 -7.4" /><text x="0" y="19.6">CRM</text></svg>
-</span>
+<svg class="logo" viewBox={vb} width={bredde} height={hoyde} role="img" aria-label={navn}>
+  <title>{navn}</title>
+  <g>
+    <rect x="0" y="0" width="10" height="72" rx="1" fill="#8FA9D1" />
+    <rect class="skap" x="0" y="0" width="10" height="4.2" rx="1" />
+    <rect class="skap" x="0" y="2.8" width="10" height="1.4" />
+    <rect class="skap" x="0" y="67.8" width="10" height="4.2" rx="1" />
+    <rect class="skap" x="0" y="67.8" width="10" height="1.4" />
+    <rect class="skap" x="1.8" y="6.7" width="6.4" height="4.6" rx="2.3" />
+    <rect x="2.5" y="7.1" width=".6" height="3.8" fill="#5074A9" />
+    <rect x="6.9" y="7.1" width=".6" height="3.8" fill="#5074A9" />
+    <ellipse cx="5" cy="9" rx="1.4" ry="1" fill="#8FA9D1" />
+    <rect class="skap" x="2.6" y="28" width="4.8" height="16" rx="2.4" />
+    <rect x="3" y="33.5" width="4" height=".6" fill="#5074A9" />
+    <rect x="3" y="38.5" width="4" height=".6" fill="#5074A9" />
+    <ellipse cx="5" cy="36" rx="1" ry="1.5" fill="#8FA9D1" />
+    <rect x="3.5" y="51" width="3" height="13.5" rx="1.5" fill="#5074A9" />
+    <rect class="skap" x="35.1" y="0" width="14" height="27.6" />
+    <rect class="skap" x="12.5" y="0" width="22" height="23.8" />
+    <rect x="12.5" y="25.3" width="22" height="2.3" fill="#8FA9D1" />
+    <rect class="skap" x="12.5" y="39" width="39.1" height="6" />
+    <rect class="skap" x="35.1" y="46.5" width="14" height="25.5" />
+    <rect x="37.8" y="49.4" width="2.5" height="6.1" rx="1.25" fill="#5074A9" />
+    <rect class="skap" x="12.5" y="46.5" width="22" height="25.5" />
+    <circle cx="18" cy="49.6" r="1.5" fill="#5074A9" />
+    <circle cx="23.5" cy="49.6" r="1.5" fill="#5074A9" />
+    <circle cx="28.9" cy="49.6" r="1.5" fill="#5074A9" />
+    <rect x="15" y="52.6" width="17" height="2.3" rx="1.15" fill="#5074A9" />
+    <rect x="15.4" y="56.6" width="16.2" height="13" rx=".4" fill="#5074A9" />
+    <rect x="51" y="0" width=".6" height="39" fill="#5074A9" />
+    <rect x="51" y="45" width=".6" height="27" fill="#5074A9" />
+    <rect class="skap" x="51.6" y="0" width="22" height="72" />
+    <rect x="54.3" y="36.5" width="2.5" height="6.1" rx="1.25" fill="#5074A9" />
+  </g>
+  <text class="ord" font-weight="350" font-size="96" letter-spacing="-1.5" x="80" y="69">engsel</text>
+  {produkt && (
+    <>
+      <text class="produkt" x="378" y="112" text-anchor="end" font-weight="650" font-size="20" letter-spacing="2.4" fill-opacity=".6">{produkt.toUpperCase()}</text>
+      <path d="M385 94 l9 9 l18 -20" fill="none" stroke="#5074A9" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" />
+    </>
+  )}
+</svg>
 
 <style>
-  .logo {
-    display: inline-flex; align-items: baseline; font: 350 28px/1 var(--font-tekst); color: var(--merke-ord);
-    letter-spacing: -0.01em; white-space: nowrap; padding-top: 0.3em;
-  }
-  .merke { height: 0.713em; width: auto; flex: none; align-self: baseline; margin-right: 0.04em; }
-  .dor { fill: var(--merke-dor); stroke: var(--merke-linje); }
-  .grep { fill: var(--merke-grep); }
-  .ord { font-weight: 350; }
-  /* «CRM» og haken som SVG (som logofilene): versaler 650, 0,06 em, hake i Deep Blue over */
-  .crm { height: 0.534em; width: auto; margin-left: 0.248em; align-self: baseline; overflow: visible; }
-  .crm text { fill: var(--merke-crm); font: 650 10px var(--font-tekst); letter-spacing: 0.6px; }
-  .hake { fill: none; stroke: var(--merke-grep); stroke-width: 2.33; stroke-linecap: round; stroke-linejoin: round; }
-  @media (max-width: 900px) { .logo { font-size: 24px; } }
+  .logo { display: block; flex: none; max-width: 100%; height: auto; overflow: visible; }
+  .skap { fill: var(--merke-skap); }
+  .ord, .produkt { fill: var(--merke-ord); font-family: var(--font-tekst); }
 </style>
