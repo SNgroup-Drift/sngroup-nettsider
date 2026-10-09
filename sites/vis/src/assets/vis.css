@@ -86,7 +86,7 @@ a{color:var(--accent);text-underline-offset:3px}
 .hlogo .hake{fill:none;stroke:var(--merke-grep);stroke-width:2.33;stroke-linecap:round;stroke-linejoin:round}
 
 /* Felles skall for rommene: topplinje, sidehode, bunntekst. Bredde 1180, marg 24 (16 på mobil), 16 mellom kort */
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;max-width:1180px;margin:0 auto;padding:14px 24px 0}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;width:100%;max-width:1180px;margin:0 auto;padding:14px 24px 0}
 .topbar .topl{display:inline-flex;align-items:center;gap:14px;min-width:0}
 .topbar .sep{width:1px;height:18px;background:var(--line);flex:none}
 .topbar .pill{font-size:13px}

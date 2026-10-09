@@ -10,75 +10,120 @@
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-.lang{display:flex;align-items:center;font:500 13px var(--sans);color:var(--sand)}
-.lang a{color:var(--muted);text-decoration:none;padding:0 8px;min-height:40px;display:inline-flex;align-items:center;border-radius:8px}
-.lang a:hover{color:var(--accent)}
-.lang a[aria-current]{color:var(--fg);font-weight:600}
-.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 48px}
-h1{font:400 clamp(34px,6vw,56px)/1.05 var(--serif);margin:6px 0 12px;text-wrap:balance}
-.lead{color:var(--muted);font-size:17px;max-width:60ch;margin:0}
-h2{font:400 26px/1.2 var(--serif);margin:40px 0 14px}
-.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.part{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:4px;align-content:start}
-.part b{font:600 15px var(--sans)}
-.part p{margin:0;color:var(--muted);font-size:14px}
-.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;counter-reset:k}
-.key{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:8px;align-content:start}
-.key .num{font:400 30px/1 var(--serif);color:var(--accent)}
-.key .t{font:400 22px/1.2 var(--serif)}
-.key p{margin:0;color:var(--muted);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:8px;align-content:start;text-decoration:none;color:inherit;min-height:180px;transition:border-color .2s,transform .2s}
-a.card:hover{border-color:var(--sand);transform:translateY(-2px)}
-.card .t{font:400 22px/1.2 var(--serif)}
-.card p{margin:0;color:var(--muted);font-size:14px}
+body{min-height:100vh;display:flex;flex-direction:column}
+.inner{max-width:1180px;width:100%;margin:0 auto;padding-inline:24px}
+.toppfelt{display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap;min-height:64px;padding-block:16px}
+.hjem{display:flex;align-items:center;gap:14px;color:var(--fg);text-decoration:none;min-height:44px}
+.hjem .sep{width:1px;height:22px;background:var(--line);flex:none}
+.hjem b{font:500 15px/1 var(--sans)}
+.lang{display:flex;align-items:center;gap:4px;font:500 15px var(--sans)}
+.lang a,.lang [aria-current]{padding:0 10px;min-height:44px;display:inline-flex;align-items:center;border-radius:var(--r-sm)}
+.lang a{color:var(--muted);text-decoration:none;transition:color var(--dur) var(--ease)}
+.lang a:hover{color:var(--fg)}
+.lang [aria-current]{color:var(--fg);font-weight:600}
+.lang .skille{color:var(--sand)}
+.sn{height:26px;width:auto;display:block;opacity:.9}
+.sn.mork{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sn.lys{display:none}:root:not([data-theme="light"]) .sn.mork{display:block}}
+:root[data-theme="dark"] .sn.lys{display:none}:root[data-theme="dark"] .sn.mork{display:block}
+main{flex:1;padding-block:24px 64px}
+.merk{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap}
+h1{font:400 clamp(2.5rem,5.6vw,4.6rem)/1.02 var(--serif);letter-spacing:-.015em;margin:16px 0;text-wrap:balance}
+.ingress{font-size:1.18rem;line-height:1.5;color:var(--muted);max-width:60ch;margin:0;text-wrap:pretty}
+h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:48px 0 16px;text-wrap:balance}
+h2.m8{margin-bottom:8px}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.parts .tile{padding:16px 18px;gap:4px;align-content:start}
+.parts b{font:600 15px/1.4 var(--sans)}
+.parts p,.key p,.rom p{margin:0;color:var(--muted);font-size:15px;line-height:1.5;text-wrap:pretty}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.key{display:grid;gap:8px;align-content:start}
+.key .stat{color:var(--accent);line-height:1}
+.ktittel{font:400 1.45rem/1.2 var(--serif);letter-spacing:-.015em;text-wrap:balance}
+.note{margin:0 0 16px;color:var(--muted);font-size:15px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.rom{display:flex;flex-direction:column;gap:10px;color:inherit;text-decoration:none;min-height:200px;transition:border-color var(--dur) var(--ease)}
+.rom:hover{border-color:var(--sand);text-decoration:none}
+.rom:focus-visible{border-radius:var(--r)}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
-.go{font:500 14px var(--sans);color:var(--accent);margin-top:auto}
-.note{color:var(--muted);font-size:14px;margin:-4px 0 14px;max-width:62ch}
-footer{margin-top:48px;font-size:12px;color:var(--muted)}
+.go{margin-top:auto;font:500 15px/1.4 var(--sans);color:var(--accent)}
+footer{border-top:1px solid var(--line)}
+footer .inner{padding-block:24px;display:flex;flex-direction:column;gap:20px}
+footer p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+.baand{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px 32px}
+.avsender{display:flex;align-items:center;gap:14px;color:var(--fg);text-decoration:none!important;min-height:44px;font:500 15px/1.4 var(--sans)}
+.avsender svg{flex:none;display:block}
+.strek{fill:none;stroke:currentColor;stroke-width:2.4}
+.bue{fill:none;stroke:var(--accent);stroke-width:1.8}
+.baand ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;font-size:15px}
+.baand li{display:flex;align-items:center}
+.baand .skille{color:var(--muted);padding:0 10px}
+.baand .her{color:var(--fg);padding:10px 0}
+.baand li a{color:var(--muted);padding:10px 0;display:inline-block;text-decoration:none}
+.baand li a:hover{color:var(--fg)}
+@media (min-width:1100px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.lang{order:3;width:100%;margin-left:-10px}}
+@media (max-width:640px){.inner{padding-inline:16px}.hjem .hlogo{font-size:22px!important}.sn{height:22px}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <nav class="lang" aria-label="Language"><a href="/" hreflang="nb" lang="nb">Norsk</a>/<a href="/sv/" hreflang="sv" lang="sv">Svenska</a>/<a href="/en/" hreflang="en" aria-current="page">English</a></nav>
-  <span class="demo">By invitation only</span>
-</div>
-<main class="wrap">
-  <div class="eyebrow">Studio Sigdal Innlandet · SN Group</div>
+<header class="inner toppfelt">
+  <a class="hjem" href="/" hreflang="nb" aria-label="Visningsrommet – Norwegian front page"><!--hengsel-logo 26--><span class="sep" aria-hidden="true"></span><b>Visningsrommet</b></a>
+  <nav class="lang" aria-label="Language"><a href="/" hreflang="nb" lang="nb">Norsk</a><span class="skille" aria-hidden="true">·</span><a href="/sv/" hreflang="sv" lang="sv">Svenska</a><span class="skille" aria-hidden="true">·</span><span aria-current="page">English</span></nav>
+  <span><img class="sn lys" src="/img/sn-logo.svg" alt="SN Group" width="42" height="26"><img class="sn mork" src="/img/sn-logo-mork.svg" alt="SN Group" width="42" height="26"></span>
+</header>
+
+<main class="inner">
+  <div class="merk"><span class="pill nodot">By invitation only</span><span class="eyebrow">Studio Sigdal Innlandet · SN Group</span></div>
   <h1>Visningsrommet for Nobia</h1>
-  <p class="lead">Here we show the whole solution behind a kitchen order at Studio Sigdal Innlandet, from drawing to fitted kitchen and invoice. Visningsrommet is our digital showroom. All data is made up.</p>
+  <p class="ingress">Here we show the whole solution behind a kitchen order at Studio Sigdal Innlandet, from drawing to fitted kitchen and invoice. Visningsrommet is our digital showroom. All data is made up.</p>
 
   <h2>The solution in brief</h2>
   <div class="parts">
-    <div class="part"><b>Sigdal CRM</b><p>The hub. Customers, quotes, orders, purchase orders, cases and fitting in one place. Everything else connects here.</p></div>
-    <div class="part"><b>Supplier connections</b><p>Sigdal through CET, appliances through Tradeplace and other suppliers by email, files or EDI. It all ends up in the same model in the CRM.</p></div>
-    <div class="part"><b>Hengsel</b><p>The fitter app. The fitting company receives the jobs, and the fitter has drawings, goods and quality checks on the phone.</p></div>
-    <div class="part"><b>My page</b><p>The customer portal. The customer sees the quote, contract, delivery week and documents, and approves right there.</p></div>
+    <div class="tile"><b>Hengsel CRM</b><p>The hub. Customers, quotes, orders, purchase orders, cases and fitting in one place. Everything else connects here.</p></div>
+    <div class="tile"><b>Supplier connections</b><p>Sigdal through CET, appliances through Tradeplace and other suppliers by email, files or EDI. It all ends up in the same model in the CRM.</p></div>
+    <div class="tile"><b>Hengsel</b><p>The fitter app. The fitting company receives the jobs, and the fitter has drawings, goods and quality checks on the phone.</p></div>
+    <div class="tile"><b>My page</b><p>The customer portal. The customer sees the quote, contract, delivery week and documents, and approves right there.</p></div>
   </div>
 
   <h2>Key points</h2>
   <div class="keys">
-    <div class="key"><span class="num">1</span><span class="t">Entered once</span><p>The order is drawn in CET and arrives in the CRM as Nobia XML. Nobody types the same information twice.</p></div>
-    <div class="key"><span class="num">2</span><span class="t">Deviations caught before production</span><p>The order confirmation is checked automatically against the drawing. The salesperson only sees what differs, while it can still be corrected.</p></div>
-    <div class="key"><span class="num">3</span><span class="t">The customer does not need to call</span><p>Status, delivery week and documents are on My page, and delivery is announced by text message. The salesperson does not need to chase either.</p></div>
-    <div class="key"><span class="num">4</span><span class="t">Suppliers on three levels</span><p>Level 1 for everyone: email and PDF with a fixed reference. Level 2: files and EHF e-invoices. Level 3: a direct connection through EDI, Tradeplace or API.</p></div>
+    <div class="card key"><span class="stat">1</span><span class="ktittel">Entered once</span><p>The order is drawn in CET and arrives in the CRM as Nobia XML. Nobody types the same information twice.</p></div>
+    <div class="card key"><span class="stat">2</span><span class="ktittel">Deviations caught before production</span><p>The order confirmation is checked automatically against the drawing. The salesperson only sees what differs, while it can still be corrected.</p></div>
+    <div class="card key"><span class="stat">3</span><span class="ktittel">The customer does not need to call</span><p>Status, delivery week and documents are on My page, and delivery is announced by text message. The salesperson does not need to chase either.</p></div>
+    <div class="card key"><span class="stat">4</span><span class="ktittel">Suppliers on three levels</span><p>Level 1 for everyone: email and PDF with a fixed reference. Level 2: files and EHF e-invoices. Level 3: a direct connection through EDI, Tradeplace or API.</p></div>
   </div>
 
   <h2>Explore</h2>
   <div class="grid">
-    <a class="card" href="/en/system/"><div class="tags"><span class="pill info">Overview</span></div><span class="t">The system map</span><p>The whole solution on one map: what goes into and out of the CRM, and how far each connection has come.</p><span class="go">Open the map ›</span></a>
+    <a class="card rom" href="/en/system/"><span class="tags"><span class="pill info nodot">Overview</span></span><span class="ktittel">The system map</span><p>The whole solution on one map: what goes into and out of the CRM, and how far each connection has come.</p><span class="go">Open the map ›</span></a>
   </div>
 
-  <h2>More rooms (in Norwegian)</h2>
+  <h2 class="m8">More rooms (in Norwegian)</h2>
   <p class="note">These rooms are only available in Norwegian for now. The content is the same, and the demos work the same way.</p>
   <div class="grid">
-    <a class="card" href="/reise/" hreflang="nb"><div class="tags"><span class="pill info">Simulation</span><span class="pill">In Norwegian</span></div><span class="t">The journey of an order</span><p>One kitchen order from drawing in CET to fitted kitchen and invoice, in eight scenes with five suppliers.</p><span class="go">Play (in Norwegian) ›</span></a>
-    <a class="card" href="/leverandor/" hreflang="nb"><div class="tags"><span class="pill info">Presentation</span><span class="pill">In Norwegian</span></div><span class="t">The supplier solution</span><p>The twelve flows, three levels, requirements, deadlines and plan. Including the requirements list to Sigdal.</p><span class="go">See the presentation (in Norwegian) ›</span></a>
-    <a class="card" href="/kontroll/" hreflang="nb"><div class="tags"><span class="pill info">Try it</span><span class="pill">In Norwegian</span></div><span class="t">Order and invoice check</span><p>Drawing against order confirmation, and order confirmation against invoice. Only the deviations are shown.</p><span class="go">Run the check (in Norwegian) ›</span></a>
-    <a class="card" href="/leder/" hreflang="nb"><div class="tags"><span class="pill info">Overview</span><span class="pill">In Norwegian</span></div><span class="t">Managing director</span><p>Order backlog per week, open quotes, hit rate, margin and what is at risk, per store and salesperson.</p><span class="go">Open the overview (in Norwegian) ›</span></a>
+    <a class="card rom" href="/reise/" hreflang="nb"><span class="tags"><span class="pill info nodot">Simulation</span><span class="pill nodot">In Norwegian</span></span><span class="ktittel">The journey of an order</span><p>One kitchen order from drawing in CET to fitted kitchen and invoice, in eight scenes with five suppliers.</p><span class="go">Play (in Norwegian) ›</span></a>
+    <a class="card rom" href="/leverandor/" hreflang="nb"><span class="tags"><span class="pill info nodot">Presentation</span><span class="pill nodot">In Norwegian</span></span><span class="ktittel">The supplier solution</span><p>The twelve flows, three levels, requirements, deadlines and plan. Including the requirements list to Sigdal.</p><span class="go">See the presentation (in Norwegian) ›</span></a>
+    <a class="card rom" href="/kontroll/" hreflang="nb"><span class="tags"><span class="pill info nodot">Try it</span><span class="pill nodot">In Norwegian</span></span><span class="ktittel">Order and invoice check</span><p>Drawing against order confirmation, and order confirmation against invoice. Only the deviations are shown.</p><span class="go">Run the check (in Norwegian) ›</span></a>
+    <a class="card rom" href="/leder/" hreflang="nb"><span class="tags"><span class="pill info nodot">Overview</span><span class="pill nodot">In Norwegian</span></span><span class="ktittel">Managing director</span><p>Order backlog per week, open quotes, hit rate, margin and what is at risk, per store and salesperson.</p><span class="go">Open the overview (in Norwegian) ›</span></a>
   </div>
-
-  <footer>The demos are not connected to real data. All names and figures are made up. Fonts: Newsreader and Inter.</footer>
 </main>
+
+<footer>
+  <div class="inner">
+    <p>The demos are not connected to real data. All names and figures are made up. Fonts: Newsreader and Inter.</p>
+    <aside class="baand" aria-label="SN Group">
+      <a href="https://sngroup.no" class="avsender">
+        <svg width="32" height="32" viewBox="0 0 44 44" aria-hidden="true"><g transform="translate(5,5)"><rect class="strek" x="0" y="0" width="34" height="34"/><line class="strek" x1="17" y1="0" x2="17" y2="21"/><line class="strek" x1="0" y1="21" x2="34" y2="21"/><path class="bue" d="M17 21 A9 9 0 0 1 26 30"/></g></svg>
+        <span>Part of SN Group</span>
+      </a>
+      <ul aria-label="Sister sites">
+        <li><a href="https://sngroup.no">sngroup.no</a></li>
+        <li><span class="skille" aria-hidden="true">·</span><span aria-current="page" class="her">hengsel.no</span></li>
+        <li><span class="skille" aria-hidden="true">·</span><a href="https://byggem.no">byggem.no</a></li>
+      </ul>
+    </aside>
+  </div>
+</footer>
 </body>
 </html>

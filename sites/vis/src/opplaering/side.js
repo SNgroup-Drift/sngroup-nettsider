@@ -53,7 +53,7 @@ function navR(){nav.innerHTML='';M.forEach(function(m,i){var b=document.createEl
   var n=Object.keys(done).filter(function(k){return done[k]}).length;document.getElementById('meter').style.width=(n/M.length*100)+'%';document.getElementById('ptxt').textContent=n+' av '+M.length+' fullført'}
 function show(i){cur=i;var m=M[i];
   main.innerHTML='<article class="mod"><span class="eyebrow">Del '+(i+1)+' av '+M.length+'</span><h2>'+m.t+'</h2><p class="intro">'+m.i+'</p>'+m.b+
-  '<div class="quiz"><span class="q">'+m.q[0]+'</span>'+m.q[1].map(function(a,j){return '<button type="button" data-j="'+j+'">'+a+'</button>'}).join('')+'<span class="fb" aria-live="polite"></span></div>'+
+  '<div class="quiz"><span class="q">'+m.q[0]+'</span>'+m.q[1].map(function(a,j){return '<button type="button" class="btn" data-j="'+j+'">'+a+'</button>'}).join('')+'<span class="fb" aria-live="polite"></span></div>'+
   '<div class="foot"><button type="button" class="btn" id="pv"'+(i===0?' disabled':'')+'>‹ Forrige</button><span class="sp"></span><button type="button" class="btn '+(done[i]?'':'primary')+'" id="ok">'+(done[i]?'Fullført ✓':'Jeg kan dette')+'</button><button type="button" class="btn" id="nx"'+(i===M.length-1?' disabled':'')+'>Neste ›</button></div></article>';
   var fb=main.querySelector('.fb');
   [].forEach.call(main.querySelectorAll('.quiz button'),function(b){b.onclick=function(){var j=+b.dataset.j,r=j===m.q[2];
