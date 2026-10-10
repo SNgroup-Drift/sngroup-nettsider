@@ -17,6 +17,7 @@ export const MAAL: Record<string, [number, number]> = {
   "hengsel-ks-b": [780, 1688],
   "hengsel-varer-a": [780, 1688],
   "hengsel-varer-b": [780, 1688],
+  "innstillinger": [2876, 1796],
   "ipad-min-dag": [2360, 1640],
   "ipad-ordre": [1712, 1184],
   "kjoper-godkjenner-a": [780, 1600],
