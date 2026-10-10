@@ -10,7 +10,7 @@ var R=[
 // Rom uten CRM_v4-fil bruker bilde av rommet selv (src/img/rom-*.webp, lages av scripts/skjermbilder-vis.mjs).
 var C=[
  {u:'/reise/',b:'/skjermbilder/crm-tilbud-kunde.webp',t:'Ordrens reise',type:'Simulering',p:'Én kjøkkenordre fra tegning i CET til montert kjøkken og faktura, i åtte scener med fem leverandører.',r:['selger','montor','leverandor','sigdal'],go:'Spill av'},
- {u:'/crm/',b:'/skjermbilder/crm-tilbud-liste.webp',t:'Prøv CRM selv',type:'Prøv selv',p:'En dag som selger: Min dag, avvik fra leverandører, tilbud fra CET, ordre og montasjeplan.',r:['selger','sigdal'],go:'Prøv CRM'},
+ {u:'/crm/',b:'/skjermbilder/crm-min-dag.webp',t:'Prøv CRM selv',type:'Prøv selv',p:'En dag som selger: Min dag, avvik fra leverandører, tilbud fra CET, ordre og montasjeplan.',r:['selger','sigdal'],go:'Prøv CRM'},
  {u:'/kunde/',b:'/skjermbilder/portal-tlf-nytt-kjokken.webp',tlf:1,t:'Kundens reise',type:'Simulering',p:'Det kunden opplever i Min side og på SMS, fra tilbud og BankID til FDV og reklamasjon.',r:['selger'],go:'Spill av'},
  {u:'/opplaering/',b:'/img/rom-opplaering.webp',t:'Opplæring for selgere',type:'Opplæring',p:'Ti korte deler fra kunde og tilbud til bestilling, frister og montasje.',r:['selger'],go:'Start'},
  {u:'/montor/',b:'/skjermbilder/ute-i-dag.webp',tlf:1,t:'Montørappen Hengsel',type:'Prøv selv',p:'En monteringsdag: neste jobb, KS, avvik med bilde og ferdigmelding med signatur.',r:['montor','selger'],go:'Prøv appen'},
@@ -22,7 +22,7 @@ var C=[
  {u:'/hvitevarer/',b:'/img/rom-hvitevarer.webp',t:'Hvitevarer via Tradeplace',type:'Prøv selv',p:'Bestill hvitevarer fra flere merker rett fra ordren, med pris og lager live og sjekk mot tegning og montasjeuke.',r:['selger','leverandor'],go:'Prøv bestillingen'},
  {u:'/tegning/',b:'/skjermbilder/ute-laser.webp',tlf:1,t:'Tegningen i Hengsel',type:'Prøv selv',p:'Montøren jobber rett i romtegningen: trykker på et skap, ser mål og varer, og melder ferdig eller avvik.',r:['montor','selger'],go:'Prøv tegningen'},
  {u:'/gevinst/',b:'/img/rom-gevinst.webp',t:'Gevinstkalkulator',type:'Prøv selv',p:'Legg inn butikkens egne tall og se hvor mye tid og penger løsningen sparer i året.',r:['sigdal','selger'],go:'Regn på det'},
- {u:'/firmaleder/',b:'/skjermbilder/crm-leder-oversikt.webp',t:'Firmaleder i Hengsel',type:'Prøv selv',p:'Ny forespørsel med 48 timers svarfrist, aksepter eller avvis, velg montør og se teamets uke.',r:['montor'],go:'Prøv appen'},
+ {u:'/firmaleder/',b:'/skjermbilder/crm-resultater.webp',t:'Firmaleder i Hengsel',type:'Prøv selv',p:'Ny forespørsel med 48 timers svarfrist, aksepter eller avvis, velg montør og se teamets uke.',r:['montor'],go:'Prøv appen'},
  {u:'/leverandor/',b:'/img/rom-leverandor.webp',t:'Leverandørløsningen',type:'Presentasjon',p:'De tolv strømmene, tre nivåer, krav, frister og plan. Med kravene til Sigdal (S-55).',r:['leverandor','sigdal'],go:'Se presentasjonen'},
  {u:'/leder/',b:'/img/rom-leder.webp',t:'Daglig leder',type:'Oversikt',p:'Ordrereserve per uke, tilbud ute, treffprosent, margin og det som står i fare, per butikk og selger.',r:['selger','sigdal'],go:'Åpne oversikten'},
  {u:'/veikart/',b:'/img/rom-veikart.webp',t:'Veikart og status',type:'Oversikt',p:'Hva som er i drift i dag, hva som kommer kvartal for kvartal, og hva vi venter på fra andre.',r:['selger','leverandor','sigdal'],go:'Se veikartet'},

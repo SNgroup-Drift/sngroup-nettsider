@@ -3,9 +3,9 @@
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var rowsEl=$('rows'),flow=$('flow'),svg=$('lines'),crm=$('crm');
   var cur=1,playing=false,timers=[],anims=[],nodes=[],autoT=null;
-  /* Skjermbilde per scene (CRM_v4): tegning → tilbudslista, tilbud/signering → tilbud og kunde på PC, bestilling/bekreftelse/endring →
-     ordre og kontrollmål på PC, levering og montasje → kundens Min side på telefon, faktura → belastninger på iPad */
-  var V=Skjermbilder.alle(),BILDE=[['pc',0],['pc',1],['pc',1],['pc',2],['pc',2],['pc',2],['tlf',1],['ipad',0]];
+  /* Skjermbilde per scene (CRM_v4, alle på PC): tegning → tilbudslista, tilbud/signering → tilbud og kunde, bestilling/bekreftelse/endring →
+     ordre og kontrollmål, levering og montasje → Mer › Montasje › Kontrollmål, faktura → etterkalkyle for én ordre */
+  var V=Skjermbilder.alle(),BILDE=[['pc',0],['pc',1],['pc',1],['pc',2],['pc',2],['pc',2],['pc',3],['pc',4]];
   function bilde(n){var b=BILDE[n-1];[].forEach.call(document.querySelectorAll('.pane [data-enhet]'),function(w){w.hidden=w.dataset.enhet!==b[0]});V[b[0]].vis(b[1])}
 
   var HEAD_LI={t:'Ordre 10087',s:'Hanne Liksomlien · Lillehammer · montasje uke 46'};

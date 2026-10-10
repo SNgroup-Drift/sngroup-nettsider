@@ -71,3 +71,7 @@
 }
 /* Telefonbilder med egen statuslinje (kundeportalen, CRM på telefon) fyller hele skjermen; hjemindikatoren ligger oppå */
 .tlf[data-bilder]:not([data-sb])>.skjerm{padding-bottom:0}
+/* Hel skjerm: bildet (390 × 844) har egen statuslinje og hjemindikator, så rammen gir plass til hele skjermen og tegner ingen hjemindikator */
+.tlf.hel{aspect-ratio:414/868}
+.tlf.hel>.skjerm>img.sk{flex:none;height:100%}
+@media (max-width:640px){.tlf.hel{aspect-ratio:auto}.tlf.hel>.skjerm>img.sk{height:auto}}
