@@ -11,13 +11,14 @@
 import Side from "../layouts/Side.astro";
 import Enhet from "../components/Enhet.astro";
 import PlantegningEntre from "../components/PlantegningEntre.astro";
-import { EPOST, FLOW, GREP, INTEG, KONTOR, LOFTER, MODULER, PLAY, PORTAL, STEG, TESTFLIGHT, TRYGG } from "../content/forside";
+import { EPOST, FLOW, GREP, INTEG, KONTOR, LOFTER, MODULER, PORTAL, STEG, TRYGG } from "../content/forside";
 
 const nr = (i: number) => String(i + 1).padStart(2, "0");
 ---
 <Side
   title="Hengsel – kjøkkenbutikkens arbeidsflate"
   description="Hengsel samler salg, bestilling, montering og oppfølging i ett system. CRM på kontoret, Hengsel Ute på telefonen hos kunden."
+  delingsbilde="https://hengsel.no/og.png"
   forside
   demo
 >
@@ -123,10 +124,7 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
             <span class="eyebrow">Hengsel Ute</span>
             <h2>Hengsel Ute. Dagen ute, samlet på én skjerm.</h2>
             <p class="lede">Montøren får jobben, tegningene, målene og KS-sjekklista på telefonen. Det som registreres hos kunden, står på ordren hos kontoret med en gang.</p>
-            <div class="butikker">
-              {TESTFLIGHT ? <a class="butikk" href={TESTFLIGHT}>App Store · TestFlight nå</a> : <span class="butikk">App Store · TestFlight nå</span>}
-              {PLAY ? <a class="butikk" href={PLAY}>Google Play</a> : <span class="butikk">Google Play</span>}
-            </div>
+            <p class="dempet liten">Hengsel Ute følger med Hengsel, for iPhone, iPad og Android.</p>
           </div>
         </div>
         <div class="grep">
@@ -337,13 +335,6 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
   /* Hengsel Ute */
   .ute-hode { display: flex; flex-direction: column; gap: clamp(20px, 3vw, 40px); align-items: flex-start; }
   .ute-ikon { width: 96px; height: 96px; display: block; flex: none; }
-  .butikker { display: flex; flex-wrap: wrap; gap: 10px; }
-  .butikk {
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: var(--r-pill);
-    border: 1px dashed var(--soft); color: var(--muted); font-size: 0.95rem; box-sizing: border-box; text-decoration: none;
-  }
-  a.butikk { border-style: solid; border-color: var(--ink); color: var(--ink); }
-  a.butikk:hover { background: var(--ink); color: var(--bg); text-decoration: none; }
   .grep { display: grid; gap: clamp(40px, 6vw, 80px); }
   .rad { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .rad-tekst { display: grid; gap: 10px; align-content: start; min-width: 0; }

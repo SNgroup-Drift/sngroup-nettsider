@@ -24,8 +24,10 @@ interface Props {
   forside?: boolean;
   /** Linjen om demodata i bunnteksten (forsiden, der skjermbildene vises) */
   demo?: boolean;
+  /** Delingsbilde (og:image) som full URL, f.eks. https://hengsel.no/og.png */
+  delingsbilde?: string;
 }
-const { title, description, noindex, forside = false, demo = false } = Astro.props;
+const { title, description, noindex, forside = false, demo = false, delingsbilde } = Astro.props;
 const h = forside ? "" : "/";
 const meny = [
   { label: "Produkt", href: `${h}#produkt` },
@@ -40,6 +42,7 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
   title={title}
   description={description}
   noindex={noindex}
+  delingsbilde={delingsbilde}
   tema="light"
   temafarge={["#5074A9", "#5074A9"]}
   ikon={{ href: "/logo/favicon.svg", type: "image/svg+xml" }}
