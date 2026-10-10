@@ -14,7 +14,7 @@ Alle skjermbilder av løsningen på vis.hengsel.no kommer fra **designfilene i C
 | Tegningen | `crm-mal-skisser` (steg 4) | `ute-ipad-bildeverktoy` (steg 3; statuslinje fra rammen) | `ute-laser` (steg 1, 2, 5) |
 | Kundens Min side | PC-bryter: `portal-mitt-kjokken` → `portal-oppgraderinger` → `portal-status` → `portal-nytt-kjokken` | – | Mobil-bryter: `portal-tlf-nytt-kjokken` → `portal-tlf-levering` → `portal-tlf-montering` → `portal-tlf-mine-kjop`; steg n viser bilde n i begge |
 | Kundens reise | – | – | steg 1–2 `portal-tlf-nytt-kjokken`, 3–5 `portal-tlf-levering`, 6 `portal-tlf-montering`, 7–8 `portal-tlf-mine-kjop`; varselet glir inn oppå |
-| Ordrens reise («Selgeren ser») | scene 1–3 `crm-tilbud-kunde`, 4–6 `crm-ordre-kontrollmal` | scene 8 `crm-ipad-belastninger` | scene 7 `portal-tlf-montering` |
+| Ordrens reise («Selgeren ser») | scene 1 `crm-tilbud`, 2–3 `crm-tilbud-kunde`, 4–6 `crm-ordre-kontrollmal` | scene 8 `crm-ipad-belastninger` | scene 7 `portal-tlf-montering` |
 | Romkort på forsiden | første bilde i rommets liste, 16:10 øverst til venstre; telefonbilder (Kundens reise, Montørappen, Tegningen) 58 % brede, toppjustert | | |
 
 - `ute-*`-bildene (iPhone 780 × 1512 og `ute-ipad-bildeverktoy`) er de samme filene som hengsel.no bruker (`sites/hengsel/public/img`, fra fil 56), uten statuslinje; rammen legger på «07.42»/«09.41». De andre bildene har egen statuslinje.

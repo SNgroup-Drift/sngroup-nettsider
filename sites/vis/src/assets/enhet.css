@@ -38,7 +38,7 @@
    object-fit cover fra toppen. Studio Display-flaten er 1180 × 740; høyere bilder (kundeportalens PC-sider) kan
    rulles i skjermen. Telefon- og iPad-bildene har egen statuslinje; ute-*-bildene får en fra rammen (data-sb). */
 .pc-ramme>.skjermkant>.skjerm{aspect-ratio:1180/740;overflow:auto;background:var(--bg);display:block;scrollbar-width:thin}
-.skjerm>img.sk{display:block;width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top}
+.skjerm>img.sk{display:block;width:100%;height:auto;object-fit:cover;object-position:top} /* aldri beskåret i høyden: skjermen ruller */
 .tlf>.skjerm{display:flex;flex-direction:column}
 .tlf>.skjerm>img.sk{flex:1;min-height:0;height:100%}
 .tlf .sb .batteri{width:24px;height:11px;border:1.5px solid currentColor;border-radius:3px;box-sizing:border-box}
