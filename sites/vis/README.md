@@ -1,5 +1,26 @@
 # Visningsrommet i Hengsel-profilen – instruks til Code
 
+## Regel for skjermbilder (10.10.2026)
+
+Alle skjermbilder av løsningen på vis.hengsel.no kommer fra **designfilene i CRM_v4** (`docs/design/**/*.dc.html` på demo), aldri fra kjørende demo eller tegnet UI i rammene. Visningsrommet viser hvordan løsningen blir, ikke hvordan den er nå. Filene er webp i 2× oppløsning uten enhetsramme (bare skjerminnholdet) og ligger i `sites/vis/src/skjermbilder/` (vis har ingen `public/`; `bygg.mjs` kopierer `src/` til `dist/`). `assets/bilder.js` legger dem i rammene fra `assets/enhet.css`: Studio Display (1180 × 740, høyere bilder kan rulles i skjermen), iPad liggende 1180 × 820 (stående 820 × 1180 snus automatisk), iPhone 390 × 844, alle med `object-fit: cover; object-position: top`. Aldri PC-bildet i iPad- eller telefonrammen. Rom med flere enheter har velgeren PC · iPad · Telefon; «Prøv dette»-stegene viser skjermen for steget og skriver loggen «Samtidig i Hengsel». Tekster, steg og logg er som før.
+
+### Bilde-til-rom-kart (endelig, PR 10.10)
+
+| Rom | Studio Display | iPad | iPhone |
+|---|---|---|---|
+| Prøv CRM | `crm-tilbud` → `crm-tilbud-kunde` → `crm-ordre-kontrollmal` → `crm-mal-skisser` (steg 1–4) | `crm-ipad-kontrollmal` | `crm-tlf-kontrollmal` |
+| Firmaleder | `crm-leder-oversikt` → `crm-leder-start` → `crm-moduler` (steg 1–2 / 3 / 4) | `crm-ipad-leder`, `crm-ipad-innstillinger` | `crm-tlf-leder`, `crm-tlf-innstillinger` |
+| Montørappen (Hengsel Ute) | – | `ute-ipad-i-dag`, `ute-ipad-ks`, `ute-ipad-staaende` | `ute-i-dag` → `ute-jobb-under` → `ute-ks` → `ute-ks-kamera` → `ute-avvik` → `ute-punkter` → `ute-punktkort` → `ute-ferdig` → `ute-typeskilt` (steg: 2, 3, 5, 8); statuslinje fra rammen |
+| Tegningen | `crm-mal-skisser` (steg 4) | `ute-ipad-bildeverktoy` (steg 3; statuslinje fra rammen) | `ute-laser` (steg 1, 2, 5) |
+| Kundens Min side | PC-bryter: `portal-mitt-kjokken` → `portal-oppgraderinger` → `portal-status` → `portal-nytt-kjokken` | – | Mobil-bryter: `portal-tlf-nytt-kjokken` → `portal-tlf-levering` → `portal-tlf-montering` → `portal-tlf-mine-kjop`; steg n viser bilde n i begge |
+| Kundens reise | – | – | steg 1–2 `portal-tlf-nytt-kjokken`, 3–5 `portal-tlf-levering`, 6 `portal-tlf-montering`, 7–8 `portal-tlf-mine-kjop`; varselet glir inn oppå |
+| Ordrens reise («Selgeren ser») | scene 1 `crm-tilbud`, 2–3 `crm-tilbud-kunde`, 4–6 `crm-ordre-kontrollmal` | scene 8 `crm-ipad-belastninger` | scene 7 `portal-tlf-montering` |
+| Romkort på forsiden | første bilde i rommets liste, 16:10 øverst til venstre; telefonbilder (Kundens reise, Montørappen, Tegningen) 58 % brede, toppjustert | | |
+
+- `ute-*`-bildene (iPhone 780 × 1512 og `ute-ipad-bildeverktoy`) er de samme filene som hengsel.no bruker (`sites/hengsel/public/img`, fra fil 56), uten statuslinje; rammen legger på «07.42»/«09.41». De andre bildene har egen statuslinje.
+- Rom uten CRM_v4-skjermbilde (Systemkartet, Veikart, Gevinstkalkulator, Leverandørløsningen, Opplæring, /sv/, og foreløpig Prøv som leverandør, Ordre- og fakturakontroll, Montasjeplan, Prosjektsalg, Hvitevarer og Daglig leder) bruker bilde av rommet selv på romkortet (`src/img/rom-*.webp`, lages av `npm run skjermbilder:vis`). De seks siste får CRM_v4-bilder når skjermene er eksportert.
+- Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). CRM-bildene har fortsatt gammel logo i sidemenyen; det rettes i designfilene og byttes da. Sigdal-logoen og «Studio Sigdal» inne i bildene er riktig og retusjeres ikke. Tekst i rommene bruker «Kjøkkenstudio Hamar».
+
 ## Avvik funnet 10.10.2026 (skjermbilder av vis.hengsel.no) – rett disse først
 
 **Må rettes**

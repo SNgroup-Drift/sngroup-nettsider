@@ -19,13 +19,10 @@
 .wrap{max-width:1180px;margin:0 auto;padding:16px 24px 32px;display:grid;gap:16px}
 .stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;align-items:center}
 
-/* Telefonen: ramme #1B1713, radius 52/42, 390 × 720 */
+/* Telefonen (enhet.css): kundeportalens skjermbilder, ett per steg, varselet glir inn oppå */
 .phone{justify-self:center}
-.screen{display:grid;grid-template-rows:auto auto minmax(0,1fr);position:relative}
+.screen{position:relative}
 .sb{color:var(--fg)}
-.app{padding:6px 20px 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.app b{font:400 1.45rem/1 var(--serif);letter-spacing:-.015em}
-.view{padding:6px 16px 16px;display:grid;gap:10px;align-content:start;overflow:auto}
 /* Varselet glir inn fra toppen – eneste skygge i Visningsrommet */
 .notif{position:absolute;left:10px;right:10px;top:40px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;box-shadow:0 1px 2px rgba(49,38,29,.06),0 12px 40px -12px rgba(49,38,29,.22);display:grid;gap:2px;transform:translateY(-160%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:3}
 .notif.show{transform:none}
@@ -70,10 +67,7 @@
     <p class="lede">Det Hanne Liksomlien opplever fra tilbud til ferdig kjøkken. Alt hun trenger kommer til henne, og hun slipper å ringe for å spørre om status.</p>
   </header>
   <main class="stage">
-    <div class="phone tlf"><div class="screen skjerm">
-      <div class="sb"><span id="clock">09:12</span><span>Min side</span></div>
-      <div class="app"><b>Kjøkkenstudio Hamar</b><span class="pill nodot" id="where">Tilbud</span></div>
-      <div class="view" id="v"></div>
+    <div class="phone tlf" id="tlf" data-bilder="portal-tlf-nytt-kjokken,portal-tlf-levering,portal-tlf-montering,portal-tlf-mine-kjop" data-ingen-nav data-alt="Min side på mobil"><div class="screen skjerm">
       <div class="notif" id="nt" aria-live="polite"><small id="ntk" class="eyebrow">SMS</small><span id="ntt"></span></div>
     </div><span class="hjem" aria-hidden="true"></span></div>
     <div class="side">
@@ -86,9 +80,10 @@
   <footer class="card bar">
     <nav class="steps" id="steps" aria-label="Steg"></nav>
     <div class="ctl"><button class="btn" id="pv" type="button">‹ Forrige</button><button class="btn primary" id="pl" type="button">Spill av</button><button class="btn" id="nx" type="button">Neste ›</button><span class="hint">Piltaster: bla</span></div>
-    <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+    <p class="foot">Demoen er ikke koblet til ekte data. Skjermbildene er fra designfilene. Skrifter: Newsreader og Inter.</p>
   </footer>
 </div>
+<script src="/assets/bilder.js"></script>
 <script src="/kunde/side.js"></script>
 </body>
 </html>

@@ -33,3 +33,41 @@
   .pc-ramme>.skjermkant>*{aspect-ratio:auto;border-radius:var(--r);border:1px solid var(--line)}
   .pc-ramme>.stang,.pc-ramme>.fot{display:none}
 }
+
+/* Skjermbilder fra designfilene (src/skjermbilder, lagt inn av assets/bilder.js): bildet fyller skjermflaten med
+   object-fit cover fra toppen. Studio Display-flaten er 1180 × 740; høyere bilder (kundeportalens PC-sider) kan
+   rulles i skjermen. Telefon- og iPad-bildene har egen statuslinje; ute-*-bildene får en fra rammen (data-sb). */
+.pc-ramme>.skjermkant>.skjerm{aspect-ratio:1180/740;overflow:auto;background:var(--bg);display:block;scrollbar-width:thin}
+.skjerm>img.sk{display:block;width:100%;height:auto;object-fit:cover;object-position:top} /* aldri beskåret i høyden: skjermen ruller */
+.tlf>.skjerm{display:flex;flex-direction:column}
+.tlf>.skjerm>img.sk{flex:1;min-height:0;height:100%}
+.tlf .sb .batteri{width:24px;height:11px;border:1.5px solid currentColor;border-radius:3px;box-sizing:border-box}
+
+/* iPad (Hengsel Ute), portert fra hengsel.no: 1212 × 852 liggende, ramme 16, radius 36, skjerm 1180 × 820 radius 22,
+   statuslinje 40 med «09.41 · tor. 8. okt.» når bildet ikke har egen. Stående (ute-ipad-staaende) snus rammen. */
+.ipad-ramme{width:min(1212px,100%);aspect-ratio:1212/852;box-sizing:border-box;padding:16px;border-radius:36px;background:var(--ramme);
+  box-shadow:0 0 0 1px var(--line),var(--skygge);display:flex;flex-direction:column;margin:0 auto;min-width:0}
+.ipad-ramme>.skjerm{flex:1;min-height:0;border-radius:22px;overflow:hidden;background:var(--bg);color:var(--fg);display:flex;flex-direction:column}
+.ipad-ramme .sb{height:40px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font:650 14px/1 var(--sans);font-variant-numeric:tabular-nums}
+.ipad-ramme .sb .batteri{width:24px;height:11px;border:1.5px solid currentColor;border-radius:3px;box-sizing:border-box}
+.ipad-ramme>.skjerm>img.sk{flex:1;min-height:0;height:100%}
+.ipad-ramme.staaende{width:min(560px,100%);aspect-ratio:852/1212}
+
+/* ‹ › og teller under rammen, og enhetsvelgeren (PC · iPad · Telefon) over */
+.sk-nav{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:12px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sk-nav .btn{min-width:44px;padding:0 14px}
+.sk-nav .btn:disabled{opacity:.4;cursor:default}
+.enhet{min-width:0}
+.enhet[hidden]{display:none}
+
+@media (max-width:640px){
+  .ipad-ramme,.ipad-ramme.staaende{padding:6px;border-radius:14px}
+  .ipad-ramme>.skjerm{border-radius:10px}
+  .ipad-ramme .sb{padding:0 14px}
+}
+@media (max-width:640px){
+  .tlf>.skjerm>img.sk{flex:none;height:auto}
+  .pc-ramme>.skjermkant>.skjerm{aspect-ratio:auto;max-height:70vh}
+}
+/* Telefonbilder med egen statuslinje (kundeportalen, CRM på telefon) fyller hele skjermen; hjemindikatoren ligger oppå */
+.tlf[data-bilder]:not([data-sb])>.skjerm{padding-bottom:0}

@@ -16,78 +16,20 @@
 <link rel="stylesheet" href="/assets/enhet.css">
 <style>
 .wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
-/* Rommal b) Prøv selv: telefonen i midten, sidepanel til høyre */
-.stage{display:grid;grid-template-columns:minmax(0,1fr) 390px minmax(0,1fr);gap:24px;align-items:start}
-.phone{grid-column:2;justify-self:center}
-.screen{display:grid;grid-template-rows:auto minmax(0,1fr) auto;position:relative}
-.sb{color:var(--fg)}
-.sb svg{display:block}
-.view{overflow:auto;padding:8px 20px 24px;display:grid;gap:12px;align-content:start;font-size:15px;line-height:1.5}
-.tabbar{display:grid;grid-template-columns:repeat(5,1fr);background:var(--bg);border-top:1px solid var(--line);padding:8px 4px 24px}
-.tabbar button{border:0;background:none;font:400 12px var(--sans);color:var(--muted);padding:8px 2px;cursor:pointer;min-height:44px;border-radius:var(--r-sm);transition:color var(--dur) var(--ease)}
-.tabbar button:hover{color:var(--fg)}
-.tabbar button.on{color:var(--accent-tekst);font-weight:500}
-.tabbar i{display:none}
-.hdr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:4px}
-.hdr h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:0}
-.hdr .lk{border:0;background:none;color:var(--accent-tekst);font:500 15px var(--sans);cursor:pointer;min-height:44px;padding:0;border-radius:var(--r-sm)}
-.hdr .lk:hover{text-decoration:underline;text-underline-offset:3px}
-.view .pill:not(.ok):not(.warn):not(.info)::before{display:none}
-/* Neste jobb: Beige 2-flate med eyebrow, navn i Newsreader og store knapper */
-.next{background:var(--line);color:var(--fg);border-radius:var(--r);padding:16px;display:grid;gap:6px}
-.next b{font:400 1.45rem/1.15 var(--serif);letter-spacing:-.015em}
-.next .m{font-size:13px;color:var(--muted)}
-.next .r{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-.next .r .btn{min-height:56px;font-size:16px;padding:0 16px}
-.next .r .btn.primary{flex:1;padding:0 14px}
-.view .card{padding:16px;display:grid;gap:4px;font-size:15px}
-.card b{font-weight:600}
-.card p{margin:0;color:var(--muted);font-size:14px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.sec{margin-top:4px}
-.jt{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px}
-.jt button{border:0;border-radius:var(--r-pill);background:none;font:500 14px var(--sans);color:var(--muted);min-height:40px;cursor:pointer;padding:0 4px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
-.jt button:hover{color:var(--fg)}
-.jt button.on{background:var(--fg);color:var(--bg)}
-.act{display:grid;gap:8px;margin-top:4px}
-.act .btn,.big{min-height:52px;font-size:16px}
-.big{width:100%}
-.flow{display:flex;gap:4px;flex-wrap:wrap}
-.ks{display:grid;gap:8px}
-.ksi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:8px;transition:background var(--dur) var(--ease)}
-.ksi b{font-weight:600}
-.ksi.ok{box-shadow:inset 3px 0 0 var(--ok)}
-.ksi.av{box-shadow:inset 3px 0 0 var(--warn);background:var(--warn-soft)}
-.ksi .b{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ksi .b button{min-height:44px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--soft);font:500 15px var(--sans);color:var(--fg);cursor:pointer;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
-.ksi.ok .b .y{background:var(--ok);border-color:var(--ok);color:var(--card)}
-.ksi.av .b .n{background:var(--warn);border-color:var(--warn);color:var(--card)}
-label.f{display:grid;gap:6px;font:500 13px var(--sans);color:var(--muted)}
-select,textarea,input[type=number]{font:16px var(--sans);border:1px solid var(--line);border-radius:var(--r-field);padding:10px 12px;background:var(--card);color:var(--fg);width:100%;min-height:44px}
-textarea{min-height:76px;resize:vertical}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chips button{border:1px solid var(--fg);border-radius:var(--r-pill);background:transparent;font:500 14px var(--sans);padding:0 14px;cursor:pointer;color:var(--fg);min-height:40px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
-.chips button:hover{background:var(--soft)}
-.chips button.on{background:var(--fg);color:var(--bg)}
-.pics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.pic{aspect-ratio:1;border-radius:var(--r-field);background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--muted);text-align:center;padding:4px}
-.addpic{border:1.5px dashed var(--sand);background:none;cursor:pointer;color:var(--accent-tekst);font:500 13px var(--sans)}
-canvas{width:100%;height:150px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-field);touch-action:none;display:block}
-.chk{display:flex;gap:10px;align-items:center;font-size:15px;min-height:44px}
-.chk input{width:20px;height:20px;accent-color:var(--accent)}
-.doneb{display:grid;justify-items:center;text-align:center;gap:10px;padding:30px 6px}
-.doneb .c{width:64px;height:64px;border-radius:50%;background:var(--ok-soft);color:var(--ok-tekst);display:grid;place-items:center;font-size:30px}
-.doneb b{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em}
-.toast{position:absolute;left:16px;right:16px;bottom:96px;background:var(--fg);color:var(--bg);border-radius:var(--r-field);padding:10px 14px;font-size:14px;opacity:0;transition:opacity var(--dur) var(--ease);pointer-events:none}
-.toast.show{opacity:1}
+/* Rommal b) Prøv selv: telefonen i midten, sidepanel til høyre. iPad-visningen tar hele bredden. */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.scene{display:grid;gap:12px;min-width:0}
+.scene .tabs{justify-self:start}
+.enhet[data-enhet="tlf"] .tlf{margin:0 auto}
 /* Sidepanel: «Prøv dette» og «Samtidig i Hengsel» */
-.side{grid-column:3;display:grid;gap:16px;align-content:start;min-width:0}
+.side{display:grid;gap:16px;align-content:start;min-width:0}
 .panel{display:grid;gap:12px;align-content:start}
 .panel h2{margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .panel h2 .hlogo{text-transform:none;letter-spacing:-.01em;padding-top:0}
 .panel>.btn{justify-self:start}
 .guide{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.guide li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5}
+.guide li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5;cursor:pointer;border-radius:var(--r-sm)}
+.guide li:hover{color:var(--accent-tekst)}
 .guide li span{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--sand);display:grid;place-items:center;font:600 12px/1 var(--sans);color:var(--muted);transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease)}
 .guide li.d{color:var(--muted)}
 .guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card);font-size:0}
@@ -98,22 +40,8 @@ canvas{width:100%;height:150px;background:var(--card);border:1px solid var(--lin
 .log time{font-size:12px;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
 .log b{font-weight:600}
 .log em{font-style:normal;color:var(--accent-tekst);font-weight:500}
-@media (max-width:1060px){
-  .stage{grid-template-columns:390px minmax(0,1fr)}
-  .phone{grid-column:1}.side{grid-column:2}
-}
-@media (max-width:860px){
-  .stage{grid-template-columns:minmax(0,1fr)}
-  .phone,.side{grid-column:auto}
-}
-@media (max-width:640px){
-  .wrap{padding-inline:16px}
-  /* På mobil faller telefonrammen bort: skjermen blir et kort i full bredde */
-  .phone{width:100%}
-  .screen{height:760px}
-  .sb{padding:0 22px}
-  .view{padding-inline:16px}
-}
+@media (max-width:980px){.stage{grid-template-columns:minmax(0,1fr)}.side{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start}}
+@media (max-width:640px){.wrap{padding-inline:16px}}
 </style>
 </head>
 <body>
@@ -125,13 +53,14 @@ canvas{width:100%;height:150px;background:var(--card);border:1px solid var(--lin
     <p class="lede">Trykk deg gjennom jobben som montøren. Til høyre ser du hva som skjer i CRM samtidig, og hvem som får beskjed.</p>
   </header>
   <div class="stage">
-    <div class="phone tlf" aria-label="Montørappen">
-      <div class="screen skjerm">
-        <div class="sb" aria-hidden="true"><span>07.42</span><svg width="44" height="12" viewBox="0 0 44 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.5 10.5v-1.5M5.5 10.5V7.5M9.5 10.5V5M13.5 10.5V2.5"/><rect x="20" y="1.75" width="20" height="8.5" rx="2.5"/><path d="M42.5 4.75v2.5"/><rect x="22.5" y="4.25" width="12" height="3.5" rx="1" fill="currentColor" stroke="none"/></svg></div>
-        <div class="view" id="v"></div>
-        <nav class="tabbar" id="tabs" aria-label="Montørappen"></nav>
-        <div class="toast" id="toast" role="status"></div>
-      </div><span class="hjem" aria-hidden="true"></span>
+    <div class="scene">
+      <div class="tabs" id="enhet" role="group" aria-label="Enhet"><button type="button" data-e="tlf" class="on" aria-pressed="true">Telefon</button><button type="button" data-e="ipad" aria-pressed="false">iPad</button></div>
+      <div class="enhet" data-enhet="tlf">
+        <div class="tlf" id="tlf" data-bilder="ute-i-dag,ute-jobb-under,ute-ks,ute-ks-kamera,ute-avvik,ute-punkter,ute-punktkort,ute-ferdig,ute-typeskilt" data-sb="07.42" data-alt="Hengsel Ute på telefon"><div class="skjerm"></div><span class="hjem" aria-hidden="true"></span></div>
+      </div>
+      <div class="enhet" data-enhet="ipad" hidden>
+        <div class="ipad-ramme" id="ipad" data-bilder="ute-ipad-i-dag,ute-ipad-ks,ute-ipad-staaende" data-alt="Hengsel Ute på iPad"><div class="skjerm"></div></div>
+      </div>
     </div>
     <aside class="side">
       <section class="card panel">
@@ -150,9 +79,9 @@ canvas{width:100%;height:150px;background:var(--card);border:1px solid var(--lin
       </section>
     </aside>
   </div>
-  <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data. Skjermbildene er fra designfilene. Skrifter: Newsreader og Inter.</p>
 </div>
-
+<script src="/assets/bilder.js"></script>
 <script src="/montor/side.js"></script>
 </body>
 </html>
