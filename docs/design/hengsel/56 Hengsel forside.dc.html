@@ -284,7 +284,7 @@
           <span class="eyebrow">Be om demo</span>
           <h2 style="font-size:var(--t-h1); line-height:1.08">Se løsningen med deres egne kjøkken.</h2>
           <p class="lede">Vi går gjennom en ordre som ligner deres, fra befaring til faktura. Det tar rundt en time, på Teams eller i butikken.</p>
-          <p style="color:var(--muted)">Eller send en e-post til <a href="mailto:hei@hengsel.no" style="font-weight:650; color:var(--ink)">hei@hengsel.no</a></p>
+          <p style="color:var(--muted)">Eller ta kontakt på <a href="mailto:hei@hengsel.no" style="font-weight:650; color:var(--ink)">hei@hengsel.no</a> eller <a href="tel:+4745410001" style="font-weight:650; color:var(--ink); white-space:nowrap">+47 454 10 001</a></p>
           <dc-import name="Plantegning Entre" style="width:100%; max-width:440px; margin-top:8px" hint-size="100%,360px"></dc-import>
         </div>
         <form onSubmit="{{ submit }}" noValidate="{{ true }}" class="card" style="display:grid; gap:14px; padding:clamp(20px,3vw,32px); border-radius:20px; min-width:0; align-self:start">
@@ -302,7 +302,7 @@
     </section>
   </main>
 
-  <dc-import name="Bunn" hjem="" demo="{{ true }}" epost="hei@hengsel.no" hint-size="100%,180px"></dc-import>
+  <dc-import name="Bunn" hjem="" demo="{{ true }}" epost="hei@hengsel.no" tlf="+47 454 10 001" hint-size="100%,180px"></dc-import>
 
   <sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
     <div role="dialog" aria-label="Forstørret skjermbilde" onClick="{{ closeLb }}" style="position:fixed; inset:0; z-index:80; background:#1B1713; display:grid; place-items:center; padding:clamp(12px,3vw,40px); cursor:zoom-out">
