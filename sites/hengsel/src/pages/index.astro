@@ -90,11 +90,11 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
               <h3 class="h2">{t}</h3>
               <p class="dempet stor">{s}</p>
               <div class="knapper tett">
-                <button type="button" class="btn" data-forrige aria-label="Forrige steg">← Forrige</button>
-                <button type="button" class="btn" data-neste aria-label="Neste steg">Neste →</button>
+                <button type="button" class="btn" data-forrige aria-label="Forrige steg" disabled={i === 0}>← Forrige</button>
+                <button type="button" class="btn primary" data-neste aria-label="Neste steg" disabled={i === STEG.length - 1}>Neste →</button>
               </div>
             </div>
-            <Enhet bilde={bilde} type={type} alt={alt} ratio={type === "phone" ? 1.4 : 0.8} />
+            <Enhet bilde={bilde} type={type} alt={alt} ratio={type === "phone" ? 1.1 : 0.8} />
           </div>
         ))}
       </div>
@@ -368,8 +368,8 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
   @media (min-width: 860px) {
     .tre { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .to { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .steg.phone { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
-    .steg.pc { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+    /* Samme kolonnedeling og fast minste høyde uansett om steget viser telefon eller PC, så siden ikke flytter seg */
+    .steg { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: 720px; }
     .kontor { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
     .ute-hode { flex-direction: row; }
     .rad { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
