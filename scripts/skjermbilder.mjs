@@ -6,7 +6,7 @@
  *    og byggem.no (/, /prosjekter, /kontakt, /personvern og 404) til docs/skjermbilder/ (filene starter med «hengsel-» og «byggem-»).
  *  - Alle sider på alle nettsteder: ingen vannrett rulling ved 360 px, ingen konsollfeil (CSP fra _headers gjelder).
  *  - Plantegningen: et klikk på et rom bytter tekst og åpner riktig rad.
- *  - hengsel.no: fanene bytter skjermbilde, «Se løsningen» huskes i localStorage («crm-tour»), og ingenting annet lagres.
+ *  - hengsel.no: fanene (sju steg, for kontoret) bytter skjermbilde, lysboksen åpner og lukker, og ingenting lagres.
  *  - Hvilke skrifter som faktisk lastes.
  *
  * Kjør etter `npm run build`: npm run skjermbilder
@@ -153,24 +153,22 @@ for (const [navn, { base }] of Object.entries(servere)) {
   const page = await ctx.newPage();
   await page.goto(servere.hengsel.base + "/", { waitUntil: "networkidle" });
   const src = (id) => page.$eval(`#${id} img`, (i) => i.getAttribute("src"));
-  // Forsiden fra Claude Design (PR #4, 08.10) har ikke lenger fanene, områdene og kundereisen. Sjekkene kjøres bare
-  // hvis de finnes; ellers sjekkes at forsiden ikke lagrer noe.
-  if (!(await page.$("[data-hero-faner]"))) {
-    console.log("hengsel: forsiden har ikke fanene (data-hero-faner) lenger, hopper over fanesjekkene");
-    const lagret = await page.evaluate(() => Object.keys(localStorage));
-    meld(lagret.length === 0 && (await ctx.cookies()).length === 0, `hengsel: ingenting i localStorage, ingen informasjonskapsler (${lagret.join(", ")})`);
-  } else {
-  await page.click("[data-hero-faner] button:nth-child(2)");
-  meld((await src("hero-enhet")) === "/img/ipad-min-dag.webp", "hengsel: heroen bytter til iPad");
-  await page.click('[data-omrader] button[data-omrade="Leveranse"]');
-  meld((await src("tur-enhet")) === "/img/ordre-og-montasje.webp", "hengsel: «Se løsningen» bytter område");
-  await page.reload({ waitUntil: "networkidle" });
-  meld((await page.getAttribute('[data-omrader] button[data-omrade="Leveranse"]', "aria-selected")) === "true", "hengsel: området huskes (crm-tour)");
+  // Forsiden etter fil 56 (10.10): sju steg og «for kontoret» er pillefaner (scripts/faner.ts), skjermbildene åpnes i
+  // lysboksen (scripts/lysboks.ts), og ingenting lagres.
+  const synlig = (id) => page.$eval(`#${id}`, (el) => !el.hidden);
+  meld((await synlig("steg-1")) && !(await synlig("steg-2")), "hengsel: sju steg viser steg 1 først");
+  await page.click("#steg-fane-2");
+  meld((await synlig("steg-2")) && (await src("steg-2")) === "/img/tilbudet.webp", "hengsel: steg 2 viser Tilbud på PC (tilbudet.webp)");
+  await page.click("#steg-2 [data-neste]");
+  meld((await synlig("steg-3")) && (await page.getAttribute("#steg-fane-3", "aria-selected")) === "true", "hengsel: Neste går til steg 3");
+  await page.click("#kontor-fane-2");
+  meld((await synlig("kontor-2")) && (await src("kontor-2")) === "/img/montasje.webp", "hengsel: «For kontoret» bytter til Montasjeplan (montasje.webp)");
+  await page.click("#kontor-2 [data-zoom]");
+  meld(await page.$eval("[data-lysboks]", (d) => d.open && d.querySelector("img").getAttribute("src") === "/img/montasje.webp"), "hengsel: lysboksen åpner skjermbildet i full størrelse");
+  await page.keyboard.press("Escape");
+  meld(!(await page.$eval("[data-lysboks]", (d) => d.open)), "hengsel: Esc lukker lysboksen");
   const lagret = await page.evaluate(() => Object.keys(localStorage));
-  meld(lagret.join() === "crm-tour" && (await ctx.cookies()).length === 0, `hengsel: bare crm-tour i localStorage, ingen informasjonskapsler (${lagret.join(", ")})`);
-  await page.click("[data-steg-neste]");
-  meld((await page.textContent("[data-steg-nr]")).startsWith("Steg 2 av 11"), "hengsel: kundereisen går til steg 2");
-  }
+  meld(lagret.length === 0 && (await ctx.cookies()).length === 0, `hengsel: ingenting i localStorage, ingen informasjonskapsler (${lagret.join(", ")})`);
   const skrifter = await page.evaluate(async () => {
     await document.fonts.ready;
     return [...document.fonts].filter((f) => f.status === "loaded").map((f) => `${f.family} ${f.style} ${f.weight}`);

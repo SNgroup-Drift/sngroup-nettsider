@@ -1,18 +1,22 @@
 /*
-  hengsel.no – skrift og grunnstil. Fasit: <helmet> i docs/design/hengsel/54 Hengsel forside.dc.html (10.10.2026).
-  Profil: Off White side, Warm Black tekst, Deep Blue bare på primærknapper og lenker, 1 px Beige 2-linjer,
-  Reckless i titler, Lausanne 350/650 ellers, 17 px / 1,6, kvadratiske hjørner, ingen skygger.
+  hengsel.no – skrift, designsystemets navn og grunnklasser.
+  Fasit: docs/design/hengsel/_ds/…/tokens/*.css (Hengsel designsystem v1.0) og <helmet> i «56 Hengsel forside.dc.html»
+  (10.10.2026). Form som i fil 51: kort med radius 14 og 1 px Beige 2-ramme, pilleknapper (primær Deep Blue, sekundær
+  omriss), eyebrow i versaler, Reckless i titler, TWK Lausanne 350/650 ellers, 17 px / 1,6.
+
+  Designsystemets variabler (--bg, --ink, --muted …) peker på familiens variabler i tokens.css, så lys og mørk modus
+  styres ett sted. Avvik: --soft er #6E6355 i stedet for #8A7F72 (tekst trenger 4,5:1, se tokens.css).
 */
-@font-face { font-family: "Reckless"; src: url("/fonts/RecklessStandardM-Regular.woff2") format("woff2"); font-weight: 300 500; font-display: swap; }
-@font-face { font-family: "Lausanne"; src: url("/fonts/TWKLausanne-350.woff2") format("woff2"); font-weight: 300 549; font-display: swap; }
-@font-face { font-family: "Lausanne"; src: url("/fonts/TWKLausanne-650.woff2") format("woff2"); font-weight: 550 800; font-display: swap; }
+@font-face { font-family: "Reckless Standard M"; src: url("/fonts/RecklessStandardM-Regular.woff2") format("woff2"); font-weight: 300 500; font-display: swap; }
+@font-face { font-family: "TWK Lausanne"; src: url("/fonts/TWKLausanne-350.woff2") format("woff2"); font-weight: 300 549; font-display: swap; }
+@font-face { font-family: "TWK Lausanne"; src: url("/fonts/TWKLausanne-650.woff2") format("woff2"); font-weight: 550 800; font-display: swap; }
 
 :root {
-  /* Alias som /apptest og passordsiden bruker (uendret) */
   --bg: var(--bakgrunn);
   --surface: var(--kort);
   --surface-soft: var(--flate-myk);
   --surface-highlight: var(--flate);
+  --surface-highlight-strong: var(--flate-sterk);
   --line: var(--linje);
   --ink: var(--tekst);
   --muted: var(--tekst-dempet);
@@ -21,45 +25,80 @@
   --accent-ink: var(--pa-aksent);
   --accent-soft: var(--aksent-myk);
   --bad: var(--feil);
+  --bad-soft: var(--feil-myk);
+  --shadow: var(--skygge);
 
   --f-display: var(--font-overskrift);
   --f-body: var(--font-tekst);
+  --w-body: 350;
+  --w-strong: 650;
+  --t-eyebrow: 0.82rem;
+  --r-sm: 8px; --r-field: 10px; --r: 14px; --r-lg: 20px; --r-pill: 999px;
   --wrap: 1180px;
   --pad: clamp(16px, 4vw, 40px);
-  --topp: 68px;
+  --topp: 64px;
 }
 
-html { scroll-padding-top: var(--topp); }
+html { scroll-padding-top: calc(var(--topp) + 8px); }
 [hidden] { display: none !important; }
-body { font-size: 17px; line-height: 1.6; font-weight: 350; }
-h1, h2, h3, p, ul, ol, figure { margin: 0; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.01em; text-wrap: pretty; }
-b, strong { font-weight: 650; }
-a { color: var(--deep-blue); text-decoration: none; }
-a:hover { color: var(--warm-black); }
+body { font-size: 1.0625rem; line-height: 1.6; font-weight: var(--w-body); }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.015em; text-wrap: balance; margin: 0; }
+h1 { font-size: var(--t-hero); line-height: 1.02; }
+h2 { font-size: var(--t-h1); line-height: 1.08; }
+h3 { font-size: var(--t-h3); line-height: 1.2; }
+p { margin: 0; text-wrap: pretty; }
+b, strong { font-weight: var(--w-strong); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
 input, button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--deep-blue); outline-offset: 3px; }
+:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); border-radius: var(--r-sm); }
 
-/* Innhold: 1180 px med luft på sidene */
-.h-innhold { max-width: calc(var(--wrap) + 2 * var(--pad)); margin: 0 auto; padding-inline: var(--pad); box-sizing: border-box; }
-.eyebrow { font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; }
-.lede { font-size: 1.12rem; color: var(--muted); max-width: 62ch; }
+.eyebrow { font: 500 var(--t-eyebrow)/1.3 var(--f-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: var(--t-lede); color: var(--muted); max-width: 62ch; margin: 0; }
 
-/* Knapper: primær i Deep Blue (hover 88 %), omriss i Warm Black (hover fylles) */
-.knapp {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; box-sizing: border-box;
-  background: var(--deep-blue); color: var(--off-white); border: 1px solid var(--deep-blue); border-radius: 0; cursor: pointer;
-  text-decoration: none; white-space: nowrap; transition: opacity var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+/* Knapper: pille, minst 44 px. Primær Deep Blue (hover 88 %), sekundær omriss i Warm Black (hover fylles) */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 22px;
+  border-radius: var(--r-pill); border: 1px solid var(--ink); background: transparent; color: var(--ink);
+  font: 500 1rem var(--f-body); cursor: pointer; text-decoration: none; box-sizing: border-box; white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
-.knapp:hover { opacity: 0.88; color: var(--off-white); }
-.knapp.omriss { background: transparent; color: var(--warm-black); border-color: var(--warm-black); }
-.knapp.omriss:hover { background: var(--warm-black); color: var(--off-white); opacity: 1; }
-.knapp:disabled { opacity: 0.45; cursor: not-allowed; }
-.knapp:disabled:hover { opacity: 0.45; }
+.btn:hover { background: var(--ink); color: var(--bg); text-decoration: none; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { background: var(--accent); color: var(--accent-ink); opacity: 0.88; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:disabled:hover { background: transparent; color: var(--ink); }
+.btn.primary:disabled:hover { background: var(--accent); color: var(--accent-ink); }
 
-/* Felt */
+/* Kort: Off White på Beige 3 og Beige 4, 1 px Beige 2-ramme, radius 14 */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; }
+
+/* Pillefaner (sju steg, for kontoret): valgt fane er fylt Warm Black */
+.tab {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: var(--r-pill);
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: var(--w-body) 0.95rem var(--f-body);
+  cursor: pointer; box-sizing: border-box; transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.tab:hover { border-color: var(--ink); }
+.tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.tab .nr { font-variant-numeric: tabular-nums; color: var(--soft); margin-right: 8px; } /* dempet tall, 4,5:1 (fil 56: 60 % opasitet) */
+.tab[aria-selected="true"] .nr { color: inherit; opacity: 0.75; }
+
+/* Skjema */
+.field { display: grid; gap: 6px; }
+.field label { font: 500 0.9rem var(--f-body); }
 .input {
-  min-height: 48px; padding: 0 14px; border: 1px solid var(--beige-1); border-radius: 0; background: var(--off-white);
-  color: var(--warm-black); font-size: 17px; width: 100%; box-sizing: border-box;
+  min-height: 44px; padding: 0 14px; border-radius: var(--r-field); border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font: inherit; box-sizing: border-box; width: 100%;
 }
-.input:focus { outline: none; border-color: var(--deep-blue); box-shadow: 0 0 0 3px rgb(80 116 169 / 0.2); }
+.input::placeholder { color: var(--soft); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* Seksjoner: innhold 1180 px med luft på sidene. Båndene veksler mellom sideflaten (Beige 4) og Beige 3. */
+.h-innhold { max-width: calc(var(--wrap) + 2 * var(--pad)); margin: 0 auto; padding-inline: var(--pad); box-sizing: border-box; }
+.h-flate { background: var(--surface-highlight); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active:not(:disabled) { transform: none; }
+}

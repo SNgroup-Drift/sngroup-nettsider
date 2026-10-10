@@ -2,11 +2,20 @@
 
 Filer: `Forside.dc.html`, `Personvern.dc.html`, `404.dc.html`. Felles deler: `Sidehode`, `Bunn` (familiebånd + bunntekst), `Plantegning Entre`, `Enhet` (telefon-, iPad- og PC-ramme). `Oversikt.dc.html` viser alle sider i PC 1440 og mobil 390, lys og mørk (`?tema=lys|mork`).
 
+## 56 Hengsel forside (10.10) – erstatter 54
+Fil 51 sin form (designsystemets kort, pilleknapper, enhetsrammer, plantegning Entré, SN Group-bånd, Off White/Beige 3-veksling) med alt innholdet fra 51 og 54, pluss interaktivitet.
+- Farger: sideflaten er Beige 4 #F8F2EC i stedet for Off White (mykere); kort er Off White, bånd Beige 3. Ellers som designsystemet.
+- Rekkefølge: hero (ny tittel, Min dag på PC) → tre løfter → slik henger det sammen → **sju steg som faner** (velg steg, bytt skjerm, forrige/neste) → moduler (11) → Hengsel Ute (åtte grep, iPad, utkjører/firmaleder) → **for kontoret som faner** (ledertavle, montasjeplan, bestilling, økonomi) → kundeportalen (telefon + fire punkter) → integrasjoner og trygghet → priser → om → be om demo (skjema + plantegning) → SN Group-bånd og bunn.
+- Meny: Produkt · Hengsel Ute · Priser · Om · Logg inn + Be om demo (i Sidehode).
+- Alle skjermbilder kan forstørres (klikk). E-post hei@hengsel.no.
+- TODO: innloggings-URL, TestFlight/Play-lenker (stiplede plassholdere), telefonnummer, personverntekst.
+
 ## 54 Hengsel forside og 55 Hengsel apptest (10.10) – ny struktur, erstatter 51–53
 Bygget etter strukturforslaget 10.10. Sigdal-profilen: Off White side, Warm Black tekst, Deep Blue eneste aksent, Reckless i titler, Lausanne ellers, kvadratiske hjørner, ingen skygger, 1 px Beige 2-linjer. Familiegrepene (plantegning, SN Group-bånd) er tatt ut. Ingen designsystem-komponenter, bare egne elementer.
 - Forside, 12 deler: topp (logo -lys, meny Produkt · Hengsel Ute · Priser · Om · Logg inn, «Be om demo»), hero med CRM-PC + ute-i-dag, tre løfter, tidslinje med sju steg (med skjermutsnitt), Hengsel Ute på Warm Black med 11 bilder, for kontoret (leder.webp), kundeportalen (kundeportalen.webp), integrasjoner og trygghet, priser («Pris etter antall butikker og brukere. Be om tilbud.»), om, be om demo (skjema → mailto hei@hengsel.no), bunn.
 - /apptest: noindex, ikke lenket fra forsiden, menyen eller bunnen. Feil meldes til test@hengsel.no. Tre bokser: TestFlight, Google Play, APK (lenke lagt inn, versionCode 21). «Slik melder du feil» og «Hva er nytt i 1.6.0».
 - TODO i koden: TestFlight-lenke, Play-lenke, innloggings-URL (står som app.hengsel.no), telefonnummer i bunnen, versjonsnotater 1.6.0, personverntekst.
+- Hero-bildet finnes nå i tre bredder: `min-dag-800.webp`, `min-dag-1440.webp` og `min-dag.webp` (2876). Bruk `srcset` med `sizes="(max-width: 760px) 100vw, min(1180px, 100vw)"`, `fetchpriority="high"` og `width`/`height` satt, som i fil 54.
 - Fil 51–53 ligger igjen som arkiv.
 
 ## Ny logo (10.10)
