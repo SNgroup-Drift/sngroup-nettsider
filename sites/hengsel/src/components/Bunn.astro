@@ -1,12 +1,14 @@
 ---
 /**
  * Bunnen på hengsel.no: SN Group-båndet og bunnteksten. Fasit: docs/design/hengsel/Bunn.dc.html (10.10.2026).
- * demo = linjen om demodata (bare på forsiden, der skjermbildene vises). epost = adressen i bunnteksten (hei@hengsel.no på forsiden).
+ * demo = linjen om demodata (bare på forsiden, der skjermbildene vises). epost = adressen i bunnteksten (hei@hengsel.no),
+ * tlf = telefonnummeret etter e-posten (vises bare når det er satt).
  */
 import { selskap } from "../content/selskap";
 
-interface Props { demo?: boolean; forside?: boolean; epost?: string }
-const { demo = false, forside = false, epost = selskap.epost } = Astro.props;
+interface Props { demo?: boolean; forside?: boolean; epost?: string; tlf?: string }
+const { demo = false, forside = false, epost = selskap.epost, tlf } = Astro.props;
+const tlfHref = tlf ? `tel:${tlf.replace(/\s/g, "")}` : undefined;
 ---
 <aside class="baand" aria-label="SN Group" data-familiegrep="familiebaand">
   <div class="h-innhold rad">
@@ -30,7 +32,7 @@ const { demo = false, forside = false, epost = selskap.epost } = Astro.props;
 </aside>
 <footer class="bunn">
   <div class="h-innhold rad">
-    <span>Hengsel · {selskap.navn} · org.nr. {selskap.orgnr} · <a href={`mailto:${epost}`}>{epost}</a></span>
+    <span>Hengsel · {selskap.navn} · org.nr. {selskap.orgnr} · <a href={`mailto:${epost}`}>{epost}</a>{tlf && <> · <a href={tlfHref} class="tlf">{tlf}</a></>}</span>
     {demo && <span>Skjermbildene viser demodata. Navn og tall er ikke ekte.</span>}
     <span class="lenker"><a href="/personvern">Personvern</a><span aria-hidden="true">·</span>{forside ? <a href="#hjem">Til toppen</a> : <a href="/">Til forsiden</a>}</span>
   </div>
@@ -56,4 +58,5 @@ const { demo = false, forside = false, epost = selskap.epost } = Astro.props;
   .bunn .rad { padding-block: 32px 40px; display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; }
   .bunn a { color: inherit; }
   .lenker { display: flex; gap: 8px; }
+  .tlf { white-space: nowrap; }
 </style>

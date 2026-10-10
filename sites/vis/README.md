@@ -1,5 +1,26 @@
 # Visningsrommet i Hengsel-profilen – instruks til Code
 
+## Regel for skjermbilder (10.10.2026)
+
+Alle skjermbilder av løsningen på vis.hengsel.no kommer fra **designfilene i CRM_v4** (`docs/design/**/*.dc.html` på demo), aldri fra kjørende demo eller tegnet UI i rammene. Visningsrommet viser hvordan løsningen blir, ikke hvordan den er nå. Filene er webp i 2× oppløsning uten enhetsramme (bare skjerminnholdet) og ligger i `sites/vis/src/skjermbilder/` (vis har ingen `public/`; `bygg.mjs` kopierer `src/` til `dist/`). `assets/bilder.js` legger dem i rammene fra `assets/enhet.css`: Studio Display (1180 × 740, høyere bilder kan rulles i skjermen), iPad liggende 1180 × 820 (stående 820 × 1180 snus automatisk), iPhone 390 × 844, alle med `object-fit: cover; object-position: top`. Aldri PC-bildet i iPad- eller telefonrammen. Rom med flere enheter har velgeren PC · iPad · Telefon; «Prøv dette»-stegene viser skjermen for steget og skriver loggen «Samtidig i Hengsel». Tekster, steg og logg er som før.
+
+### Bilde-til-rom-kart (endelig, siste pakker 10.10: crm-sju-vis.zip og ute-vis.zip)
+
+| Rom | Studio Display | iPad | iPhone |
+|---|---|---|---|
+| Prøv CRM | `crm-min-dag` → `crm-bestilling` → `crm-tilbud-liste` → `crm-tilbud-kunde` → `crm-montasje` (steg 1 / 2 / 3 / 4 = bilde 1 / 2 / 4 / 5) | `crm-min-dag-800` → `crm-ipad-tilbud` → `crm-ipad-ordre` | `crm-tlf-ordre` |
+| Firmaleder | `crm-resultater` → `crm-salgstavla` → `crm-montasje` → `crm-saker` → `crm-moduler` (steg 1 = bilde 1, 2 = 4, 3 og 4 = 3) | `crm-ipad-min-dag`, `crm-ipad-montasje` | `crm-tlf-min-dag`, `crm-tlf-kundekort` |
+| Montørappen (Hengsel Ute) | – | `ute-ipad-i-dag`, `ute-ipad-ks`, `ute-ipad-staaende` | `ute-i-dag` → `ute-jobb-under` → `ute-ks` → `ute-ks-kamera` → `ute-avvik` → `ute-punkter` → `ute-punktkort` → `ute-ferdig` → `ute-typeskilt` (steg: 2, 3, 5, 8) |
+| Tegningen | `crm-mal-skisser` (steg 4) | `ute-ipad-bildeverktoy` (steg 3) | `ute-laser` (steg 1, 2, 5) |
+| Kundens Min side | PC-bryter: `portal-mitt-kjokken` → `portal-oppgraderinger` → `portal-status` → `portal-nytt-kjokken` | – | Mobil-bryter: `portal-tlf-nytt-kjokken` → `portal-tlf-levering` → `portal-tlf-montering` → `portal-tlf-mine-kjop`; steg n viser bilde n i begge |
+| Kundens reise | – | – | steg 1–2 `portal-tlf-nytt-kjokken`, 3–5 `portal-tlf-levering`, 6 `portal-tlf-montering`, 7–8 `portal-tlf-mine-kjop`; varselet glir inn oppå |
+| Ordrens reise («Selgeren ser», alle på PC) | scene 1 `crm-tilbud-liste`, 2–3 `crm-tilbud-kunde`, 4–6 `crm-ordre-kontrollmal`, 7 `crm-montasje`, 8 `crm-etterkalkyle` | – | – |
+| Romkort på forsiden | første bilde i rommets liste, 16:10 øverst til venstre: Prøv CRM `crm-min-dag`, Firmaleder `crm-resultater`, Ordrens reise `crm-tilbud-liste`; telefonbilder (Kundens reise, Montørappen, Tegningen) 58 % brede, toppjustert | | |
+
+- `ute-*`-bildene kommer fra `ute-vis.zip` (10.10, fra designfilene, uten merkenavn): iPhone 780 × 1688 (390 × 844 i 2×) og `ute-ipad-bildeverktoy` 2360 × 1640 (1180 × 820). De har egen statuslinje (09.41), dynamic island og hjemindikator, så rammene (`.tlf.hel`, iPad) legger ikke på noen: telefonrammen gir plass til hele 390 × 844-skjermen. CRM-bildene fra `crm-sju-vis.zip` (1440 bred, 2×): `crm-min-dag`, `crm-bestilling`, `crm-montasje`, `crm-etterkalkyle`, `crm-salgstavla`, `crm-saker`, `crm-resultater` (2880 × 1800) og `crm-min-dag-800` (Min dag i iPad-ramme; den tegnede kanten på 24 px er beskåret bort, 2360 × 1640, brukt som første iPad-bilde i Prøv CRM). `crm-leder-oversikt` og `crm-leder-start` er slettet (erstattet av `crm-resultater` og `crm-salgstavla`).
+- Rom uten CRM_v4-skjermbilde (Systemkartet, Veikart, Gevinstkalkulator, Leverandørløsningen, Opplæring, /sv/, og foreløpig Prøv som leverandør, Ordre- og fakturakontroll, Montasjeplan, Prosjektsalg, Hvitevarer og Daglig leder) bruker bilde av rommet selv på romkortet (`src/img/rom-*.webp`, lages av `npm run skjermbilder:vis`). De seks siste får CRM_v4-bilder når skjermene er eksportert.
+- Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). Alle CRM-bildene har Hengsel-logoen i sidemenyen. Navnene sier hva bildet viser. Den siste bildepakken 10.10 (Hengsel.no.zip, `img/vis`) er lagt inn slik: `crm-mal-skisser` ← `mal-skisser`, `crm-tilbud-liste` ← `tilbud-liste` (tilbudslista), `crm-ipad-min-dag` ← `ipad-min-dag`, `crm-ipad-montasje` ← `ipad-montasje`, `crm-ipad-tilbud` ← `ipad-tilbud`, `crm-ipad-ordre` ← `ipad-ordre`, `crm-tlf-min-dag` ← `tlf-min-dag`, `crm-tlf-kundekort` ← `tlf-kundekort`, `crm-tlf-ordre` ← `tlf-ordre`. Mål: PC 2876 × 1796 (2×), iPad 1180 × 820 (1×), telefon 780 × 1600 (2×).
+
 ## Avvik funnet 10.10.2026 (skjermbilder av vis.hengsel.no) – rett disse først
 
 **Må rettes**

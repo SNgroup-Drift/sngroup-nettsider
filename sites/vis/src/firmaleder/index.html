@@ -16,51 +16,12 @@
 <link rel="stylesheet" href="/assets/enhet.css">
 <style>
 .wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
-/* Rommal b) Prøv selv, tilpasset nettbrett: iPad til venstre, sidepanel til høyre */
+/* Rommal b) Prøv selv, tilpasset Studio Display/iPad: skjermen til venstre, sidepanel til høyre */
 .stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
-.ipad{min-width:0;display:grid}
-.scr{background:var(--bg);color:var(--fg);display:grid;grid-template-columns:184px minmax(0,1fr);overflow:auto;min-height:0}
-.menu{background:var(--bg);border-right:1px solid var(--line);padding:22px 10px 20px;display:grid;align-content:start;gap:4px}
-.menu .b{padding:0 10px 18px;line-height:1}
-.menu .b .hlogo{font-size:18px}
-.menu button{border:0;background:none;text-align:left;font:400 15px var(--sans);color:var(--fg);padding:9px 12px;border-radius:var(--r-field);cursor:pointer;display:flex;justify-content:space-between;gap:8px;min-height:44px;align-items:center;transition:background var(--dur) var(--ease)}
-.menu button:hover{background:var(--soft)}
-.menu button.on{background:var(--line);font-weight:600}
-.badge{font:500 13px/1.4 var(--sans);background:var(--warn-soft);color:var(--warn);border-radius:var(--r-pill);padding:1px 8px;font-variant-numeric:tabular-nums}
-.pane{padding:22px 24px;display:grid;gap:12px;align-content:start;min-width:0;font-size:15px;line-height:1.5}
-.pane h2{font:400 1.75rem/1.15 var(--serif);letter-spacing:-.015em;margin:0}
-.req{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:8px;min-width:0}
-#rq{cursor:pointer;transition:background var(--dur) var(--ease)}
-#rq:hover{background:var(--soft)}
-.req.sel{box-shadow:inset 3px 0 0 var(--accent)}
-.req .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
-.req b{font-weight:600}
-.req p{margin:0;font-size:14px;color:var(--muted)}
-.cd{font:500 13px/1.4 var(--sans);color:var(--warn);background:var(--warn-soft);border-radius:var(--r-pill);padding:3px 10px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.row{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:2px 0}
-.row span:first-child{color:var(--muted)}
-.row span:last-child{text-align:right}
-.acts{display:flex;gap:8px;flex-wrap:wrap}
-.big{min-height:48px;padding:0 22px}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chips button{border:1px solid var(--fg);border-radius:var(--r-pill);background:transparent;font:500 14px var(--sans);padding:0 14px;cursor:pointer;color:var(--fg);min-height:40px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
-.chips button:hover{background:var(--soft)}
-.chips button.on{background:var(--fg);color:var(--bg)}
-.mt{display:grid;gap:8px}
-.m{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;border:1px solid var(--line);border-radius:var(--r-field);padding:10px 14px;background:var(--card);cursor:pointer;text-align:left;font:15px/1.4 var(--sans);color:var(--fg);transition:background var(--dur) var(--ease)}
-button.m:not(:disabled):hover{background:var(--soft)}
-.m:disabled{opacity:.5;cursor:not-allowed}
-.m b{font-weight:600}.m span{font-size:13px;color:var(--muted)}
-.m .pill{grid-row:1/span 2;grid-column:2;align-self:center}
-.m .pill:not(.ok)::before{display:none}
-
-.week{display:grid;grid-template-columns:110px repeat(5,minmax(0,1fr));gap:4px;font-size:13px;line-height:1.35}
-.week div{background:var(--soft);border-radius:var(--r-sm);padding:8px;min-height:52px}
-.week .h{background:none;min-height:0;font:600 13px var(--sans);color:var(--muted);padding:0 8px 2px}
-.week .n{background:none;font-weight:600;display:flex;align-items:center;padding-left:0}
-.week .j{background:var(--ok-soft);color:var(--ok-tekst);font-weight:500}
-.week .j.new{background:var(--accent-soft);color:var(--accent-tekst);box-shadow:inset 3px 0 0 var(--accent)}
-.week .j.w{background:var(--warn-soft);color:var(--warn);box-shadow:inset 3px 0 0 var(--warn)}
+.scene{display:grid;gap:12px;min-width:0}
+.scene .tabs{justify-self:start}
+.pc-ramme{width:100%}
+.enhet[data-enhet="tlf"] .tlf{margin:0 auto}
 /* Sidepanel: «Prøv dette» og «Samtidig i Hengsel» */
 .side{display:grid;gap:16px;align-content:start;min-width:0}
 .panel{display:grid;gap:12px;align-content:start}
@@ -68,7 +29,8 @@ button.m:not(:disabled):hover{background:var(--soft)}
 .panel h3 .hlogo{text-transform:none;letter-spacing:-.01em;padding-top:0}
 .panel>.btn{justify-self:start}
 .guide{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.guide li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5}
+.guide li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5;cursor:pointer;border-radius:var(--r-sm)}
+.guide li:hover{color:var(--accent-tekst)}
 .guide li span{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--sand);display:grid;place-items:center;font:600 12px/1 var(--sans);color:var(--muted);transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease)}
 .guide li.d{color:var(--muted)}
 .guide li.d span{background:var(--ok);border-color:var(--ok);color:var(--card);font-size:0}
@@ -78,18 +40,7 @@ button.m:not(:disabled):hover{background:var(--soft)}
 .log div:last-child{border-bottom:0;padding-bottom:0}
 .log b{font-weight:600}
 @media (max-width:980px){.stage{grid-template-columns:minmax(0,1fr)}.side{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start}}
-@media (max-width:760px){
-  .scr{grid-template-columns:minmax(0,1fr);min-height:0}
-  .menu{grid-template-columns:repeat(3,minmax(0,1fr));border-right:0;border-bottom:1px solid var(--line);padding:8px}
-  .menu .b{display:none}
-  .menu button{justify-content:center;gap:6px}
-  .pane{padding:18px 16px}
-  .week{grid-template-columns:76px repeat(5,minmax(88px,1fr));overflow-x:auto;padding-bottom:4px}
-}
-@media (max-width:640px){
-  .wrap{padding-inline:16px}
-  /* På mobil faller nettbrettrammen bort */
-}
+@media (max-width:640px){.wrap{padding-inline:16px}}
 </style>
 </head>
 <body>
@@ -101,10 +52,18 @@ button.m:not(:disabled):hover{background:var(--soft)}
     <p class="lede">Kjøkkenstudio Hamar sender en ny monteringsjobb. Du har 48 timer på å svare. Aksepter, velg montør og se uka for teamet.</p>
   </header>
   <div class="stage">
-    <div class="pc-ramme"><div class="skjermkant"><div class="ipad"><div class="scr">
-      <nav class="menu" id="menu"></nav>
-      <div class="pane" id="pane"></div>
-    </div></div></div><span class="stang" aria-hidden="true"></span><span class="fot" aria-hidden="true"></span></div>
+    <div class="scene">
+      <div class="tabs" id="enhet" role="group" aria-label="Enhet"><button type="button" data-e="pc" class="on" aria-pressed="true">PC</button><button type="button" data-e="ipad" aria-pressed="false">iPad</button><button type="button" data-e="tlf" aria-pressed="false">Telefon</button></div>
+      <div class="enhet" data-enhet="pc">
+        <div class="pc-ramme" id="pc" data-bilder="crm-resultater,crm-salgstavla,crm-montasje,crm-saker,crm-moduler" data-alt="Hengsel CRM på PC: leder, salg, montasje og belastninger"><div class="skjermkant"><div class="skjerm"></div></div><span class="stang" aria-hidden="true"></span><span class="fot" aria-hidden="true"></span></div>
+      </div>
+      <div class="enhet" data-enhet="ipad" hidden>
+        <div class="ipad-ramme" id="ipad" data-bilder="crm-ipad-min-dag,crm-ipad-montasje" data-alt="Hengsel CRM på iPad: Min dag og Montasje"><div class="skjerm"></div></div>
+      </div>
+      <div class="enhet" data-enhet="tlf" hidden>
+        <div class="tlf" id="tlf" data-bilder="crm-tlf-min-dag,crm-tlf-kundekort" data-alt="Hengsel CRM på telefon: Min dag og kundekort"><div class="skjerm"></div><span class="hjem" aria-hidden="true"></span></div>
+      </div>
+    </div>
     <aside class="side">
       <section class="card panel"><h3 class="eyebrow">Prøv dette</h3>
         <ol class="guide" id="guide"><li data-k="se"><span>1</span>Åpne den nye forespørselen</li><li data-k="svar"><span>2</span>Aksepter eller avvis med årsak</li><li data-k="mont"><span>3</span>Velg hvem som tar jobben</li><li data-k="uke"><span>4</span>Se teamets uke</li></ol>
@@ -113,9 +72,9 @@ button.m:not(:disabled):hover{background:var(--soft)}
       <section class="card panel"><h3 class="eyebrow">Samtidig i <!--hengsel-logo 24--></h3><div class="log" id="log" aria-live="polite"></div></section>
     </aside>
   </div>
-  <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
+  <p class="foot">Demoen er ikke koblet til ekte data. Skjermbildene er fra designfilene. Skrifter: Newsreader og Inter.</p>
 </div>
-<template id="hlogo"><!--hengsel-logo 28--></template>
+<script src="/assets/bilder.js"></script>
 <script src="/firmaleder/side.js"></script>
 </body>
 </html>

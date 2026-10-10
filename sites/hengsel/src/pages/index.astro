@@ -11,7 +11,7 @@
 import Side from "../layouts/Side.astro";
 import Enhet from "../components/Enhet.astro";
 import PlantegningEntre from "../components/PlantegningEntre.astro";
-import { EPOST, FLOW, GREP, INTEG, KONTOR, LOFTER, MODULER, PORTAL, STEG, TRYGG } from "../content/forside";
+import { EPOST, FLOW, GREP, INTEG, KONTOR, LOFTER, MODULER, PORTAL, STEG, TEL, TEL_HREF, TRYGG } from "../content/forside";
 
 const nr = (i: number) => String(i + 1).padStart(2, "0");
 ---
@@ -260,7 +260,7 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
           <span class="eyebrow">Be om demo</span>
           <h2>Se løsningen med deres egne kjøkken.</h2>
           <p class="lede">Vi går gjennom en ordre som ligner deres, fra befaring til faktura. Det tar rundt en time, på Teams eller i butikken.</p>
-          <p class="dempet">Eller send en e-post til <a href={`mailto:${EPOST}`} class="epost">{EPOST}</a></p>
+          <p class="dempet">Eller ta kontakt på <a href={`mailto:${EPOST}`} class="epost">{EPOST}</a> eller <a href={TEL_HREF} class="epost tlf">{TEL}</a></p>
           <div class="plan"><PlantegningEntre /></div>
         </div>
         <form class="card skjema" novalidate data-demo-skjema data-epost={EPOST}>
@@ -357,6 +357,7 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
 
   .kontakt-tekst { display: grid; gap: 18px; align-content: start; min-width: 0; }
   .epost { font-weight: 650; color: var(--ink); }
+  .tlf { white-space: nowrap; }
   .plan { width: 100%; max-width: 440px; margin-top: 8px; }
   .skjema { display: grid; gap: 14px; padding: clamp(20px, 3vw, 32px); border-radius: var(--r-lg); min-width: 0; align-self: start; }
   .par { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; }

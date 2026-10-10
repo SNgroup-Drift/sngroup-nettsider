@@ -1,7 +1,9 @@
 // hengsel.no – teksten på forsiden. Fasit: konstantene i docs/design/hengsel/56 Hengsel forside.dc.html (10.10.2026, kveld), ordrett.
 
 // Innloggingsadressen («Logg inn» i menyen) settes med miljøvariabelen LOGIN ved bygging, se astro.config.mjs. Tom = skjult.
-export const TEL = ""; // TODO: telefonnummer
+export const TEL = "+47 454 10 001";
+/** tel:-lenken: nummeret uten mellomrom */
+export const TEL_HREF = `tel:${TEL.replace(/\s/g, "")}`;
 export const EPOST = "hei@hengsel.no";
 
 /** Tre løfter: tittel, setning */
