@@ -4,21 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/hengsel-app-ikon-lys.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="icon" href="/hengsel-app-ikon-mork.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/logo/png/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/logo/png/apple-touch-icon-180.png">
+<meta name="theme-color" content="#5074A9">
 <title>Leverandørløsningen · Visningsrommet</title>
 <link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
 <style>
-html,body{height:100%}
-body{display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);min-height:100%;row-gap:16px}
+body{display:grid;grid-template-rows:auto auto auto;grid-template-columns:minmax(0,1fr);min-height:100vh;align-content:start;row-gap:16px}
 .topbar{width:100%}
-.deck{position:relative;max-width:1180px;width:100%;margin:0 auto;padding:0 24px;min-height:0;overflow:hidden}
-.slide{position:absolute;inset:0 24px;border-radius:var(--r-lg);padding:48px;overflow:auto;opacity:0;visibility:hidden;transition:opacity var(--dur) var(--ease),visibility 0s var(--dur);display:flex;flex-direction:column;gap:24px}
-.slide.on{opacity:1;visibility:visible;transition:opacity var(--dur) var(--ease)}
+.deck{position:relative;max-width:1180px;width:100%;margin:0 auto;padding:0 24px;min-height:0}
+/* Lysbildet får høyden fra innholdet (avvik 4, 10.10): bare det aktive vises, ingen absolutt posisjon */
+.slide{display:none;border-radius:var(--r-lg);padding:48px;flex-direction:column;gap:24px;min-height:0}
+.slide.on{display:flex}
+.deck:fullscreen{overflow:auto;background:var(--bg);padding-top:24px}
+.deck:fullscreen .slide.on{min-height:calc(100vh - 48px)}
 .prog{position:absolute;top:0;left:24px;right:24px;height:24px;border-radius:var(--r-lg) var(--r-lg) 0 0;overflow:hidden;pointer-events:none;z-index:2}
 .prog i{position:absolute;left:0;top:0;height:3px;width:0;background:var(--accent);transition:width var(--dur) var(--ease)}
 h1,h2{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.015em;text-wrap:balance}
@@ -92,7 +95,7 @@ tr:not(:first-child):hover{background:var(--soft)}
 </style>
 </head>
 <body>
-<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 20--></span><span class="pill nodot">Intern versjon · forslag 06.10</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 28--></span><span class="pill nodot">Intern versjon · forslag 06.10</span></div>
 
 <main class="deck" id="deck" aria-live="polite">
 <span class="prog" aria-hidden="true"><i id="prog"></i></span>

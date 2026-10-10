@@ -129,7 +129,7 @@ Samme toppfelt som forsiden, men språkvelger «Norsk · Svenska · English» i 
 
 ## 8. Hengsel-logoen
 
-Hengsel CRM-logoen skal nå også inn i det simulerte innholdet: CRM-noden i Ordrens reise, «Samtidig i Hengsel CRM», navet i Systemkartet, «Hengsel CRM» i /en/. «Studio Sigdal» står igjen bare som butikknavn i kundens Min side. Størrelser: toppfelt 26 px, topplinje i rom 18 px, i tekst 16 px, nav i systemkartet 28 px, bunn 20 px. Luft rundt = merkets høyde. Aldri strekk, farger eller effekter.
+Hengsel CRM-logoen skal nå også inn i det simulerte innholdet: CRM-noden i Ordrens reise, «Samtidig i Hengsel CRM», navet i Systemkartet, «Hengsel CRM» i /en/. Butikken heter «Kjøkkenstudio Hamar»; «Sigdal» står igjen bare som fabrikk/leverandør. Størrelser (logopakken 10.10, se «Oppdatert 10.10» øverst): toppfelt 40 px, topplinje i rom 28 px, i tekst 24 px, CRM-noden i Ordrens reise 34 px, nav i systemkartet 42 px, bunn 30 px. Luft rundt = merkets høyde. Aldri strekk, farger eller effekter.
 
 ## 9. Tilgjengelighet
 

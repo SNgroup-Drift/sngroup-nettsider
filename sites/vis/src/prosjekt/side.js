@@ -89,13 +89,13 @@ function elev(c){
 function opt(group,key,label,pr,on,chk,dis){return '<button type="button" class="opt'+(chk?' chk':'')+'" role="'+(chk?'checkbox':'radio')+'" aria-checked="'+on+'" data-g="'+group+'" data-k="'+key+'"'+(dis?' disabled':'')+'><span class="mk"></span><span>'+label+'</span><span class="pr">'+(pr?'+'+fmt(pr)+' kr':'Inkludert')+'</span></button>'}
 function vKjop(){
  var u=S.units[DAHL],c=S.dahl,lock=S.dahlSent||u.st!=='velger';
- var h='<div class="phwrap"><div class="phone"><div class="scr"><div class="sb" aria-hidden="true"><span>09.41</span><span>••• ▮</span></div><div class="ph"><span class="lg">Studio Sigdal</span><span>Strandkanten · '+DAHL+'</span></div><div class="pb" id="pb">';
+ var h='<div class="phwrap"><div class="phone"><div class="scr"><div class="sb" aria-hidden="true"><span>09.41</span><span>••• ▮</span></div><div class="ph"><span class="lg">Kjøkkenstudio Hamar</span><span>Strandkanten · '+DAHL+'</span></div><div class="pb" id="pb">';
  if(!S.dahlSent&&u.st!=='velger'){
   h+='<h2>Fristen er ute</h2><div class="card c"><b>Dere får standardkjøkkenet</b><p>Tilvalgsfristen for oppgang B gikk ut før valgene ble sendt. Kjøkkenet leveres som avtalt med Mjøsbygg, uten tillegg.</p></div><div class="card c">'+elev(std())+'</div>';
   h+='</div><div class="pfoot"><div class="tot"><span>Tilvalg</span><b>0 kr</b></div></div></div></div>';
  }else if(S.dahlSent){
   h+='<h2>Takk, familien Dahl!</h2><div class="card c"><b>Kvittering for tilvalg</b><p>Mottatt i dag. Valgene er låst og sendt til prosjektselgeren.</p>'+lines(c)+'</div><div class="card c">'+elev(c)+'</div>';
-  h+='<div class="card c"><b>Slik går det videre</b><p>Tilvalgene faktureres dere direkte fra Studio Sigdal. Standardkjøkkenet er dekket av kjøpekontrakten med Mjøsbygg. Levering '+OG.B.lev+'.</p></div>';
+  h+='<div class="card c"><b>Slik går det videre</b><p>Tilvalgene faktureres dere direkte fra Kjøkkenstudio Hamar. Standardkjøkkenet er dekket av kjøpekontrakten med Mjøsbygg. Levering '+OG.B.lev+'.</p></div>';
   h+='</div><div class="pfoot"><div class="tot"><span>Tilvalg totalt</span><b>'+fmt(price(c))+' kr</b></div><button class="btn primary big" type="button" disabled>Valgene er sendt</button></div></div></div>';
  }else{
   h+='<h2>Hei, familien Dahl</h2><div class="card c"><b>Standardkjøkken type B, 3-roms</b><p>Hvite matte fronter, laminat benkeplate og standard hvitevarepakke er med i kjøpesummen. Velg tillegg under.</p>'+elev(c)+'</div>';

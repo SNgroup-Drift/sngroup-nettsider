@@ -95,7 +95,7 @@ function groups(){var g={};chosen().forEach(function(p){(g[p.lev]=g[p.lev]||[]).
 function lateSup(g){var k=Object.keys(g).filter(function(s){return !g[s].every(function(p){return S.keep[p.id]})});return k.indexOf('Smeg')>-1?'Smeg':k.indexOf('Electrolux')>-1?'Electrolux':k[k.length-1]}
 function tab3(){
  var g=groups(),k=Object.keys(g);
- var h='<h2>Bestill</h2><p class="muted">Én bestilling, sendt til hver leverandør i deres eget format. Ønsket levering til lager Hamar: uke '+ONSKET+'. Bestillinger går fra bestilling@studiosigdal-innlandet.no.</p><div class="sups">';
+ var h='<h2>Bestill</h2><p class="muted">Én bestilling, sendt til hver leverandør i deres eget format. Ønsket levering til lager Hamar: uke '+ONSKET+'. Bestillinger går fra bestilling@kjokkenstudio-hamar.no.</p><div class="sups">';
  k.forEach(function(s){var st=S.sup[s]||{};
   h+='<div class="sup'+(st.st==='ok'?(st.late?' late':' done'):'')+'"><div class="h"><b>'+s+'</b>'+(st.st==='ok'?'<span class="pill '+(st.late?'warn':'ok')+'">Bekreftet</span>':st.st==='sendt'?'<span class="pill info">Sendt</span>':'<span class="pill">Klar</span>')+'</div>';
   h+='<ul>'+g[s].map(function(p){return '<li>'+p.m+' '+p.mod+(S.keep[p.id]?' · restordre':'')+'</li>'}).join('')+'</ul>';

@@ -22,11 +22,11 @@ function inCell(t,w){return O.filter(function(o){return o.t===t&&o.w===w})}
 function isFerie(t,w){return FERIE[t+'|'+w]}
 /* Regler: feil stopper forespørselen, advarsel gjør ikke */
 function issues(o){var r=[];if(!o.t)return r;var tm=TM[o.t],L=latest(o);
- if(isFerie(o.t,o.w))r.push(['f',tm.name+' har ferie uke '+o.w]);
- if(o.w<L)r.push(['f','Montering før '+latestName(o)+' kommer (uke '+L+')']);
- else if(o.w===L)r.push(['a','Stramt: levering og montering samme uke']);
- if(o.stone&&!tm.stone)r.push(['f',tm.name+' mangler sertifisering for stein']);
- var n=inCell(o.t,o.w).length;if(n>CAP)r.push(['a','Over kapasitet: '+n+' av '+CAP+' jobber']);
+ if(isFerie(o.t,o.w))r.push(['f',tm.name+' har ferie uke '+o.w,'Feil: ferie']);
+ if(o.w<L)r.push(['f','Montering før '+latestName(o)+' kommer (uke '+L+')','Feil: før levering']);
+ else if(o.w===L)r.push(['a','Stramt: levering og montering samme uke','Stramt: samme uke']);
+ if(o.stone&&!tm.stone)r.push(['f',tm.name+' mangler sertifisering for stein','Feil: steinsertifikat']);
+ var n=inCell(o.t,o.w).length;if(n>CAP)r.push(['a','Over kapasitet: '+n+' av '+CAP+' jobber','Over kapasitet']);
  return r}
 function hasErr(o){return issues(o).some(function(x){return x[0]==='f'})}
 function now(){var n=new Date();return ('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2)}
@@ -44,7 +44,7 @@ function cardHtml(o){var is=issues(o),f=is.some(function(x){return x[0]==='f'}),
  var lv='Sigdal u'+o.sig+o.o.map(function(x){return ' · '+x[0]+' u'+x[1]}).join('');
  return '<div role="button" tabindex="0" class="job '+cls+'" draggable="true" data-id="'+o.id+'" aria-pressed="'+(SEL===o.id)+'"><span class="grip" aria-hidden="true"></span>'+
   '<span class="n"><b>'+o.k+'</b><span>'+o.s+' · '+o.id+'</span></span><span class="lv">'+lv+'</span>'+pillOf(o)+
-  is.map(function(x){return '<span class="iss '+x[0]+'">'+(x[0]==='f'?'Feil: ':'')+x[1]+'</span>'}).join('')+'</div>'}
+  is.map(function(x){return '<span class="iss '+x[0]+'" title="'+x[1].replace(/"/g,'&quot;')+'">'+(x[2]||((x[0]==='f'?'Feil: ':'')+x[1]))+'</span>'}).join('')+'</div>'}
 function hereBtn(key,label){var o=SEL&&byId(SEL);if(!o)return '';var cur=o.t?o.t+'|'+o.w:'none';if(cur===key)return '';
  return '<button type="button" class="here" data-to="'+key+'" aria-label="Flytt '+o.k+' hit: '+label+'">Flytt hit</button>'}
 function render(){

@@ -6,7 +6,7 @@ var R=[
  ['leverandor','Leverandør','Hva vi ønsker fra dere, hvordan det kommer inn hos oss, og hva dere får tilbake.'],
  ['sigdal','Sigdal og Nobia','Hvordan butikkene jobber med Sigdal-ordrene, og hva som må til for at alt går av seg selv.']
 ];
-// b: skjermbilde fra hengsel.no (bygg.mjs kopierer det til dist/img/). Bytt til Sigdal CRM-skjermbilder der det finnes.
+// b: skjermbilde fra hengsel.no (bygg.mjs kopierer det til dist/img/). Bytt til Hengsel CRM-skjermbilder der det finnes.
 var C=[
  {u:'/reise/',b:'/img/ordre-og-montasje.webp',t:'Ordrens reise',type:'Simulering',p:'Én kjøkkenordre fra tegning i CET til montert kjøkken og faktura, i åtte scener med fem leverandører.',r:['selger','montor','leverandor','sigdal'],go:'Spill av'},
  {u:'/crm/',b:'/img/min-dag.webp',t:'Prøv CRM selv',type:'Prøv selv',p:'En dag som selger: Min dag, avvik fra leverandører, tilbud fra CET, ordre og montasjeplan.',r:['selger','sigdal'],go:'Prøv CRM'},
@@ -34,13 +34,16 @@ try{var q=new URLSearchParams(location.search).get('rolle');if(q&&finnes(q))cur=
 var roles=document.getElementById('roles'),out=document.getElementById('out');
 R.forEach(function(r){var b=document.createElement('button');b.type='button';b.className='btn';b.textContent=r[1];b.dataset.r=r[0];b.onclick=function(){set(r[0])};roles.appendChild(b)});
 function card(c){return '<a class="card rom" href="'+c.u+'"><div class="bilde"><img src="'+c.b+'" alt="" width="1600" height="1000" loading="lazy"></div><span class="pill info nodot">'+c.type+'</span><span class="ktittel">'+c.t+'</span><p>'+c.p+'</p><span class="go">'+c.go+' ›</span></a>'}
-function set(r){cur=r;try{localStorage.setItem('vis.rolle',r)}catch(e){}
+function set(r){cur=r;try{localStorage.setItem('vis-rolle',r)}catch(e){}
  try{history.replaceState(null,'',r==='alle'?location.pathname:'?rolle='+r)}catch(e){}
  [].forEach.call(roles.children,function(b){b.classList.toggle('dark',b.dataset.r===r);b.setAttribute('aria-pressed',b.dataset.r===r)});
  var info=R.filter(function(x){return x[0]===r})[0];document.getElementById('intro').textContent=info[2];
  var list=C.filter(function(c){return r==='alle'||c.r.indexOf(r)>-1}),h='';
  var groups=[['Se hvordan det henger sammen',['Simulering']],['Prøv selv',['Prøv selv']],['Presentasjoner og oversikter',['Presentasjon','Oversikt']],['Opplæring',['Opplæring']]];
- groups.forEach(function(g){var l=list.filter(function(c){return g[1].indexOf(c.type)>-1});if(l.length)h+='<section class="gruppe"><h2>'+g[0]+'</h2><div class="grid">'+l.map(card).join('')+'</div></section>'});
- out.innerHTML=h||'<p class="empty">Ingenting her ennå.</p>'}
+ groups.forEach(function(g){var l=list.filter(function(c){return g[1].indexOf(c.type)>-1});if(l.length)h+='<section class="gruppe"><h3>'+g[0]+'</h3><div class="grid">'+l.map(card).join('')+'</div></section>'});
+ out.innerHTML=h||'<p class="empty">Ingenting her ennå.</p>';
+ document.getElementById('note').textContent=r==='alle'?'Alle '+C.length+' rom. Velg en rolle øverst for å se bare det som gjelder deg.':list.length+' rom for '+info[1].toLowerCase()+'.'}
+// Start her: tre rom som viser helheten (fasit VisForside v2)
+document.getElementById('start').innerHTML=['/reise/','/crm/','/montor/'].map(function(u){return card(C.filter(function(c){return c.u===u})[0])}).join('');
 set(cur);
 })();

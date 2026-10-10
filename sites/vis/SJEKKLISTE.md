@@ -2,20 +2,20 @@
 
 Kjør gjennom alle 24 sider i lys og mørk, PC 1440 og mobil 390. Fasit: `Visningsrommet – frittstående.html` og README §1–§9.
 
-## Funn 10.10.2026 (se README øverst)
-- [ ] Logoen rendres som tomme bokser («▯▯engsel») på alle vis-sider – bytt til SVG fra `uploads/crm_v4-logo/`.
-- [ ] «Studio Sigdal» / «Sigdal CRM» fjernet fra Firmaleder, Hvitevarer, Min side, Prøv som leverandør, Kundens reise, /sv/ og Opplæring.
-- [ ] Forsiden er v2 (hero med illustrasjon, Start her, tidslinje, Alle rommene, avslutning).
-- [ ] Leverandørløsningen: lysbildet ikke høyere enn innholdet.
-- [ ] Montasjeplan: ukekolonner brede nok til at korttekst ikke brekker per ord.
-- [ ] Enhetsrammer fra hengsel.no: iPhone i Kundens reise, Min side mobil, Montørappen og Tegningen; Studio Display i Prøv CRM, Min side PC og Firmaleder.
+## Funn 10.10.2026 (se README øverst) – rettet i PR-en 10.10
+- [x] Logoen rendres som tomme bokser («▯▯engsel») på alle vis-sider – byttet til SVG fra logopakken (`src/assets/logo/`).
+- [x] «Studio Sigdal» / «Sigdal CRM» fjernet fra Firmaleder, Hvitevarer, Min side, Prøv som leverandør, Kundens reise, /sv/ og Opplæring.
+- [x] Forsiden er v2 (hero med illustrasjon, Start her, tidslinje, Alle rommene, avslutning).
+- [x] Leverandørløsningen: lysbildet ikke høyere enn innholdet.
+- [x] Montasjeplan: ukekolonner brede nok til at korttekst ikke brekker per ord.
+- [x] Enhetsrammer fra hengsel.no: iPhone i Kundens reise, Min side mobil, Montørappen og Tegningen; Studio Display i Prøv CRM, Min side PC og Firmaleder.
 
 ## Logo
-- [ ] Hengsel-logoen er SVG fra `uploads/crm_v4-logo/` (merke + «engsel» + hake over «CRM», konturert tekst). Aldri strukket, rotert eller i andre farger.
-- [ ] Størrelser: toppfelt 26 px · topplinje i rom 18 px · i tekst («Samtidig i …») 16 px · navet i Systemkartet 28 px · bunn («Levert med») 20 px.
+- [ ] Hengsel-logoen er SVG fra logopakken (`src/assets/logo/hengsel-crm-logo-lys.svg` / `-mork.svg` som `<img>`, byttes med CSS) (merke + «engsel» + hake over «CRM», konturert tekst). Aldri strukket, rotert eller i andre farger.
+- [ ] Størrelser (logopakken 10.10): toppfelt 40 px · topplinje i rom 28 px · i tekst («Samtidig i …») 24 px · CRM-noden i Ordrens reise 34 px · navet i Systemkartet 42 px · bunn («Levert med») 30 px.
 - [ ] Mørk modus bruker `hengsel-logo-mork`-fargene (ytterlinje og ord i Off White, grep og hake i Deep Blue).
 - [ ] SN-logoen 26 px høy, 90 % opasitet, bytter til `logo-mork.svg` i mørk modus.
-- [ ] «Sigdal CRM» er borte fra simulert innhold; «Studio Sigdal» står bare som butikknavn i kundens Min side.
+- [ ] «Sigdal CRM» er borte fra simulert innhold; butikken heter «Kjøkkenstudio Hamar» (bestilling@kjokkenstudio-hamar.no); «Sigdal» står bare som fabrikk/leverandør.
 
 ## Typografi
 - [ ] Newsreader aldri under 1,45 rem (23 px) og aldri versaler.
@@ -31,19 +31,19 @@ Kjør gjennom alle 24 sider i lys og mørk, PC 1440 og mobil 390. Fasit: `Visnin
 - [ ] Kontrast minst 4,5:1 på all tekst, også på piller og i mørk modus.
 
 ## Skall
-- [ ] Topplinje: «‹ Visningsrommet» 15 px/500 i `--accent` · strek 1 × 18 px · Hengsel-logo 18 px · statuspille `.pill.nodot` til høyre.
+- [ ] Topplinje: «‹ Visningsrommet» 15 px/500 i `--accent` · strek 1 × 18 px · Hengsel-logo 28 px · statuspille `.pill.nodot` til høyre.
 - [ ] Sidehode: `.eyebrow` → h1 → ingress (`--muted`, maks 62 tegn). Gap 6 px.
 - [ ] Bredde 1180 px, marg 24 px (16 på mobil), 16 px mellom kort.
 - [ ] Bunntekst 14 px `--muted`: «Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.»
 
 ## Forsiden
-- [ ] Toppfelt: logo 26 px + strek + «Visningsrommet»; SN-logo høyre; ingen meny.
+- [ ] Toppfelt: logo 40 px + strek + «Visningsrommet»; SN-logo høyre; ingen meny.
 - [ ] «Slik henger det sammen»: tre kort med bilde 16:10, eyebrow (Kontoret/Kunden/Montøren), tittel, FLOW-tekst ordrett. Telefonbildet 58 % bredt, toppjustert.
 - [ ] Kjeden «Lead › … › Reklamasjon» 14 px/500 i `--muted`.
 - [ ] Rollevelger `.btn`, valgt `.btn.dark`. Filtrerer kortene, lagrer i localStorage og `?rolle=`.
 - [ ] Romkort: bilde 16:10 → type-pille `.pill.info.nodot` → tittel 1,45 rem → én setning → lenketekst med « ›» nederst. Like høye. 4 / 2 / 1 i bredden (1440 / 1180 iPad / 390).
 - [ ] Hover på kort: kantfarge `--sand`, ingen løft.
-- [ ] Bunn: «Alle data i Visningsrommet er oppdiktet.» + «Levert med [Hengsel 20 px]» + familiebåndet (`gjeldende="hengsel.no"`).
+- [ ] Bunn: «Alle data i Visningsrommet er oppdiktet.» + «Levert med [Hengsel 30 px]» + familiebåndet (`gjeldende="hengsel.no"`).
 
 ## Rommaler
 - [ ] Simulering: panelene stables på 390 px; scenelinjen ruller horisontalt (`flex:1 0 108px`); Spill av / Pause / Fortsett / Spill av igjen; «Spill videre» er `.switch`; piltaster og mellomrom virker.
