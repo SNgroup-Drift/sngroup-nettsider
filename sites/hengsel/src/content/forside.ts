@@ -1,9 +1,7 @@
-// hengsel.no – teksten på forsiden. Fasit: konstantene i docs/design/hengsel/56 Hengsel forside.dc.html (10.10.2026), ordrett.
+// hengsel.no – teksten på forsiden. Fasit: konstantene i docs/design/hengsel/56 Hengsel forside.dc.html (10.10.2026, kveld), ordrett.
 
 // Innloggingsadressen («Logg inn» i menyen) settes med miljøvariabelen LOGIN ved bygging, se astro.config.mjs. Tom = skjult.
 export const TEL = ""; // TODO: telefonnummer
-export const TESTFLIGHT = ""; // TODO: TestFlight-lenke (tom = stiplet plassholder i Hengsel Ute)
-export const PLAY = ""; // TODO: Google Play-lenke (tom = stiplet plassholder i Hengsel Ute)
 export const EPOST = "hei@hengsel.no";
 
 /** Tre løfter: tittel, setning */
@@ -68,15 +66,15 @@ export const KONTOR: [string, string, string, string][] = [
 
 export const PORTAL = ["Tilbudet med bilde, pris og tilvalg", "Kjøpsavtale med e-signering", "Leveringsdag og montering", "Punkter, FDV og dokumenter etterpå"];
 
-/** Integrasjoner: navn, setning */
+/** Integrasjoner: teknisk navn, setning med merkenavnet */
 export const INTEG: [string, string][] = [
-  ["Configura CET", "Tegning og varelinjer leses inn i tilbud, kalkyle og tilvalg."],
-  ["Sigdal og Nobia", "Bestilling og ordrebekreftelse."],
-  ["PowerOffice Go", "Kunde, prosjekt og faktura fra ordren. Fakturastatus tilbake."],
-  ["Penneo", "E-signering av kjøpsavtalen med BankID."],
-  ["Bosch laser", "Mål over Bluetooth i Hengsel Ute."],
-  ["Microsoft 365", "Innlogging, e-post fra Outlook og møter fra kalenderen."],
-  ["SMS og e-post", "Beskjeder til kunden fra ordren."],
+  ["Tegneprogram", "Tegning og varelinjer leses inn i tilbud, kalkyle og tilvalg. I dag: Configura CET."],
+  ["Leverandørbestilling", "Bestilling og ordrebekreftelse per leverandør. I dag: Sigdal og Nobia."],
+  ["Regnskap", "Kunde, prosjekt og faktura fra ordren, fakturastatus tilbake. I dag: PowerOffice Go."],
+  ["E-signering", "Kjøpsavtalen signeres med BankID. I dag: Penneo."],
+  ["Avstandsmåler", "Mål over Bluetooth rett inn i bildet i Hengsel Ute. I dag: Bosch GLM."],
+  ["E-post og kalender", "Innlogging, e-post og møter fra kontoret. I dag: Microsoft 365."],
+  ["SMS og e-post til kunden", "Beskjeder om levering og montering, sendt fra ordren."],
 ];
 
 /** Trygghet: tittel, setning */
