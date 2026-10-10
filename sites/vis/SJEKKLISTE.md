@@ -25,7 +25,7 @@ Kjør gjennom alle 24 sider i lys og mørk, PC 1440 og mobil 390. Fasit: `Visnin
 - [ ] Underoverskrifter Inter 600, aldri på store titler.
 
 ## Farger og flater
-- [ ] Bare tokenverdiene fra README §1. Ingen ren hvit, ingen gradienter, ingen skygger (unntak: varselet i Kundens reise).
+- [ ] Bare tokenverdiene fra README §1. Ingen ren hvit, ingen gradienter, ingen skygger (unntak: varselet i Kundens reise og dokumentarkene i Dokumentene).
 - [ ] Sidebakgrunn `--bg` (Beige 3), kort `--card`, fliser inne i kort `--soft`. Aldri kort på kort.
 - [ ] Statusfarger bare i piller og varsler, alltid med tekst. Venstrestrek 3 px inset på varsler og valgt rad.
 - [ ] Mørk modus på alle rom: ingen faste Beige-verdier (`#E4D4C4`, `#F2E9DB` osv.) i rom-CSS – bruk `--line`/`--soft`/`--bg`, ellers forsvinner tekst (feilen i Kundens reise-heroen).
