@@ -83,7 +83,7 @@ for (const v of visninger) {
 }
 // Romkortbildene: 1440 × 900 i lys modus, 1,5× oppløsning, webp i src/img (brukes av index.html og side.js)
 // Bare rom uten skjermbilde fra CRM_v4 (README «Regel for skjermbilder»); de andre bruker src/skjermbilder.
-const rom = ["opplaering", "levprov", "kontroll", "montasjeplan", "prosjekt", "hvitevarer", "gevinst", "leverandor", "leder", "veikart", "sv", "system"];
+const rom = ["opplaering", "levprov", "kontroll", "montasjeplan", "prosjekt", "hvitevarer", "gevinst", "leverandor", "leder", "veikart", "dokumenter", "sv", "system"];
 {
   const img = join(rot, "sites", "vis", "src", "img");
   await mkdir(img, { recursive: true });

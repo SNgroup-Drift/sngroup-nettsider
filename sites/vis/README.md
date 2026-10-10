@@ -18,7 +18,7 @@ Alle skjermbilder av løsningen på vis.hengsel.no kommer fra **designfilene i C
 | Romkort på forsiden | første bilde i rommets liste, 16:10 øverst til venstre: Prøv CRM `crm-min-dag`, Firmaleder `crm-resultater`, Ordrens reise `crm-tilbud-liste`; telefonbilder (Kundens reise, Montørappen, Tegningen) 58 % brede, toppjustert | | |
 
 - `ute-*`-bildene kommer fra `ute-vis.zip` (10.10, fra designfilene, uten merkenavn): iPhone 780 × 1688 (390 × 844 i 2×) og `ute-ipad-bildeverktoy` 2360 × 1640 (1180 × 820). De har egen statuslinje (09.41), dynamic island og hjemindikator, så rammene (`.tlf.hel`, iPad) legger ikke på noen: telefonrammen gir plass til hele 390 × 844-skjermen. CRM-bildene fra `crm-sju-vis.zip` (1440 bred, 2×): `crm-min-dag`, `crm-bestilling`, `crm-montasje`, `crm-etterkalkyle`, `crm-salgstavla`, `crm-saker`, `crm-resultater` (2880 × 1800) og `crm-min-dag-800` (Min dag i iPad-ramme; den tegnede kanten på 24 px er beskåret bort, 2360 × 1640, brukt som første iPad-bilde i Prøv CRM). `crm-leder-oversikt` og `crm-leder-start` er slettet (erstattet av `crm-resultater` og `crm-salgstavla`).
-- Rom uten CRM_v4-skjermbilde (Systemkartet, Veikart, Gevinstkalkulator, Leverandørløsningen, Opplæring, /sv/, og foreløpig Prøv som leverandør, Ordre- og fakturakontroll, Montasjeplan, Prosjektsalg, Hvitevarer og Daglig leder) bruker bilde av rommet selv på romkortet (`src/img/rom-*.webp`, lages av `npm run skjermbilder:vis`). De seks siste får CRM_v4-bilder når skjermene er eksportert.
+- Rom uten CRM_v4-skjermbilde (Systemkartet, Veikart, Dokumentene, Gevinstkalkulator, Leverandørløsningen, Opplæring, /sv/, og foreløpig Prøv som leverandør, Ordre- og fakturakontroll, Montasjeplan, Prosjektsalg, Hvitevarer og Daglig leder) bruker bilde av rommet selv på romkortet (`src/img/rom-*.webp`, lages av `npm run skjermbilder:vis`). De seks siste får CRM_v4-bilder når skjermene er eksportert.
 - Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). Alle CRM-bildene har Hengsel-logoen i sidemenyen. Navnene sier hva bildet viser. Den siste bildepakken 10.10 (Hengsel.no.zip, `img/vis`) er lagt inn slik: `crm-mal-skisser` ← `mal-skisser`, `crm-tilbud-liste` ← `tilbud-liste` (tilbudslista), `crm-ipad-min-dag` ← `ipad-min-dag`, `crm-ipad-montasje` ← `ipad-montasje`, `crm-ipad-tilbud` ← `ipad-tilbud`, `crm-ipad-ordre` ← `ipad-ordre`, `crm-tlf-min-dag` ← `tlf-min-dag`, `crm-tlf-kundekort` ← `tlf-kundekort`, `crm-tlf-ordre` ← `tlf-ordre`. Mål: PC 2876 × 1796 (2×), iPad 1180 × 820 (1×), telefon 780 × 1600 (2×).
 
 ## Avvik funnet 10.10.2026 (skjermbilder av vis.hengsel.no) – rett disse først
@@ -76,7 +76,7 @@ Mørk (både `prefers-color-scheme: dark` og `:root[data-theme="dark"]`):
 --ok:#8CC39B; --ok-soft:#1F2E23; --warn:#E2B468; --warn-soft:#33281A;
 ```
 
-Skrifter selvhostes som i dag (Newsreader og Inter fra @fontsource). Ingen ren hvit, ingen gradienter, ingen skygger (eneste unntak: varselet som glir inn i Kundens reise, `0 1px 2px rgba(49,38,29,.06), 0 12px 40px -12px rgba(49,38,29,.22)`).
+Skrifter selvhostes som i dag (Newsreader og Inter fra @fontsource). Ingen ren hvit, ingen gradienter, ingen skygger (eneste unntak: dokumentarkene i Dokumentene, `0 8px 24px rgba(49,38,29,.16)` på Beige 3, og varselet som glir inn i Kundens reise, `0 1px 2px rgba(49,38,29,.06), 0 12px 40px -12px rgba(49,38,29,.22)`).
 
 ## 2. Typografi
 
