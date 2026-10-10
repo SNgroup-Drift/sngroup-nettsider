@@ -1,40 +1,31 @@
 ---
 /**
- * Ramme for hengsel.no: familiens BaseLayout med Hengsel-fargene og -skriftene, toppfeltet (Toppfelt) og bunnen
- * (Familiebaand + bunntekst). Fasit: docs/design/hengsel/Sidehode.dc.html og Bunn.dc.html.
- * Sidehodet har menypunkter per side (prop «lenker», som i Sidehode.dc.html).
+ * Ramme for hengsel.no: familiens BaseLayout med Hengsel-profilen, sidehodet og bunnen fra
+ * docs/design/hengsel/54 Hengsel forside.dc.html (10.10.2026). Brukes av forsiden, personvern og 404.
+ * Sidehodet er sticky: logo, meny (Produkt · Hengsel Ute · Priser · Om · Logg inn) og «Be om demo».
+ * Under 980 px: knapp + hamburger som åpner menyen under toppfeltet (scripts/meny.ts; uten skript vises menyen åpen).
  */
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
 import "@sngroup/design/fonts.css";
-import Toppfelt from "@sngroup/design/components/Toppfelt.astro";
-import HengselLogo from "../components/HengselLogo.astro";
-import Bunn from "../components/Bunn.astro";
 import "../styles/tokens.css";
 import "../styles/hengsel.css";
+import { EPOST, LOGIN, TEL } from "../content/forside";
 
-interface Lenke { label: string; href: string }
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
-  /** Overstyrer robots-taggen (/apptest: "noindex, nofollow") */
-  robots?: string;
-  /** Forsiden: logoen og «Til toppen» peker til #hjem */
+  /** Forsiden: lenkene i menyen peker til ankre på samme side */
   forside?: boolean;
-  /** Linjen om demodata i bunnteksten */
-  demo?: boolean;
-  /** Menypunktene i sidehodet. Standard: forsidens fire, med lenke tilbake til forsiden */
-  lenker?: Lenke[];
-  /** "light" låser lys modus (forsiden). Uten følger siden systemet. */
-  tema?: "light";
 }
-const { title, description, noindex, robots, forside = false, demo = false, tema } = Astro.props;
+const { title, description, noindex, forside = false } = Astro.props;
 const h = forside ? "" : "/";
-const lenker = Astro.props.lenker ?? [
-  { label: "Slik henger det sammen", href: `${h}#sammenheng` },
-  { label: "Moduler", href: `${h}#moduler` },
+const meny = [
+  { label: "Produkt", href: `${h}#produkt` },
   { label: "Hengsel Ute", href: `${h}#ute` },
-  { label: "Om oss", href: `${h}#om` },
+  { label: "Priser", href: `${h}#priser` },
+  { label: "Om", href: `${h}#om` },
+  { label: "Logg inn", href: LOGIN },
 ];
 const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-350.woff2", "/fonts/TWKLausanne-650.woff2"];
 ---
@@ -42,31 +33,89 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
   title={title}
   description={description}
   noindex={noindex}
-  robots={robots}
-  tema={tema}
-  temafarge={["#FBF9F6", "#1B1713"]}
+  tema="light"
+  temafarge={["#5074A9", "#5074A9"]}
+  ikon={{ href: "/logo/favicon.svg", type: "image/svg+xml" }}
+  ikon32="/logo/favicon-32.png"
+  appleIkon="/logo/apple-touch-icon-180.png"
   forhandslast={skrifter}
 >
-  <div class="side" id="hjem">
-    <Toppfelt
-      hjem={forside ? "#hjem" : "/"}
-      ordmerke="Hengsel"
-      kompakt
-      fast
-      strek
-      skjulUnder={900}
-      kontaktVariant="fylt"
-      kontaktHref={`${h}#kontakt`}
-      kontaktTekst="Be om demo"
-      lenker={lenker}
-    >
-      <HengselLogo slot="logo" />
-    </Toppfelt>
+  <div class="side" id="topp">
+    <header class="topp">
+      <div class="h-innhold rad">
+        <a href={forside ? "#topp" : "/"} aria-label={forside ? "Hengsel – til toppen" : "Hengsel – forside"} class="logo">
+          <img src="/logo/hengsel-crm-logo-lys.svg" alt="Hengsel CRM" width="460" height="128" />
+        </a>
+        <nav aria-label="Hovedmeny" class="meny bred">
+          {meny.map((l) => <a href={l.href}>{l.label}</a>)}
+          <a href={`${h}#demo`} class="knapp liten">Be om demo</a>
+        </nav>
+        <div class="smal">
+          <a href={`${h}#demo`} class="knapp liten">Be om demo</a>
+          <button type="button" class="hamburger" aria-expanded="false" aria-controls="mobilmeny" aria-label="Meny" data-meny-knapp>
+            <span data-meny-tegn>≡</span>
+          </button>
+        </div>
+      </div>
+      <nav aria-label="Hovedmeny" class="mobilmeny" id="mobilmeny" data-meny>
+        {meny.map((l) => <a href={l.href} data-meny-lenke>{l.label}</a>)}
+      </nav>
+    </header>
     <slot />
-    <Bunn demo={demo} forside={forside} />
+    <footer class="bunn">
+      <div class="h-innhold kolonner">
+        <div class="merke">
+          <img src="/logo/hengsel-crm-logo-lys.svg" alt="Hengsel CRM" width="460" height="128" />
+          <span>Hengsel · SN Group</span>
+        </div>
+        <div class="gruppe">
+          <b>Kontakt</b>
+          <a href={`mailto:${EPOST}`}>{EPOST}</a>
+          {TEL ? <a href={`tel:${TEL.replace(/\s/g, "")}`}>{TEL}</a> : <span>Telefon kommer</span>}
+        </div>
+        <div class="gruppe">
+          <b>Lenker</b>
+          <a href={LOGIN}>Logg inn i Hengsel CRM</a>
+          <a href="/personvern">Personvern</a>
+        </div>
+      </div>
+    </footer>
   </div>
 </BaseLayout>
 
+<script>
+  import "../scripts/meny";
+</script>
+
 <style>
-  .side { min-height: 100vh; display: flex; flex-direction: column; }
+  .side { min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white); color: var(--warm-black); }
+
+  .topp { position: sticky; top: 0; z-index: 40; background: var(--off-white); border-bottom: 1px solid var(--beige-2); }
+  .topp .rad { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .logo { display: flex; align-items: center; flex: none; }
+  .logo img { display: block; height: 34px; width: auto; }
+  .meny { display: none; align-items: center; gap: 28px; }
+  .meny a { color: var(--warm-black); font-size: 16px; }
+  .meny a:hover { color: var(--deep-blue); }
+  .knapp.liten { min-height: 44px; padding: 0 20px; font-size: 16px; }
+  .meny .knapp.liten, .meny .knapp.liten:hover { color: var(--off-white); }
+  .smal { display: flex; align-items: center; gap: 8px; }
+  .smal .knapp.liten { padding: 0 16px; font-size: 15px; }
+  .hamburger { width: 44px; height: 44px; border: 1px solid var(--warm-black); background: transparent; cursor: pointer; display: grid; place-items: center; font-size: 22px; line-height: 1; }
+  .mobilmeny { border-top: 1px solid var(--beige-2); background: var(--off-white); display: grid; padding: 8px var(--pad) 16px; }
+  .mobilmeny a { color: var(--warm-black); padding: 12px 0; border-bottom: 1px solid var(--beige-2); }
+  .mobilmeny a:last-child { border-bottom: 0; }
+  @media (min-width: 980px) {
+    .logo img { height: 40px; }
+    .meny { display: flex; }
+    .smal, .mobilmeny { display: none !important; }
+  }
+
+  .bunn { border-top: 1px solid var(--beige-2); padding-block: 40px; font-size: 0.95rem; margin-top: auto; }
+  .kolonner { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 32px; align-items: start; }
+  .merke { display: grid; gap: 14px; justify-items: start; }
+  .merke img { display: block; height: 32px; width: auto; }
+  .gruppe { display: grid; gap: 6px; }
+  .bunn a { color: var(--warm-black); }
+  .bunn a:hover { color: var(--deep-blue); }
 </style>

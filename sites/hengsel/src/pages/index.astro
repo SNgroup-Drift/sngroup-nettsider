@@ -1,253 +1,288 @@
 ---
 /**
- * hengsel.no – forsiden. Fasit: docs/design/hengsel/51 Hengsel nettside.dc.html (Claude Design, 08.10.2026).
- * Åtte seksjoner: forside (Min dag på PC) → slik henger det sammen → moduler → Hengsel Ute → integrasjoner → om oss →
- * kontakt → bunn. Bare lys modus. Tekst i content/forside.ts.
- * Skript (ingen inline, CSP script-src 'self'): lysboksen (scripts/lysboks.ts), kontaktskjemaet (scripts/kontakt.ts),
- * som åpner en ferdig utfylt e-post, og koordinatene i plantegningen (scripts/plantegning.ts). Ingenting lagres.
+ * hengsel.no – forsiden. Fasit: docs/design/hengsel/54 Hengsel forside.dc.html (Claude Design, 10.10.2026).
+ * Tolv deler: topp og bunn (layouts/Side.astro), hero, tre løfter, sju steg, Hengsel Ute på Warm Black, for kontoret,
+ * kundeportalen, integrasjoner og trygghet, priser, om, be om demo. Tekst i content/forside.ts.
+ * Eneste skript (ingen inline, CSP script-src 'self'): mobilmenyen og demoskjemaet, som åpner en ferdig utfylt e-post.
+ * Ingen lenke til /apptest.
  */
 import Side from "../layouts/Side.astro";
-import Enhet from "../components/Enhet.astro";
-import PlantegningEntre from "../components/PlantegningEntre.astro";
-import { CHAIN, FLOW, INTEG, MODULER, PHONES } from "../content/forside";
-import { selskap } from "../content/selskap";
+import { EPOST, INTEG, KONTOR, LOFTER, PLAY, STEG, TESTFLIGHT, TRYGG, UTE } from "../content/forside";
+import { MAAL } from "../scripts/bilder";
 
-const ADDR = selskap.epost;
+const maal = (b: string) => ({ width: MAAL[b]?.[0], height: MAAL[b]?.[1] });
+const todo = (v: string) => v.startsWith("TODO_");
 ---
 <Side
-  title="Hengsel – for kjøkken- og interiørbutikker"
-  description="Hengsel samler CRM, kundeportal og montørappen Hengsel Ute i én løsning for kjøkken- og interiørbutikker."
+  title="Hengsel – kjøkkenbutikkens arbeidsflate"
+  description="Hengsel samler salg, bestilling, montering og oppfølging i ett system. CRM på kontoret, Hengsel Ute på telefonen hos kunden."
   forside
-  demo
-  tema="light"
 >
   <main id="innhold">
     <section class="hero">
-      <div class="h-innhold hero-rutenett">
+      <div class="h-innhold hero-inn">
         <div class="hero-tekst">
-          <span class="eyebrow">For kjøkken- og interiørbutikker</span>
-          <h1>Én løsning for butikken, fra første henvendelse til ferdig montert kjøkken.</h1>
-          <p class="lede hero-lede">Hengsel samler salg, ordre, montasje og kundeportal på samme kundekort. Montørene har sin egen app, Hengsel Ute. Alle ser det samme kjøkkenet.</p>
+          <h1>Kjøkkenbutikkens arbeidsflate, fra første befaring til siste restpunkt.</h1>
+          <p class="hero-ingress">Hengsel samler salg, bestilling, montering og oppfølging i ett system. CRM på kontoret, Hengsel Ute på telefonen hos kunden.</p>
           <div class="knapper">
-            <a class="btn primary" href="#sammenheng">Se hvordan det virker</a>
-            <a class="btn" href="#kontakt">Book en gjennomgang</a>
+            <a href="#demo" class="knapp">Be om demo</a>
+            <a href="#ute" class="knapp omriss">Se Hengsel Ute</a>
           </div>
         </div>
-        <Enhet bilde="min-dag" type="pc" alt="Min dag i Hengsel CRM: selgerens arbeidsliste med panel til høyre" ratio={0.8} forst />
+        <div class="hero-media">
+          <figure class="ramme"><img src="/img/min-dag.webp" alt="Hengsel CRM på PC: Min dag med arbeidsliste og panel" {...maal("min-dag")} loading="eager" fetchpriority="high" decoding="async" /></figure>
+          <figure class="ramme telefon"><img src="/img/ute-i-dag.webp" alt="Hengsel Ute på telefon: I dag med neste jobb" {...maal("ute-i-dag")} loading="eager" decoding="async" /></figure>
+        </div>
       </div>
     </section>
 
-    <section id="sammenheng" class="seksjon h-flate">
+    <section id="produkt" class="lofter-seksjon">
       <div class="h-innhold">
-        <div class="hode">
-          <span class="eyebrow">Slik henger det sammen</span>
-          <h2>Tre flater, samme ordre.</h2>
-          <p class="lede">Kontoret jobber i CRM-et, kunden i Min side og montøren i Hengsel Ute. Alt ligger på samme ordre, fra lead til reklamasjon.</p>
-        </div>
-        <div class="tre">
-          {FLOW.map((f) => (
-            <article class="card flyt">
-              <span class="hvem">{f.who}</span>
-              <h3>{f.title}</h3>
-              <p class="dempet">{f.text}</p>
-            </article>
+        <div class="lofter">
+          {LOFTER.map(([t, s]) => (
+            <article><h2 class="lofte">{t}</h2><p>{s}</p></article>
           ))}
         </div>
-        <p class="kjede">
-          {CHAIN.map((c, i) => <>{i > 0 && <span aria-hidden="true">›</span>}<span>{c}</span></>)}
-        </p>
       </div>
     </section>
 
-    <section id="moduler" class="seksjon">
-      <div class="h-innhold">
-        <div class="hode">
-          <span class="eyebrow">Moduler</span>
-          <h2>Start med det dere trenger. Slå på resten etter hvert.</h2>
-          <p class="lede">Løsningen er delt i elleve moduler som følger arbeidsflyten. Hver butikk velger hvilke som er på.</p>
-        </div>
-        <ol class="moduler">
-          {MODULER.map(([b, s], i) => (
+    <section class="baand">
+      <div class="h-innhold steg-inn">
+        <h2 class="steg-tittel">Slik går en jobb gjennom Hengsel.</h2>
+        <ol class="steg">
+          {STEG.map(([t, s, bilde, alt], i) => (
             <li>
               <span class="nr">{String(i + 1).padStart(2, "0")}</span>
-              <b>{b}</b>
-              <span class="dempet">{s}</span>
+              <div class="utsnitt"><img src={`/img/${bilde}.webp`} alt={alt} {...maal(bilde)} loading="lazy" decoding="async" /></div>
+              <h3>{t}</h3>
+              <p>{s}</p>
             </li>
           ))}
-          <li class="tom" aria-hidden="true"></li>
         </ol>
       </div>
     </section>
 
-    <section id="ute" class="seksjon h-flate">
-      <div class="h-innhold ute">
+    <section id="ute" class="ute">
+      <div class="h-innhold ute-inn">
         <div class="ute-hode">
-          <img src="/img/hengsel-ute-ikon.svg" alt="App-ikonet til Hengsel Ute" width="96" height="96" class="ute-ikon" />
-          <div class="hode-tekst">
-            <span class="eyebrow">Hengsel Ute</span>
-            <h2>Appen for montøren, med jobben for dagen.</h2>
-            <p class="lede">Montøren ser neste jobb og hva som mangler, fyller ut KS punkt for punkt og melder avvik med bilde. Alt står på ordren hos kontoret med en gang.</p>
-            <div class="butikker">
-              <span>Last ned i App Store</span>
-              <span>Last ned i Google Play</span>
+          <img src="/logo/hengsel-app-ikon-lys.svg" alt="" width="88" height="88" class="app-ikon" />
+          <div class="ute-tekst">
+            <h2 class="ute-tittel">Hengsel Ute. Dagen ute, samlet på én skjerm.</h2>
+            <p class="ingress ute-ingress">Montøren får jobben, tegningene, målene og KS-sjekklista på telefonen. Det som registreres hos kunden, står på ordren hos kontoret med en gang.</p>
+            <div class="ute-knapper">
+              {todo(TESTFLIGHT) ? <span class="ute-knapp">App Store · TestFlight nå</span> : <a href={TESTFLIGHT} class="ute-knapp">App Store · TestFlight nå</a>}
+              {todo(PLAY) ? <span class="ute-knapp">Google Play</span> : <a href={PLAY} class="ute-knapp">Google Play</a>}
             </div>
           </div>
         </div>
-        <div class="telefoner">
-          {PHONES.map((p) => (
-            <figure>
-              <Enhet bilde={p.bilde} type="phone" alt={p.alt} ratio={1.4} />
-              <figcaption><b>{p.title}</b><span class="dempet">{p.text}</span></figcaption>
-            </figure>
-          ))}
+        <div class="galleri">
+          {UTE.map(([t, s, bilde]) => {
+            const ipad = bilde.startsWith("ute-ipad");
+            const lys = bilde === "ute-laser" || bilde === "ute-avvik";
+            return (
+              <figure class:list={["skjerm", { ipad, lys }]}>
+                <div class="flate">
+                  {!ipad && <div class="statuslinje" aria-hidden="true"><span>09.41</span><span class="batteri"></span></div>}
+                  <img src={`/img/${bilde}.webp`} alt={`Hengsel Ute: ${t}`} {...maal(bilde)} loading="lazy" decoding="async" />
+                </div>
+                <figcaption><b>{t}</b><span>{s}</span></figcaption>
+              </figure>
+            );
+          })}
         </div>
       </div>
     </section>
 
-    <section id="integrasjoner" class="seksjon">
-      <div class="h-innhold">
-        <div class="hode">
-          <span class="eyebrow">Integrasjoner</span>
-          <h2>Kobler seg på det dere allerede bruker.</h2>
+    <section class="kontor">
+      <div class="h-innhold delt">
+        <div class="tekst kontor-tekst">
+          <h2>For kontoret.</h2>
+          <ul class="liste">
+            {KONTOR.map(([t, s]) => <li><b>{t}</b><span>{s}</span></li>)}
+          </ul>
         </div>
-        <ul class="integ">
-          {INTEG.map(([navn, tekst]) => (
-            <li class="card"><b>{navn}</b><span class="dempet">{tekst}</span></li>
-          ))}
-        </ul>
+        <figure class="ramme start"><img src="/img/leder.webp" alt="Hengsel CRM: ledertavle med frister og tall" {...maal("leder")} loading="lazy" decoding="async" /></figure>
       </div>
     </section>
 
-    <section id="om" class="seksjon h-flate">
-      <div class="h-innhold delt om">
-        <div class="hode-tekst">
-          <span class="eyebrow">Om oss</span>
-          <h2>Bygget i en kjøkkenbutikk.</h2>
-        </div>
-        <div class="om-tekst">
-          <p>Hengsel er laget av Studio Sigdal Innlandet, en kjøkkenbutikk med tre avdelinger. Vi brukte løsningen i egen drift først, med egne selgere, montører og kunder.</p>
-          <p>Det som ikke fungerte i butikken, ble endret. Nå tilbyr vi den til andre kjøkken- og interiørbutikker i Norden.</p>
-          <p class="sted">Studio Sigdal Innlandet · Hamar · Gjøvik · Lillehammer</p>
+    <section class="baand">
+      <div class="h-innhold delt midt">
+        <figure class="ramme portal-telefon"><img src="/img/kundeportalen.webp" alt="Kundeportalen på telefon: tilvalg, leveringsdag og dokumenter" {...maal("kundeportalen")} loading="lazy" decoding="async" /></figure>
+        <div class="tekst midt-tekst">
+          <h2>Kundeportalen.</h2>
+          <p class="ingress portal-ingress">Kunden ser tilvalg, leveringsdag, punkter og FDV-dokumenter på sin egen side. Ingen innlogging å huske, lenken kommer på SMS.</p>
         </div>
       </div>
     </section>
 
-    <section id="kontakt" class="seksjon">
-      <div class="h-innhold delt kontakt">
-        <div class="kontakt-tekst">
-          <span class="eyebrow">Book en gjennomgang</span>
-          <h2>Se løsningen med deres egne kjøkken.</h2>
-          <p class="lede">Vi går gjennom en ordre som ligner deres, fra lead til etterkalkyle. Det tar rundt en time, på Teams eller i butikken.</p>
-          <p class="dempet">Eller send en e-post til <a href={`mailto:${ADDR}`} class="epost">{ADDR}</a></p>
-          <div class="plan-kort"><PlantegningEntre /></div>
+    <section>
+      <div class="h-innhold tokol">
+        <div class="tekst">
+          <h2 class="mindre">Integrasjoner</h2>
+          <ul class="liste tett integ-liste">
+            {INTEG.map(([t, s]) => <li><b>{t}</b><span>{s}</span></li>)}
+          </ul>
         </div>
-        <form class="card skjema" novalidate data-kontakt-skjema>
-          <div class="field"><label for="fNavn">Navn</label><input class="input" id="fNavn" name="navn" type="text" autocomplete="name" /></div>
-          <div class="field"><label for="fFirma">Butikk</label><input class="input" id="fFirma" name="firma" type="text" autocomplete="organization" /></div>
+        <div class="tekst">
+          <h2 class="mindre">Trygghet</h2>
+          <ul class="liste tett">
+            {TRYGG.map((t) => <li><span>{t}</span></li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="priser" class="priser">
+      <div class="h-innhold delt">
+        <h2>Priser</h2>
+        <div class="tekst priser-tekst">
+          <p class="stor">Pris etter antall butikker og brukere. Be om tilbud.</p>
+          <a href="#demo" class="knapp start">Be om tilbud</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="om" class="baand">
+      <div class="h-innhold delt">
+        <h2>Om</h2>
+        <div class="tekst om-tekst">
+          <p class="stor om-stor">Hengsel er laget av SN Group, som selv driver kjøkkenbutikker i Innlandet. Vi bygde det vi manglet.</p>
+          <a href="https://sngroup.no" class="sn">sngroup.no →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="h-innhold delt">
+        <div class="tekst">
+          <h2>Be om demo.</h2>
+          <p class="demo-tekst">Vi går gjennom en ordre som ligner deres, fra befaring til faktura. Rundt en time, på Teams eller i butikken.</p>
+          <p>Eller skriv til <a href={`mailto:${EPOST}`} class="epost">{EPOST}</a></p>
+        </div>
+        <form class="skjema" novalidate data-demo-skjema>
+          <label>Navn<input class="input" type="text" name="navn" autocomplete="name" /></label>
+          <label>Butikk<input class="input" type="text" name="firma" autocomplete="organization" /></label>
           <div class="par">
-            <div class="field"><label for="fEpost">E-post</label><input class="input" id="fEpost" name="epost" type="email" autocomplete="email" /></div>
-            <div class="field"><label for="fTlf">Telefon</label><input class="input" id="fTlf" name="tlf" type="tel" autocomplete="tel" /></div>
+            <label>E-post<input class="input" type="email" name="epost" autocomplete="email" /></label>
+            <label>Telefon<input class="input" type="tel" name="tlf" autocomplete="tel" /></label>
           </div>
-          <button class="btn primary send" type="submit">Book en gjennomgang</button>
-          <p class="notis" data-skjema-notis aria-live="polite">Skjemaet åpner en ferdig utfylt e-post i e-postprogrammet ditt. Ingenting lagres på nettsiden.</p>
-          <p class="notis">Les hvordan vi behandler henvendelsen i <a href="/personvern">personvernerklæringen</a>.</p>
+          <button type="submit" class="knapp start">Be om demo</button>
+          <p class="notis" data-skjema-notis aria-live="polite">Skjemaet åpner en ferdig utfylt e-post. Ingenting lagres på nettsiden.</p>
         </form>
       </div>
     </section>
   </main>
-
-  <dialog class="lysboks" aria-label="Forstørret skjermbilde" data-lysboks>
-    <img src="data:," alt="" />
-    <button type="button" class="lukk" aria-label="Lukk">×</button>
-  </dialog>
 </Side>
 
 <script>
-  import "../scripts/lysboks";
   import "../scripts/kontakt";
-  import "../scripts/plantegning";
 </script>
 
 <style>
-  .dempet { color: var(--muted); }
-  .seksjon { padding-block: clamp(64px, 9vw, 120px); }
-  .hode { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 760px; }
-  .hode-tekst { display: grid; gap: 14px; align-content: start; max-width: 760px; }
-
-  /* Forside */
-  .hero { padding-block: clamp(48px, 8vw, 104px) clamp(40px, 6vw, 72px); }
-  .hero-rutenett { display: grid; gap: clamp(32px, 5vw, 56px); }
-  .hero-tekst { display: grid; gap: 22px; max-width: 760px; }
-  .hero-lede { font-size: 1.22rem; }
+  section { padding-block: clamp(56px, 8vw, 104px); }
+  .baand { background: var(--beige-3); }
+  h2 { font-size: clamp(1.9rem, 3.2vw, 2.8rem); line-height: 1.1; }
+  h2.mindre { font-size: clamp(1.6rem, 2.4vw, 2.1rem); line-height: 1.15; }
+  .ingress { font-size: 1.12rem; }
+  .stor { font-size: 1.25rem; line-height: 1.4; max-width: 40ch; }
   .knapper { display: flex; flex-wrap: wrap; gap: 12px; }
+  .ramme { min-width: 0; border: 1px solid var(--beige-2); background: var(--beige-3); }
+  .ramme img, .utsnitt img, .flate img { display: block; width: 100%; height: auto; }
+  .tekst { display: grid; gap: 16px; align-content: start; }
+  .liste { list-style: none; padding: 0; display: grid; }
+  .liste li { padding: 14px 0; border-top: 1px solid var(--beige-2); display: grid; gap: 2px; }
+  .liste.tett li { padding: 12px 0; }
+  .liste li span { font-size: 0.95rem; line-height: 1.5; }
+  .start { justify-self: start; align-self: start; }
 
-  /* Slik henger det sammen */
-  .tre { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .flyt { padding: 28px; display: grid; gap: 12px; align-content: start; min-width: 0; }
-  .hvem { font-size: 0.9rem; color: var(--soft); }
-  .kjede { margin-top: 28px; font-size: 0.95rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 10px; }
+  /* Delt: 5/7 fra 760 px, to like kolonner for integrasjoner og trygghet */
+  .delt, .tokol { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .delt.midt { align-items: center; }
 
-  /* Moduler: ruter med 1 px skille */
-  .moduler {
-    list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
-    gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
-  }
-  .moduler li { background: var(--surface); padding: 22px 22px 24px; display: grid; gap: 6px; align-content: start; min-width: 0; }
-  .moduler .nr { font-size: 0.82rem; color: var(--soft); font-variant-numeric: tabular-nums; }
-  .moduler li .dempet { font-size: 0.95rem; line-height: 1.5; }
+  /* Hero */
+  .hero { padding-block: clamp(48px, 8vw, 112px) clamp(40px, 6vw, 80px); }
+  .hero-inn { display: grid; gap: clamp(36px, 5vw, 64px); }
+  .hero-tekst { display: grid; gap: 24px; max-width: 820px; }
+  h1 { font-size: clamp(2.4rem, 5.4vw, 4.4rem); line-height: 1.02; }
+  .hero-ingress { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; max-width: 62ch; }
+  .hero-media { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: end; }
+  .telefon { overflow: hidden; width: min(100%, 300px); justify-self: center; }
 
-  /* Hengsel Ute */
-  .ute { display: grid; gap: clamp(32px, 5vw, 56px); }
+  /* Tre løfter: rutenett med 1 px-linjer */
+  .lofter-seksjon { border-top: 1px solid var(--beige-2); }
+  .lofter { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1px; background: var(--beige-2); border: 1px solid var(--beige-2); }
+  .lofter article { background: var(--off-white); padding: 28px 26px 32px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .lofte { font-size: 1.6rem; line-height: 1.2; }
+  .lofter p { max-width: 40ch; }
+
+  /* Sju steg */
+  .steg-inn { display: grid; gap: clamp(32px, 4vw, 48px); }
+  .steg-tittel { max-width: 20ch; }
+  .steg { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+  .steg li { display: grid; gap: 12px; align-content: start; min-width: 0; padding-top: 16px; border-top: 1.5px solid var(--warm-black); }
+  .nr { font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+  .utsnitt { aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--beige-2); background: var(--off-white); }
+  .utsnitt img { height: 100%; object-fit: cover; object-position: top left; }
+  .steg h3 { font-size: 1.25rem; line-height: 1.25; }
+  .steg p { font-size: 0.95rem; line-height: 1.5; }
+
+  /* Hengsel Ute på Warm Black */
+  .ute { background: var(--warm-black); color: var(--ute-tekst); padding-block: clamp(64px, 9vw, 120px); }
+  .ute-inn { display: grid; gap: clamp(40px, 5vw, 64px); }
   .ute-hode { display: flex; flex-direction: column; gap: clamp(20px, 3vw, 40px); align-items: flex-start; }
-  .ute-ikon { width: 96px; height: 96px; display: block; flex: none; }
-  .butikker { display: flex; flex-wrap: wrap; gap: 10px; }
-  .butikker span {
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
-    border: 1px dashed var(--soft); color: var(--muted); font-size: 0.95rem; box-sizing: border-box;
-  }
-  .telefoner { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 3vw, 40px); align-items: start; }
-  figure { margin: 0; display: grid; gap: 14px; min-width: 0; }
-  figcaption { display: grid; gap: 4px; text-align: center; }
-  figcaption .dempet { font-size: 0.95rem; }
+  .app-ikon { width: 88px; height: 88px; display: block; flex: none; }
+  .ute-tekst { display: grid; gap: 16px; max-width: 760px; }
+  .ute-tittel { font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.08; }
+  .ute-ingress { max-width: 58ch; }
+  .ute-knapper { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ute-knapp { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1px solid var(--ute-tekst); color: var(--ute-tekst); box-sizing: border-box; }
+  a.ute-knapp:hover { background: var(--ute-tekst); color: var(--warm-black); }
+  .galleri { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 20px; }
+  .skjerm { display: grid; gap: 12px; min-width: 0; align-content: start; }
+  .skjerm.ipad { grid-column: span 2; }
+  .flate { background: var(--beige-3-ute); border: 1px solid var(--ute-linje); overflow: hidden; }
+  .skjerm.lys .flate { background: var(--off-white-ute); }
+  .statuslinje { height: 40px; overflow: hidden; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-size: 13px; font-weight: 650; color: var(--warm-black); }
+  .batteri { width: 22px; height: 10px; border: 1.5px solid var(--warm-black); border-radius: 2px; box-sizing: border-box; }
+  .skjerm figcaption { display: grid; gap: 2px; }
+  .skjerm figcaption span { font-size: 0.95rem; color: var(--beige-1); line-height: 1.5; }
+
+  /* For kontoret, kundeportalen */
+  .kontor-tekst { gap: 20px; }
+  .portal-telefon { background: var(--off-white); overflow: hidden; width: min(100%, 320px); justify-self: center; }
+  .midt-tekst { align-content: center; }
+  .portal-ingress { max-width: 52ch; }
 
   /* Integrasjoner */
-  .integ {
-    list-style: none; margin: 0; padding: 0; display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px;
-  }
-  .integ li { padding: 20px 22px; display: grid; gap: 4px; align-content: start; min-width: 0; }
-  .integ .dempet { font-size: 0.95rem; line-height: 1.5; }
+  .integ-liste li { grid-template-columns: minmax(0, 11ch) minmax(0, 1fr); gap: 16px; }
 
-  /* Om oss og kontakt: to kolonner fra 860 px */
-  .delt { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
-  .om-tekst { display: grid; gap: 16px; color: var(--muted); font-size: 1.08rem; min-width: 0; }
-  .sted { font-size: 0.95rem; color: var(--soft); }
-
-  .kontakt-tekst { display: grid; gap: 18px; align-content: start; min-width: 0; }
-  .epost { font-weight: 650; color: var(--ink); }
-  .plan-kort { width: 100%; margin-top: 8px; }
-  .skjema { display: grid; gap: 14px; padding: clamp(20px, 3vw, 32px); border-radius: 20px; min-width: 0; align-self: start; }
+  /* Priser, om, demo */
+  .priser { border-top: 1px solid var(--beige-2); }
+  .priser-tekst { gap: 20px; }
+  .om-tekst { gap: 12px; }
+  .om-stor { max-width: 44ch; }
+  .sn { font-weight: 650; color: var(--info-tekst); } /* Deep Blue gir 3,95:1 mot Beige 3; den mørkere blåen gir 4,5:1 */
+  .demo-tekst { max-width: 48ch; }
+  .epost { font-weight: 650; color: var(--warm-black); }
+  .epost:hover { color: var(--deep-blue); }
+  .skjema { display: grid; gap: 14px; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--beige-2); background: var(--off-white); min-width: 0; align-self: start; }
+  .skjema label { display: grid; gap: 6px; font-size: 0.95rem; }
   .par { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; }
-  .send { justify-self: start; }
-  .notis { font-size: 0.88rem; color: var(--muted); }
+  .skjema .knapp { border: 0; }
+  .notis { font-size: 0.9rem; line-height: 1.5; }
 
-  @media (min-width: 860px) {
-    .tre, .telefoner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (min-width: 760px) {
+    .hero-media { grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; }
+    .telefon { width: 300px; justify-self: end; }
+    .steg { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .ute-hode { flex-direction: row; }
-    .om { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); }
-    .kontakt { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    .galleri { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .delt { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .tokol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .portal-telefon { justify-self: end; }
   }
-
-  /* Lysboks */
-  .lysboks {
-    position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0;
-    background: var(--lysboks); padding: clamp(12px, 3vw, 40px); cursor: zoom-out; box-sizing: border-box;
-  }
-  .lysboks[open] { display: grid; place-items: center; }
-  .lysboks::backdrop { background: var(--lysboks); }
-  .lysboks img { max-width: 100%; max-height: 92vh; width: auto; height: auto; object-fit: contain; }
-  .lukk {
-    position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0;
-    background: var(--off-white); color: var(--warm-black); font-size: 1.4rem; cursor: pointer;
+  @media (min-width: 1100px) {
+    .steg { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .galleri { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   }
 </style>

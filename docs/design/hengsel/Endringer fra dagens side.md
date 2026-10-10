@@ -2,6 +2,19 @@
 
 Filer: `Forside.dc.html`, `Personvern.dc.html`, `404.dc.html`. Felles deler: `Sidehode`, `Bunn` (familiebånd + bunntekst), `Plantegning Entre`, `Enhet` (telefon-, iPad- og PC-ramme). `Oversikt.dc.html` viser alle sider i PC 1440 og mobil 390, lys og mørk (`?tema=lys|mork`).
 
+## 54 Hengsel forside og 55 Hengsel apptest (10.10) – ny struktur, erstatter 51–53
+Bygget etter strukturforslaget 10.10. Sigdal-profilen: Off White side, Warm Black tekst, Deep Blue eneste aksent, Reckless i titler, Lausanne ellers, kvadratiske hjørner, ingen skygger, 1 px Beige 2-linjer. Familiegrepene (plantegning, SN Group-bånd) er tatt ut. Ingen designsystem-komponenter, bare egne elementer.
+- Forside, 12 deler: topp (logo -lys, meny Produkt · Hengsel Ute · Priser · Om · Logg inn, «Be om demo»), hero med CRM-PC + ute-i-dag, tre løfter, tidslinje med sju steg (med skjermutsnitt), Hengsel Ute på Warm Black med 11 bilder, for kontoret (leder.webp), kundeportalen (kundeportalen.webp), integrasjoner og trygghet, priser («Pris etter antall butikker og brukere. Be om tilbud.»), om, be om demo (skjema → mailto hei@hengsel.no), bunn.
+- /apptest: noindex, ikke lenket fra forsiden, menyen eller bunnen. Feil meldes til test@hengsel.no. Tre bokser: TestFlight, Google Play, APK (lenke lagt inn, versionCode 21). «Slik melder du feil» og «Hva er nytt i 1.6.0».
+- TODO i koden: TestFlight-lenke, Play-lenke, innloggings-URL (står som app.hengsel.no), telefonnummer i bunnen, versjonsnotater 1.6.0, personverntekst.
+- Fil 51–53 ligger igjen som arkiv.
+
+## Ny logo (10.10)
+Logopakken fra crm_v4 (10.10, konturert tekst) ligger i `logo/`. Sidehodet bruker `hengsel-crm-logo-lys.svg` (42 px høy på PC, 36 på mobil) og `hengsel-crm-logo-mork.svg` i mørk modus, rett på flaten uten egen bakgrunn, som reglene sier. Hengsel Ute-seksjonen bruker app-ikonet `hengsel-app-ikon-lys.svg` (erstatter L9); Ute-logoen finnes ikke i denne pakken, så eyebrow-teksten står. Favicon (svg + 32 px), apple-touch-icon 180 og theme-color #5074A9 i <head> på alle sider.
+
+## Hengsel Ute utvidet (09.10)
+Seksjonen i fil 51 er bygget om fra tre telefoner på rad til åtte grep, ett per rad med skjermbilde fra fil 36 i crm_v4: I dag, befaring med laser, varer og tegning, KS (to skjermer), typeskilt på hvitevarer, avvik med bilde, merking av punkter (to skjermer), ferdigmelding. Deretter bildeverktøyet på iPad og to kort for utkjører og firmaleder. Nye bilder i `img/`: `ute-*.webp` (11 stk). Resten av siden er uendret.
+
 ## 52 Apptest og 53 Apptest passord (08.10) – S-56 v2
 Erstatter docs/design/hengsel/apptest/Apptest.dc.html. Samme toppfelt, familiebånd og bunntekst som resten av hengsel.no, og samme skrift som fil 51.
 - Nytt: delen «Prøv med demobrukerne» med passordflate (monospace + Kopier), tilstand uten passord, merknad om @demo.invalid, to brukerlister der brukernavnet kopieres ved trykk («Kopiert» i 1,8 s), og knappen «Last ned oversikten (PDF)».
