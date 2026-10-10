@@ -65,4 +65,7 @@ saker:function(){var r='';if(S.saker.tap)r+=li('Avvik på bekreftelse fra Tapwel
 };
 function render(){side();V[S.v]()}
 render();
+// Studio Display: skaler 1180 × 740-flaten til rammens bredde
+var sk=document.querySelector('.pc-ramme>.skjermkant>.skjerm');
+if(sk&&window.ResizeObserver){new ResizeObserver(function(){sk.style.setProperty('--s',(sk.clientWidth/1180).toFixed(4))}).observe(sk)}
 })();

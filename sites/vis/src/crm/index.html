@@ -27,6 +27,14 @@
 .guide span.d i::before{content:"✓"}
 /* CRM-skjermen */
 .app{display:grid;grid-template-columns:232px minmax(0,1fr);background:var(--card);overflow:auto}
+/* Studio Display: skjermflaten er 1180 × 740 og skaleres ned til rammens bredde (--s settes i side.js),
+   så fire nøkkeltall står på én rad og hele Min dag er synlig. Under 901 px vises appen i naturlig størrelse. */
+.pc-ramme{width:100%}
+@media (min-width:901px){
+  .pc-ramme>.skjermkant>.skjerm{aspect-ratio:1180/740;overflow:hidden;position:relative}
+  .skjerm>.app{position:absolute;top:0;left:0;width:1180px;height:740px;transform-origin:0 0;transform:scale(var(--s,1));grid-template-rows:minmax(0,1fr);overflow:hidden}
+  .skjerm>.app>.main{overflow:auto;min-height:0}
+}
 .side{background:var(--bg);border-right:1px solid var(--line);padding:20px 12px;display:grid;align-content:start;gap:2px}
 .side .brand{padding:2px 12px 16px;line-height:1}
 .side .grp{padding:14px 12px 6px}
@@ -95,10 +103,10 @@ tr.new td{animation:fl .6s var(--ease)}
     <span data-k="cet"><i></i>Importer et tilbud fra CET</span>
     <span data-k="plan"><i></i>Se montasjeplanen</span>
   </div>
-  <div class="pc-ramme"><div class="skjermkant"><div class="app">
+  <div class="pc-ramme"><div class="skjermkant"><div class="skjerm"><div class="app">
     <nav class="side" id="side" aria-label="Meny"></nav>
     <main class="main" id="main"></main>
-  </div></div><span class="stang" aria-hidden="true"></span><span class="fot" aria-hidden="true"></span></div>
+  </div></div></div><span class="stang" aria-hidden="true"></span><span class="fot" aria-hidden="true"></span></div>
   <p class="foot">Demoen er ikke koblet til ekte data. Skrifter: Newsreader og Inter.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
