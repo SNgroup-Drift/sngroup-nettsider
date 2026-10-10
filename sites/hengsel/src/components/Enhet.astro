@@ -14,7 +14,7 @@ interface Props {
   bilde: string;
   alt: string;
   type: "pc" | "phone" | "ipad";
-  ratio?: 0.75 | 0.8 | 1 | 1.4 | 1.8 | 2.1;
+  ratio?: 0.75 | 0.8 | 1 | 1.1 | 1.4 | 1.8 | 2.1;
   /** Første skjermbilde på siden lastes med en gang, resten når de nærmer seg */
   forst?: boolean;
   /** Flere bredder av samme bilde: [bredde i px → filnavn uten .webp], f.eks. { 800: "min-dag-800" } */
@@ -23,7 +23,7 @@ interface Props {
 }
 const { bilde, alt, type, ratio = 0.75, forst = false, bredder, sizes } = Astro.props;
 const [w, h] = MAAL[bilde] ?? [0, 0];
-const r = { 0.75: "r75", 0.8: "r80", 1: "r100", 1.4: "r140", 1.8: "r180", 2.1: "r210" }[ratio];
+const r = { 0.75: "r75", 0.8: "r80", 1: "r100", 1.1: "r110", 1.4: "r140", 1.8: "r180", 2.1: "r210" }[ratio];
 const srcset = bredder
   ? [...Object.entries(bredder).map(([b, fil]) => `${src(fil)} ${b}w`), `${src(bilde)} ${w}w`].join(", ")
   : undefined;
@@ -48,7 +48,7 @@ const lys = bilde === "ute-laser" || bilde === "ute-avvik";
 
 <style>
   .enhet { container-type: inline-size; width: 100%; min-width: 0; display: flex; justify-content: center; }
-  .r75 { --ratio: 0.75; } .r80 { --ratio: 0.8; } .r100 { --ratio: 1; } .r140 { --ratio: 1.4; } .r180 { --ratio: 1.8; } .r210 { --ratio: 2.1; }
+  .r75 { --ratio: 0.75; } .r80 { --ratio: 0.8; } .r100 { --ratio: 1; } .r110 { --ratio: 1.1; } .r140 { --ratio: 1.4; } .r180 { --ratio: 1.8; } .r210 { --ratio: 2.1; }
   /* Rammen er selv en container: cqw under er prosent av rammebredden (856 for PC, 414 for telefon, 1212 for iPad) */
   .ramme {
     --w: 856; --h: 662; flex: none; min-width: 0; container-type: inline-size;

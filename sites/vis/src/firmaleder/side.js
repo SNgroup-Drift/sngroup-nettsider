@@ -13,7 +13,7 @@ function P(h){$('pane').innerHTML=h}
 function on(i,f){var e=$(i);if(e)e.onclick=f}
 var V={
 nye:function(){
- if(S.status!=='ny'&&!S.sel){P('<h2>Nye</h2><div class="req"><p>Ingen nye forespørsler. Du får varsel når Studio Sigdal sender en jobb.</p></div>');return}
+ if(S.status!=='ny'&&!S.sel){P('<h2>Nye</h2><div class="req"><p>Ingen nye forespørsler. Du får varsel når Kjøkkenstudio Hamar sender en jobb.</p></div>');return}
  var req='<div class="req '+(S.sel?'sel':'')+'" id="rq"><div class="top"><b>Kjøkken · Hanne Liksomlien</b>'+(S.status==='ny'?'<span class="cd">Svar innen '+cd()+'</span>':'<span class="pill '+(S.status==='ok'?'ok':'warn')+'">'+(S.status==='ok'?'Akseptert':'Avvist')+'</span>')+'</div><p>Liksomvegen 4, Lillehammer · uke 46, ons–tor</p></div>';
  if(!S.sel){P('<h2>Nye</h2>'+req);on('rq',function(){S.sel=1;step('se');render()});return}
  var d='<div class="req"><div class="row"><span>Jobb</span><span>LI-10087 · kjøkken</span></div><div class="row"><span>Tid</span><span>uke 46, 2 dager</span></div><div class="row"><span>Avtalt sum</span><span>18 400 kr</span></div><div class="row"><span>Med</span><span>KS Kjøkken, tegninger, varer</span></div></div>';

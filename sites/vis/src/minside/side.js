@@ -18,7 +18,7 @@ function render(){
   var next=st.findIndex(function(x){return !x[2]});
   h='<h2>Hei, Lund!</h2><div class="c"><b>'+(S.signert?(S.lev?'Alt er klart til levering':'Bekreft leveringen'):'Tilbudet venter på deg')+'</b><p>'+(S.signert?(S.lev?'Vi sender SMS dagen før med tidsvindu.':'Fortell oss hvordan sjåføren kommer inn.'):'Se gjennom, velg tilvalg og godkjenn.')+'</p><button class="btn primary big" type="button" id="cta">'+(S.signert?(S.lev?'Se dokumenter':'Til levering'):'Åpne tilbudet')+'</button></div>';
   h+='<div class="c"><b>Slik går det</b><div class="tl">'+st.map(function(x,i){return '<div class="'+(x[2]?'d':i===next?'n':'')+'"><div>'+x[0]+(x[1]?'<span>'+x[1]+'</span>':'')+'</div></div>'}).join('')+'</div></div>';
-  h+='<div class="c"><b>Selgeren din</b><p>Ingrid, Studio Sigdal Hamar. Svarer på meldinger her innen én arbeidsdag.</p></div>';
+  h+='<div class="c"><b>Selgeren din</b><p>Ingrid, Kjøkkenstudio Hamar. Svarer på meldinger her innen én arbeidsdag.</p></div>';
  }
  if(S.tab==='tilbud'){
   h='<h2>Tilbud T-1204</h2><div class="c">'+BASE.map(function(x){return '<div class="ln"><b>'+x[0]+'</b><span class="p">'+fmt(x[2])+' kr</span><span>'+x[1]+'</span></div>'}).join('')+'</div>';
@@ -37,7 +37,7 @@ function render(){
  }
  if(S.tab==='feil'){
   if(S.feil)h='<h2>Takk for beskjeden</h2><div class="c"><b>Sak R-0412 er opprettet</b><p>Ingrid ser saken nå, og du får svar innen én arbeidsdag. Du finner saken her til den er løst.</p><span class="pill info" style="justify-self:start">Under behandling</span></div>';
-  else h='<h2>Meld en feil</h2><div class="c"><b>Hva gjelder det?</b><div class="chips" id="hva">'+['Skade på front','Dør henger skjevt','Mangler del','Annet'].map(function(x,i){return '<button type="button" class="'+(i===0?'on':'')+'">'+x+'</button>'}).join('')+'</div><textarea id="txt" aria-label="Beskriv feilen">Liten flis i hjørnet på skuffefronten under platetoppen.</textarea><div class="photo">Bilde lagt ved (demo)</div><button class="btn primary big" type="button" id="send">Send til Studio Sigdal</button></div>';
+  else h='<h2>Meld en feil</h2><div class="c"><b>Hva gjelder det?</b><div class="chips" id="hva">'+['Skade på front','Dør henger skjevt','Mangler del','Annet'].map(function(x,i){return '<button type="button" class="'+(i===0?'on':'')+'">'+x+'</button>'}).join('')+'</div><textarea id="txt" aria-label="Beskriv feilen">Liten flis i hjørnet på skuffefronten under platetoppen.</textarea><div class="photo">Bilde lagt ved (demo)</div><button class="btn primary big" type="button" id="send">Send til Kjøkkenstudio Hamar</button></div>';
  }
  $('body').innerHTML=h;wire()}
 function wire(){var q=function(s){return $('body').querySelector(s)};

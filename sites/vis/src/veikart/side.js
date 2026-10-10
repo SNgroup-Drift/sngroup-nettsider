@@ -6,7 +6,7 @@ var L=[
  {id:'crm',l:'na',st:'ok',t:'Hengsel CRM',g:'Tilbud fra Nobia-XML, ordre, saker og Min dag på ett sted.',w:'',dep:[],
   hva:'Tilbudet lages rett fra Nobia-XML uten tasting. Ordre, bestillinger og saker henger sammen, og selgeren ser bare det som avviker i Min dag.',neste:'Flyttes til Cloudflare i drift (prod) i Q4.'},
  {id:'m365',l:'na',st:'ok',t:'Microsoft 365: bestilling@ og varsel@',g:'Én fast inngang for leverandørene og felles varsler ut.',w:'',dep:[],
-  hva:'Ordrebekreftelser, fraktvarsler og fakturaer kommer til bestilling@studiosigdal-innlandet.no. Varsler går ut fra varsel@. Alle logger inn med jobbkontoen.',neste:'Flere leverandører over på bestilling@ med leverandørbrevet.'},
+  hva:'Ordrebekreftelser, fraktvarsler og fakturaer kommer til bestilling@kjokkenstudio-hamar.no. Varsler går ut fra varsel@. Alle logger inn med jobbkontoen.',neste:'Flere leverandører over på bestilling@ med leverandørbrevet.'},
  {id:'min',l:'na',st:'ok',t:'Min side for kunder',g:'Kunden ser tilbud, kontrakt, leveringsuke og FDV selv.',w:'',dep:[],
   hva:'Kunden har alt på ett sted og slipper å ringe for status. Godkjenninger og endringsønsker kommer rett inn i CRM.',neste:'Signering i portalen med Penneo.'},
  {id:'hen',l:'na',st:'ok',t:'Hengsel montørapp',g:'Montøren har jobb, tegning og varer i lomma.',w:'',dep:[],

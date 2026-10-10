@@ -51,7 +51,10 @@ const {
   robots,
   tema,
 } = Astro.props;
-const canonical = Astro.site ? new URL(path, Astro.site).href : undefined;
+// Nettstedene bygger med build.format «file» og trailingSlash «never», så Astro.url.pathname er «/index.html» og
+// «/personvern.html». Adressene som publiseres er «/» og «/personvern» (html_handling auto-trailing-slash i Workers).
+const renSti = path.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+const canonical = Astro.site ? new URL(renSti, Astro.site).href : undefined;
 ---
 <!doctype html>
 <html lang="nb" data-theme={tema}>
@@ -67,6 +70,7 @@ const canonical = Astro.site ? new URL(path, Astro.site).href : undefined;
     <meta property="og:type" content="website" />
     {canonical && <meta property="og:url" content={canonical} />}
     {delingsbilde && <meta property="og:image" content={delingsbilde} />}
+    {delingsbilde && <meta name="twitter:card" content="summary_large_image" />}
     <meta name="theme-color" content={temafarge[0]} media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content={temafarge[1]} media="(prefers-color-scheme: dark)" />
     <link rel="icon" href={ikon.href} type={ikon.type} />

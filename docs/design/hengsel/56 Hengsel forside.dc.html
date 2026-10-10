@@ -102,8 +102,8 @@
             <h3 style="font-size:var(--t-h2); line-height:1.15">{{ aktiv.t }}</h3>
             <p style="color:var(--muted); font-size:1.08rem; max-width:44ch">{{ aktiv.s }}</p>
             <div style="display:flex; gap:8px; padding-top:8px">
-              <button type="button" class="btn secondary" onClick="{{ forrige }}" aria-label="Forrige steg">← Forrige</button>
-              <button type="button" class="btn secondary" onClick="{{ neste }}" aria-label="Neste steg">Neste →</button>
+              <button type="button" class="btn secondary" onClick="{{ forrige }}" aria-label="Forrige steg" disabled="{{ erForst }}">← Forrige</button>
+              <button type="button" class="btn primary" onClick="{{ neste }}" aria-label="Neste steg" disabled="{{ erSist }}">Neste →</button>
             </div>
           </div>
           <dc-import name="Enhet" bilde="{{ aktiv.img }}" type="{{ aktiv.type }}" alt="{{ aktiv.alt }}" ratio="{{ aktiv.ratio }}" on-zoom="{{ zoom }}" style="width:100%; min-width:0" hint-size="100%,520px"></dc-import>
@@ -139,10 +139,7 @@
             <span class="eyebrow">Hengsel Ute</span>
             <h2 style="font-size:var(--t-h1); line-height:1.08">Hengsel Ute. Dagen ute, samlet på én skjerm.</h2>
             <p class="lede">Montøren får jobben, tegningene, målene og KS-sjekklista på telefonen. Det som registreres hos kunden, står på ordren hos kontoret med en gang.</p>
-            <div style="display:flex; flex-wrap:wrap; gap:10px">
-              <span style="display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; border:1px dashed var(--soft); color:var(--muted); font-size:.95rem">App Store · TestFlight nå</span>
-              <span style="display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; border:1px dashed var(--soft); color:var(--muted); font-size:.95rem">Google Play</span>
-            </div>
+            <p style="color:var(--muted); font-size:.95rem">Hengsel Ute følger med Hengsel, for iPhone, iPad og Android.</p>
           </div>
         </div>
         <div style="display:grid; gap:clamp(40px,6vw,80px)">
@@ -366,13 +363,13 @@ const KONTOR = [
 ];
 const PORTAL = ['Tilbudet med bilde, pris og tilvalg', 'Kjøpsavtale med e-signering', 'Leveringsdag og montering', 'Punkter, FDV og dokumenter etterpå'];
 const INTEG = [
-  ['Configura CET', 'Tegning og varelinjer leses inn i tilbud, kalkyle og tilvalg.'],
-  ['Sigdal og Nobia', 'Bestilling og ordrebekreftelse.'],
-  ['PowerOffice Go', 'Kunde, prosjekt og faktura fra ordren. Fakturastatus tilbake.'],
-  ['Penneo', 'E-signering av kjøpsavtalen med BankID.'],
-  ['Bosch laser', 'Mål over Bluetooth i Hengsel Ute.'],
-  ['Microsoft 365', 'Innlogging, e-post fra Outlook og møter fra kalenderen.'],
-  ['SMS og e-post', 'Beskjeder til kunden fra ordren.'],
+  ['Tegneprogram', 'Tegning og varelinjer leses inn i tilbud, kalkyle og tilvalg. I dag: Configura CET.'],
+  ['Leverandørbestilling', 'Bestilling og ordrebekreftelse per leverandør. I dag: Sigdal og Nobia.'],
+  ['Regnskap', 'Kunde, prosjekt og faktura fra ordren, fakturastatus tilbake. I dag: PowerOffice Go.'],
+  ['E-signering', 'Kjøpsavtalen signeres med BankID. I dag: Penneo.'],
+  ['Avstandsmåler', 'Mål over Bluetooth rett inn i bildet i Hengsel Ute. I dag: Bosch GLM.'],
+  ['E-post og kalender', 'Innlogging, e-post og møter fra kontoret. I dag: Microsoft 365.'],
+  ['SMS og e-post til kunden', 'Beskjeder om levering og montering, sendt fra ordren.'],
 ];
 const TRYGG = [
   ['Data i EU', 'Lagret i Frankfurt, hos en leverandør med databehandleravtale.'],
@@ -381,7 +378,7 @@ const TRYGG = [
   ['Daglig sikkerhetskopi', 'Automatisk, med gjenoppretting.'],
 ];
 const ADDR = 'hei@hengsel.no';
-const LOGIN = 'https://app.hengsel.no'; // TODO: prod-adressen til CRM
+const LOGIN = ''; // Settes til https://app.hengsel.no når CRM-et er flyttet. Tom = «Logg inn» skjult.
 const WRAP = { maxWidth: 1180, margin: '0 auto', paddingInline: 'clamp(16px,4vw,40px)', display: 'grid', minWidth: 0 };
 
 class Component extends DCLogic {
@@ -408,7 +405,7 @@ class Component extends DCLogic {
         { label: 'Hengsel Ute', href: '#ute' },
         { label: 'Priser', href: '#priser' },
         { label: 'Om', href: '#om' },
-        { label: 'Logg inn', href: LOGIN },
+        ...(LOGIN ? [{ label: 'Logg inn', href: LOGIN }] : []),
       ],
       zoom: (src, alt) => this.setState({ lb: { src, alt } }),
       lbOpen: !!s.lb, lb: s.lb || { src: '', alt: '' },
@@ -418,10 +415,11 @@ class Component extends DCLogic {
       lofter: LOFTER.map(l => ({ t: l[0], s: l[1] })),
       flow: FLOW,
       steg: STEG.map((x, i) => ({ n: String(i + 1).padStart(2, '0'), t: x[0], selStr: i === s.steg ? 'true' : 'false', tab: this.tab(i === s.steg), numColor: i === s.steg ? 'var(--beige-1)' : 'var(--muted)', pick: () => this.setState({ steg: i }) })),
-      aktiv: { n: s.steg + 1, t: st[0], s: st[1], img: st[2], type: st[3], hvor: st[4], alt: st[5], ratio: st[3] === 'phone' ? 1.4 : 0.8 },
-      forrige: () => this.setState(p => ({ steg: (p.steg + STEG.length - 1) % STEG.length })),
-      neste: () => this.setState(p => ({ steg: (p.steg + 1) % STEG.length })),
-      stegGrid: { display: 'grid', gridTemplateColumns: mob ? 'minmax(0,1fr)' : (st[3] === 'phone' ? 'minmax(0,6fr) minmax(0,5fr)' : 'minmax(0,4fr) minmax(0,8fr)'), gap: 'clamp(24px,4vw,56px)', alignItems: 'center' },
+      aktiv: { n: s.steg + 1, t: st[0], s: st[1], img: st[2], type: st[3], hvor: st[4], alt: st[5], ratio: st[3] === 'phone' ? 1.1 : 0.8 },
+      forrige: () => this.setState(p => ({ steg: Math.max(0, p.steg - 1) })),
+      neste: () => this.setState(p => ({ steg: Math.min(STEG.length - 1, p.steg + 1) })),
+      erForst: s.steg === 0, erSist: s.steg === STEG.length - 1,
+      stegGrid: { display: 'grid', gridTemplateColumns: mob ? 'minmax(0,1fr)' : 'minmax(0,5fr) minmax(0,7fr)', gap: 'clamp(24px,4vw,56px)', alignItems: 'center', minHeight: mob ? 0 : 720 },
       moduler: MODULER.map((m, i) => ({ n: String(i + 1).padStart(2, '0'), b: m[0], s: m[1] })),
       uteHead: { display: 'flex', flexDirection: mob ? 'column' : 'row', gap: 'clamp(20px,3vw,40px)', alignItems: 'flex-start' },
       grep: GREP.map((g, i) => {

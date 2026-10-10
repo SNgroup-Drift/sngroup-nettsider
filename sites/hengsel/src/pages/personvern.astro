@@ -4,6 +4,8 @@ import PrivacyPage from "@sngroup/design/components/PrivacyPage.astro";
 import { personvern } from "../content/personvern";
 ---
 <Side title="Personvern · Hengsel" description="Personvernerklæring for nettsiden hengsel.no.">
+  {/* Astro fjerner HTML-kommentarer fra malen; set:html legger den inn i kildekoden til siden, uten å vises */}
+  <Fragment set:html="<!-- TODO: ny personverntekst kommer -->" />
   <main id="innhold" class="personvern">
     <PrivacyPage {...personvern} />
   </main>
