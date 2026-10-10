@@ -10,7 +10,7 @@ var R=[
 // Rom uten CRM_v4-fil bruker bilde av rommet selv (src/img/rom-*.webp, lages av scripts/skjermbilder-vis.mjs).
 var C=[
  {u:'/reise/',b:'/skjermbilder/crm-tilbud-kunde.webp',t:'Ordrens reise',type:'Simulering',p:'Én kjøkkenordre fra tegning i CET til montert kjøkken og faktura, i åtte scener med fem leverandører.',r:['selger','montor','leverandor','sigdal'],go:'Spill av'},
- {u:'/crm/',b:'/skjermbilder/crm-tilbud.webp',t:'Prøv CRM selv',type:'Prøv selv',p:'En dag som selger: Min dag, avvik fra leverandører, tilbud fra CET, ordre og montasjeplan.',r:['selger','sigdal'],go:'Prøv CRM'},
+ {u:'/crm/',b:'/skjermbilder/crm-tilbud-liste.webp',t:'Prøv CRM selv',type:'Prøv selv',p:'En dag som selger: Min dag, avvik fra leverandører, tilbud fra CET, ordre og montasjeplan.',r:['selger','sigdal'],go:'Prøv CRM'},
  {u:'/kunde/',b:'/skjermbilder/portal-tlf-nytt-kjokken.webp',tlf:1,t:'Kundens reise',type:'Simulering',p:'Det kunden opplever i Min side og på SMS, fra tilbud og BankID til FDV og reklamasjon.',r:['selger'],go:'Spill av'},
  {u:'/opplaering/',b:'/img/rom-opplaering.webp',t:'Opplæring for selgere',type:'Opplæring',p:'Ti korte deler fra kunde og tilbud til bestilling, frister og montasje.',r:['selger'],go:'Start'},
  {u:'/montor/',b:'/skjermbilder/ute-i-dag.webp',tlf:1,t:'Montørappen Hengsel',type:'Prøv selv',p:'En monteringsdag: neste jobb, KS, avvik med bilde og ferdigmelding med signatur.',r:['montor','selger'],go:'Prøv appen'},

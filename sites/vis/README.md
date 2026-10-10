@@ -8,18 +8,18 @@ Alle skjermbilder av løsningen på vis.hengsel.no kommer fra **designfilene i C
 
 | Rom | Studio Display | iPad | iPhone |
 |---|---|---|---|
-| Prøv CRM | `crm-tilbud` → `crm-tilbud-kunde` → `crm-ordre-kontrollmal` → `crm-mal-skisser` (steg 1–4) | `crm-ipad-kontrollmal` | `crm-tlf-kontrollmal` |
-| Firmaleder | `crm-leder-oversikt` → `crm-leder-start` → `crm-moduler` (steg 1–2 / 3 / 4) | `crm-ipad-leder`, `crm-ipad-innstillinger` | `crm-tlf-leder`, `crm-tlf-innstillinger` |
+| Prøv CRM | `crm-tilbud-liste` → `crm-tilbud-kunde` → `crm-ordre-kontrollmal` → `crm-mal-skisser` (steg 1–4) | `crm-ipad-tilbud` | `crm-tlf-ordre` |
+| Firmaleder | `crm-leder-oversikt` → `crm-leder-start` → `crm-moduler` (steg 1–2 / 3 / 4) | `crm-ipad-min-dag`, `crm-ipad-montasje` | `crm-tlf-min-dag`, `crm-tlf-kundekort` |
 | Montørappen (Hengsel Ute) | – | `ute-ipad-i-dag`, `ute-ipad-ks`, `ute-ipad-staaende` | `ute-i-dag` → `ute-jobb-under` → `ute-ks` → `ute-ks-kamera` → `ute-avvik` → `ute-punkter` → `ute-punktkort` → `ute-ferdig` → `ute-typeskilt` (steg: 2, 3, 5, 8); statuslinje fra rammen |
 | Tegningen | `crm-mal-skisser` (steg 4) | `ute-ipad-bildeverktoy` (steg 3; statuslinje fra rammen) | `ute-laser` (steg 1, 2, 5) |
 | Kundens Min side | PC-bryter: `portal-mitt-kjokken` → `portal-oppgraderinger` → `portal-status` → `portal-nytt-kjokken` | – | Mobil-bryter: `portal-tlf-nytt-kjokken` → `portal-tlf-levering` → `portal-tlf-montering` → `portal-tlf-mine-kjop`; steg n viser bilde n i begge |
 | Kundens reise | – | – | steg 1–2 `portal-tlf-nytt-kjokken`, 3–5 `portal-tlf-levering`, 6 `portal-tlf-montering`, 7–8 `portal-tlf-mine-kjop`; varselet glir inn oppå |
-| Ordrens reise («Selgeren ser») | scene 1 `crm-tilbud`, 2–3 `crm-tilbud-kunde`, 4–6 `crm-ordre-kontrollmal` | scene 8 `crm-ipad-belastninger` (ordre på iPad) | scene 7 `portal-tlf-montering` |
+| Ordrens reise («Selgeren ser») | scene 1 `crm-tilbud-liste`, 2–3 `crm-tilbud-kunde`, 4–6 `crm-ordre-kontrollmal` | scene 8 `crm-ipad-ordre` (ordre på iPad) | scene 7 `portal-tlf-montering` |
 | Romkort på forsiden | første bilde i rommets liste, 16:10 øverst til venstre; telefonbilder (Kundens reise, Montørappen, Tegningen) 58 % brede, toppjustert | | |
 
 - `ute-*`-bildene (iPhone 780 × 1512 og `ute-ipad-bildeverktoy`) er de samme filene som hengsel.no bruker (`sites/hengsel/public/img`, fra fil 56), uten statuslinje; rammen legger på «07.42»/«09.41». De andre bildene har egen statuslinje.
 - Rom uten CRM_v4-skjermbilde (Systemkartet, Veikart, Gevinstkalkulator, Leverandørløsningen, Opplæring, /sv/, og foreløpig Prøv som leverandør, Ordre- og fakturakontroll, Montasjeplan, Prosjektsalg, Hvitevarer og Daglig leder) bruker bilde av rommet selv på romkortet (`src/img/rom-*.webp`, lages av `npm run skjermbilder:vis`). De seks siste får CRM_v4-bilder når skjermene er eksportert.
-- Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). Alle CRM-bildene har Hengsel-logoen i sidemenyen. Den siste bildepakken 10.10 (Hengsel.no.zip, `img/vis`) er mappet til Visningsrommets filnavn etter plass i rommene: `crm-mal-skisser` ← `mal-skisser`, `crm-tilbud` ← `tilbud-liste` (tilbudslista), `crm-ipad-leder` ← `ipad-min-dag`, `crm-ipad-innstillinger` ← `ipad-montasje`, `crm-ipad-kontrollmal` ← `ipad-tilbud`, `crm-ipad-belastninger` ← `ipad-ordre`, `crm-tlf-leder` ← `tlf-min-dag`, `crm-tlf-innstillinger` ← `tlf-kundekort`, `crm-tlf-kontrollmal` ← `tlf-ordre`. Filnavnene er beholdt, så innholdet er: Firmaleder iPad = Min dag og Montasje, telefon = Min dag og kundekort; Prøv CRM iPad = tilbud, telefon = ordre; Ordrens reise scene 8 iPad = ordre. Mål: PC 2876 × 1796 (2×), iPad 1180 × 820 (1×), telefon 780 × 1600 (2×).
+- Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). Alle CRM-bildene har Hengsel-logoen i sidemenyen. Navnene sier hva bildet viser. Den siste bildepakken 10.10 (Hengsel.no.zip, `img/vis`) er lagt inn slik: `crm-mal-skisser` ← `mal-skisser`, `crm-tilbud-liste` ← `tilbud-liste` (tilbudslista), `crm-ipad-min-dag` ← `ipad-min-dag`, `crm-ipad-montasje` ← `ipad-montasje`, `crm-ipad-tilbud` ← `ipad-tilbud`, `crm-ipad-ordre` ← `ipad-ordre`, `crm-tlf-min-dag` ← `tlf-min-dag`, `crm-tlf-kundekort` ← `tlf-kundekort`, `crm-tlf-ordre` ← `tlf-ordre`. Mål: PC 2876 × 1796 (2×), iPad 1180 × 820 (1×), telefon 780 × 1600 (2×).
 
 ## Avvik funnet 10.10.2026 (skjermbilder av vis.hengsel.no) – rett disse først
 
