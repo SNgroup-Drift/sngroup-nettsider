@@ -69,3 +69,12 @@ Grenen `demo` fantes ikke, verken lokalt eller på GitHub, så den er laget fra 
 6. **`demo` har ting `main` ikke har**: `sites/design`, de to skriptendringene, `docs/hosting.md`-avsnittet og README-radene.
    Vil du ha dem på `main` også, lager jeg en PR fra `demo`; ellers lever galleriet bare på `demo`.
 7. Ingenting er endret i `sites/vis` eller `docs/design`.
+
+## Oppfølging 10.10: hvorfor ikke publisert
+
+Pages-prosjektet ble laget som `sngroup-nettsider` med `main` som produksjonsgren. Produksjonsbyggene på `main` feiler
+(00:04 og 00:43 UTC) fordi `sites/design` bare finnes på `demo`, og `demo`-bygget (c30dde0, 23:25 UTC) ble bare en
+forhåndsvisning på `7007c2f5.sngroup-nettsider.pages.dev`. Domenet følger produksjonen, så ingenting er publisert.
+Rettelse: Settings → Builds & deployments → Production branch = `demo`, deretter Retry deployment (eller en ny push til
+`demo`). Access-appen må dekke `sngroup-nettsider.pages.dev` og `*.sngroup-nettsider.pages.dev` (forhåndsvisningen fra
+23:25 er ellers åpen). `docs/hosting.md` er oppdatert med prosjektnavnet.

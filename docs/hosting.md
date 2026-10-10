@@ -305,8 +305,8 @@ Workers & Pages → Create → **Pages** → Connect to Git → velg `SNgroup-Dr
 
 | Felt | Verdi |
 |---|---|
-| Project name | `design` (Cloudflare legger til et suffiks hvis `design.pages.dev` er opptatt; skriv adressen inn her etterpå) |
-| Production branch | `demo` |
+| Project name | `sngroup-nettsider` (laget 10.10; gir `sngroup-nettsider.pages.dev`) |
+| Production branch | **`demo`** — ikke `main`. Med `main` som produksjonsgren feiler hvert produksjonsbygg (`sites/design` finnes bare på `demo`), og `demo`-bygget blir bare en forhåndsvisning (`<hash>.sngroup-nettsider.pages.dev`) som domenet ikke peker på. Rettes i Settings → Builds & deployments → Production branch, og så Retry deployment eller en ny push til `demo`. |
 | Framework preset | None |
 | Build command | `npm run build -w sites/design` |
 | Build output directory | `sites/design/dist` |
@@ -330,15 +330,15 @@ Pages-klonen er grunn, så bygget leser datoene fra `sites/design/datoer.json`. 
 Zero Trust → Access → Applications → **Visningsrommet** → Edit → Public hostnames → Add public hostname:
 
 - `design.hengsel.no`
-- `<prosjekt>.pages.dev` (adressen prosjektet fikk, f.eks. `design-abc.pages.dev`)
-- `*.<prosjekt>.pages.dev` (hver produksjonsdeploy får en egen adresse per commit)
+- `sngroup-nettsider.pages.dev`
+- `*.sngroup-nettsider.pages.dev` (hver deploy får en egen adresse per commit, også forhåndsvisningene)
 
 Lagre. Ikke endre policyen «Inviterte», og ikke rør `vis.sngroup.no`/`vis.hengsel.no` i lista.
 
-Sjekk i et privat vindu: `https://<prosjekt>.pages.dev` skal sende deg til innloggingen hos Access, ikke vise galleriet.
+Sjekk i et privat vindu: `https://sngroup-nettsider.pages.dev` skal sende deg til innloggingen hos Access, ikke vise galleriet.
 
 ```sh
-curl -sI https://<prosjekt>.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
+curl -sI https://sngroup-nettsider.pages.dev | grep -iE '^HTTP|^location'   # 302 til …cloudflareaccess.com, ikke 200
 ```
 
 ### 3. Koble `design.hengsel.no`
