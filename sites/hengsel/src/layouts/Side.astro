@@ -14,7 +14,7 @@ import Bunn from "../components/Bunn.astro";
 import "../styles/tokens.css";
 import "../styles/hengsel.css";
 import { LOGIN } from "astro:env/server";
-import { EPOST } from "../content/forside";
+import { EPOST, TEL } from "../content/forside";
 
 interface Props {
   title: string;
@@ -66,7 +66,7 @@ const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-
       <img slot="logo" class="logo" src="/logo/hengsel-crm-logo-lys.svg" alt="" width="460" height="128" />
     </Toppfelt>
     <slot />
-    <Bunn demo={demo} forside={forside} epost={EPOST} />
+    <Bunn demo={demo} forside={forside} epost={EPOST} tlf={TEL} />
   </div>
 </BaseLayout>
 
