@@ -8,6 +8,7 @@ Kjør gjennom alle 24 sider i lys og mørk, PC 1440 og mobil 390. Fasit: `Visnin
 - [x] Forsiden er v2 (hero med illustrasjon, Start her, tidslinje, Alle rommene, avslutning).
 - [x] Leverandørløsningen: lysbildet ikke høyere enn innholdet.
 - [x] Montasjeplan: ukekolonner brede nok til at korttekst ikke brekker per ord.
+- [x] Skjermbilder i rammene kommer fra designfilene i CRM_v4 (`src/skjermbilder/`, README «Regel for skjermbilder»): ingen tegnet UI, ingen bilder fra kjørende demo. Aldri PC-bildet i iPad- eller telefonrammen.
 - [x] Enhetsrammer fra hengsel.no: iPhone i Kundens reise, Min side mobil, Montørappen og Tegningen; Studio Display i Prøv CRM, Min side PC og Firmaleder.
 
 ## Logo

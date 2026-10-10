@@ -5,7 +5,7 @@
  *  - Alle sider (og 404) på 390, 1280 og 1440 px, lys og mørk: ingen konsollfeil (CSP fra _headers gjelder),
  *    ingen vannrett rulling, ingen forespørsler til andre verter, og Newsreader og Inter lastes fra /fonts/.
  *  - Skjermbilder av forsiden, /system/, /reise/, /sv/ og 404 på mobil (390) og PC (1440) til docs/skjermbilder/vis-*.png.
- *  - Romkortbildene på forsiden: hvert rom på 1440 × 900 (16:10, lys, øverst til venstre) som webp til
+ *  - Romkortbildene på forsiden for rom uten CRM_v4-skjermbilde: rommet på 1440 × 900 (16:10, lys, øverst til venstre) som webp til
  *    sites/vis/src/img/rom-*.webp. Bildene ligger i repoet og følger med i neste bygg (ingen bilder fra hengsel.no).
  *
  * Kjør etter `npm run build`: node scripts/skjermbilder-vis.mjs
@@ -82,7 +82,8 @@ for (const v of visninger) {
   }
 }
 // Romkortbildene: 1440 × 900 i lys modus, 1,5× oppløsning, webp i src/img (brukes av index.html og side.js)
-const rom = ["reise", "crm", "kunde", "opplaering", "montor", "levprov", "minside", "kontroll", "montasjeplan", "prosjekt", "hvitevarer", "tegning", "gevinst", "firmaleder", "leverandor", "leder", "veikart", "sv", "system"];
+// Bare rom uten skjermbilde fra CRM_v4 (README «Regel for skjermbilder»); de andre bruker src/skjermbilder.
+const rom = ["opplaering", "levprov", "kontroll", "montasjeplan", "prosjekt", "hvitevarer", "gevinst", "leverandor", "leder", "veikart", "sv", "system"];
 {
   const img = join(rot, "sites", "vis", "src", "img");
   await mkdir(img, { recursive: true });
