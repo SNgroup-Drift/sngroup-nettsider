@@ -52,6 +52,17 @@ npm run skjermbilder   # skjermbilder til docs/skjermbilder + nettlesersjekker (
 npm run dev:sngroup    # utviklingsserver (også dev:hengsel og dev:byggem)
 ```
 
+## Publisering
+
+sngroup.no og byggem.no publiseres av Cloudflare Workers Builds fra `main` (se docs/hosting.md). **hengsel.no publiseres
+manuelt** inntil Workers Builds er ordnet for den Worker-en: etter at endringen er merget til `main`, fra en maskin som er
+logget inn i wrangler:
+
+```sh
+git checkout main && git pull
+npm run build -w sites/hengsel && npx wrangler deploy -c sites/hengsel/wrangler.jsonc
+```
+
 ## Legge til et nytt nettsted
 
 1. Kopier et nettsted som utgangspunkt: `cp -r sites/byggem sites/<navn>` og slett `sites/<navn>/dist` og `node_modules` hvis de finnes.

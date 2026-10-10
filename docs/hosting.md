@@ -5,6 +5,10 @@ statiske filer, bygd med **Workers Builds** og Git-integrasjon fra samme repo (`
 Workerne serverer `sites/<navn>/dist`. Unntaket er `hengsel`, som har et lite skript bare for `/apptest` (passordet, se
 «hengsel.no/apptest» under). Eirik kobler Cloudflare til GitHub selv.
 
+**Status 10.10.2026:** Workers Builds kjører ikke for `hengsel` ennå. hengsel.no publiseres manuelt med
+`npm run build -w sites/hengsel && npx wrangler deploy -c sites/hengsel/wrangler.jsonc` fra `main` (se README, «Publisering»)
+til Git-koblingen er ordnet.
+
 Repoet har ingen API-nøkler, ingen kontoinformasjon, ingen hemmeligheter og ingen wrangler-innlogging. Det eneste
 Cloudflare-oppsettet i repoet er `sites/<navn>/wrangler.jsonc` (her sngroup; hengsel har i tillegg `main`, `binding` og
 `run_worker_first`, se under):
