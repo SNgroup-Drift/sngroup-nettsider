@@ -19,7 +19,7 @@ Alle skjermbilder av løsningen på vis.hengsel.no kommer fra **designfilene i C
 
 - `ute-*`-bildene (iPhone 780 × 1512 og `ute-ipad-bildeverktoy`) er de samme filene som hengsel.no bruker (`sites/hengsel/public/img`, fra fil 56), uten statuslinje; rammen legger på «07.42»/«09.41». De andre bildene har egen statuslinje.
 - Rom uten CRM_v4-skjermbilde (Systemkartet, Veikart, Gevinstkalkulator, Leverandørløsningen, Opplæring, /sv/, og foreløpig Prøv som leverandør, Ordre- og fakturakontroll, Montasjeplan, Prosjektsalg, Hvitevarer og Daglig leder) bruker bilde av rommet selv på romkortet (`src/img/rom-*.webp`, lages av `npm run skjermbilder:vis`). De seks siste får CRM_v4-bilder når skjermene er eksportert.
-- Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). CRM-bildene har fortsatt gammel logo i sidemenyen; det rettes i designfilene og byttes da. Sigdal-logoen og «Studio Sigdal» inne i bildene er riktig og retusjeres ikke. Tekst i rommene bruker «Kjøkkenstudio Hamar».
+- Logoen på siden er `hengsel-crm-logo-lys/-mork.svg` (PR 10.10). Bildepakken 10.10 (Hengsel.no.zip) ga ny Hengsel-logo i sidemenyen på PC-bildene: `crm-tilbud` ← `salgstavla`, `crm-tilbud-kunde` ← `tilbudet`, `crm-ordre-kontrollmal` ← `ordre-og-montasje`, `crm-leder-oversikt` ← `leder`, `crm-leder-start` ← `min-dag`, `crm-moduler` ← `moduler`. Gammel logo står igjen i `crm-mal-skisser`, de fire `crm-ipad-*` og de tre `crm-tlf-*` til de er eksportert på nytt. Sigdal-logoen og «Studio Sigdal» inne i bildene er riktig og retusjeres ikke. Tekst i rommene bruker «Kjøkkenstudio Hamar».
 
 ## Avvik funnet 10.10.2026 (skjermbilder av vis.hengsel.no) – rett disse først
 
