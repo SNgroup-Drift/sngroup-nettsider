@@ -1,0 +1,35 @@
+/* Enhetsrammer, portert fra hengsel.no (sites/hengsel/src/components/Enhet.astro, fasit docs/design/hengsel/Enhet.dc.html).
+   Der er innholdet et bilde som skaleres med cqw; her er innholdet levende sider, så målene står i px ved designbredden:
+   - telefon (iPhone): 414 × 844, ramme 12, radius 58, skjerm radius 46, statuslinje 54 med «09.41» og batteri, hjemindikator
+   - PC (Studio Display): 856 bred, sort skjermkant 15 med aluminiumsring, innhold 16:10, stang 19 % × 100 og fot 31 % × 12
+   Rammefargen er alltid Warm Black (#1B1713), som på hengsel.no. Skyggen er den eneste utenfor Kundens reise (enhetsrammer). */
+:root{--ramme:#1B1713;--skygge:0 1px 2px rgba(49,38,29,.06),0 12px 40px -12px rgba(49,38,29,.22)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--skygge:0 1px 2px rgba(0,0,0,.3),0 16px 40px -12px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--skygge:0 1px 2px rgba(0,0,0,.3),0 16px 40px -12px rgba(0,0,0,.6)}
+
+/* Telefon: legg klassen på rammen, skjermen er første barn, <span class="hjem"> sist */
+.tlf{width:414px;max-width:100%;aspect-ratio:414/844;box-sizing:border-box;padding:12px;border-radius:58px;background:var(--ramme);border:0;
+  box-shadow:0 0 0 1px var(--line),var(--skygge);position:relative;display:flex;flex-direction:column;justify-self:center}
+.tlf>.skjerm{flex:1;min-height:0;height:auto;border-radius:46px;overflow:hidden;background:var(--bg);color:var(--fg);padding-bottom:22px}
+.tlf .sb{height:54px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font:650 15px/1 var(--sans);font-variant-numeric:tabular-nums}
+.tlf .sb svg{display:block}
+.tlf>.hjem{position:absolute;left:50%;bottom:15px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:var(--fg);opacity:.9;pointer-events:none}
+
+/* PC: <div class="pc-ramme"><div class="skjermkant"> …appen… </div><span class="stang"></span><span class="fot"></span></div> */
+.pc-ramme{display:flex;flex-direction:column;align-items:center;width:min(856px,100%);margin:0 auto;min-width:0}
+.pc-ramme>.skjermkant{width:100%;box-sizing:border-box;background:#0e0e10;border-radius:14px;padding:15px;
+  box-shadow:0 0 0 1px #a2a3a7,0 0 0 3px #c9cacd,0 0 0 4px #a2a3a7,var(--skygge)}
+.pc-ramme>.skjermkant>*{border-radius:2px;border:0;aspect-ratio:16/10;min-height:0;height:auto;overflow:auto;background:var(--bg)}
+.pc-ramme>.stang{width:19%;height:100px;background:#c9cacd;border-left:1px solid #a2a3a7;border-right:1px solid #a2a3a7;clip-path:polygon(3% 0,97% 0,100% 100%,0 100%);box-sizing:border-box;display:block}
+.pc-ramme>.fot{width:31%;height:12px;background:#b6b7ba;border-radius:0 0 8px 8px;display:block}
+
+/* Mobil: rammene faller bort, skjermen blir et kort i full bredde (som før) */
+@media (max-width:640px){
+  .tlf{width:100%;aspect-ratio:auto;padding:0;background:none;box-shadow:none;border-radius:0}
+  .tlf>.skjerm{border-radius:var(--r);border:1px solid var(--line);padding-bottom:0}
+  .tlf .sb{padding:0 22px}
+  .tlf>.hjem{display:none}
+  .pc-ramme>.skjermkant{padding:0;background:none;box-shadow:none;border-radius:0}
+  .pc-ramme>.skjermkant>*{aspect-ratio:auto;border-radius:var(--r);border:1px solid var(--line)}
+  .pc-ramme>.stang,.pc-ramme>.fot{display:none}
+}

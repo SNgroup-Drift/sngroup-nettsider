@@ -4,21 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/hengsel-app-ikon-lys.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="icon" href="/hengsel-app-ikon-mork.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/logo/png/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/logo/png/apple-touch-icon-180.png">
+<meta name="theme-color" content="#5074A9">
 <title>Kundens Min side · Visningsrommet</title>
 <link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
+<link rel="stylesheet" href="/assets/enhet.css">
 <style>
 .wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
 /* Rommal b) Prøv selv: telefonen i midten, sidepanel til høyre */
 .stage{display:grid;grid-template-columns:minmax(0,1fr) 390px minmax(0,1fr);gap:24px;align-items:start}
-.phone{grid-column:2;width:390px;max-width:100%;height:844px;border-radius:52px;padding:10px;background:#1B1713;border:1px solid var(--line);justify-self:center}
-.scr{background:var(--bg);color:var(--fg);border-radius:42px;height:100%;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;overflow:hidden}
-.sb{height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;font:600 15px var(--sans);font-variant-numeric:tabular-nums}
+.phone{grid-column:2;justify-self:center}
+.scr{display:grid;grid-template-rows:auto auto minmax(0,1fr) auto}
+.sb{color:var(--fg)}
 .sb svg{display:block}
 .ph{padding:6px 20px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .ph .lg{font:400 1.45rem/1 var(--serif);letter-spacing:-.015em}
@@ -78,13 +80,21 @@ textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:v
 .log div:last-child{border-bottom:0;padding-bottom:0}
 .log b{font-weight:600}
 .log em{font-style:normal;color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
-/* PC-visning: Min side i nettleseren */
+/* PC-visning: Min side i nettleseren, i Studio Display-rammen fra hengsel.no (enhet.css). I mobilvisning er rammen borte (display:contents). */
+.pc-ramme.av,.pc-ramme.av>.skjermkant{display:contents}
+/* Mobilmodus: enhet.css sin PC-regel (.skjermkant>*) må vike for iPhone-rammen */
+.pc-ramme.av>.skjermkant>.phone.tlf{aspect-ratio:414/844;border-radius:58px;background:var(--ramme);box-shadow:0 0 0 1px var(--line),var(--skygge);overflow:visible;width:414px;max-width:100%}
+.pc-ramme.av>.stang,.pc-ramme.av>.fot{display:none}
 .pc .stage{grid-template-columns:minmax(0,1fr)}
+.pc .pc-ramme{display:flex;width:100%;max-width:980px}
+.pc .pc-ramme>.skjermkant{display:block}
+.pc .pc-ramme>.stang,.pc .pc-ramme>.fot{display:block}
 .pc .phone,.pc .side{grid-column:auto}
-.pc .phone{width:auto;max-width:none;height:auto;border-radius:var(--r);padding:0;background:var(--card);border:1px solid var(--line);overflow:hidden;justify-self:stretch}
+.pc .phone,.pc .pc-ramme.av>.skjermkant>.phone.tlf{width:auto;max-width:none;aspect-ratio:16/10;border-radius:2px;padding:0;background:var(--bg);box-shadow:none;overflow:hidden;justify-self:stretch;display:block}
 .pc .phone::before{content:"Min side i nettleseren (demo)";display:block;font:13px var(--sans);color:var(--muted);background:var(--soft);border-bottom:1px solid var(--line);padding:9px 16px}
+.pc .phone>.hjem{display:none}
 .pc .sb{display:none}
-.pc .scr{border-radius:0;height:640px;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+.pc .scr{border-radius:0;height:calc(100% - 36px);padding-bottom:0;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
 .pc .ph{grid-column:1/-1;border-bottom:1px solid var(--line);padding:14px 22px}
 .pc .nav{grid-row:2;grid-column:1;grid-template-columns:1fr;align-content:start;border-top:0;border-right:1px solid var(--line);background:var(--bg);padding:12px 8px;gap:2px}
 .pc .nav button{font-size:15px;padding:10px 12px;border-radius:var(--r-field);display:flex;align-items:center;gap:10px;color:var(--fg);text-align:left}
@@ -112,6 +122,9 @@ textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:v
   .wrap{padding-inline:16px}
   /* På mobil faller telefonrammen bort: skjermen blir et kort i full bredde */
   .phone{width:100%;height:760px;padding:0;background:none;border:0;border-radius:0}
+  .pc-ramme.av>.skjermkant>.phone.tlf{aspect-ratio:auto;border-radius:0;background:none;box-shadow:none;width:100%}
+  .pc .pc-ramme>.stang,.pc .pc-ramme>.fot{display:none}
+  .pc .pc-ramme.av>.skjermkant>.phone.tlf{aspect-ratio:auto;height:auto;min-height:600px;border-radius:var(--r);border:1px solid var(--line)}
   .scr{border-radius:var(--r);border:1px solid var(--line)}
   .sb{padding:0 22px}
   .ph,.body{padding-inline:16px}
@@ -119,7 +132,7 @@ textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:v
 </style>
 </head>
 <body>
-<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 20--></span><span class="pill nodot">Prøv selv · oppdiktet kunde</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 28--></span><span class="pill nodot">Prøv selv · oppdiktet kunde</span></div>
 <div class="wrap">
   <header class="sidehode">
     <div class="eyebrow">Det kunden ser</div>
@@ -128,18 +141,18 @@ textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:v
   </header>
   <div><div class="tabs" id="view" role="group" aria-label="Visning"><button type="button" data-v="mob" class="on" aria-pressed="true">Mobil</button><button type="button" data-v="pc" aria-pressed="false">PC</button></div></div>
   <div class="stage">
-    <div class="phone"><div class="scr">
+    <div class="pc-ramme av"><div class="skjermkant"><div class="phone tlf"><div class="scr skjerm">
       <div class="sb" aria-hidden="true"><span>09.41</span><svg width="44" height="12" viewBox="0 0 44 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.5 10.5v-1.5M5.5 10.5V7.5M9.5 10.5V5M13.5 10.5V2.5"/><rect x="20" y="1.75" width="20" height="8.5" rx="2.5"/><path d="M42.5 4.75v2.5"/><rect x="22.5" y="4.25" width="12" height="3.5" rx="1" fill="currentColor" stroke="none"/></svg></div>
-      <div class="ph"><span class="lg">Studio Sigdal</span><span>Familien Lund</span></div>
+      <div class="ph"><span class="lg">Kjøkkenstudio Hamar</span><span>Familien Lund</span></div>
       <div class="body" id="body"></div>
       <nav class="nav" id="nav"></nav>
-    </div></div>
+    </div><span class="hjem" aria-hidden="true"></span></div></div><span class="stang" aria-hidden="true"></span><span class="fot" aria-hidden="true"></span></div>
     <aside class="side">
       <section class="card panel"><h3 class="eyebrow">Prøv dette</h3>
         <ol class="guide" id="guide"><li data-k="tilvalg"><span>1</span>Legg til et tilvalg i tilbudet</li><li data-k="godkjenn"><span>2</span>Godkjenn og signer</li><li data-k="lev"><span>3</span>Bekreft leveringen</li><li data-k="feil"><span>4</span>Meld en feil med bilde</li></ol>
         <button class="btn ghost" id="reset" type="button">Start på nytt</button>
       </section>
-      <section class="card panel"><h3 class="eyebrow">Samtidig i <!--hengsel-logo 16--></h3><div class="log" id="log" aria-live="polite"></div></section>
+      <section class="card panel"><h3 class="eyebrow">Samtidig i <!--hengsel-logo 24--></h3><div class="log" id="log" aria-live="polite"></div></section>
     </aside>
   </div>
   <p class="foot">Demoen er ikke koblet til ekte data, og ingenting signeres. Skrifter: Newsreader og Inter.</p>

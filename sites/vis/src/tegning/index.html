@@ -4,14 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/hengsel-app-ikon-lys.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="icon" href="/hengsel-app-ikon-mork.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/logo/png/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/logo/png/apple-touch-icon-180.png">
+<meta name="theme-color" content="#5074A9">
 <title>Tegningen i Hengsel · Visningsrommet</title>
 <link rel="preload" href="/fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/vis.css">
+<link rel="stylesheet" href="/assets/enhet.css">
 <style>
 .wrap{max-width:1180px;margin:0 auto;padding:16px 24px 40px;display:grid;gap:16px}
 .note{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);box-shadow:inset 3px 0 0 var(--warn);border-radius:var(--r);padding:12px 16px;margin:0;font-size:15px;line-height:1.5}
@@ -19,9 +21,9 @@
 /* Rommal b) Prøv selv, tilpasset tegneflaten: nettbrett til venstre, sidepanel til høyre */
 .stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
 /* Nettbrett */
-.tablet{background:#1B1713;border:1px solid var(--line);border-radius:38px;padding:14px;min-width:0}
+.tablet{min-width:0}
 .tscr{background:var(--bg);color:var(--fg);border-radius:26px;overflow:hidden;display:grid;grid-template-rows:auto auto minmax(0,1fr);height:660px;position:relative}
-.sb{height:36px;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 24px;font:600 13px var(--sans);font-variant-numeric:tabular-nums}
+.sb{color:var(--fg)}
 .sb svg{display:block}
 .thead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:4px 18px 12px;border-bottom:1px solid var(--line)}
 .thead .tt{display:grid;gap:2px;min-width:0}
@@ -141,7 +143,6 @@
 @media (max-width:640px){
   .wrap{padding-inline:16px}
   /* På mobil faller nettbrettrammen bort */
-  .tablet{padding:0;background:none;border:0;border-radius:0}
   .tscr{border-radius:var(--r);border:1px solid var(--line)}
   .sb{padding:0 16px}
   .thead{padding-inline:14px}
@@ -151,7 +152,7 @@
 </style>
 </head>
 <body>
-<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 20--></span><span class="pill warn">Prøv selv · kommer</span></div>
+<div class="topbar"><span class="topl"><a class="back" href="/">‹ Visningsrommet</a><span class="sep" aria-hidden="true"></span><!--hengsel-logo 28--></span><span class="pill warn">Prøv selv · kommer</span></div>
 <div class="wrap">
   <header class="sidehode">
     <div class="eyebrow">Hengsel for montører</div>
@@ -160,8 +161,8 @@
   </header>
   <p class="note"><span class="pill warn">Kommer</span><span><b>Slik blir det.</b> Venter på tegningsfil (DXF) fra CET.</span></p>
   <div class="stage">
-    <div class="tablet" aria-label="Hengsel på nettbrett">
-      <div class="tscr">
+    <div class="tablet tlf" aria-label="Hengsel på telefon">
+      <div class="tscr skjerm">
         <div class="sb" aria-hidden="true"><span>09.41</span><svg width="44" height="12" viewBox="0 0 44 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.5 10.5v-1.5M5.5 10.5V7.5M9.5 10.5V5M13.5 10.5V2.5"/><rect x="20" y="1.75" width="20" height="8.5" rx="2.5"/><path d="M42.5 4.75v2.5"/><rect x="22.5" y="4.25" width="12" height="3.5" rx="1" fill="currentColor" stroke="none"/></svg></div>
         <div class="thead">
           <div class="tt"><b>LI-10087 · kjøkken</b><span>Liksomlien · Lillehammer · rev. 2 fra CET</span></div>
@@ -190,7 +191,7 @@
         </div>
         <div class="toast" id="toast" role="status"></div>
       </div>
-    </div>
+    <span class="hjem" aria-hidden="true"></span></div>
     <aside class="side">
       <section class="card panel">
         <h2 class="eyebrow">Prøv dette</h2>
@@ -204,7 +205,7 @@
         <button class="btn ghost" id="reset" type="button">Start på nytt</button>
       </section>
       <section class="card panel">
-        <h2 class="eyebrow">Samtidig i <!--hengsel-logo 16--></h2>
+        <h2 class="eyebrow">Samtidig i <!--hengsel-logo 24--></h2>
         <div class="log" id="log" aria-live="polite"></div>
       </section>
     </aside>

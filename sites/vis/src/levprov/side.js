@@ -29,7 +29,7 @@ $('send').onclick=function(){if(!cur||busy)return;busy=true;$('send').disabled=t
  var t=500+cur.f.length*550+300;
  at(t,function(){var r=cur.r;$('rt').textContent=r[0]==='ok'?'Ferdig på 3 sekunder':'Ferdig, med én sak';$('rp').textContent='Ingen tastet noe.';
   $('out').innerHTML='<div class="res '+r[0]+'"><b>'+r[1]+'</b><p>'+r[2]+'</p></div>';step(3)});
- at(t+1200,function(){$('out').insertAdjacentHTML('beforeend','<h3 class="eyebrow" style="margin-top:4px">Svaret Nordstein får</h3><div class="reply"><span class="muted" style="font-size:14px">Fra bestilling@studiosigdal-innlandet.no · Re: Bestilling 24-0815</span><span>'+cur.rep+'</span></div>');step(4);busy=false});
+ at(t+1200,function(){$('out').insertAdjacentHTML('beforeend','<h3 class="eyebrow" style="margin-top:4px">Svaret Nordstein får</h3><div class="reply"><span class="muted" style="font-size:14px">Fra bestilling@kjokkenstudio-hamar.no · Re: Bestilling 24-0815</span><span>'+cur.rep+'</span></div>');step(4);busy=false});
 };
 $('reset').onclick=function(){T.forEach(clearTimeout);T=[];busy=false;cur=null;[].forEach.call($('sc').children,function(c){c.classList.remove('on')});$('send').disabled=true;step(0);
  $('rt').textContent='Venter på bekreftelsen';$('rp').textContent='Velg et svar til venstre og send det. CRM-et leser PDF-en, finner riktig ordre og sjekker den mot bestillingen.';$('read').innerHTML='';$('out').innerHTML=''};
