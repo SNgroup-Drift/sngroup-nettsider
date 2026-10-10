@@ -1,5 +1,5 @@
 /**
- * Skjermbildene i public/img: mål i piksler for Enhet.astro.
+ * Skjermbildene i public/img: mål i piksler for Enhet.astro. min-dag finnes i tre bredder (800, 1440 og 2876) til srcset i heroen.
  */
 /** Bredde og høyde i piksler, så nettleseren kan sette av plass før bildet er lastet */
 export const MAAL: Record<string, [number, number]> = {
@@ -25,6 +25,8 @@ export const MAAL: Record<string, [number, number]> = {
   "kundeportalen-pc": [2876, 1796],
   "kundeportalen": [1440, 900],
   "leder": [2876, 1796],
+  "min-dag-1440": [1440, 899],
+  "min-dag-800": [800, 500],
   "min-dag": [2876, 1796],
   "moduler": [2876, 1796],
   "montasje": [2876, 1796],

@@ -1,6 +1,7 @@
 /*
   hengsel.no – Hengsel-fargene som familiens semantiske variabler.
-  Fasit: docs/design/hengsel/_ds/…/tokens/colors.css (Hengsel designsystem v1.0).
+  Fasit: docs/design/hengsel/_ds/…/tokens/colors.css (Hengsel designsystem v1.0) og <helmet> i
+  «56 Hengsel forside.dc.html» (10.10.2026): sideflaten er Beige 4, kort er Off White, bånd er Beige 3.
   Lastes etter @sngroup/design/tokens.css og overstyrer den (html:root har høyere spesifisitet enn :root).
 
   Avvik fra designsystemet, for minst 4,5:1 kontrast på tekst (WCAG AA):
@@ -8,10 +9,10 @@
   - Tekst i info-piller er #43649A og i ok-piller #376C49 (designsystemet: 3,9:1 og 4,3:1).
 */
 html:root {
-  /* Skrift: Reckless og Lausanne (public/fonts, @font-face i hengsel.css, som i fil 54). Reserve: Newsreader og Inter,
+  /* Skrift: Reckless Standard M og TWK Lausanne (public/fonts, @font-face i hengsel.css). Reserve: Newsreader og Inter,
      selvhostet fra @fontsource (@sngroup/design/fonts.css). */
-  --font-overskrift: "Reckless", "Newsreader Variable", Georgia, "Times New Roman", serif;
-  --font-tekst: "Lausanne", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-overskrift: "Reckless Standard M", "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-tekst: "TWK Lausanne", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
 
   /* Merkevarefarger (bare disse åtte) */
   --warm-black: #31261d;
@@ -24,15 +25,13 @@ html:root {
   --dusty-blue: #9ca9bd;
 
   /* Familiens semantiske navn */
-  --bakgrunn: var(--off-white);
-  --flate: var(--beige-3);          /* seksjonsbånd, fliser */
-  --beige-3-ute: #f2e9dc;           /* telefonflatene i Hengsel Ute (fil 54) */
-  --off-white-ute: #fbf9f5;         /* laser og avvik (fil 54) */
-  --ute-tekst: #f1e9de;
-  --ute-linje: #3f3229;
-  --kort: var(--off-white);         /* kort på bånd */
-  --flate-myk: var(--beige-4);
+  --bakgrunn: var(--beige-4);       /* sideflaten (fil 56: mykere enn Off White) */
+  --flate: var(--beige-3);          /* seksjonsbånd */
+  --kort: var(--off-white);         /* kort, ruter og felt */
+  --flate-myk: #efe5d6;             /* --surface-soft i fil 56 (Beige 4 er sideflaten) */
   --flate-sterk: var(--beige-2);
+  --beige-3-ute: #f2e9dc;           /* telefonflatene i Hengsel Ute (Enhet.dc.html) */
+  --off-white-ute: #fbf9f5;         /* laser og avvik (Enhet.dc.html) */
   --linje: var(--beige-2);
   --linje-svak: var(--beige-2);
   --ikon: var(--beige-1);
@@ -45,7 +44,7 @@ html:root {
   --info-tekst: #43649a;
   --ok: #376c49;   --ok-myk: #e4eee6;
   --feil: #8e3522; --feil-myk: #f4e1db;
-  --skygge: none;                   /* ingen skygger (fil 54) */
+  --skygge: 0 1px 2px rgb(49 38 29 / 0.06), 0 12px 40px -12px rgb(49 38 29 / 0.22); /* bare enhetsrammene */
   --ramme: #1b1713;                 /* telefon- og iPad-rammen */
   --lysboks: #1b1713;
 
@@ -60,12 +59,11 @@ html:root {
   /* 1180 px innhold + luft på sidene (designet bruker content-box, familiens .wrap border-box) */
   --bredde: calc(1180px + 2 * var(--gutter));
   --gutter: clamp(16px, 4vw, 40px);
-  /* Kvadratiske hjørner (fil 54). Pillen beholdes for familiens komponenter. */
-  --radius: 0;
-  --radius-liten: 0;
-  --radius-felt: 0;
-  --radius-stor: 0;
-  --radius-pille: 0;
+  --radius: 14px;
+  --radius-liten: 8px;
+  --radius-felt: 10px;
+  --radius-stor: 20px;
+  --radius-pille: 999px;
   --seksjon: clamp(64px, 9vw, 120px);
   --t-hero: clamp(2.5rem, 5.6vw, 4.6rem);
   --t-h1: clamp(2rem, 3.6vw, 3rem);

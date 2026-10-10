@@ -12,3 +12,10 @@
 # Filer med hash i navnet endres aldri
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+# Skriftene byttes ikke; skjermbildene og logoene sjelden (nye filer får nye navn)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/img/*
+  Cache-Control: public, max-age=604800
+/logo/*
+  Cache-Control: public, max-age=604800

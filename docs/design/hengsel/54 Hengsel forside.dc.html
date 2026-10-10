@@ -73,7 +73,7 @@
           </div>
         </div>
         <div style="{{ heroMedia }}">
-          <figure style="min-width:0; border:1px solid #E4D4C4; background:#F2E9DB"><img src="img/min-dag.webp" alt="Hengsel CRM på PC: Min dag med arbeidsliste og panel" style="display:block; width:100%; height:auto"></figure>
+          <figure style="min-width:0; border:1px solid #E4D4C4; background:#F2E9DB"><img src="img/min-dag-1440.webp" srcSet="img/min-dag-800.webp 800w, img/min-dag-1440.webp 1440w, img/min-dag.webp 2876w" sizes="(max-width: 760px) 100vw, min(1180px, 100vw)" width="2876" height="1796" fetchPriority="high" alt="Hengsel CRM på PC: Min dag med arbeidsliste og panel" style="display:block; width:100%; height:auto"></figure>
           <figure style="{{ heroPhone }}"><img src="img/ute-i-dag.webp" alt="Hengsel Ute på telefon: I dag med neste jobb" style="display:block; width:100%; height:auto"></figure>
         </div>
       </div>
@@ -83,7 +83,7 @@
       <div style="max-width:1180px; margin:0 auto; padding-inline:clamp(16px,4vw,40px); display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:1px; background:#E4D4C4; border:1px solid #E4D4C4">
         <sc-for list="{{ lofter }}" as="l" hint-placeholder-count="3">
           <article style="background:#FBF9F6; padding:28px 26px 32px; display:grid; gap:10px; align-content:start; min-width:0">
-            <h3 style="font-size:1.6rem; line-height:1.2">{{ l.t }}</h3>
+            <h2 style="font-size:1.6rem; line-height:1.2">{{ l.t }}</h2>
             <p style="max-width:40ch">{{ l.s }}</p>
           </article>
         </sc-for>
@@ -193,7 +193,7 @@
         <h2 style="font-size:clamp(1.9rem,3.2vw,2.8rem); line-height:1.1">Om</h2>
         <div style="display:grid; gap:12px">
           <p style="font-size:1.25rem; line-height:1.4; max-width:44ch">Hengsel er laget av SN Group, som selv driver kjøkkenbutikker i Innlandet. Vi bygde det vi manglet.</p>
-          <a href="https://sngroup.no" style="font-weight:650">sngroup.no →</a>
+          <a href="https://sngroup.no" style="font-weight:650; color:#43649A">sngroup.no →</a>
         </div>
       </div>
     </section>
@@ -241,8 +241,8 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const LOGIN = 'https://app.hengsel.no'; // TODO: prod-adressen til CRM
-const TESTFLIGHT = '#'; // TODO: TestFlight-lenke
-const PLAY = '#'; // TODO: Google Play-lenke
+const TESTFLIGHT = ''; // TODO: TestFlight-lenke (tom = vises uten lenke)
+const PLAY = ''; // TODO: Google Play-lenke
 const TEL = ''; // TODO: telefonnummer
 const LOFTER = [
   ['Ett sted for kunden.', 'Tilbud, ordre, bestilling, montering, saker og faktura på samme kundekort.'],
