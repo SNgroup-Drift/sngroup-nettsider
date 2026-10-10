@@ -1,6 +1,6 @@
 // hengsel.no – teksten på forsiden. Fasit: konstantene i docs/design/hengsel/56 Hengsel forside.dc.html (10.10.2026), ordrett.
 
-export const LOGIN = "https://app.hengsel.no"; // TODO: prod-adressen til CRM
+// Innloggingsadressen («Logg inn» i menyen) settes med miljøvariabelen LOGIN ved bygging, se astro.config.mjs. Tom = skjult.
 export const TEL = ""; // TODO: telefonnummer
 export const TESTFLIGHT = ""; // TODO: TestFlight-lenke (tom = stiplet plassholder i Hengsel Ute)
 export const PLAY = ""; // TODO: Google Play-lenke (tom = stiplet plassholder i Hengsel Ute)

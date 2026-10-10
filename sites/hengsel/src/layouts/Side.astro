@@ -4,7 +4,8 @@
  * (Bunn: SN Group-båndet og bunnteksten). Fasit: docs/design/hengsel/Sidehode.dc.html og Bunn.dc.html (10.10.2026).
  * Sidehodet er sticky: logo (hengsel-crm-logo-lys.svg, 42 px på PC og 36 under 900 px), menyen
  * Produkt · Hengsel Ute · Priser · Om · Logg inn, og «Be om demo» → #kontakt. Under 900 px skjules menypunktene,
- * som i fasit; knappen står. Brukes av forsiden, personvern og 404. Bare lys modus.
+ * som i fasit; knappen står. «Logg inn» vises bare når miljøvariabelen LOGIN er satt ved bygging (astro.config.mjs).
+ * Brukes av forsiden, personvern og 404. Bare lys modus.
  */
 import BaseLayout from "@sngroup/design/components/BaseLayout.astro";
 import "@sngroup/design/fonts.css";
@@ -12,7 +13,8 @@ import Toppfelt from "@sngroup/design/components/Toppfelt.astro";
 import Bunn from "../components/Bunn.astro";
 import "../styles/tokens.css";
 import "../styles/hengsel.css";
-import { EPOST, LOGIN } from "../content/forside";
+import { LOGIN } from "astro:env/server";
+import { EPOST } from "../content/forside";
 
 interface Props {
   title: string;
@@ -30,7 +32,7 @@ const meny = [
   { label: "Hengsel Ute", href: `${h}#ute` },
   { label: "Priser", href: `${h}#priser` },
   { label: "Om", href: `${h}#om` },
-  { label: "Logg inn", href: LOGIN },
+  ...(LOGIN ? [{ label: "Logg inn", href: LOGIN }] : []),
 ];
 const skrifter = ["/fonts/RecklessStandardM-Regular.woff2", "/fonts/TWKLausanne-350.woff2", "/fonts/TWKLausanne-650.woff2"];
 ---
