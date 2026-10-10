@@ -8,6 +8,11 @@
 <body>
 <x-dc>
 <helmet>
+  <link rel="icon" href="logo/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="logo/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon-180.png">
+  <meta name="theme-color" content="#5074A9">
+
   <title>Hengsel – for kjøkken- og interiørbutikker</title>
   <meta name="description" content="Hengsel samler CRM, kundeportal og montørappen Hengsel Ute i én løsning for kjøkken- og interiørbutikker.">
   <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/colors.css">
@@ -92,24 +97,52 @@
     <section id="ute" data-screen-label="Hengsel Ute" style="background:var(--surface-highlight); padding-block:clamp(64px,9vw,120px)">
       <div style="max-width:1180px; margin:0 auto; padding-inline:clamp(16px,4vw,40px); display:grid; gap:clamp(32px,5vw,56px)">
         <div style="{{ uteHead }}">
-          <img src="img/hengsel-ute-ikon.svg" alt="App-ikonet til Hengsel Ute" width="96" height="96" style="width:96px; height:96px; display:block; flex:none">
+          <img src="logo/hengsel-app-ikon-lys.svg" alt="App-ikonet til Hengsel Ute" width="96" height="96" style="width:96px; height:96px; display:block; flex:none">
           <div style="display:grid; gap:14px; max-width:760px">
             <span class="eyebrow">Hengsel Ute</span>
             <h2 style="font-size:var(--t-h1); line-height:1.08">Appen for montøren, med jobben for dagen.</h2>
-            <p class="lede">Montøren ser neste jobb og hva som mangler, fyller ut KS punkt for punkt og melder avvik med bilde. Alt står på ordren hos kontoret med en gang.</p>
+            <p class="lede">Alt montøren gjør ute, lander på ordren hos kontoret med en gang. Fra befaring med laser til ferdigmelding med kundens signatur.</p>
             <div style="display:flex; flex-wrap:wrap; gap:10px">
               <span style="display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; border:1px dashed var(--soft); color:var(--muted); font-size:.95rem">Last ned i App Store</span>
               <span style="display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; border:1px dashed var(--soft); color:var(--muted); font-size:.95rem">Last ned i Google Play</span>
             </div>
           </div>
         </div>
-        <div style="{{ phoneGrid }}">
-          <sc-for list="{{ phones }}" as="p" hint-placeholder-count="3">
-            <figure style="margin:0; display:grid; gap:14px; min-width:0">
-              <dc-import name="Enhet" bilde="{{ p.bilde }}" type="phone" alt="{{ p.alt }}" ratio="1.4" on-zoom="{{ zoom }}" style="width:100%; min-width:0" hint-size="100%,560px"></dc-import>
-              <figcaption style="display:grid; gap:4px; text-align:center"><b style="font-weight:650">{{ p.title }}</b><span style="color:var(--muted); font-size:.95rem">{{ p.text }}</span></figcaption>
-            </figure>
+        <div style="display:grid; gap:clamp(40px,6vw,80px)">
+          <sc-for list="{{ grep }}" as="g" hint-placeholder-count="8">
+            <div style="{{ g.row }}">
+              <div style="{{ g.textCell }}">
+                <span style="font-size:.82rem; color:var(--soft); font-variant-numeric:tabular-nums">{{ g.n }}</span>
+                <h3 style="font-size:var(--t-h2); line-height:1.15">{{ g.title }}</h3>
+                <p style="color:var(--muted); font-size:1.08rem; max-width:44ch">{{ g.text }}</p>
+              </div>
+              <div style="{{ g.imgCell }}">
+                <dc-import name="Enhet" bilde="{{ g.a }}" type="phone" alt="{{ g.alt }}" ratio="2.1" on-zoom="{{ zoom }}" style="width:100%; min-width:0" hint-size="100%,760px"></dc-import>
+                <sc-if value="{{ g.hasB }}" hint-placeholder-val="{{ false }}">
+                  <dc-import name="Enhet" bilde="{{ g.b }}" type="phone" alt="{{ g.altB }}" ratio="2.1" on-zoom="{{ zoom }}" style="width:100%; min-width:0" hint-size="100%,760px"></dc-import>
+                </sc-if>
+              </div>
+            </div>
           </sc-for>
+        </div>
+        <div style="display:grid; gap:20px">
+          <div style="display:grid; gap:8px; max-width:760px">
+            <h3 style="font-size:var(--t-h2); line-height:1.15">Merking på iPad</h3>
+            <p style="color:var(--muted); font-size:1.08rem">Samme bildeverktøy på iPad: bildet til venstre, punktene på kunden i panelet til høyre. Laseren står tilkoblet over målraden.</p>
+          </div>
+          <dc-import name="Enhet" bilde="ute-ipad-bildeverktoy" type="ipad" alt="Bildeverktøyet på iPad: punkter på bildet og punktliste til høyre" ratio="0.75" on-zoom="{{ zoom }}" style="width:100%; min-width:0" hint-size="100%,640px"></dc-import>
+        </div>
+        <div style="{{ roleGrid }}">
+          <article class="card" style="padding:24px; display:grid; gap:8px; align-content:start; min-width:0">
+            <span style="font-size:.9rem; color:var(--soft)">Også i Hengsel Ute</span>
+            <h3 style="font-size:var(--t-h3); line-height:1.2">Utkjører</h3>
+            <p style="color:var(--muted)">Ruten for dagen, mottak på lager, levering hos kunden og skade med bilde.</p>
+          </article>
+          <article class="card" style="padding:24px; display:grid; gap:8px; align-content:start; min-width:0">
+            <span style="font-size:.9rem; color:var(--soft)">Også i Hengsel Ute</span>
+            <h3 style="font-size:var(--t-h3); line-height:1.2">Firmaleder</h3>
+            <p style="color:var(--muted)">Forespørsler fra butikken, svar og fordeling av jobber på egne montører.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -199,10 +232,15 @@ const MODULER = [
   ['Kommunikasjon', 'E-post, SMS og meldinger fra kundeportalen på kundekortet.'],
   ['Automatikk', 'Varsler til kunden og lesing av ordrebekreftelser i PDF.'],
 ];
-const PHONES = [
-  { bilde: 'hengsel-i-dag-a', title: 'I dag', text: 'Neste jobb, hva som mangler og «På vei».', alt: 'Hengsel Ute: I dag' },
-  { bilde: 'hengsel-ks-a', title: 'KS', text: 'Punkt for punkt, med OK, avvik og bilde.', alt: 'Hengsel Ute: KS under montering' },
-  { bilde: 'hengsel-avvik', title: 'Avvik med bilde', text: 'Hva som skjedde, bilde og om det trengs ny vare.', alt: 'Hengsel Ute: meld avvik' },
+const GREP = [
+  ['I dag', 'Neste jobb øverst, med adresse, hva som mangler og åpne restpunkter. «På vei» varsler kunden.', 'ute-i-dag', 'Hengsel Ute: I dag med neste jobb'],
+  ['Befaring med laser', 'Bosch-laseren kobles til over Bluetooth. Velg et mål på bildet, trykk på laseren, og tallet står der med kilde.', 'ute-laser', 'Hengsel Ute: mål på bildet fra Bosch-laser'],
+  ['Varer og tegning på jobben', 'Tegning og spesifikasjon, mål og skisser, bilder og restpunkter samlet på jobben. Før, under og etter.', 'ute-jobb-under', 'Hengsel Ute: jobben under arbeid'],
+  ['KS punkt for punkt', 'OK, avvik eller ikke relevant. Punkter som krever bilde åpner kameraet med en gang.', 'ute-ks', 'Hengsel Ute: KS-sjekkliste', 'ute-ks-kamera', 'Hengsel Ute: KS-punkt med kamera'],
+  ['Typeskilt på hvitevarer', 'Fotografer typeskiltet. Modell og serienummer legges på produktene hos kunden og følger med til FDV og reklamasjon.', 'ute-typeskilt', 'Hengsel Ute: hvitevarer skannet fra typeskilt'],
+  ['Avvik med bilde', 'Hva som er galt, bilde og om det trengs ny vare. Saken går til butikken med en gang.', 'ute-avvik', 'Hengsel Ute: meld avvik'],
+  ['Merking av punkter', 'Punkter markeres rett på bildet og får et nummer som følger kunden fra befaring til reklamasjon. Før- og etterbilde på hvert punkt.', 'ute-punkter', 'Hengsel Ute: punktliste på kunden', 'ute-punktkort', 'Hengsel Ute: punkt med før- og etterbilde'],
+  ['Ferdigmelding', 'Når KS er fylt ut, melder montøren ferdig og kunden bekrefter på stedet.', 'ute-ferdig', 'Hengsel Ute: klart for ferdigmelding'],
 ];
 const INTEG = [
   ['Configura CET', 'Tegning og varelinjer leses inn i tilbud, kalkyle og tilvalg.'],
@@ -247,8 +285,16 @@ class Component extends DCLogic {
       flow: FLOW, chain: CHAIN,
       moduler: MODULER.map((m, i) => ({ n: String(i + 1).padStart(2, '0'), b: m[0], s: m[1] })),
       uteHead: { display: 'flex', flexDirection: mob ? 'column' : 'row', gap: 'clamp(20px,3vw,40px)', alignItems: 'flex-start' },
-      phoneGrid: { display: 'grid', gridTemplateColumns: mob ? 'minmax(0,1fr)' : 'repeat(3,minmax(0,1fr))', gap: 'clamp(24px,3vw,40px)', alignItems: 'start' },
-      phones: PHONES,
+      grep: GREP.map((g, i) => {
+        const flip = !mob && i % 2 === 1, two = !!g[4];
+        return {
+          n: String(i + 1).padStart(2, '0'), title: g[0], text: g[1], a: g[2], alt: g[3], b: g[4] || '', altB: g[5] || '', hasB: two,
+          row: { display: 'grid', gridTemplateColumns: mob ? 'minmax(0,1fr)' : (two ? (flip ? 'minmax(0,8fr) minmax(0,4fr)' : 'minmax(0,4fr) minmax(0,8fr)') : (flip ? 'minmax(0,5fr) minmax(0,7fr)' : 'minmax(0,7fr) minmax(0,5fr)')), gap: 'clamp(24px,4vw,64px)', alignItems: 'center' },
+          textCell: { display: 'grid', gap: 10, alignContent: 'start', order: flip ? 2 : 1 },
+          imgCell: { display: 'grid', gridTemplateColumns: two && !mob ? 'repeat(2,minmax(0,1fr))' : 'minmax(0,1fr)', gap: 24, order: flip ? 1 : 2, justifyItems: 'center', maxWidth: two ? 'none' : 414, justifySelf: mob ? 'center' : (flip ? 'start' : 'end'), width: '100%' },
+        };
+      }),
+      roleGrid: { display: 'grid', gridTemplateColumns: mob ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))', gap: 16 },
       integ: INTEG.map(i => ({ name: i[0], text: i[1] })),
       omGrid: this.split(4, 7),
       contactGrid: this.split(5, 6),

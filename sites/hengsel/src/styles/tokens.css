@@ -8,10 +8,10 @@
   - Tekst i info-piller er #43649A og i ok-piller #376C49 (designsystemet: 3,9:1 og 4,3:1).
 */
 html:root {
-  /* Skrift: Reckless Standard M og TWK Lausanne (public/fonts, @font-face i hengsel.css). Reserve: Newsreader og Inter,
+  /* Skrift: Reckless og Lausanne (public/fonts, @font-face i hengsel.css, som i fil 54). Reserve: Newsreader og Inter,
      selvhostet fra @fontsource (@sngroup/design/fonts.css). */
-  --font-overskrift: "Reckless Standard M", "Newsreader Variable", Georgia, "Times New Roman", serif;
-  --font-tekst: "TWK Lausanne", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-overskrift: "Reckless", "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-tekst: "Lausanne", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
 
   /* Merkevarefarger (bare disse åtte) */
   --warm-black: #31261d;
@@ -26,6 +26,10 @@ html:root {
   /* Familiens semantiske navn */
   --bakgrunn: var(--off-white);
   --flate: var(--beige-3);          /* seksjonsbånd, fliser */
+  --beige-3-ute: #f2e9dc;           /* telefonflatene i Hengsel Ute (fil 54) */
+  --off-white-ute: #fbf9f5;         /* laser og avvik (fil 54) */
+  --ute-tekst: #f1e9de;
+  --ute-linje: #3f3229;
   --kort: var(--off-white);         /* kort på bånd */
   --flate-myk: var(--beige-4);
   --flate-sterk: var(--beige-2);
@@ -41,7 +45,7 @@ html:root {
   --info-tekst: #43649a;
   --ok: #376c49;   --ok-myk: #e4eee6;
   --feil: #8e3522; --feil-myk: #f4e1db;
-  --skygge: 0 1px 2px rgb(49 38 29 / 0.06), 0 12px 40px -12px rgb(49 38 29 / 0.22);
+  --skygge: none;                   /* ingen skygger (fil 54) */
   --ramme: #1b1713;                 /* telefon- og iPad-rammen */
   --lysboks: #1b1713;
 
@@ -56,11 +60,12 @@ html:root {
   /* 1180 px innhold + luft på sidene (designet bruker content-box, familiens .wrap border-box) */
   --bredde: calc(1180px + 2 * var(--gutter));
   --gutter: clamp(16px, 4vw, 40px);
-  --radius: 14px;
-  --radius-liten: 8px;
-  --radius-felt: 10px;
-  --radius-stor: 20px;
-  --radius-pille: 999px;
+  /* Kvadratiske hjørner (fil 54). Pillen beholdes for familiens komponenter. */
+  --radius: 0;
+  --radius-liten: 0;
+  --radius-felt: 0;
+  --radius-stor: 0;
+  --radius-pille: 0;
   --seksjon: clamp(64px, 9vw, 120px);
   --t-hero: clamp(2.5rem, 5.6vw, 4.6rem);
   --t-h1: clamp(2rem, 3.6vw, 3rem);

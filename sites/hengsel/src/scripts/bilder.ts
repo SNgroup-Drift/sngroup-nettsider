@@ -40,7 +40,18 @@ export const MAAL: Record<string, [number, number]> = {
   "telefon-a": [780, 1600],
   "telefon-b": [780, 1600],
   "tilbudet": [2876, 1796],
-  "tilvalg-mot-standard": [2876, 1796]
+  "tilvalg-mot-standard": [2876, 1796],
+  "ute-avvik": [780, 1512],
+  "ute-ferdig": [780, 1512],
+  "ute-i-dag": [780, 1512],
+  "ute-ipad-bildeverktoy": [2360, 1560],
+  "ute-jobb-under": [780, 1512],
+  "ute-ks-kamera": [780, 1512],
+  "ute-ks": [780, 1512],
+  "ute-laser": [780, 1512],
+  "ute-punkter": [780, 1512],
+  "ute-punktkort": [780, 1512],
+  "ute-typeskilt": [780, 1512]
 };
 
 export const src = (fil: string) => `/img/${fil}.webp`;

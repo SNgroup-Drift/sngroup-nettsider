@@ -8,6 +8,11 @@
 <body>
 <x-dc>
 <helmet>
+  <link rel="icon" href="logo/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="logo/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon-180.png">
+  <meta name="theme-color" content="#5074A9">
+
   <title>Hengsel apptest</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="_ds/hengsel-design-system-5a9d09c6-be10-4ae1-a516-a0a32d786c17/tokens/colors.css">
@@ -29,7 +34,7 @@
 <div data-theme="{{ theme }}" style="background:var(--bg); color:var(--ink); min-height:100vh; display:grid; grid-template-rows:auto 1fr auto">
   <header style="border-bottom:1px solid var(--line)">
     <div style="max-width:1180px; margin:0 auto; padding-inline:clamp(16px,4vw,40px); height:64px; display:flex; align-items:center">
-      <x-import component-from-global-scope="HengselDesignSystem_5a9d09.Brand" size="28" href="https://hengsel.no/" hint-size="140px,28px"></x-import>
+      <a href="https://hengsel.no/" aria-label="Hengsel CRM – til hengsel.no" style="{{ logoWrap }}"><img src="{{ logoSrc }}" alt="Hengsel CRM" width="460" height="128" style="display:block; height:36px; width:auto"></a>
     </div>
   </header>
   <main style="display:grid; place-items:center; padding:clamp(32px,8vw,96px) clamp(16px,4vw,40px)">
@@ -71,6 +76,8 @@ class Component extends DCLogic {
     const feil = (this.props.tilstand ?? 'tom') === 'feil' || this.state.feil;
     return {
       theme: this.isDark() ? 'dark' : 'light',
+      logoSrc: this.isDark() ? 'logo/hengsel-crm-logo-mork.svg' : 'logo/hengsel-crm-logo-lys.svg',
+      logoWrap: { display: 'flex', alignItems: 'center' },
       pw: this.state.pw, feil, invalid: feil ? 'true' : 'false',
       onPw: (e) => this.setState({ pw: e.target.value, feil: false }),
       submit: (e) => { e.preventDefault(); this.setState({ feil: true }); },
