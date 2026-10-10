@@ -138,8 +138,8 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
                 <p class="dempet stor">{s}</p>
               </div>
               <div class="rad-bilder">
-                <Enhet bilde={a} type="phone" alt={altA} ratio={2.1} />
-                {b && <Enhet bilde={b} type="phone" alt={altB ?? ""} ratio={2.1} />}
+                <Enhet bilde={a} type="phone" alt={altA} ratio={1.8} />
+                {b && <Enhet bilde={b} type="phone" alt={altB ?? ""} ratio={1.8} />}
               </div>
             </div>
           ))}
@@ -191,16 +191,18 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
     </section>
 
     <section id="kundeportalen" class="seksjon h-flate">
-      <div class="h-innhold delt portal">
-        <Enhet bilde="kundeportalen-pc" type="pc" alt="Kundeportalen: tilbudet med tilvalg, leveringsdag og dokumenter" ratio={0.8} />
-        <div class="portal-tekst">
-          <span class="eyebrow">Kundeportalen</span>
-          <h2>Kunden følger med selv.</h2>
-          <p class="lede">Kunden ser tilvalg, leveringsdag, punkter og FDV-dokumenter på sin egen side. Ingen innlogging å huske, lenken kommer på SMS.</p>
+      <div class="h-innhold stabel">
+        <div class="portal">
+          <div class="hode-tekst">
+            <span class="eyebrow">Kundeportalen</span>
+            <h2>Kunden følger med selv.</h2>
+            <p class="lede">Kunden ser tilvalg, leveringsdag, punkter og FDV-dokumenter på sin egen side. Ingen innlogging å huske, lenken kommer på SMS.</p>
+          </div>
           <ul class="punkter">
             {PORTAL.map((p) => <li>{p}</li>)}
           </ul>
         </div>
+        <Enhet bilde="kundeportalen-pc" type="pc" alt="Kundeportalen: tilbudet med tilvalg, leveringsdag og dokumenter" ratio={0.8} />
       </div>
     </section>
 
@@ -345,13 +347,14 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
   .grep { display: grid; gap: clamp(40px, 6vw, 80px); }
   .rad { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .rad-tekst { display: grid; gap: 10px; align-content: start; min-width: 0; }
-  .rad-bilder { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; justify-items: center; width: 100%; max-width: 414px; justify-self: center; }
+  .rad-bilder { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; justify-items: center; width: 100%; max-width: 360px; justify-self: center; }
   .rad.to .rad-bilder { max-width: none; }
 
-  /* Kundeportalen, integrasjoner og trygghet, priser, om, be om demo: to kolonner fra 860 px */
+  /* Integrasjoner og trygghet, priser, om, be om demo: to kolonner fra 860 px */
   .delt { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
-  .portal-tekst { display: grid; gap: 16px; align-content: center; min-width: 0; }
-  .punkter { list-style: none; margin: 0; padding: 0; display: grid; }
+  /* Kundeportalen: tekst (7/12) og punktene (5/12) bunnjustert over skjermen i full bredde; én kolonne på mobil */
+  .portal { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
+  .punkter { list-style: none; margin: 0; padding: 0; display: grid; align-self: end; }
   .punkter li { padding: 12px 0; border-top: 1px solid var(--line); color: var(--muted); }
   .kolonne { display: grid; gap: 20px; align-content: start; min-width: 0; }
   .integ { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
@@ -386,7 +389,7 @@ const nr = (i: number) => String(i + 1).padStart(2, "0");
     .rad.speilet .rad-bilder { order: 1; justify-self: start; }
     .rad:not(.speilet) .rad-bilder { justify-self: end; }
     .rad.to .rad-bilder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .portal { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; }
+    .portal { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
     .to-kol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .om-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); }
     .kontakt { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }

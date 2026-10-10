@@ -82,8 +82,8 @@ input, button { font: inherit; color: inherit; }
 }
 .tab:hover { border-color: var(--ink); }
 .tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
-.tab .nr { font-variant-numeric: tabular-nums; color: var(--soft); margin-right: 8px; } /* dempet tall, 4,5:1 (fil 56: 60 % opasitet) */
-.tab[aria-selected="true"] .nr { color: inherit; opacity: 0.75; }
+.tab .nr { font-variant-numeric: tabular-nums; color: var(--muted); margin-right: 8px; } /* dempet tall (fil 56, oppdatert 10.10) */
+.tab[aria-selected="true"] .nr { color: var(--beige-1); }
 
 /* Skjema */
 .field { display: grid; gap: 6px; }
